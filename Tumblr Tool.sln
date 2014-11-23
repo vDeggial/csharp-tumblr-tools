@@ -1,0 +1,163 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTest", "UniTest\UniTest.csproj", "{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11B5566A-8F40-4290-AE2A-BAB7E67BE596}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		Tumblr Tool.vsmdi = Tumblr Tool.vsmdi
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumblr Tool UI", "Tumblr Tool UI\Tumblr Tool UI.csproj", "{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumbl Tool", "Tumbl Tool\Tumbl Tool.csproj", "{689B1768-CA91-483A-BD57-839D4BBD9944}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{7551F86E-F9E4-4946-B8BB-9B5433209D91}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Documentation and Screenshots.docx = Documents\Documentation and Screenshots.docx
+		license.rtf = license.rtf
+		Documents\Tumblr XML Sample.xml = Documents\Tumblr XML Sample.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs34
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Installer\\Installer.vdproj
+		SccProjectName1 = Installer
+		SccLocalPath1 = Installer
+		SccProjectUniqueName2 = Tumbl\u0020Tool\\Tumbl\u0020Tool.csproj
+		SccProjectName2 = Tumbl\u0020Tool
+		SccLocalPath2 = Tumbl\u0020Tool
+		SccProjectUniqueName3 = Tumblr\u0020Tool\u0020UI\\Tumblr\u0020Tool\u0020UI.csproj
+		SccProjectName3 = Tumblr\u0020Tool\u0020UI
+		SccLocalPath3 = Tumblr\u0020Tool\u0020UI
+		SccProjectUniqueName4 = UniTest\\UniTest.csproj
+		SccProjectName4 = UniTest
+		SccLocalPath4 = UniTest
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		CD_ROM|Mixed Platforms = CD_ROM|Mixed Platforms
+		CD_ROM|x86 = CD_ROM|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		DVD-5|Any CPU = DVD-5|Any CPU
+		DVD-5|Mixed Platforms = DVD-5|Mixed Platforms
+		DVD-5|x86 = DVD-5|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+		SingleImage|Any CPU = SingleImage|Any CPU
+		SingleImage|Mixed Platforms = SingleImage|Mixed Platforms
+		SingleImage|x86 = SingleImage|x86
+		Description = Tumblr Tools Solution
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Release|x86.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.CD_ROM|x86.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.CD_ROM|x86.Build.0 = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Debug|x86.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Debug|x86.Build.0 = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.DVD-5|x86.ActiveCfg = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.DVD-5|x86.Build.0 = Debug|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Release|Any CPU.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Release|Mixed Platforms.Build.0 = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Release|x86.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.Release|x86.Build.0 = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.SingleImage|x86.ActiveCfg = Release|x86
+		{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}.SingleImage|x86.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.CD_ROM|x86.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.CD_ROM|x86.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Debug|x86.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Debug|x86.Build.0 = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.DVD-5|x86.ActiveCfg = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.DVD-5|x86.Build.0 = Debug|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Release|Any CPU.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Release|Mixed Platforms.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Release|x86.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.Release|x86.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.SingleImage|x86.ActiveCfg = Release|x86
+		{689B1768-CA91-483A-BD57-839D4BBD9944}.SingleImage|x86.Build.0 = Release|x86
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.CD_ROM|Any CPU.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.CD_ROM|Mixed Platforms.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.CD_ROM|x86.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|Any CPU.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|x86.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.DVD-5|Any CPU.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.DVD-5|Mixed Platforms.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.DVD-5|x86.ActiveCfg = Debug
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Release|Any CPU.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Release|Mixed Platforms.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Release|x86.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|Any CPU.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|Mixed Platforms.ActiveCfg = Release
+		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|x86.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Tumblr Tool.vsmdi
+	EndGlobalSection
+EndGlobal
