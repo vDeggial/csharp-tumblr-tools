@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Tumbl_Tool.Enums;
 
@@ -12,23 +6,27 @@ namespace Tumblr_Tool
 {
     public partial class OptionsForm : Form
     {
+        private mainForm _mainForm = null;
+
+        private ToolOptions _options = new ToolOptions();
+
         public OptionsForm()
         {
             InitializeComponent();
         }
 
-        private mainForm _mainForm = null;
-        private ToolOptions _options = new ToolOptions();
-
-        public ToolOptions options
+        public string apiMode
         {
             get
             {
-                return _options;
+                return Enum.GetName(typeof(apiModeEnum), this.select_APIMode.SelectedIndex);
+            }
+
+            set
+            {
+                this.select_APIMode.SelectedIndex = (int)Enum.Parse(typeof(apiModeEnum), value);
             }
         }
-
-
 
         public mainForm mainForm
         {
@@ -43,60 +41,11 @@ namespace Tumblr_Tool
             }
         }
 
-        
-        public bool parseJPEG
+        public ToolOptions options
         {
             get
             {
-                return check_JPEG.Checked;
-            }
-        }
-
-        public string apiMode
-        {
-            get
-            {
-                return Enum.GetName(typeof(apiModeEnum),this.select_APIMode.SelectedIndex);
-            }
-
-            set
-            {
-                this.select_APIMode.SelectedIndex = (int) Enum.Parse(typeof(apiModeEnum), value);
-            }
-        }
-
-        public bool parsePhotoSets
-        {
-            get
-            {
-                return check_PhotoSets.Checked;
-            }
-        }
-
-
-        public bool parsePNG
-        {
-            get
-            {
-                return check_PNG.Checked;
-            }
-        }
-
-
-        public bool parseGIF
-        {
-            get
-            {
-                return check_GIF.Checked;
-            }
-        }
-
-
-        public bool parseOnly
-        {
-            get
-            {
-                return check_ParseOnly.Checked;
+                return _options;
             }
         }
 
@@ -108,21 +57,54 @@ namespace Tumblr_Tool
             }
         }
 
-        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
+        public bool parseGIF
         {
-            if (check_ParseOnly.Checked)
+            get
             {
-                check_ParseDownload.Checked = false;
+                return check_GIF.Checked;
             }
-
         }
 
-        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
+        public bool parseJPEG
         {
-            if (check_ParseDownload.Checked)
+            get
             {
-                check_ParseOnly.Checked = false;
+                return check_JPEG.Checked;
             }
+        }
+
+        public bool parseOnly
+        {
+            get
+            {
+                return check_ParseOnly.Checked;
+            }
+        }
+
+        public bool parsePhotoSets
+        {
+            get
+            {
+                return check_PhotoSets.Checked;
+            }
+        }
+
+        public bool parsePNG
+        {
+            get
+            {
+                return check_PNG.Checked;
+            }
+        }
+
+        public void setOptions()
+        {
+            _options.parseJPEG = this.parseJPEG;
+            _options.parsePNG = this.parsePNG;
+            _options.parseGIF = this.parseGIF;
+            _options.parsePhotoSets = this.parsePhotoSets;
+            _options.parseOnly = this.parseOnly;
+            _options.apiMode = this.apiMode;
         }
 
         private void btn_Accept_Click(object sender, EventArgs e)
@@ -137,6 +119,25 @@ namespace Tumblr_Tool
             this.Close();
         }
 
+        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_ParseDownload.Checked)
+            {
+                check_ParseOnly.Checked = false;
+            }
+        }
+
+        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_ParseOnly.Checked)
+            {
+                check_ParseDownload.Checked = false;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
 
         private void restoreOptions()
         {
@@ -147,29 +148,11 @@ namespace Tumblr_Tool
             this.check_PhotoSets.Checked = _options.parsePhotoSets;
             this.check_PNG.Checked = _options.parsePNG;
             this.apiMode = _options.apiMode;
-
         }
 
         private void setOptions(object sender, EventArgs e)
         {
             setOptions();
-        }
-
-
-        public void setOptions()
-        {
-            _options.parseJPEG = this.parseJPEG;
-            _options.parsePNG = this.parsePNG;
-            _options.parseGIF = this.parseGIF;
-            _options.parsePhotoSets = this.parsePhotoSets;
-            _options.parseOnly = this.parseOnly;
-            _options.apiMode = this.apiMode;
-            
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

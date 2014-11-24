@@ -1,15 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Tumbl_Tool.Common_Helpers
 {
     public static class CommonHelper
     {
-
         private static Regex _htmlRegex = new Regex("<.*?>", RegexOptions.Compiled);
+
+        public static string getMimeType(string extension)
+        {
+            string mimeType = "";
+            extension = extension.ToLower();
+            switch (extension)
+            {
+                case ".png":
+                    mimeType = "image/png";
+                    break;
+
+                case ".jpg":
+                case ".jpeg":
+                    mimeType = "image/jpeg";
+                    break;
+
+                case ".bmp":
+                    mimeType = "image/bmp";
+                    break;
+
+                case ".gif":
+                    mimeType = "image/gif";
+                    break;
+
+                case ".doc":
+                    mimeType = "document/doc";
+                    break;
+
+                case ".docx":
+                    mimeType = "document/docx";
+                    break;
+
+                case ".xls":
+                    mimeType = "document/xls";
+                    break;
+
+                case ".xlsx":
+                    mimeType = "document/xlsx";
+                    break;
+
+                case ".pdf":
+                    mimeType = "document/pdf";
+                    break;
+
+                case ".rtf":
+                    mimeType = "docuemnt/rtf";
+                    break;
+
+                case ".zip":
+                    mimeType = "archive/zip";
+                    break;
+
+                case ".rar":
+                    mimeType = "archive/rar";
+                    break;
+
+                default:
+                    mimeType = "binary/other";
+                    break;
+            }
+            return mimeType;
+        }
 
         public static string NewLineToBreak(string input, string strToReplace)
         {
@@ -18,9 +75,6 @@ namespace Tumbl_Tool.Common_Helpers
             else
                 return input;
         }
-
-
-        
 
         /// <summary>
         /// Remove HTML from string with compiled Regex.
@@ -31,58 +85,6 @@ namespace Tumbl_Tool.Common_Helpers
                 return _htmlRegex.Replace(source, string.Empty);
             else
                 return source;
-        }
-
-        public static string getMimeType(string extension)
-        {
-
-            string mimeType = "";
-            extension = extension.ToLower();
-            switch (extension)
-            {
-                case ".png":
-                    mimeType = "image/png";
-                    break;
-                case ".jpg":
-                case ".jpeg":
-                    mimeType = "image/jpeg";
-                    break;
-                case ".bmp":
-                    mimeType = "image/bmp";
-                    break;
-                case ".gif":
-                    mimeType = "image/gif";
-                    break;
-                case ".doc":
-                    mimeType = "document/doc";
-                    break;
-                case ".docx":
-                    mimeType = "document/docx";
-                    break;
-                case ".xls":
-                    mimeType = "document/xls";
-                    break;
-                case ".xlsx":
-                    mimeType = "document/xlsx";
-                    break;
-                case ".pdf":
-                    mimeType = "document/pdf";
-                    break;
-                case ".rtf":
-                    mimeType = "docuemnt/rtf";
-                    break;
-                case ".zip":
-                    mimeType = "archive/zip";
-                    break;
-                case ".rar":
-                    mimeType = "archive/rar";
-                    break;
-                default:
-                    mimeType = "binary/other";
-                    break;
-            }
-            return mimeType;
-
         }
     }
 }

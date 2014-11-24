@@ -1,46 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace Tumbl_Tool.Tumblr_Objects
 {
     [XmlInclude(typeof(PhotoPost))]
-
     [Serializable()]
     public class TumblrPost
     {
-        [XmlElement("id")]
-        public string id{ get; set;}
-        [XmlElement("url")]
-        public string url{ get; set;}
-        [XmlElement("type")]
-        public string type{ get; set;}
+        public TumblrPost()
+        {
+        }
+
+        public virtual string caption { get; set; }
+
         [XmlElement("date")]
-        public string date{ get; set;}
+        public string date { get; set; }
+
+        public virtual string fileName { get; set; }
+
         [XmlElement("format")]
-        public string format{ get; set;}
-        [XmlElement("reblogKey")]
-        public string reblogKey{ get; set;}
-        [XmlElement("postText")]
-        public string postText{ get; set;}
+        public string format { get; set; }
 
-        public List<string> tags { get; set;}
-
+        [XmlElement("id")]
+        public string id { get; set; }
 
         //Overridden
         public virtual string imageURL { get; set; }
-        public virtual string caption { get; set; }
+
         public virtual List<PhotoSetImage> photoset { get; set; }
-        public virtual string fileName { get; set; }
 
+        [XmlElement("postText")]
+        public string postText { get; set; }
 
-        public TumblrPost()
+        [XmlElement("reblogKey")]
+        public string reblogKey { get; set; }
+
+        public List<string> tags { get; set; }
+
+        [XmlElement("type")]
+        public string type { get; set; }
+
+        [XmlElement("url")]
+        public string url { get; set; }
+
+        public virtual void addImageToPhotoSet(PhotoSetImage image)
         {
-
+            // void
         }
-
 
         public void addTag(string tag)
         {
@@ -48,7 +55,6 @@ namespace Tumbl_Tool.Tumblr_Objects
                 tags = new List<string>();
 
             this.tags.Add(tag);
-
         }
 
         public List<string> getTags()
@@ -56,20 +62,9 @@ namespace Tumbl_Tool.Tumblr_Objects
             return tags;
         }
 
-        public virtual void addImageToPhotoSet(PhotoSetImage image)
-        {
-            // void
-        }
-
         public virtual bool isPhotoset()
         {
             return false;
         }
-
-
-
-
-
-
     }
 }

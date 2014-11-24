@@ -5,56 +5,40 @@ using Tumbl_Tool.Enums;
 using Tumbl_Tool.Managers;
 using Tumbl_Tool.Tumblr_Objects;
 
-
 namespace Tumbl_Tool.Image_Ripper
 {
     public class ImageRipper
     {
-        public postProcessingCodes statusCode;
+        public Tumblr blog;
+        public Dictionary<string, string> commentsList = new Dictionary<string, string>();
+        public CrawlManager crawlManager;
+        public List<string> imagesList;
+        public SaveFile log;
+        public int percentComplete = 0;
         public postProcessingCodes prevCode;
         public string queryXML = @"/api/read?type=" + tumblrPostTypes.photo.ToString() + "&num=" + ((int)postStepEnum.XML).ToString();
-
-        public int totalPosts = 0;
-        public int percentComplete = 0;
-        public string tumblrURL = "";
-        private int offset = 0;
-        private string saveLocation;
-        private int maxNumPosts = 0;
-        private int parsed = 0;
-        private List<TumblrPost> oldPosts;
-
-        private List<string> errorList;
-
-        public Tumblr blog;
-
-        private string apiMode;
-
-        private bool parsePhotoSets;
-
-        private List<string> existingImageList;
-
-        public CrawlManager crawlManager;
-
+        public postProcessingCodes statusCode;
         public int totalImagesCount;
-        public List<string> imagesList;
-        public Dictionary<string, string> commentsList = new Dictionary<string,string>();
-
-        public SaveFile log;
-
-        private string jsonURL = "http://api.tumblr.com/v2/blog";
-        private string jsonPostQuery = "posts";
+        public int totalPosts = 0;
+        public string tumblrURL = "";
+        private string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
+        private string apiMode;
+        private List<string> errorList;
+        private List<string> existingImageList;
         private string jsonBlogInfoQuery = "info";
         private string jsonCompletePath = "";
-
+        private string jsonPostQuery = "posts";
+        private string jsonURL = "http://api.tumblr.com/v2/blog";
+        private int maxNumPosts = 0;
+        private int offset = 0;
+        private List<TumblrPost> oldPosts;
+        private int parsed = 0;
+        private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
+        private string saveLocation;
         private string tumblrDomain = "";
 
-        private string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
-
-
-
-        public ImageRipper(Tumblr blog, string saveLocation, bool parseSets = true, int startNum = 0, int endNum = 0, string apiMode = "XML")
+        public ImageRipper(Tumblr blog, string saveLocation, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "XML")
         {
-
             this.tumblrURL = FileHelper.fixURL(blog.cname);
             this.tumblrDomain = blog.cname.Substring(7);
 
@@ -69,7 +53,11 @@ namespace Tumbl_Tool.Image_Ripper
             this.blog = blog;
             this.statusCode = new postProcessingCodes();
             this.parsePhotoSets = parseSets;
-            this.oldPosts = this.blog != null ? this.blog.posts != null ? new List<TumblrPost>(this.blog.posts): null : null;
+            this.parseJPEG = parseJPEG;
+            this.parsePNG = parsePNG;
+            this.parseGIF = parseGIF;
+
+            this.oldPosts = this.blog != null ? this.blog.posts != null ? new List<TumblrPost>(this.blog.posts) : null : null;
             if (this.blog != null)
             {
                 if (this.blog.posts != null)
@@ -84,10 +72,73 @@ namespace Tumbl_Tool.Image_Ripper
             setAPIMode(apiMode);
         }
 
-        public void setAPIMode(string mode)
+        public void generateImageListForDownload(List<TumblrPost> posts)
         {
-            this.apiMode = mode; // XML or JSON
-            this.crawlManager.setMode(mode);
+            HashSet<TumblrPost> setToRemove = new HashSet<TumblrPost>((from p in posts where !p.isPhotoset() && existingImageList.Contains(p.fileName) select p));
+            posts.RemoveAll(x => setToRemove.Contains(x));
+
+            foreach (PhotoPost post in posts)
+            {
+                if (post.isPhotoset())
+                {
+                    foreach (PhotoSetImage image in post.photoset)
+                    {
+                        if (!existingImageList.Contains(image.filename))
+                        {
+                            string caption = post.caption;
+                            caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
+                            caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
+                            caption = CommonHelper.StripTags(caption);
+                            this.imagesList.Add(image.imageURL);
+                            this.commentsList.Add(image.filename, caption);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!existingImageList.Contains(post.fileName))
+                    {
+                        string caption = post.caption;
+                        caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
+                        caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
+                        caption = CommonHelper.StripTags(caption);
+                        this.imagesList.Add(post.imageURL);
+
+                        if (caption != null)
+                        {
+                            try
+                            {
+                                this.commentsList.Add(post.fileName, caption);
+                            }
+                            catch
+                            {
+                                //do nothing
+                            }
+                        }
+                    }
+                }
+            }
+
+            HashSet<string> removeHash = new HashSet<string>();
+
+            if (!this.parseGIF)
+            {
+                removeHash.UnionWith(new HashSet<string>((from p in imagesList where p.ToLower().EndsWith(".gif") select p)));
+            }
+
+            if (!this.parseJPEG)
+            {
+                removeHash.UnionWith(new HashSet<string>((from p in imagesList where p.ToLower().EndsWith(".jpg") || p.ToLower().EndsWith(".jpeg") select p)));
+            }
+
+            if (!this.parsePNG)
+            {
+                removeHash.UnionWith(new HashSet<string>((from p in imagesList where p.ToLower().EndsWith(".png") select p)));
+            }
+
+            imagesList.RemoveAll(x => removeHash.Contains(x));
+
+            this.totalImagesCount = this.imagesList.Count;
         }
 
         public List<TumblrPost> getTumblrPostList(int start = 0)
@@ -111,14 +162,12 @@ namespace Tumbl_Tool.Image_Ripper
                     List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
                     return posts;
                 }
-
                 else
                 {
                     statusCode = postProcessingCodes.UnableDownload;
                     return null;
                 }
             }
-
             else //JSON
             {
                 string query = string.Copy(this.jsonURL);
@@ -151,45 +200,14 @@ namespace Tumbl_Tool.Image_Ripper
                     return null;
                 }
             }
-
         }
-
-
-        public bool setBlogInfo()
-        {
-            if (this.apiMode == apiModeEnum.XML.ToString()) //XML
-            {
-                string query = @"/api/read?type=photo&num=1";
-                return crawlManager.setBlogInfo(tumblrURL + query, this.blog);
-            }
-
-            else //JSON
-            {
-                string query = string.Copy(this.jsonURL);
-
-                query += "/" + tumblrDomain + jsonPostQuery;
-                query += "?api_key=" + apiKey;
-                query += "&type=" + tumblrPostTypes.photo.ToString();
-                query += "&limit=1";
-
-                jsonCompletePath = query;
-
-                return crawlManager.setBlogInfo(query, this.blog);
-            }
-        }
-
-        public void setLogFile(SaveFile log)
-        {
-            this.log = log;
-        }
-
 
         public Tumblr parseBlogPosts(int parseMode)
         {
             statusCode = postProcessingCodes.Started;
             string url = "";
             if (apiMode == apiModeEnum.XML.ToString())
-            url = tumblrURL + queryXML;
+                url = tumblrURL + queryXML;
             else
             {
                 string query = string.Copy(this.jsonURL);
@@ -202,7 +220,6 @@ namespace Tumbl_Tool.Image_Ripper
                 url = jsonCompletePath;
             }
 
-
             this.blog.posts = this.blog.posts != null ? this.blog.posts : new List<TumblrPost>();
 
             int step;
@@ -212,14 +229,12 @@ namespace Tumbl_Tool.Image_Ripper
             else
                 step = (int)postStepEnum.XML;
 
-
             if (crawlManager.isValidTumblr(url))
             {
                 //setBlogInfo();
 
-                
                 // crawlManager.getDocument(url);
-                
+
                 if (this.totalPosts == 0)
                     this.totalPosts = blog.totalPosts;
 
@@ -230,7 +245,7 @@ namespace Tumbl_Tool.Image_Ripper
 
                 int i = offset;
 
-                if (parseMode == (int) parseModes.FullRescan)
+                if (parseMode == (int)parseModes.FullRescan)
                 {
                     while (i < totalPosts)
                     {
@@ -240,8 +255,7 @@ namespace Tumbl_Tool.Image_Ripper
                         i += step;
                     }
                 }
-
-                else if (parseMode == (int) parseModes.NewestOnly)
+                else if (parseMode == (int)parseModes.NewestOnly)
                 {
                     while (!finished && i < totalPosts)
                     {
@@ -263,27 +277,20 @@ namespace Tumbl_Tool.Image_Ripper
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
                     }
-
                 }
                 saveLogFile(blog.name);
                 statusCode = postProcessingCodes.Parsing;
-                HashSet<TumblrPost> setToRemove = new HashSet<TumblrPost>((from p in blog.posts where !p.isPhotoset() && existingImageList.Contains(p.fileName) select p));
-                blog.posts.RemoveAll(x => setToRemove.Contains(x));
 
-
-                populateImagesList();
+                generateImageListForDownload(blog.posts);
 
                 if (imagesList.Count == 0)
                     blog.posts.Clear();
 
                 statusCode = postProcessingCodes.Done;
-
             }
-
             else
             {
                 statusCode = postProcessingCodes.invalidURL;
-
             }
 
             prevCode = statusCode;
@@ -298,7 +305,6 @@ namespace Tumbl_Tool.Image_Ripper
                 FileManager fileManager = new FileManager();
                 fileManager.saveTumblrFile(saveLocation + @"\" + saveFile.getFileName(), saveFile);
             }
-
             else
             {
                 saveLogFile(log);
@@ -307,7 +313,7 @@ namespace Tumbl_Tool.Image_Ripper
 
         public void saveLogFile(SaveFile log)
         {
-            foreach(TumblrPost post in blog.posts)
+            foreach (TumblrPost post in blog.posts)
             {
                 if (!log.blog.posts.Exists(p => p.id == post.id))
                 {
@@ -318,58 +324,37 @@ namespace Tumbl_Tool.Image_Ripper
             fileManager.saveTumblrFile(saveLocation + @"\" + log.getFileName(), log);
         }
 
-        public void populateImagesList()
+        public void setAPIMode(string mode)
         {
-
-            foreach (PhotoPost post in blog.posts)
-            {
-                if (post.isPhotoset())
-                {
-                   foreach (PhotoSetImage image in post.photoset)
-                   {
-                       if (!existingImageList.Contains(image.filename))
-                       {
-                           string caption = post.caption;
-                           caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
-                           caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
-                           caption = CommonHelper.StripTags(caption);
-                           this.imagesList.Add(image.imageURL);
-                           this.commentsList.Add(image.filename, caption);
-                       }
-                   }  
-                    
-                }
-
-                else
-                {
-                    if (!existingImageList.Contains(post.fileName))
-                    {
-                        string caption = post.caption;
-                        caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
-                        caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
-                        caption = CommonHelper.StripTags(caption);
-                        this.imagesList.Add(post.imageURL);
-
-                        if (caption != null)
-                        {
-                            try
-                            {
-                                this.commentsList.Add(post.fileName, caption);
-                            }
-                            catch
-                            {
-                                //do nothing
-                            }
-                        }
-                    }
-                }
-            }
-
-            this.totalImagesCount = this.imagesList.Count;
-            
-
+            this.apiMode = mode; // XML or JSON
+            this.crawlManager.setMode(mode);
         }
 
+        public bool setBlogInfo()
+        {
+            if (this.apiMode == apiModeEnum.XML.ToString()) //XML
+            {
+                string query = @"/api/read?type=photo&num=1";
+                return crawlManager.setBlogInfo(tumblrURL + query, this.blog);
+            }
+            else //JSON
+            {
+                string query = string.Copy(this.jsonURL);
 
+                query += "/" + tumblrDomain + jsonPostQuery;
+                query += "?api_key=" + apiKey;
+                query += "&type=" + tumblrPostTypes.photo.ToString();
+                query += "&limit=1";
+
+                jsonCompletePath = query;
+
+                return crawlManager.setBlogInfo(query, this.blog);
+            }
+        }
+
+        public void setLogFile(SaveFile log)
+        {
+            this.log = log;
+        }
     }
 }

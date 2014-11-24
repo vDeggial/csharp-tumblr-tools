@@ -11,6 +11,28 @@ namespace Tumbl_Tool.Common_Helpers
 {
     public static class XMLHelper
     {
+        public static XElement getPostElement(XDocument doc, string elementName)
+        {
+            return doc != null ? doc.Root.Element(elementName) != null ? doc.Root.Element(elementName) : null : null;
+        }
+
+        public static string getPostElementAttributeValue(XDocument doc, string elementName, string attributeName)
+        {
+            return doc != null ? doc.Root.Element(elementName) != null ?
+                doc.Root.Element(elementName).Attribute(attributeName) != null ?
+                doc.Root.Element(elementName).Attribute(attributeName).Value : null : null : null;
+        }
+
+        public static List<XElement> getPostElementList(XDocument doc)
+        {
+            return doc.Descendants("post").ToList();
+        }
+
+        public static string getPostElementValue(XDocument doc, string elementName)
+        {
+            return doc != null ? doc.Root.Element(elementName) != null ?
+                doc.Root.Element(elementName).Value : null : null;
+        }
 
         public static XDocument getXMLDocument(string url)
         {
@@ -24,31 +46,10 @@ namespace Tumbl_Tool.Common_Helpers
                 }
                 return XDocument.Parse(xmlStr);
             }
-
             catch
             {
                 return null;
             }
-        }
-
-        public static bool saveObjectAsXML<T>(string filename, Object obj)
-        {
-            
-            try
-            {
-            using (StreamWriter myWriter = new StreamWriter(filename, false))
-            {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(T));
-                mySerializer.Serialize(myWriter.BaseStream, obj);
-            }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-
-            }
-
         }
 
         public static Object readObjectAsXML<T>(string filename)
@@ -62,43 +63,28 @@ namespace Tumbl_Tool.Common_Helpers
                 T obj;
                 obj = (T)reader.Deserialize(file.BaseStream);
                 return obj;
-
             }
             catch (Exception)
             {
-
                 return null;
             }
         }
 
-        public static List<XElement> getPostElementList(XDocument doc)
+        public static bool saveObjectAsXML<T>(string filename, Object obj)
         {
-            return doc.Descendants("post").ToList();
-
+            try
+            {
+                using (StreamWriter myWriter = new StreamWriter(filename, false))
+                {
+                    XmlSerializer mySerializer = new XmlSerializer(typeof(T));
+                    mySerializer.Serialize(myWriter.BaseStream, obj);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-
-        public static XElement getPostElement(XDocument doc, string elementName)
-        {
-            return doc != null ? doc.Root.Element(elementName) != null ? doc.Root.Element(elementName) : null : null; 
-        }
-
-        public static string getPostElementAttributeValue(XDocument doc, string elementName, string attributeName)
-        {
-            return doc != null ? doc.Root.Element(elementName) != null ? 
-                doc.Root.Element(elementName).Attribute(attributeName) != null ?
-                doc.Root.Element(elementName).Attribute(attributeName).Value : null : null : null;
-
-
-        }
-
-        public static string getPostElementValue(XDocument doc, string elementName)
-        {
-            return doc != null ? doc.Root.Element(elementName) != null ?
-                doc.Root.Element(elementName).Value : null : null;
-
-
-        }
-
-
     }
 }

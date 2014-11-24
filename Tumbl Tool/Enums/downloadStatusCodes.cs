@@ -6,6 +6,4 @@
     Preparing = 3,
     Downloading = 4,
     Done = 5
-
-
 };

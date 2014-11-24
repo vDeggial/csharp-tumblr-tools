@@ -178,7 +178,6 @@
             this.txt_WorkStatus.Name = "txt_WorkStatus";
             this.txt_WorkStatus.ReadOnly = true;
             this.txt_WorkStatus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_WorkStatus.ShortcutsEnabled = false;
             this.txt_WorkStatus.Size = new System.Drawing.Size(605, 96);
             this.txt_WorkStatus.TabIndex = 8;
             this.txt_WorkStatus.TextChanged += new System.EventHandler(this.workStatusAutoScroll);

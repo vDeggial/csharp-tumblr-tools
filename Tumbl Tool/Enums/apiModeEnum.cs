@@ -1,5 +1,4 @@
-﻿
-namespace Tumbl_Tool.Enums
+﻿namespace Tumbl_Tool.Enums
 {
     public enum apiModeEnum
     {

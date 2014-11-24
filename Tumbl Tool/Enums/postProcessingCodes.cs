@@ -8,6 +8,4 @@
     Parsing = 5,
     errorProcessing = 404,
     Done = 6
-
-
 };

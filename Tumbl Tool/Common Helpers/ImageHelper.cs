@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace Tumbl_Tool.Common_Helpers
@@ -19,7 +16,7 @@ namespace Tumbl_Tool.Common_Helpers
             BitmapMetadata _metadata = null;
             BitmapDecoder _decoder = null;
             BitmapEncoder _encoder = null;
-            FileInfo originalImage = File.Exists(path) ? new FileInfo(path): null ;
+            FileInfo originalImage = File.Exists(path) ? new FileInfo(path) : null;
             string tempLocation = fileDirectory + @"\" + "temp.jpg";
             FileInfo tempImage;
             BitmapFrame _fileFrame;
@@ -27,7 +24,6 @@ namespace Tumbl_Tool.Common_Helpers
             bool added = false;
 
             string _mimeType = CommonHelper.getMimeType(Path.GetExtension(path));
-
 
             if (File.Exists(path))
             {
@@ -38,15 +34,13 @@ namespace Tumbl_Tool.Common_Helpers
                         if (File.Exists(tempLocation))
                             File.Delete(tempLocation);
 
-
-                        originalImage.CopyTo(tempLocation,true);
+                        originalImage.CopyTo(tempLocation, true);
                         tempImage = new FileInfo(tempLocation);
-
 
                         using (Stream fileStream = new System.IO.FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             newImage = Image.FromStream(fileStream);
-                            fileStream.Seek(0,SeekOrigin.Begin);
+                            fileStream.Seek(0, SeekOrigin.Begin);
 
                             switch (_mimeType) //find mime type of image based on extension
                             {
@@ -56,7 +50,6 @@ namespace Tumbl_Tool.Common_Helpers
                                         _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
                                         _encoder = new JpegBitmapEncoder();
                                     }
-
                                     catch
                                     {
                                         try
@@ -65,7 +58,6 @@ namespace Tumbl_Tool.Common_Helpers
                                             _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
                                             _encoder = new JpegBitmapEncoder();
                                         }
-
                                         catch
                                         {
                                             try
@@ -91,13 +83,13 @@ namespace Tumbl_Tool.Common_Helpers
                                         }
                                     }
                                     break;
+
                                 case "image/png":
                                     try
                                     {
                                         _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
                                         _encoder = new PngBitmapEncoder();
                                     }
-
                                     catch
                                     {
                                         try
@@ -106,7 +98,6 @@ namespace Tumbl_Tool.Common_Helpers
                                             _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
                                             _encoder = new PngBitmapEncoder();
                                         }
-
                                         catch
                                         {
                                             try
@@ -140,12 +131,9 @@ namespace Tumbl_Tool.Common_Helpers
                             }
                         }
 
-
-
                         if (_decoder != null && desc != null)
                         {
                             _metadata = (BitmapMetadata)_decoder.Frames[0].Metadata.Clone();
-
 
                             if (_mimeType == "image/jpeg")
                             {
@@ -173,16 +161,12 @@ namespace Tumbl_Tool.Common_Helpers
                                     {
                                         fileStreamOut.Close();
                                         tempImage.CopyTo(path, true);
-                                        
+
                                         added = true;
                                     }
                                     catch
                                     {
-                                        
-
-                                       
                                     }
-
                                 }
                             }
                             added = true;
@@ -193,7 +177,6 @@ namespace Tumbl_Tool.Common_Helpers
                     catch (NotSupportedException)
                     {
                         added = true;
-                        
                     }
                     catch (FileFormatException)
                     {
@@ -206,7 +189,5 @@ namespace Tumbl_Tool.Common_Helpers
                 }
             }
         }
-        
-    
     }
 }
