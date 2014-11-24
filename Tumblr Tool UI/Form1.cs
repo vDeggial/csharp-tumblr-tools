@@ -33,7 +33,7 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TumblrStats tumblrStats;
-        private string version = " ( v. 0.14.11 [Build 2014.11.24] )";
+        private string version = " ( v. 0.14.11 [Build 2014.11.25] )";
 
         public mainForm()
         {
@@ -399,6 +399,8 @@ namespace Tumblr_Tool
                             bar_Progress.Step = 1;
                             bar_Progress.Maximum = 100;
                             bar_Progress.Visible = true;
+                            lbl_PostCount.Visible = true;
+                            lbl_PostCount.Text = "";
 
                             updateWorkStatusText("Indexing Blog ...");
                         });
@@ -447,6 +449,7 @@ namespace Tumblr_Tool
                                // lbl_PostCount.Visible = true;
                                lbl_PercentBar.Visible = true;
                                lbl_PercentBar.Text = percent.ToString() + "%";
+                               lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
                                bar_Progress.Value = percent;
                            });
                     }

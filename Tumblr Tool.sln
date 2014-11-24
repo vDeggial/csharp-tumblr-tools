@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11B5566A-8F40-4290-AE2A-BAB7E67BE596}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
+		Performance1.psess = Performance1.psess
+		Performance2.psess = Performance2.psess
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		Tumblr Tool.vsmdi = Tumblr Tool.vsmdi
 	EndProjectSection
@@ -156,6 +158,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Tumblr Tool.vsmdi

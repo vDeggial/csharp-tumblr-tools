@@ -32,7 +32,7 @@ namespace Tumbl_Tool.Image_Ripper
         private int maxNumPosts = 0;
         private int offset = 0;
         private List<TumblrPost> oldPosts;
-        private int parsed = 0;
+        public int parsed = 0;
         private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
         private string saveLocation;
         private string tumblrDomain = "";

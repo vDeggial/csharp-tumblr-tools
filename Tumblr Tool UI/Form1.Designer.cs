@@ -109,14 +109,15 @@
             this.tabControl_Main.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabControl_Main.Controls.Add(this.tab_ImageRipper);
             this.tabControl_Main.Controls.Add(this.tab_TumblrStats);
+            this.tabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_Main.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl_Main.HotTrack = true;
-            this.tabControl_Main.Location = new System.Drawing.Point(0, 28);
+            this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl_Main.Name = "tabControl_Main";
             this.tabControl_Main.Padding = new System.Drawing.Point(0, 0);
             this.tabControl_Main.SelectedIndex = 0;
-            this.tabControl_Main.Size = new System.Drawing.Size(625, 592);
+            this.tabControl_Main.Size = new System.Drawing.Size(625, 552);
             this.tabControl_Main.TabIndex = 0;
             this.tabControl_Main.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabMainTabSelect_Selecting);
             // 
@@ -139,7 +140,7 @@
             this.tab_ImageRipper.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_ImageRipper.Name = "tab_ImageRipper";
             this.tab_ImageRipper.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tab_ImageRipper.Size = new System.Drawing.Size(617, 560);
+            this.tab_ImageRipper.Size = new System.Drawing.Size(617, 520);
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Ripper";
             // 
@@ -172,7 +173,7 @@
             this.txt_WorkStatus.BackColor = System.Drawing.Color.LightGray;
             this.txt_WorkStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_WorkStatus.ForeColor = System.Drawing.Color.Black;
-            this.txt_WorkStatus.Location = new System.Drawing.Point(7, 452);
+            this.txt_WorkStatus.Location = new System.Drawing.Point(6, 330);
             this.txt_WorkStatus.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_WorkStatus.Multiline = true;
             this.txt_WorkStatus.Name = "txt_WorkStatus";
@@ -210,14 +211,18 @@
             // 
             // img_DisplayImage
             // 
+            this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.img_DisplayImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
             this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
             this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
             this.img_DisplayImage.InitialImage = null;
-            this.img_DisplayImage.Location = new System.Drawing.Point(152, 71);
+            this.img_DisplayImage.Location = new System.Drawing.Point(226, 79);
             this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.img_DisplayImage.Name = "img_DisplayImage";
-            this.img_DisplayImage.Size = new System.Drawing.Size(318, 373);
+            this.img_DisplayImage.Size = new System.Drawing.Size(183, 243);
             this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img_DisplayImage.TabIndex = 4;
             this.img_DisplayImage.TabStop = false;
@@ -282,7 +287,7 @@
             this.tab_TumblrStats.Location = new System.Drawing.Point(4, 28);
             this.tab_TumblrStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_TumblrStats.Name = "tab_TumblrStats";
-            this.tab_TumblrStats.Size = new System.Drawing.Size(617, 560);
+            this.tab_TumblrStats.Size = new System.Drawing.Size(617, 520);
             this.tab_TumblrStats.TabIndex = 1;
             this.tab_TumblrStats.Text = "Tumblr Stats";
             this.tab_TumblrStats.UseVisualStyleBackColor = true;
@@ -335,7 +340,7 @@
             this.box_PostStats.Controls.Add(this.lbl_Stats_TextCount);
             this.box_PostStats.Controls.Add(this.lbl_Stats_PhotoCount);
             this.box_PostStats.Controls.Add(this.lbl_Stats_TotalCount);
-            this.box_PostStats.Location = new System.Drawing.Point(347, 150);
+            this.box_PostStats.Location = new System.Drawing.Point(347, 128);
             this.box_PostStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.box_PostStats.Name = "box_PostStats";
             this.box_PostStats.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -530,7 +535,7 @@
             this.txt_Stats_BlogDescription.Name = "txt_Stats_BlogDescription";
             this.txt_Stats_BlogDescription.ReadOnly = true;
             this.txt_Stats_BlogDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txt_Stats_BlogDescription.Size = new System.Drawing.Size(248, 319);
+            this.txt_Stats_BlogDescription.Size = new System.Drawing.Size(248, 304);
             this.txt_Stats_BlogDescription.TabIndex = 4;
             this.txt_Stats_BlogDescription.Text = "";
             // 
@@ -565,7 +570,7 @@
             // 
             this.bar_Progress.BackColor = System.Drawing.SystemColors.Control;
             this.bar_Progress.ForeColor = System.Drawing.Color.SteelBlue;
-            this.bar_Progress.Location = new System.Drawing.Point(5, 628);
+            this.bar_Progress.Location = new System.Drawing.Point(5, 490);
             this.bar_Progress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bar_Progress.Name = "bar_Progress";
             this.bar_Progress.Size = new System.Drawing.Size(616, 33);
@@ -684,7 +689,7 @@
             this.lbl_PostCount,
             this.lbl_Timer,
             this.lbl_Size});
-            this.status_Strip.Location = new System.Drawing.Point(0, 709);
+            this.status_Strip.Location = new System.Drawing.Point(0, 550);
             this.status_Strip.Name = "status_Strip";
             this.status_Strip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.status_Strip.Size = new System.Drawing.Size(625, 27);
@@ -756,7 +761,7 @@
             // 
             this.lbl_PercentBar.BackColor = System.Drawing.Color.Transparent;
             this.lbl_PercentBar.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_PercentBar.Location = new System.Drawing.Point(252, 665);
+            this.lbl_PercentBar.Location = new System.Drawing.Point(259, 527);
             this.lbl_PercentBar.Name = "lbl_PercentBar";
             this.lbl_PercentBar.Size = new System.Drawing.Size(117, 23);
             this.lbl_PercentBar.TabIndex = 14;
@@ -768,14 +773,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(625, 736);
+            this.ClientSize = new System.Drawing.Size(625, 577);
             this.Controls.Add(this.lbl_PercentBar);
             this.Controls.Add(this.status_Strip);
             this.Controls.Add(this.bar_Progress);
             this.Controls.Add(this.tabControl_Main);
             this.Controls.Add(this.menu_TopMenu);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
