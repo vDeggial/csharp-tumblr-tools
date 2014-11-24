@@ -42,7 +42,7 @@ namespace Tumbl_Tool.Managers
             {
                 case 1:
 
-                    using (MyWebClient webClient = new MyWebClient())
+                    using (WebClient webClient = new WebClient())
                     {
                         try
                         {

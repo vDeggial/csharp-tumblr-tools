@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.NetworkInformation;
 
 namespace Tumbl_Tool.Common_Helpers
@@ -33,16 +32,6 @@ namespace Tumbl_Tool.Common_Helpers
             {
                 return false;
             }
-        }
-    }
-
-    public class MyWebClient : WebClient
-    {
-        protected override WebRequest GetWebRequest(Uri address)
-        {
-            var req = base.GetWebRequest(address);
-            req.Timeout = 15000;
-            return req;
         }
     }
 }

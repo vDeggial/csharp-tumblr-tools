@@ -48,11 +48,8 @@
     <Compile Include="Common Helpers\FileHelper.cs" />
     <Compile Include="Common Helpers\ImageHelper.cs" />
     <Compile Include="Common Helpers\JSONHelper.cs" />
-    <Compile Include="Common Helpers\LogFile.cs" />
     <Compile Include="Common Helpers\SaveFile.cs" />
-    <Compile Include="Common Helpers\WebHelper.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Common Helpers\WebHelper.cs" />
     <Compile Include="Common Helpers\XMLHelper.cs" />
     <Compile Include="Enums\apiModeEnum.cs" />
     <Compile Include="Enums\downloadStatusCodes.cs" />
