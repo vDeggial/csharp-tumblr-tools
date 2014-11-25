@@ -14,25 +14,19 @@ namespace Tumblr_Tool.Image_Ripper
         public CrawlManager crawlManager;
         public List<string> imagesList;
         public SaveFile log;
+        public int parsed = 0;
         public int percentComplete = 0;
         public postProcessingCodes prevCode;
-        public string queryXML = @"/api/read?type=" + tumblrPostTypes.photo.ToString() + "&num=" + ((int)postStepEnum.XML).ToString();
         public postProcessingCodes statusCode;
         public int totalImagesCount;
         public int totalPosts = 0;
         public string tumblrURL = "";
-        private string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
         private string apiMode;
         private List<string> errorList;
         private List<string> existingImageList;
-        private string jsonBlogInfoQuery = "info";
-        private string jsonCompletePath = "";
-        private string jsonPostQuery = "posts";
-        private string jsonURL = "http://api.tumblr.com/v2/blog";
         private int maxNumPosts = 0;
         private int offset = 0;
         private List<TumblrPost> oldPosts;
-        public int parsed = 0;
         private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
         private string saveLocation;
         private string tumblrDomain = "";
@@ -143,62 +137,26 @@ namespace Tumblr_Tool.Image_Ripper
 
         public List<TumblrPost> getTumblrPostList(int start = 0)
         {
+            string query;
             if (this.apiMode == "XML") //XML
             {
-                string query = string.Copy(this.queryXML);
-                if (start != 0)
-                {
-                    query += "&start=" + start.ToString();
-                }
-
-                if (maxNumPosts != 0)
-                {
-                    query += "&end=" + maxNumPosts.ToString();
-                }
-
-                if (WebHelper.webURLExists(@tumblrURL + query))
-                {
-                    crawlManager.getDocument(@tumblrURL + query);
-                    List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
-                    return posts;
-                }
-                else
-                {
-                    statusCode = postProcessingCodes.UnableDownload;
-                    return null;
-                }
+                query = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString(), start);
             }
             else //JSON
             {
-                string query = string.Copy(this.jsonURL);
+                query = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.photo.ToString(), start);
+            }
 
-                query += "/" + tumblrDomain + jsonPostQuery;
-                query += "?api_key=" + apiKey;
-                query += "&type=photo";
-
-                jsonCompletePath = query;
-
-                if (start != 0)
-                {
-                    query += "&offset=" + start.ToString();
-                }
-
-                if (maxNumPosts != 0)
-                {
-                    query += "&end=" + maxNumPosts.ToString();
-                }
-
-                if (WebHelper.webURLExists(@query))
-                {
-                    crawlManager.getJSONDocument(query);
-                    List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
-                    return posts;
-                }
-                else
-                {
-                    statusCode = postProcessingCodes.UnableDownload;
-                    return null;
-                }
+            if (WebHelper.webURLExists(@query))
+            {
+                crawlManager.getDocument(query);
+                List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
+                return posts;
+            }
+            else
+            {
+                statusCode = postProcessingCodes.UnableDownload;
+                return null;
             }
         }
 
@@ -207,17 +165,10 @@ namespace Tumblr_Tool.Image_Ripper
             statusCode = postProcessingCodes.Started;
             string url = "";
             if (apiMode == apiModeEnum.XML.ToString())
-                url = tumblrURL + queryXML;
+                url = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString());
             else
             {
-                string query = string.Copy(this.jsonURL);
-
-                query += "/" + tumblrDomain + jsonPostQuery;
-                query += "?api_key=" + apiKey;
-                query += "&type=" + tumblrPostTypes.photo.ToString();
-
-                jsonCompletePath = query;
-                url = jsonCompletePath;
+                url = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.photo.ToString());
             }
 
             this.blog.posts = this.blog.posts != null ? this.blog.posts : new List<TumblrPost>();
@@ -332,24 +283,16 @@ namespace Tumblr_Tool.Image_Ripper
 
         public bool setBlogInfo()
         {
+            string query;
             if (this.apiMode == apiModeEnum.XML.ToString()) //XML
             {
-                string query = @"/api/read?type=photo&num=1";
-                return crawlManager.setBlogInfo(tumblrURL + query, this.blog);
+                query = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString(), 0, 1);
             }
             else //JSON
             {
-                string query = string.Copy(this.jsonURL);
-
-                query += "/" + tumblrDomain + jsonPostQuery;
-                query += "?api_key=" + apiKey;
-                query += "&type=" + tumblrPostTypes.photo.ToString();
-                query += "&limit=1";
-
-                jsonCompletePath = query;
-
-                return crawlManager.setBlogInfo(query, this.blog);
+                query = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.photo.ToString(), 0, 1);
             }
+            return crawlManager.setBlogInfo(query, this.blog);
         }
 
         public void setLogFile(SaveFile log)

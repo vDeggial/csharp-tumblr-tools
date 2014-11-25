@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4FAE2C8FC426693A49CCAB071652951E"
-        "OwnerKey" = "8:_AE7BC4EF375647D3BC273850349B0CFC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
         "OwnerKey" = "8:_AE7BC4EF375647D3BC273850349B0CFC"
         "MsmSig" = "8:_UNDEFINED"
@@ -40,7 +34,13 @@
         "Entry"
         {
         "MsmKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
-        "OwnerKey" = "8:_4FAE2C8FC426693A49CCAB071652951E"
+        "OwnerKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
+        "OwnerKey" = "8:_AE7BC4EF375647D3BC273850349B0CFC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,7 +58,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4FAE2C8FC426693A49CCAB071652951E"
+        "OwnerKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -212,20 +212,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4FAE2C8FC426693A49CCAB071652951E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_80F86A075CA7D8E75602323075BBB0F0"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Tumbl Tool, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4FAE2C8FC426693A49CCAB071652951E"
+                    "_80F86A075CA7D8E75602323075BBB0F0"
                     {
-                    "Name" = "8:Tumbl Tool.dll"
+                    "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Tumbl Tool.dll"
+            "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AAFEE373C90D443F9279815F14BF8D3F"
@@ -243,20 +243,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_80F86A075CA7D8E75602323075BBB0F0"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8138977F81CEDA008F97812D0D7FD560"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_80F86A075CA7D8E75602323075BBB0F0"
+                    "_8138977F81CEDA008F97812D0D7FD560"
                     {
-                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Name" = "8:Tumblr Tool.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "SourcePath" = "8:Tumblr Tool.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AAFEE373C90D443F9279815F14BF8D3F"
@@ -364,15 +364,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
-        "ProductCode" = "8:{694A0372-5FA4-48D6-9801-B0E83CE52E0D}"
-        "PackageCode" = "8:{C29189B1-427D-42B6-B5AF-6CA3D81A67F0}"
+        "ProductCode" = "8:{7000D727-AB8C-4DDF-A173-BA26B015F6DF}"
+        "PackageCode" = "8:{69E2AA54-394F-4092-B138-C8F628404A94}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.14.1125"
+        "ProductVersion" = "8:0.14.1126"
         "Manufacturer" = "8:Shino Amakusa"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1008,7 +1008,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_AE7BC4EF375647D3BC273850349B0CFC"
             {
-            "SourcePath" = "8:..\\Tumblr Tool UI\\obj\\x86\\Debug\\Tumblr Tool.exe"
+            "SourcePath" = "8:..\\Tumblr Tool UI\\obj\\x86\\Debug\\Tumblr Tools.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AAFEE373C90D443F9279815F14BF8D3F"

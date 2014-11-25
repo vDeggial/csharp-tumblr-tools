@@ -34,7 +34,7 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TumblrStats tumblrStats;
-        private string version = " ( v. 0.14.11 [Build 2014.11.25] )";
+        private string version = " ( v. 0.14.11 [Build 2014.11.26] )";
 
         public mainForm()
         {
@@ -252,6 +252,7 @@ namespace Tumblr_Tool
 
         private void btn_GetStats_Click(object sender, EventArgs e)
         {
+            lbl_PostCount.Visible = false;
             if (isValidURL(txt_StatsTumblrURL.Text))
             {
                 if (WebHelper.CheckForInternetConnection())

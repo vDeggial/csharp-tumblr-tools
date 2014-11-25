@@ -74,13 +74,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public List<TumblrPost> getTumblrPostListJSON(int start = 0)
         {
-            string query = string.Copy(this.jsonURL);
-
-            query += "/" + tumblrDomain + jsonPostQuery;
-            query += "?api_key=" + apiKey;
-            query += "&offset=" + start.ToString();
-
-            jsonCompletePath = query;
+            string query = JSONHelper.getQueryString(tumblrDomain, "", start);
 
             crawlManager.getJSONDocument(@query);
 
@@ -101,9 +95,11 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.query += "&end=" + maxNumPosts.ToString();
             }
 
-            if (crawlManager.isValidTumblr(url + query))
+            query = XMLHelper.getQueryString(url, "", start);
+
+            if (crawlManager.isValidTumblr(query))
             {
-                crawlManager.getXMLDocument(@url + query);
+                crawlManager.getXMLDocument(@query);
                 if (totalPosts == 0)
                 {
                     totalPosts = XMLHelper.getPostElementAttributeValue(crawlManager.xmlDocument, "posts", "total") != null ?
@@ -114,7 +110,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.statusCode = postProcessingCodes.OK;
                 return posts;
             }
-            else if (!WebHelper.webURLExists(@url + query))
+            else if (!WebHelper.webURLExists(@query))
             {
                 this.statusCode = postProcessingCodes.UnableDownload;
                 return null;
@@ -209,16 +205,11 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             if (crawlManager.getMode() == apiModeEnum.XML.ToString())
             {
-                crawlManager.setBlogInfo(url + query, this.blog);
+                crawlManager.setBlogInfo(XMLHelper.getQueryString(url, "", 0, 1), this.blog);
             }
             else if (crawlManager.getMode() == apiModeEnum.JSON.ToString())
             {
-                string query = string.Copy(this.jsonURL);
-
-                query += "/" + tumblrDomain + jsonBlogInfoQuery;
-                query += "?api_key=" + apiKey;
-
-                crawlManager.setBlogInfo(query, this.blog);
+                crawlManager.setBlogInfo(JSONHelper.getQueryString(tumblrDomain, "", 0, 1), this.blog);
             }
         }
     }

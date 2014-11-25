@@ -6,11 +6,14 @@ using System.Net;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Common_Helpers
 {
     public static class XMLHelper
     {
+        public static string queryXML = @"/api/read";
+
         public static XElement getPostElement(XDocument doc, string elementName)
         {
             return doc != null ? doc.Root.Element(elementName) != null ? doc.Root.Element(elementName) : null : null;
@@ -32,6 +35,51 @@ namespace Tumblr_Tool.Common_Helpers
         {
             return doc != null ? doc.Root.Element(elementName) != null ?
                 doc.Root.Element(elementName).Value : null : null;
+        }
+
+        public static string getQueryString(string tumblrURL, string type, int start = 0, int maxNumPosts = 0)
+        {
+            string query = string.Copy(queryXML);
+
+            if (!string.IsNullOrEmpty(type))
+            {
+                query += "?type=" + type;
+
+                if (start != 0)
+                {
+                    query += "&start=" + start.ToString();
+                }
+
+                if (maxNumPosts != 0)
+                {
+                    query += "&end=" + maxNumPosts.ToString();
+                }
+
+                query += "&num=" + ((int)postStepEnum.XML).ToString();
+            }
+            else if (start != 0)
+            {
+                query += "?start=" + start.ToString();
+
+                if (maxNumPosts != 0)
+                {
+                    query += "&end=" + maxNumPosts.ToString();
+                }
+
+                query += "&num=" + ((int)postStepEnum.XML).ToString();
+            }
+            else if (maxNumPosts != 0)
+            {
+                query += "?end=" + maxNumPosts.ToString();
+
+                query += "&num=" + ((int)postStepEnum.XML).ToString();
+            }
+            else
+            {
+                query += "?num=" + ((int)postStepEnum.XML).ToString();
+            }
+
+            return tumblrURL + query;
         }
 
         public static XDocument getXMLDocument(string url)

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using Tumblr_Tool.Common_Helpers;
+using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Managers
 {
