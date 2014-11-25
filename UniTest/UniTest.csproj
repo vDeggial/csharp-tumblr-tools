@@ -65,9 +65,9 @@
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tumbl Tool\Tumbl Tool.csproj">
+    <ProjectReference Include="..\Tumbl Tool\Tumblr Tool.csproj">
       <Project>{689B1768-CA91-483A-BD57-839D4BBD9944}</Project>
-      <Name>Tumbl Tool</Name>
+      <Name>Tumblr Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

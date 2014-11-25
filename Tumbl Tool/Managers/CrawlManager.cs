@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Tumbl_Tool.Common_Helpers;
-using Tumbl_Tool.Enums;
-using Tumbl_Tool.Tumblr_Objects;
+using Tumblr_Tool.Common_Helpers;
+using Tumblr_Tool.Enums;
+using Tumblr_Tool.Tumblr_Objects;
 
-namespace Tumbl_Tool.Managers
+namespace Tumblr_Tool.Managers
 {
     public class CrawlManager
     {

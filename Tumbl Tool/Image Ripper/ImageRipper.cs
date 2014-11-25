@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tumbl_Tool.Common_Helpers;
-using Tumbl_Tool.Enums;
-using Tumbl_Tool.Managers;
-using Tumbl_Tool.Tumblr_Objects;
+using Tumblr_Tool.Common_Helpers;
+using Tumblr_Tool.Enums;
+using Tumblr_Tool.Managers;
+using Tumblr_Tool.Tumblr_Objects;
 
-namespace Tumbl_Tool.Image_Ripper
+namespace Tumblr_Tool.Image_Ripper
 {
     public class ImageRipper
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Tumbl_Tool.Tumblr_Objects
+namespace Tumblr_Tool.Tumblr_Objects
 {
     [XmlInclude(typeof(PhotoPost))]
     [Serializable()]

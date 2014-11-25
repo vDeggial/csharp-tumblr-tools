@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace Tumbl_Tool.Common_Helpers
+namespace Tumblr_Tool.Common_Helpers
 {
     public static class ImageHelper
     {

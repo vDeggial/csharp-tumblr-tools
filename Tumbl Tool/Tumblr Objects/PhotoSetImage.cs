@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Tumbl_Tool.Tumblr_Objects
+namespace Tumblr_Tool.Tumblr_Objects
 {
     public class PhotoSetImage
     {

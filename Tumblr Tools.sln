@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumblr Tool UI", "Tumblr Tool UI\Tumblr Tool UI.csproj", "{40DA5FDE-C7F7-44BA-AF08-13B81810CA26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumbl Tool", "Tumbl Tool\Tumbl Tool.csproj", "{689B1768-CA91-483A-BD57-839D4BBD9944}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tumblr Tool", "Tumbl Tool\Tumblr Tool.csproj", "{689B1768-CA91-483A-BD57-839D4BBD9944}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}"
 EndProject
@@ -32,19 +32,19 @@ Global
 		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs34
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Installer\\Installer.vdproj
-		SccProjectName1 = Installer
-		SccLocalPath1 = Installer
-		SccProjectUniqueName2 = Tumbl\u0020Tool\\Tumbl\u0020Tool.csproj
-		SccProjectName2 = Tumbl\u0020Tool
-		SccLocalPath2 = Tumbl\u0020Tool
-		SccProjectUniqueName3 = Tumblr\u0020Tool\u0020UI\\Tumblr\u0020Tool\u0020UI.csproj
-		SccProjectName3 = Tumblr\u0020Tool\u0020UI
-		SccLocalPath3 = Tumblr\u0020Tool\u0020UI
-		SccProjectUniqueName4 = UniTest\\UniTest.csproj
-		SccProjectName4 = UniTest
-		SccLocalPath4 = UniTest
+		SccProjectUniqueName0 = Installer\\Installer.vdproj
+		SccProjectName0 = Installer
+		SccLocalPath0 = Installer
+		SccProjectUniqueName1 = Tumblr\u0020Tool\u0020UI\\Tumblr\u0020Tool\u0020UI.csproj
+		SccProjectName1 = Tumblr\u0020Tool\u0020UI
+		SccLocalPath1 = Tumblr\u0020Tool\u0020UI
+		SccProjectUniqueName2 = UniTest\\UniTest.csproj
+		SccProjectName2 = UniTest
+		SccLocalPath2 = UniTest
+		SccLocalPath3 = .
+		SccProjectUniqueName4 = Tumbl\u0020Tool\\Tumblr\u0020Tool.csproj
+		SccProjectName4 = Tumbl\u0020Tool
+		SccLocalPath4 = Tumbl\u0020Tool
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU

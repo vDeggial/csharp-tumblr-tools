@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Tumbl_Tool.Common_Helpers
+namespace Tumblr_Tool.Common_Helpers
 {
     public class FileHelper
     {

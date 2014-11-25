@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Tumbl_Tool.Enums;
+using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool
 {

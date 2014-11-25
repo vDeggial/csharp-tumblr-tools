@@ -7,18 +7,19 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Tumbl_Tool.Common_Helpers;
-using Tumbl_Tool.Enums;
-using Tumbl_Tool.Image_Ripper;
-using Tumbl_Tool.Managers;
-using Tumbl_Tool.Tumblr_Objects;
-using Tumbl_Tool.Tumblr_Stats;
+using Tumblr_Tool.Common_Helpers;
+using Tumblr_Tool.Enums;
+using Tumblr_Tool.Image_Ripper;
+using Tumblr_Tool.Managers;
+using Tumblr_Tool.Tumblr_Objects;
+using Tumblr_Tool.Tumblr_Stats;
 
 namespace Tumblr_Tool
 {
     public partial class mainForm : Form
     {
         private static Tumblr tumblrBlog;
+        private AboutForm aboutForm;
         private bool downloadDone = false;
         private List<string> downloadedList = new List<string>();
         private List<int> downloadedSizesList = new List<int>();
@@ -45,6 +46,8 @@ namespace Tumblr_Tool
             this.Text += version;
             optionsForm = new OptionsForm();
             optionsForm.mainForm = this;
+            aboutForm = new AboutForm();
+            aboutForm.mainForm = this;
 
             this.select_Mode.SelectedIndex = 1;
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
@@ -122,6 +125,11 @@ namespace Tumblr_Tool
                 txt_WorkStatus.Update();
                 txt_WorkStatus.Refresh();
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.aboutForm.ShowDialog();
         }
 
         private void btn_Browse_Click(object sender, EventArgs e)

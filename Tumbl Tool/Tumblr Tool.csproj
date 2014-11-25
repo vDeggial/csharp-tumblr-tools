@@ -8,8 +8,8 @@
     <ProjectGuid>{689B1768-CA91-483A-BD57-839D4BBD9944}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tumbl_Tool</RootNamespace>
-    <AssemblyName>Tumbl Tool</AssemblyName>
+    <RootNamespace>Tumblr_Tool</RootNamespace>
+    <AssemblyName>Tumblr Tool</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

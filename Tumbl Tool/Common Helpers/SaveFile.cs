@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Tumbl_Tool.Tumblr_Objects;
+using Tumblr_Tool.Tumblr_Objects;
 
-namespace Tumbl_Tool.Common_Helpers
+namespace Tumblr_Tool.Common_Helpers
 {
     [Serializable()]
     public class SaveFile

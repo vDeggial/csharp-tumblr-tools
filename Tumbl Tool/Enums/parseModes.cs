@@ -1,4 +1,4 @@
-﻿namespace Tumbl_Tool.Enums
+﻿namespace Tumblr_Tool.Enums
 {
     public enum parseModes
     {

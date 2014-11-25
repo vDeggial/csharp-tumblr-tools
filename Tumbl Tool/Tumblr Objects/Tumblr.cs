@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Tumbl_Tool.Tumblr_Objects
+namespace Tumblr_Tool.Tumblr_Objects
 {
     [Serializable()]
     public class Tumblr

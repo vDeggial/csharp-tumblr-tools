@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using Tumbl_Tool.Common_Helpers;
+using Tumblr_Tool.Common_Helpers;
 
-namespace Tumbl_Tool.Managers
+namespace Tumblr_Tool.Managers
 {
     public class FileManager
     {

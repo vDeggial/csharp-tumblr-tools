@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Tumbl_Tool.Common_Helpers
+namespace Tumblr_Tool.Common_Helpers
 {
     public static class XMLHelper
     {

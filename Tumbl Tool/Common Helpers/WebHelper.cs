@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.NetworkInformation;
 
-namespace Tumbl_Tool.Common_Helpers
+namespace Tumblr_Tool.Common_Helpers
 {
     public static class WebHelper
     {
