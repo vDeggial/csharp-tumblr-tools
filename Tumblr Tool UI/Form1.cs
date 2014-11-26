@@ -80,6 +80,8 @@ namespace Tumblr_Tool
             this.Text += " (" + version + ")";
             optionsForm = new OptionsForm();
             optionsForm.mainForm = this;
+            aboutForm = new AboutForm();
+            aboutForm.mainForm = this;
             aboutForm.version = "Version: " + version;
             this.select_Mode.SelectedIndex = 1;
             optionsForm.apiMode = apiModeEnum.JSON.ToString();

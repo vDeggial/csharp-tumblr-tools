@@ -84,7 +84,11 @@ namespace Tumblr_Tool.Image_Ripper
                             caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
                             caption = CommonHelper.StripTags(caption);
                             this.imagesList.Add(image.imageURL);
-                            this.commentsList.Add(image.filename, caption);
+
+                            if (!this.commentsList.ContainsKey(image.filename))
+                            {
+                                this.commentsList.Add(image.filename, caption);
+                            }
                         }
                     }
                 }
@@ -102,7 +106,10 @@ namespace Tumblr_Tool.Image_Ripper
                         {
                             try
                             {
-                                this.commentsList.Add(post.fileName, caption);
+                                if (!this.commentsList.ContainsKey(post.fileName))
+                                {
+                                    this.commentsList.Add(post.fileName, caption);
+                                }
                             }
                             catch
                             {
@@ -200,7 +207,9 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     while (i < totalPosts)
                     {
-                        blog.posts.AddRange(getTumblrPostList(i));
+                        List<TumblrPost> posts = getTumblrPostList(i);
+                        blog.posts.AddRange(posts);
+                        generateImageListForDownload(posts);
                         parsed = blog.posts.Count;
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
@@ -225,6 +234,7 @@ namespace Tumblr_Tool.Image_Ripper
                             }
                         }
                         parsed = blog.posts.Count;
+                        generateImageListForDownload(blog.posts);
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
                     }
@@ -232,7 +242,7 @@ namespace Tumblr_Tool.Image_Ripper
                 saveLogFile(blog.name);
                 statusCode = postProcessingCodes.Parsing;
 
-                generateImageListForDownload(blog.posts);
+               // generateImageListForDownload(blog.posts);
 
                 if (imagesList.Count == 0)
                     blog.posts.Clear();
