@@ -34,7 +34,7 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TumblrStats tumblrStats;
-        private string version = " ( v. 0.14.11 [Build 2014.11.26] )";
+        private string version = "Beta 0.14.1126";
 
         public mainForm()
         {
@@ -43,11 +43,12 @@ namespace Tumblr_Tool
 
             bar_Progress.Visible = false;
             fileManager = new FileManager();
-            this.Text += version;
+            this.Text += " (" + version + ")";
             optionsForm = new OptionsForm();
             optionsForm.mainForm = this;
             aboutForm = new AboutForm();
             aboutForm.mainForm = this;
+            aboutForm.version = "Version: " + version;
 
             this.select_Mode.SelectedIndex = 1;
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
@@ -76,9 +77,10 @@ namespace Tumblr_Tool
             txt_TumblrURL.Text = saveFile != null ? saveFile.getBlogURL() : "";
             tumblrBlog = saveFile != null ? saveFile.getBlog() : null;
 
-            this.Text += version;
+            this.Text += " (" + version + ")";
             optionsForm = new OptionsForm();
             optionsForm.mainForm = this;
+            aboutForm.version = "Version: " + version;
             this.select_Mode.SelectedIndex = 1;
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
@@ -778,6 +780,7 @@ namespace Tumblr_Tool
                 {
                     box_PostStats.Visible = false;
                     box_BlogInfo.Visible = false;
+                    lbl_PostCount.Text = "";
                     lbl_PostCount.Visible = true;
                     bar_Progress.Minimum = 0;
                     bar_Progress.Value = 0;
@@ -842,6 +845,8 @@ namespace Tumblr_Tool
                         lbl_Stats_ChatCount.Text = tumblrStats.chatPosts.ToString();
                         lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
                         lbl_PercentBar.Text = percent.ToString() + "%";
+                        lbl_PostCount.Visible = true;
+                        lbl_PostCount.Text = tumblrStats.parsed.ToString() + "/" + tumblrStats.totalPosts.ToString();
                         bar_Progress.Value = percent;
                     });
                 }

@@ -109,7 +109,7 @@
             this.check_ParseDownload.Location = new System.Drawing.Point(8, 65);
             this.check_ParseDownload.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_ParseDownload.Name = "check_ParseDownload";
-            this.check_ParseDownload.Size = new System.Drawing.Size(148, 25);
+            this.check_ParseDownload.Size = new System.Drawing.Size(127, 20);
             this.check_ParseDownload.TabIndex = 1;
             this.check_ParseDownload.Text = "Parse && Download";
             this.check_ParseDownload.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             this.check_ParseOnly.Location = new System.Drawing.Point(8, 36);
             this.check_ParseOnly.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_ParseOnly.Name = "check_ParseOnly";
-            this.check_ParseOnly.Size = new System.Drawing.Size(98, 25);
+            this.check_ParseOnly.Size = new System.Drawing.Size(84, 20);
             this.check_ParseOnly.TabIndex = 0;
             this.check_ParseOnly.Text = "Parse Only";
             this.check_ParseOnly.UseVisualStyleBackColor = true;
@@ -150,7 +150,7 @@
             this.check_GIF.Location = new System.Drawing.Point(8, 95);
             this.check_GIF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_GIF.Name = "check_GIF";
-            this.check_GIF.Size = new System.Drawing.Size(52, 25);
+            this.check_GIF.Size = new System.Drawing.Size(45, 20);
             this.check_GIF.TabIndex = 5;
             this.check_GIF.Text = "GIF";
             this.check_GIF.UseVisualStyleBackColor = true;
@@ -164,7 +164,7 @@
             this.check_PNG.Location = new System.Drawing.Point(8, 65);
             this.check_PNG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_PNG.Name = "check_PNG";
-            this.check_PNG.Size = new System.Drawing.Size(61, 25);
+            this.check_PNG.Size = new System.Drawing.Size(52, 20);
             this.check_PNG.TabIndex = 4;
             this.check_PNG.Text = "PNG";
             this.check_PNG.UseVisualStyleBackColor = true;
@@ -178,7 +178,7 @@
             this.check_JPEG.Location = new System.Drawing.Point(7, 36);
             this.check_JPEG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_JPEG.Name = "check_JPEG";
-            this.check_JPEG.Size = new System.Drawing.Size(96, 25);
+            this.check_JPEG.Size = new System.Drawing.Size(82, 20);
             this.check_JPEG.TabIndex = 2;
             this.check_JPEG.Text = "JPG/JPEG";
             this.check_JPEG.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             this.check_PhotoSets.Location = new System.Drawing.Point(7, 123);
             this.check_PhotoSets.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_PhotoSets.Name = "check_PhotoSets";
-            this.check_PhotoSets.Size = new System.Drawing.Size(93, 25);
+            this.check_PhotoSets.Size = new System.Drawing.Size(80, 20);
             this.check_PhotoSets.TabIndex = 3;
             this.check_PhotoSets.Text = "PhotoSets";
             this.check_PhotoSets.UseVisualStyleBackColor = true;
@@ -233,6 +233,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "OptionsForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
             this.TopMost = true;

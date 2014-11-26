@@ -23,5 +23,18 @@ namespace Tumblr_Tool
                 this._mainForm = value;
             }
         }
+
+        public string version
+        {
+            set
+            {
+                this.lbl_Version.Text = value;
+            }
+
+            get
+            {
+                return this.lbl_Version.Text;
+            }
+        }
     }
 }
