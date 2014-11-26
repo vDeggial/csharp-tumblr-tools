@@ -28,16 +28,6 @@ namespace Tumblr_Tool.Common_Helpers
             this.blog = null;
         }
 
-        public Tumblr getBlog()
-        {
-            return this.blog;
-        }
-
-        public string getBlogName()
-        {
-            return blog.name;
-        }
-
         public string getBlogURL()
         {
             return blog.cname;
@@ -46,16 +36,6 @@ namespace Tumblr_Tool.Common_Helpers
         public string getFileName()
         {
             return this.fileName;
-        }
-
-        public void setBlog(Tumblr blog)
-        {
-            this.blog = blog;
-        }
-
-        public void setFileName(string name)
-        {
-            this.fileName = name;
         }
     }
 }

@@ -137,7 +137,7 @@ namespace Tumblr_Tool.Common_Helpers
             switch (format)
             {
                 case "BIN":
-                    return saveTumblrFileAsBin(location, file);
+                    return saveFileAsBin(location, file);
 
                 case "XML":
                     return saveFileAsXML(location, file);
@@ -147,7 +147,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static bool saveTumblrFileAsBin(string location, SaveFile file)
+        public static bool saveFileAsBin(string location, SaveFile file)
         {
             try
             {

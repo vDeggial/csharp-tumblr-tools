@@ -32,11 +32,13 @@ namespace Tumblr_Tool.Tumblr_Objects
         //[XmlIgnoreAttribute]
         public List<TumblrPost> posts { get; set; }
 
+        [XmlElement("timezone")]
         public string timezone { get; set; }
 
         [XmlElement("title")]
         public string title { get; set; }
 
+        [XmlElement("totalPosts")]
         public int totalPosts { get; set; }
     }
 }

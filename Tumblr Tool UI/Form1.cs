@@ -75,7 +75,7 @@ namespace Tumblr_Tool
             }
 
             txt_TumblrURL.Text = saveFile != null ? saveFile.getBlogURL() : "";
-            tumblrBlog = saveFile != null ? saveFile.getBlog() : null;
+            tumblrBlog = saveFile != null ? saveFile.blog : null;
 
             this.Text += " (" + version + ")";
             optionsForm = new OptionsForm();
@@ -721,10 +721,17 @@ namespace Tumblr_Tool
 
                     if (downloaded)
                     {
+                        //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                        //{
+                        //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                        //}
+
+
                         j++;
                         fileDownloadDone = true;
                         fullPath = FileHelper.fixFileName(fullPath);
                         downloadedList.Add(fullPath);
+
                         downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
                     }
                     else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
@@ -757,7 +764,7 @@ namespace Tumblr_Tool
                     logFile = fileManager.readTumblrFile(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log");
                 }
             }
-            tumblrBlog = saveFile != null ? saveFile.getBlog() : null;
+            tumblrBlog = saveFile != null ? saveFile.blog : null;
 
             this.Invoke((MethodInvoker)delegate
                 {

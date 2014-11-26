@@ -36,7 +36,6 @@
             this.txt_WorkStatus = new System.Windows.Forms.TextBox();
             this.btn_Crawl = new System.Windows.Forms.Button();
             this.btn_Browse = new System.Windows.Forms.Button();
-            this.img_DisplayImage = new System.Windows.Forms.PictureBox();
             this.txt_TumblrURL = new System.Windows.Forms.TextBox();
             this.lbl_TumblrURL = new System.Windows.Forms.Label();
             this.txt_SaveLocation = new System.Windows.Forms.TextBox();
@@ -94,14 +93,15 @@
             this.getStatsUI_Worker = new System.ComponentModel.BackgroundWorker();
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.lbl_PercentBar = new System.Windows.Forms.Label();
+            this.img_DisplayImage = new System.Windows.Forms.PictureBox();
             this.tabControl_Main.SuspendLayout();
             this.tab_ImageRipper.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).BeginInit();
             this.tab_TumblrStats.SuspendLayout();
             this.box_PostStats.SuspendLayout();
             this.box_BlogInfo.SuspendLayout();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl_Main
@@ -208,25 +208,6 @@
             this.btn_Browse.Text = "Browse";
             this.btn_Browse.UseVisualStyleBackColor = true;
             this.btn_Browse.Click += new System.EventHandler(this.btn_Browse_Click);
-            // 
-            // img_DisplayImage
-            // 
-            this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.img_DisplayImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
-            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
-            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
-            this.img_DisplayImage.InitialImage = null;
-            this.img_DisplayImage.Location = new System.Drawing.Point(226, 79);
-            this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.img_DisplayImage.Name = "img_DisplayImage";
-            this.img_DisplayImage.Size = new System.Drawing.Size(183, 243);
-            this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.img_DisplayImage.TabIndex = 4;
-            this.img_DisplayImage.TabStop = false;
-            this.img_DisplayImage.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.imageLoaded);
             // 
             // txt_TumblrURL
             // 
@@ -769,6 +750,25 @@
             this.lbl_PercentBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_PercentBar.Visible = false;
             // 
+            // img_DisplayImage
+            // 
+            this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.img_DisplayImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
+            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
+            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.Tumblr_logo_by_x_1337_x_d5ikwpp;
+            this.img_DisplayImage.InitialImage = null;
+            this.img_DisplayImage.Location = new System.Drawing.Point(226, 79);
+            this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.img_DisplayImage.Name = "img_DisplayImage";
+            this.img_DisplayImage.Size = new System.Drawing.Size(183, 243);
+            this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.img_DisplayImage.TabIndex = 4;
+            this.img_DisplayImage.TabStop = false;
+            this.img_DisplayImage.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.imageLoaded);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -796,7 +796,6 @@
             this.tabControl_Main.ResumeLayout(false);
             this.tab_ImageRipper.ResumeLayout(false);
             this.tab_ImageRipper.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).EndInit();
             this.tab_TumblrStats.ResumeLayout(false);
             this.tab_TumblrStats.PerformLayout();
             this.box_PostStats.ResumeLayout(false);
@@ -807,6 +806,7 @@
             this.menu_TopMenu.PerformLayout();
             this.status_Strip.ResumeLayout(false);
             this.status_Strip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
