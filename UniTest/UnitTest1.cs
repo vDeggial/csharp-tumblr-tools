@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
 using Tumblr_Tool.Common_Helpers;
-using Tumblr_Tool.Tumblr_Objects;
 
 namespace UniTest
 {

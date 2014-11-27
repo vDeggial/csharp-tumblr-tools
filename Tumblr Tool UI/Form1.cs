@@ -34,7 +34,7 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TumblrStats tumblrStats;
-        private string version = "Beta 0.14.1126";
+        private string version = "Beta 0.14.1127";
 
         public mainForm()
         {
@@ -505,7 +505,7 @@ namespace Tumblr_Tool
                     if (!optionsForm.parseOnly)
                     {
                         fileManager.totalToDownload = ripper.totalImagesCount;
-                        download_Worker.RunWorkerAsync(ripper);
+                        download_Worker.RunWorkerAsync(ripper.imagesList);
                         download_UIUpdate_Worker.RunWorkerAsync(fileManager);
                     }
                     else
@@ -697,15 +697,15 @@ namespace Tumblr_Tool
         {
             downloadDone = false;
             fileDownloadDone = false;
-            ImageRipper ripper = (ImageRipper)e.Argument;
+            List<string> imagesList = (List<string>)e.Argument;
             fileManager.statusCode = downloadStatusCodes.Preparing;
-            if (ripper.blog.posts != null && ripper.blog.posts.Count != 0)
+            if (ripper.imagesList != null && ripper.imagesList.Count != 0)
             {
                 int j = 0;
                 fileManager.statusCode = downloadStatusCodes.Downloading;
                 readyForDownload = true;
 
-                foreach (string photoURL in ripper.imagesList)
+                foreach (string photoURL in imagesList)
                 {
                     while (!readyForDownload)
                     {
@@ -723,11 +723,10 @@ namespace Tumblr_Tool
 
                     if (downloaded)
                     {
-                        //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
-                        //{
-                        //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
-                        //}
-
+                        if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                        {
+                            ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                        }
 
                         j++;
                         fileDownloadDone = true;
@@ -738,7 +737,7 @@ namespace Tumblr_Tool
                     }
                     else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
                     {
-                        notDownloadedList.Add(photoURL);
+                        // notDownloadedList.Add(photoURL);
                     }
                 }
                 fileManager.statusCode = downloadStatusCodes.Done;

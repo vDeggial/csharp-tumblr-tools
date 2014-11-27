@@ -79,15 +79,21 @@ namespace Tumblr_Tool.Image_Ripper
                     {
                         if (!existingImageList.Contains(image.filename))
                         {
-                            string caption = post.caption;
-                            caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
-                            caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
-                            caption = CommonHelper.StripTags(caption);
-                            this.imagesList.Add(image.imageURL);
-
-                            if (!this.commentsList.ContainsKey(image.filename))
+                            try
                             {
-                                this.commentsList.Add(image.filename, caption);
+                                string caption = post.caption;
+                                caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
+                                caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
+                                caption = CommonHelper.StripTags(caption);
+                                this.imagesList.Add(image.imageURL);
+
+                                if (!this.commentsList.ContainsKey(image.filename))
+                                {
+                                    this.commentsList.Add(image.filename, caption);
+                                }
+                            }
+                            catch
+                            {
                             }
                         }
                     }
@@ -96,25 +102,31 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     if (!existingImageList.Contains(post.fileName))
                     {
-                        string caption = post.caption;
-                        caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
-                        caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
-                        caption = CommonHelper.StripTags(caption);
-                        this.imagesList.Add(post.imageURL);
-
-                        if (caption != null)
+                        try
                         {
-                            try
+                            string caption = post.caption;
+                            caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
+                            caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
+                            caption = CommonHelper.StripTags(caption);
+                            this.imagesList.Add(post.imageURL);
+
+                            if (caption != null)
                             {
-                                if (!this.commentsList.ContainsKey(post.fileName))
+                                try
                                 {
-                                    this.commentsList.Add(post.fileName, caption);
+                                    if (!this.commentsList.ContainsKey(post.fileName))
+                                    {
+                                        this.commentsList.Add(post.fileName, caption);
+                                    }
+                                }
+                                catch
+                                {
+                                    //do nothing
                                 }
                             }
-                            catch
-                            {
-                                //do nothing
-                            }
+                        }
+                        catch
+                        {
                         }
                     }
                 }
@@ -210,9 +222,12 @@ namespace Tumblr_Tool.Image_Ripper
                         List<TumblrPost> posts = getTumblrPostList(i);
                         blog.posts.AddRange(posts);
                         generateImageListForDownload(posts);
-                        parsed = blog.posts.Count;
+                        parsed += blog.posts.Count;
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
+
+                        saveLogFile(blog.name);
+                        blog.posts.Clear();
                     }
                 }
                 else if (parseMode == (int)parseModes.NewestOnly)
@@ -233,16 +248,18 @@ namespace Tumblr_Tool.Image_Ripper
                                 blog.posts.Add(post);
                             }
                         }
-                        parsed = blog.posts.Count;
+                        parsed += blog.posts.Count;
                         generateImageListForDownload(blog.posts);
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
+                        saveLogFile(blog.name);
+                        blog.posts.Clear();
                     }
                 }
-                saveLogFile(blog.name);
+
                 statusCode = postProcessingCodes.Parsing;
 
-               // generateImageListForDownload(blog.posts);
+                // generateImageListForDownload(blog.posts);
 
                 if (imagesList.Count == 0)
                     blog.posts.Clear();
@@ -262,14 +279,10 @@ namespace Tumblr_Tool.Image_Ripper
         {
             if (log == null)
             {
-                SaveFile saveFile = new SaveFile(name + ".log", blog);
-                FileManager fileManager = new FileManager();
-                fileManager.saveTumblrFile(saveLocation + @"\" + saveFile.getFileName(), saveFile);
+                log = new SaveFile(name + ".log", blog);
             }
-            else
-            {
-                saveLogFile(log);
-            }
+
+            saveLogFile(log);
         }
 
         public void saveLogFile(SaveFile log)

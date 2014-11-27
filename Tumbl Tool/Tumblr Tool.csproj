@@ -48,6 +48,7 @@
     <Compile Include="Common Helpers\FileHelper.cs" />
     <Compile Include="Common Helpers\ImageHelper.cs" />
     <Compile Include="Common Helpers\JSONHelper.cs" />
+    <Compile Include="Common Helpers\ObjectCopier.cs" />
     <Compile Include="Common Helpers\SaveFile.cs" />
     <Compile Include="Common Helpers\WebHelper.cs" />
     <Compile Include="Common Helpers\XMLHelper.cs" />

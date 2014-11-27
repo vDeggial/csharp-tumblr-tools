@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace Tumblr_Tool.Common_Helpers
 {
     public static class ImageHelper
     {
-
         public static ImageFormat GetImageFormat(this Image img)
         {
             if (img.RawFormat.Equals(ImageFormat.Jpeg))
@@ -66,21 +65,35 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static void addImageDescription(string path, string desc)
         {
-            string fileDirectory = Path.GetDirectoryName(path);
+            string _FileDirectory = Path.GetDirectoryName(path);
             string _FileName = Path.GetFileNameWithoutExtension(path);
-            string fileExt = Path.GetExtension(path);
+            string _FileExt = Path.GetExtension(path);
 
             BitmapMetadata _metadata = null;
             BitmapDecoder _decoder = null;
             BitmapEncoder _encoder = null;
             FileInfo originalImage;
-            string tempLocation = fileDirectory + @"\" + "temp.jpg";
+            string tempLocation = _FileDirectory + @"\" + "temp.jpg";
             FileInfo tempImage;
             BitmapFrame _fileFrame;
             Image newImage;
             bool added = false;
+            ImageFormat imageFormat = ImageFormat.Jpeg;
 
-            ImageFormat imageFormat = GetImageFormat(Image.FromFile(path));
+            if (_FileExt ==  null || _FileExt == "")
+            {
+                string filePath = FileHelper.findFile(_FileDirectory, _FileName);
+                
+                    if (File.Exists(filePath))
+                    {
+                        path = filePath;
+                        _FileName = Path.GetFileNameWithoutExtension(filePath);
+                        _FileExt = Path.GetExtension(filePath);
+                        imageFormat = GetImageFormat(Image.FromFile(path));
+                    }
+                
+            }
+
 
             string _mimeType = imageFormat.ToString();
 
@@ -90,8 +103,6 @@ namespace Tumblr_Tool.Common_Helpers
                 {
                     try
                     {
-                        
-
                         using (Stream fileStream = new System.IO.FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
                             originalImage = File.Exists(path) ? new FileInfo(path) : null;

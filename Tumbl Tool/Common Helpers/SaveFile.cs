@@ -19,7 +19,17 @@ namespace Tumblr_Tool.Common_Helpers
         public SaveFile(string fileName = "", Tumblr blog = null)
         {
             this.fileName = fileName;
-            this.blog = blog;
+            //this.blog = new Tumblr();
+            //this.blog.cname = blog.cname;
+            //this.blog.description = blog.description;
+            //this.blog.name = blog.name;
+            //this.blog.posts = new List<TumblrPost>();
+            //this.blog.posts.AddRange(blog.posts);
+            //this.blog.timezone = blog.timezone;
+            //this.blog.title = blog.title;
+            //this.blog.totalPosts = blog.totalPosts;
+
+            this.blog = blog.Clone();
         }
 
         public SaveFile()

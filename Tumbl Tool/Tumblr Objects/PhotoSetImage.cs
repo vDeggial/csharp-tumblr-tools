@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Tumblr_Tool.Tumblr_Objects
 {
-    public class PhotoSetImage
+    public class PhotoSetImage : ICloneable
     {
         public PhotoSetImage()
         {
@@ -29,5 +30,10 @@ namespace Tumblr_Tool.Tumblr_Objects
         public string offset { get; set; }
 
         public string width { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

@@ -61,6 +61,11 @@ namespace Tumblr_Tool.Common_Helpers
             return imagesList;
         }
 
+        public static string findFile(string dir, string name)
+        {
+            return Directory.GetFiles(@dir, name + ".*").First();
+        }
+
         public static bool isFileInUse(FileInfo file)
         {
             FileStream stream = null;
