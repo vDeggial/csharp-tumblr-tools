@@ -63,7 +63,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static string findFile(string dir, string name)
         {
-            return Directory.GetFiles(@dir, name + ".*").First();
+            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
         }
 
         public static bool isFileInUse(FileInfo file)

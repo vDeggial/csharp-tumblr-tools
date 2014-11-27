@@ -36,10 +36,13 @@ namespace Tumblr_Tool
         private TumblrStats tumblrStats;
         private string version = "Beta 0.14.1127";
 
+        private TimeSpan ts;
+
         public mainForm()
         {
             InitializeComponent();
             txt_WorkStatus.Visible = false;
+            lbl_Timer.Text = "";
 
             bar_Progress.Visible = false;
             fileManager = new FileManager();
@@ -62,6 +65,7 @@ namespace Tumblr_Tool
         {
             InitializeComponent();
             txt_WorkStatus.Visible = false;
+            lbl_Timer.Text = "";
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
             bar_Progress.Visible = false;
@@ -165,84 +169,15 @@ namespace Tumblr_Tool
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
 
-            lbl_Timer.Text = elapsedTime;
+            this.Invoke((MethodInvoker)delegate
+            {
+                lbl_Timer.Text = elapsedTime;
+            });
             if (checkFields())
             {
-                updateStatusText("Initializing ...");
-                updateWorkStatusText("Initializing ... ");
-                updateWorkStatusText("Checking for internet connection ...");
-                if (WebHelper.CheckForInternetConnection())
-                {
-                    updateWorkStatusText("Internet Connection found ...");
-                    updateWorkStatusText("Getting Blog info ...");
-                    tumblrBlog = new Tumblr();
-                    tumblrBlog.cname = txt_TumblrURL.Text;
-                    ts = stopWatch.Elapsed;
+                crawl_Worker.RunWorkerAsync(ripper);
 
-                    // Format and display the TimeSpan value.
-                    elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                       ts.Hours, ts.Minutes, ts.Seconds,
-                       ts.Milliseconds / 10);
-
-                    lbl_Timer.Text = elapsedTime;
-
-                    ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
-
-                    if (ripper != null)
-                    {
-                        ripper.setAPIMode(options.apiMode);
-                        ripper.setLogFile(logFile);
-
-                        if (ripper.setBlogInfo())
-                        {
-                            ts = stopWatch.Elapsed;
-
-                            // Format and display the TimeSpan value.
-                            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                                ts.Hours, ts.Minutes, ts.Seconds,
-                                ts.Milliseconds / 10);
-
-                            lbl_Timer.Text = elapsedTime;
-                            lbl_PostCount.Text = "0 / 0";
-                            lbl_PostCount.Visible = false;
-                            txt_WorkStatus.Visible = true;
-
-                            txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
-
-                            if (saveFile == null && !saveTumblrFile(ripper.blog.name))
-                            {
-                                updateWorkStatusText("Unable to save .tumblr file");
-                                updateStatusText("Error");
-                            }
-                            else
-                            {
-                                crawl_Worker.RunWorkerAsync(ripper);
-
-                                crawl_UpdateUI_Worker.RunWorkerAsync(ripper);
-                            }
-                        }
-                        else
-                        {
-                            updateStatusText("Error");
-                            updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
-                            btn_Crawl.Enabled = true;
-                            lbl_PostCount.Visible = false;
-                            bar_Progress.Visible = false;
-                            img_DisplayImage.Visible = false;
-                            tab_TumblrStats.Enabled = true;
-                        }
-                    }
-                }
-                else
-                {
-                    updateStatusText("Error");
-                    updateWorkStatusText("No internet connection detected!");
-                    btn_Crawl.Enabled = true;
-                    lbl_PostCount.Visible = false;
-                    bar_Progress.Visible = false;
-                    img_DisplayImage.Visible = false;
-                    tab_TumblrStats.Enabled = true;
-                }
+                crawl_UpdateUI_Worker.RunWorkerAsync(ripper);
             }
             else
             {
@@ -257,6 +192,7 @@ namespace Tumblr_Tool
         private void btn_GetStats_Click(object sender, EventArgs e)
         {
             lbl_PostCount.Visible = false;
+            updateStatusText("Initiliazing...");
             if (isValidURL(txt_StatsTumblrURL.Text))
             {
                 if (WebHelper.CheckForInternetConnection())
@@ -403,6 +339,11 @@ namespace Tumblr_Tool
 
         private void crawlUIWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            while (ripper == null)
+            {
+
+            }
+
             if (ripper != null)
             {
                 this.Invoke((MethodInvoker)delegate
@@ -413,6 +354,7 @@ namespace Tumblr_Tool
                             bar_Progress.Maximum = 100;
                             bar_Progress.Visible = true;
                             lbl_PostCount.Visible = true;
+                            // lbl_Timer.Visible = true;
                             lbl_PostCount.Text = "";
 
                             updateWorkStatusText("Indexing Blog ...");
@@ -430,7 +372,10 @@ namespace Tumblr_Tool
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
 
-                    lbl_Timer.Text = elapsedTime;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Timer.Text = elapsedTime;
+                    });
                     if (ripper.statusCode == postProcessingCodes.Started)
                     {
                         this.Invoke((MethodInvoker)delegate
@@ -461,6 +406,7 @@ namespace Tumblr_Tool
                                updateStatusText("Crawling...");
                                // lbl_PostCount.Visible = true;
                                lbl_PercentBar.Visible = true;
+                               lbl_PostCount.Visible = true;
                                lbl_PercentBar.Text = percent.ToString() + "%";
                                lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
                                bar_Progress.Value = percent;
@@ -518,19 +464,121 @@ namespace Tumblr_Tool
 
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.Sleep(100);
-            ImageRipper ripper = (ImageRipper)e.Argument;
+            string elapsedTime;
 
-            if (ripper != null)
+            this.Invoke((MethodInvoker)delegate
             {
-                int mode = 0;
+                updateStatusText("Initializing ...");
+                updateWorkStatusText("Initializing ... ");
+                updateWorkStatusText("Checking for internet connection ...");
+            });
+
+            ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+               ts.Hours, ts.Minutes, ts.Seconds,
+               ts.Milliseconds / 10);
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                lbl_Timer.Text = elapsedTime;
+            });
+
+            if (WebHelper.CheckForInternetConnection())
+            {
+                this.Invoke((MethodInvoker)delegate
+            {
+                updateWorkStatusText("Internet Connection found ...");
+                updateWorkStatusText("Getting Blog info ...");
+            });
+                tumblrBlog = new Tumblr();
+                tumblrBlog.cname = txt_TumblrURL.Text;
+                this.ts = stopWatch.Elapsed;
+
+                // Format and display the TimeSpan value.
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                   ts.Hours, ts.Minutes, ts.Seconds,
+                   ts.Milliseconds / 10);
+
                 this.Invoke((MethodInvoker)delegate
                 {
-                    mode = select_Mode.SelectedIndex + 1;
+                    lbl_Timer.Text = elapsedTime;
                 });
 
-                tumblrBlog = ripper.parseBlogPosts(mode);
+                this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+
+                if (this.ripper != null)
+                {
+                    this.ripper.setAPIMode(options.apiMode);
+                    this.ripper.setLogFile(logFile);
+
+                    if (this.ripper.setBlogInfo())
+                    {
+                        ts = stopWatch.Elapsed;
+
+                        // Format and display the TimeSpan value.
+                        elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            lbl_Timer.Text = elapsedTime;
+
+                            lbl_PostCount.Text = "0 / 0";
+                            lbl_PostCount.Visible = false;
+                            txt_WorkStatus.Visible = true;
+
+                            txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
+                        });
+
+                        if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Unable to save .tumblr file");
+                                updateStatusText("Error");
+                            });
+                        }
+                        else
+                        {
+                            if (this.ripper != null)
+                            {
+                                int mode = 0;
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    mode = select_Mode.SelectedIndex + 1;
+                                });
+
+                                tumblrBlog = this.ripper.parseBlogPosts(mode);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        updateStatusText("Error");
+                        updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
+                        btn_Crawl.Enabled = true;
+                        lbl_PostCount.Visible = false;
+                        bar_Progress.Visible = false;
+                        img_DisplayImage.Visible = false;
+                        tab_TumblrStats.Enabled = true;
+                    }
+                }
             }
+            else
+            {
+                updateStatusText("Error");
+                updateWorkStatusText("No internet connection detected!");
+                btn_Crawl.Enabled = true;
+                lbl_PostCount.Visible = false;
+                bar_Progress.Visible = false;
+                img_DisplayImage.Visible = false;
+                tab_TumblrStats.Enabled = true;
+            }
+
+            Thread.Sleep(100);
         }
 
         private void downloadUIUpdate_AfterDone(object sender, RunWorkerCompletedEventArgs e)
@@ -617,7 +665,10 @@ namespace Tumblr_Tool
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
 
-                        lbl_Timer.Text = elapsedTime;
+                        this.Invoke((MethodInvoker)delegate
+                            {
+                                lbl_Timer.Text = elapsedTime;
+                            });
 
                         int c = 0;
                         int f = 0;
