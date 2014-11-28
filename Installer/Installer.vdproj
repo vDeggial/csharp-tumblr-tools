@@ -94,10 +94,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5.1"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.5.1 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.5.1"
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.4.5"
                     {
@@ -365,7 +365,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
         "ProductCode" = "8:{1EE65F49-BBAC-485C-85B6-D175B1189174}"
-        "PackageCode" = "8:{A6FD6326-F72F-4B48-8338-17CD12D2D90A}"
+        "PackageCode" = "8:{853D1FEC-C420-4F79-BB98-8C906F5A5F3D}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
