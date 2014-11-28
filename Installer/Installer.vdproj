@@ -58,13 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
+        "OwnerKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
+        "OwnerKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -94,15 +94,15 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5.1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:Microsoft .NET Framework 4.5.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5.1"
                     }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.4.5"
                     {
-                    "Name" = "8:Windows Installer 3.1"
-                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    "Name" = "8:Windows Installer 4.5"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.4.5"
                     }
                 }
             }
@@ -164,7 +164,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:v4.5.1"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.5.1"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -219,6 +219,11 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_80F86A075CA7D8E75602323075BBB0F0"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -245,6 +250,11 @@
             "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=0.14.1128.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
+                    "_8138977F81CEDA008F97812D0D7FD560"
+                    {
+                    "Name" = "8:Tumblr Tool.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Tumblr Tool.dll"
             "TargetName" = "8:"
@@ -355,7 +365,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
         "ProductCode" = "8:{1EE65F49-BBAC-485C-85B6-D175B1189174}"
-        "PackageCode" = "8:{853D1FEC-C420-4F79-BB98-8C906F5A5F3D}"
+        "PackageCode" = "8:{BA02A427-1C48-44FA-93A6-0CF4304C10C3}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
