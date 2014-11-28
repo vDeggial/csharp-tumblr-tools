@@ -247,7 +247,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=0.14.1128.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_8138977F81CEDA008F97812D0D7FD560"
@@ -364,8 +364,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
-        "ProductCode" = "8:{C39A24FF-0C3E-4748-834A-A3FAADE6614A}"
-        "PackageCode" = "8:{D704F35B-9D83-449F-9CE9-A70E06C2A5E6}"
+        "ProductCode" = "8:{1EE65F49-BBAC-485C-85B6-D175B1189174}"
+        "PackageCode" = "8:{A6FD6326-F72F-4B48-8338-17CD12D2D90A}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

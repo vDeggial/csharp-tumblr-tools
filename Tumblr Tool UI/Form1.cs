@@ -310,13 +310,18 @@ namespace Tumblr_Tool
         {
             if (ripper != null)
             {
+                while (ripper.statusCode == processingCodes.Crawling)
+                {
+                    // wait for crawler to catch up
+                }
+
                 if (ripper.statusCode == processingCodes.Done)
                 {
                     this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Indexing Blog done");
 
-                            updateWorkStatusText("Found " + (ripper.totalImagesCount == 0 ? "no" : ripper.totalImagesCount.ToString()) + " new image(s) to download");
+                            updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
 
                             lbl_PostCount.Text = "";
 
@@ -330,31 +335,40 @@ namespace Tumblr_Tool
                 {
                     if (ripper.statusCode == processingCodes.UnableDownload)
                     {
-                        updateWorkStatusText("Error downloading the blog post XML");
-                        updateStatusText("Error");
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Error downloading the blog post XML");
+                            updateStatusText("Error");
+                        });
                     }
                     else if (ripper.statusCode == processingCodes.invalidURL)
                     {
-                        updateWorkStatusText("Invalid Tumblr URL");
-                        updateStatusText("Error");
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Invalid Tumblr URL");
+                            updateStatusText("Error");
+                        });
                     }
                 }
             }
 
-            tab_TumblrStats.Enabled = true;
+            this.Invoke((MethodInvoker)delegate
+                        {
+                            tab_TumblrStats.Enabled = true;
 
-            if (optionsForm.parseOnly)
-            {
-                openToolStripMenuItem.Enabled = true;
-                optionsToolStripMenuItem.Enabled = true;
-                btn_Crawl.Enabled = true;
-                tab_TumblrStats.Enabled = true;
-                select_Mode.Enabled = true;
-            }
+                            if (optionsForm.parseOnly)
+                            {
+                                openToolStripMenuItem.Enabled = true;
+                                optionsToolStripMenuItem.Enabled = true;
+                                btn_Crawl.Enabled = true;
+                                tab_TumblrStats.Enabled = true;
+                                select_Mode.Enabled = true;
+                            }
 
-            updateStatusText("Done");
-            lbl_PostCount.Visible = false;
-            bar_Progress.Visible = false;
+                            updateStatusText("Done");
+                            lbl_PostCount.Visible = false;
+                            bar_Progress.Visible = false;
+                        });
         }
 
         private void crawlUIWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -502,7 +516,7 @@ namespace Tumblr_Tool
                     });
                 }
 
-                ripper.statusCode = processingCodes.Done;
+                
             }
         }
 
@@ -530,6 +544,7 @@ namespace Tumblr_Tool
 
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            Thread.Sleep(100);
             string elapsedTime;
             this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
             ripper.statusCode = processingCodes.Initializing;
@@ -597,10 +612,11 @@ namespace Tumblr_Tool
             }
             else
             {
-                // ripper.statusCode = processingCodes.connectionError;
+                 ripper.statusCode = processingCodes.connectionError;
             }
 
-            Thread.Sleep(100);
+            ripper.statusCode = processingCodes.Done;
+
         }
 
         private void downloadUIUpdate_AfterDone(object sender, RunWorkerCompletedEventArgs e)
