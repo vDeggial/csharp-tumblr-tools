@@ -312,16 +312,19 @@ namespace Tumblr_Tool
             {
                 if (ripper.statusCode == processingCodes.Done)
                 {
-                    updateWorkStatusText("Indexing Blog done");
+                    this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Indexing Blog done");
 
-                    updateWorkStatusText("Found " + (ripper.totalImagesCount == 0 ? "no" : ripper.totalImagesCount.ToString()) + " new image(s) to download");
+                            updateWorkStatusText("Found " + (ripper.totalImagesCount == 0 ? "no" : ripper.totalImagesCount.ToString()) + " new image(s) to download");
 
-                    lbl_PostCount.Text = "";
+                            lbl_PostCount.Text = "";
 
-                    bar_Progress.Value = 0;
-                    bar_Progress.Update();
+                            bar_Progress.Value = 0;
+                            bar_Progress.Update();
 
-                    bar_Progress.Refresh();
+                            bar_Progress.Refresh();
+                        });
                 }
                 else
                 {
@@ -499,7 +502,7 @@ namespace Tumblr_Tool
                     });
                 }
 
-                
+                ripper.statusCode = processingCodes.Done;
             }
         }
 
