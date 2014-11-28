@@ -22,7 +22,6 @@ namespace Tumblr_Tool.Common_Helpers
             {
                 return JObject.Parse(result);
             }
-
             else
             {
                 return null;
