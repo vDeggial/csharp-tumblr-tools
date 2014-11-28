@@ -354,20 +354,41 @@ namespace Tumblr_Tool
 
             this.Invoke((MethodInvoker)delegate
                         {
-                            tab_TumblrStats.Enabled = true;
+
 
                             if (optionsForm.parseOnly)
                             {
+                                tab_TumblrStats.Enabled = true;
                                 openToolStripMenuItem.Enabled = true;
                                 optionsToolStripMenuItem.Enabled = true;
                                 btn_Crawl.Enabled = true;
                                 tab_TumblrStats.Enabled = true;
                                 select_Mode.Enabled = true;
+                                openToolStripMenuItem.Enabled = true;
+                                optionsToolStripMenuItem.Enabled = true;
                             }
 
-                            updateStatusText("Done");
-                            lbl_PostCount.Visible = false;
-                            bar_Progress.Visible = false;
+                            else if (ripper.statusCode != processingCodes.Done)
+                            {
+                                tab_TumblrStats.Enabled = true;
+                                openToolStripMenuItem.Enabled = true;
+                                optionsToolStripMenuItem.Enabled = true;
+                                btn_Crawl.Enabled = true;
+                                tab_TumblrStats.Enabled = true;
+                                select_Mode.Enabled = true;
+                                openToolStripMenuItem.Enabled = true;
+                                optionsToolStripMenuItem.Enabled = true;
+                            }
+
+                            else
+                            {
+
+                                updateStatusText("Done");
+                                lbl_PostCount.Visible = false;
+                                bar_Progress.Visible = false;
+                                openToolStripMenuItem.Enabled = true;
+                                optionsToolStripMenuItem.Enabled = true;
+                            }
                         });
         }
 
@@ -458,7 +479,7 @@ namespace Tumblr_Tool
                     }
 
 
-                    if (ripper.statusCode == processingCodes.Started)
+                    if (ripper.statusCode == processingCodes.Starting)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
@@ -545,6 +566,8 @@ namespace Tumblr_Tool
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Thread.Sleep(100);
+            tumblrBlog = new Tumblr();
+            tumblrBlog.cname = txt_TumblrURL.Text;
             string elapsedTime;
             this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
             ripper.statusCode = processingCodes.Initializing;
@@ -563,8 +586,7 @@ namespace Tumblr_Tool
             {
                 ripper.statusCode = processingCodes.connectionOK;
 
-                tumblrBlog = new Tumblr();
-                tumblrBlog.cname = txt_TumblrURL.Text;
+                
                 this.ts = stopWatch.Elapsed;
 
                 // Format and display the TimeSpan value.
@@ -579,34 +601,46 @@ namespace Tumblr_Tool
                     this.ripper.setAPIMode(options.apiMode);
                     this.ripper.setLogFile(logFile);
 
-                    ripper.statusCode = processingCodes.gettingBlogInfo;
-                    if (this.ripper.setBlogInfo())
+                    if (ripper.isValidTumblr())
                     {
-                        ripper.statusCode = processingCodes.blogInfoOK;
 
-                        if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+
+
+                        ripper.statusCode = processingCodes.gettingBlogInfo;
+                        if (this.ripper.setBlogInfo())
                         {
-                            ripper.statusCode = processingCodes.saveFileError;
-                            
+                            ripper.statusCode = processingCodes.blogInfoOK;
+
+                            if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+                            {
+                                ripper.statusCode = processingCodes.saveFileError;
+
+                            }
+                            else
+                            {
+                                ripper.statusCode = processingCodes.saveFileOK;
+                                if (this.ripper != null)
+                                {
+                                    int mode = 0;
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        mode = select_Mode.SelectedIndex + 1;
+                                    });
+                                    ripper.statusCode = processingCodes.Starting;
+                                    tumblrBlog = this.ripper.parseBlogPosts(mode);
+                                }
+                            }
+                            ripper.statusCode = processingCodes.Done;
                         }
                         else
                         {
-                            ripper.statusCode = processingCodes.saveFileOK;
-                            if (this.ripper != null)
-                            {
-                                int mode = 0;
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    mode = select_Mode.SelectedIndex + 1;
-                                });
-                                ripper.statusCode = processingCodes.Crawling;
-                                tumblrBlog = this.ripper.parseBlogPosts(mode);
-                            }
+                            ripper.statusCode = processingCodes.blogInfoError;
                         }
                     }
+
                     else
                     {
-                        ripper.statusCode = processingCodes.blogInfoError;
+                        ripper.statusCode = processingCodes.invalidURL;
                     }
                 }
             }
@@ -615,7 +649,7 @@ namespace Tumblr_Tool
                  ripper.statusCode = processingCodes.connectionError;
             }
 
-            ripper.statusCode = processingCodes.Done;
+            
 
         }
 
@@ -839,8 +873,12 @@ namespace Tumblr_Tool
 
         private void fileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
+            this.Invoke((MethodInvoker)delegate
+                {
             txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
             txt_TumblrURL.Text = saveFile != null ? saveFile.blog.cname : "Error parsing savefile";
+            btn_Crawl.Enabled = true;
+                });
         }
 
         private void fileBW_DoWork(object sender, DoWorkEventArgs e)
@@ -858,10 +896,6 @@ namespace Tumblr_Tool
                 }
             }
             tumblrBlog = saveFile != null ? saveFile.blog : null;
-
-            this.Invoke((MethodInvoker)delegate
-                {
-                });
         }
 
         private void getStatsUIWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
@@ -971,6 +1005,7 @@ namespace Tumblr_Tool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            btn_Crawl.Enabled = false;
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.AddExtension = true;
@@ -980,6 +1015,10 @@ namespace Tumblr_Tool
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     fileBackgroundWorker.RunWorkerAsync(ofd.FileName);
+                }
+                else
+                {
+                    btn_Crawl.Enabled = true;
                 }
             }
         }

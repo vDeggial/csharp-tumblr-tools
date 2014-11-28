@@ -14,7 +14,6 @@ namespace Tumblr_Tool.Image_Ripper
         public CrawlManager crawlManager;
         public List<string> imagesList;
         public SaveFile log;
-        private bool generateLog;
         public int parsed = 0;
         public int percentComplete = 0;
         public processingCodes prevCode;
@@ -25,6 +24,7 @@ namespace Tumblr_Tool.Image_Ripper
         private string apiMode;
         private List<string> errorList;
         private List<string> existingImageList;
+        private bool generateLog;
         private int maxNumPosts = 0;
         private int offset = 0;
         private List<TumblrPost> oldPosts;
@@ -182,9 +182,22 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        public bool isValidTumblr()
+        {
+            string url = "";
+            if (apiMode == apiModeEnum.XML.ToString())
+                url = XMLHelper.getQueryString(this.tumblrURL, tumblrPostTypes.photo.ToString());
+            else
+            {
+                url = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.photo.ToString());
+            }
+
+            return crawlManager.isValidTumblr(url);
+        }
+
         public Tumblr parseBlogPosts(int parseMode)
         {
-            statusCode = processingCodes.Started;
+            statusCode = processingCodes.Starting;
             string url = "";
             if (apiMode == apiModeEnum.XML.ToString())
                 url = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString());
@@ -202,83 +215,76 @@ namespace Tumblr_Tool.Image_Ripper
             else
                 step = (int)postStepEnum.XML;
 
-            if (crawlManager.isValidTumblr(url))
+            //setBlogInfo();
+
+            // crawlManager.getDocument(url);
+
+            if (this.totalPosts == 0)
+                this.totalPosts = blog.totalPosts;
+
+            statusCode = processingCodes.Crawling;
+            // totalPosts = this.blog.totalPosts;
+
+            bool finished = false;
+
+            int i = offset;
+
+            if (parseMode == (int)parseModes.FullRescan)
             {
-                //setBlogInfo();
-
-                // crawlManager.getDocument(url);
-
-                if (this.totalPosts == 0)
-                    this.totalPosts = blog.totalPosts;
-
-                statusCode = processingCodes.Crawling;
-                // totalPosts = this.blog.totalPosts;
-
-                bool finished = false;
-
-                int i = offset;
-
-                if (parseMode == (int)parseModes.FullRescan)
+                while (i < totalPosts)
                 {
-                    while (i < totalPosts)
+                    List<TumblrPost> posts = getTumblrPostList(i);
+                    blog.posts.AddRange(posts);
+                    generateImageListForDownload(posts);
+                    parsed += blog.posts.Count;
+                    percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
+                    i += step;
+
+                    if (this.generateLog)
                     {
-                        List<TumblrPost> posts = getTumblrPostList(i);
-                        blog.posts.AddRange(posts);
-                        generateImageListForDownload(posts);
-                        parsed += blog.posts.Count;
-                        percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
-                        i += step;
-
-                        if (this.generateLog)
-                        {
-                            saveLogFile(blog.name);
-                        }
-                        blog.posts.Clear();
+                        saveLogFile(blog.name);
                     }
-                }
-                else if (parseMode == (int)parseModes.NewestOnly)
-                {
-                    while (!finished && i < totalPosts)
-                    {
-                        List<TumblrPost> posts = getTumblrPostList(i);
-
-                        foreach (TumblrPost post in posts)
-                        {
-                            if (existingImageList.Contains(post.fileName))
-                            {
-                                finished = true;
-                                percentComplete = 100;
-                            }
-                            else if (!finished)
-                            {
-                                blog.posts.Add(post);
-                            }
-                        }
-                        parsed += blog.posts.Count;
-                        generateImageListForDownload(blog.posts);
-                        percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
-                        i += step;
-                        if (this.generateLog)
-                        {
-                            saveLogFile(blog.name);
-                        }
-                        blog.posts.Clear();
-                    }
-                }
-
-              //  statusCode = processingCodes.Parsing;
-
-                // generateImageListForDownload(blog.posts);
-
-                if (imagesList.Count == 0)
                     blog.posts.Clear();
-
-                statusCode = processingCodes.Done;
+                }
             }
-            else
+            else if (parseMode == (int)parseModes.NewestOnly)
             {
-                statusCode = processingCodes.invalidURL;
+                while (!finished && i < totalPosts)
+                {
+                    List<TumblrPost> posts = getTumblrPostList(i);
+
+                    foreach (TumblrPost post in posts)
+                    {
+                        if (existingImageList.Contains(post.fileName))
+                        {
+                            finished = true;
+                            percentComplete = 100;
+                        }
+                        else if (!finished)
+                        {
+                            blog.posts.Add(post);
+                        }
+                    }
+                    parsed += blog.posts.Count;
+                    generateImageListForDownload(blog.posts);
+                    percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
+                    i += step;
+                    if (this.generateLog)
+                    {
+                        saveLogFile(blog.name);
+                    }
+                    blog.posts.Clear();
+                }
             }
+
+            //  statusCode = processingCodes.Parsing;
+
+            // generateImageListForDownload(blog.posts);
+
+            if (imagesList.Count == 0)
+                blog.posts.Clear();
+
+            statusCode = processingCodes.Done;
 
             prevCode = statusCode;
             return blog;

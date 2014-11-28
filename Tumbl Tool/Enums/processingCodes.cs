@@ -12,7 +12,7 @@
         blogInfoError,
         invalidURL,
         UnableDownload,
-        Started,
+        Starting,
         Crawling,
         Parsing,
         errorProcessing,

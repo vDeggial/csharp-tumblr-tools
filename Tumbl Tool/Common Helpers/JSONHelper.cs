@@ -16,7 +16,17 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static JObject getJSONObject(string url)
         {
-            return JObject.Parse(getJSONString(url));
+            string result = getJSONString(url);
+
+            if (result != null)
+            {
+                return JObject.Parse(result);
+            }
+
+            else
+            {
+                return null;
+            }
         }
 
         public static string getJSONString(string url)
