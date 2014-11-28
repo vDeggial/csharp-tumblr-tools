@@ -57,6 +57,19 @@ namespace Tumblr_Tool
             }
         }
 
+        public bool generateLog
+        {
+            get
+            {
+                return check_GenerateLog.Checked;
+            }
+
+            set
+            {
+                check_GenerateLog.Checked = value;
+            }
+        }
+
         public bool parseGIF
         {
             get
@@ -105,6 +118,7 @@ namespace Tumblr_Tool
             _options.parsePhotoSets = this.parsePhotoSets;
             _options.parseOnly = this.parseOnly;
             _options.apiMode = this.apiMode;
+            _options.generateLog = this.check_GenerateLog.Checked;
         }
 
         private void btn_Accept_Click(object sender, EventArgs e)
@@ -148,6 +162,7 @@ namespace Tumblr_Tool
             this.check_PhotoSets.Checked = _options.parsePhotoSets;
             this.check_PNG.Checked = _options.parsePNG;
             this.apiMode = _options.apiMode;
+            this.check_GenerateLog.Checked = _options.generateLog;
         }
 
         private void setOptions(object sender, EventArgs e)

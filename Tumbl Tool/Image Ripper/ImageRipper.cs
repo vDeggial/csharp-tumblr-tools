@@ -14,10 +14,11 @@ namespace Tumblr_Tool.Image_Ripper
         public CrawlManager crawlManager;
         public List<string> imagesList;
         public SaveFile log;
+        private bool generateLog;
         public int parsed = 0;
         public int percentComplete = 0;
-        public postProcessingCodes prevCode;
-        public postProcessingCodes statusCode;
+        public processingCodes prevCode;
+        public processingCodes statusCode;
         public int totalImagesCount;
         public int totalPosts = 0;
         public string tumblrURL = "";
@@ -31,10 +32,12 @@ namespace Tumblr_Tool.Image_Ripper
         private string saveLocation;
         private string tumblrDomain = "";
 
-        public ImageRipper(Tumblr blog, string saveLocation, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "XML")
+        public ImageRipper(Tumblr blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "XML")
         {
             this.tumblrURL = FileHelper.fixURL(blog.cname);
             this.tumblrDomain = blog.cname.Substring(7);
+
+            this.generateLog = generateLog;
 
             this.offset = startNum;
             this.saveLocation = saveLocation;
@@ -45,7 +48,7 @@ namespace Tumblr_Tool.Image_Ripper
             this.errorList = new List<string>();
 
             this.blog = blog;
-            this.statusCode = new postProcessingCodes();
+            this.statusCode = processingCodes.OK;
             this.parsePhotoSets = parseSets;
             this.parseJPEG = parseJPEG;
             this.parsePNG = parsePNG;
@@ -174,14 +177,14 @@ namespace Tumblr_Tool.Image_Ripper
             }
             else
             {
-                statusCode = postProcessingCodes.UnableDownload;
+                statusCode = processingCodes.UnableDownload;
                 return null;
             }
         }
 
         public Tumblr parseBlogPosts(int parseMode)
         {
-            statusCode = postProcessingCodes.Started;
+            statusCode = processingCodes.Started;
             string url = "";
             if (apiMode == apiModeEnum.XML.ToString())
                 url = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString());
@@ -208,7 +211,7 @@ namespace Tumblr_Tool.Image_Ripper
                 if (this.totalPosts == 0)
                     this.totalPosts = blog.totalPosts;
 
-                statusCode = postProcessingCodes.Crawling;
+                statusCode = processingCodes.Crawling;
                 // totalPosts = this.blog.totalPosts;
 
                 bool finished = false;
@@ -226,7 +229,10 @@ namespace Tumblr_Tool.Image_Ripper
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
 
-                        saveLogFile(blog.name);
+                        if (this.generateLog)
+                        {
+                            saveLogFile(blog.name);
+                        }
                         blog.posts.Clear();
                     }
                 }
@@ -252,23 +258,26 @@ namespace Tumblr_Tool.Image_Ripper
                         generateImageListForDownload(blog.posts);
                         percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                         i += step;
-                        saveLogFile(blog.name);
+                        if (this.generateLog)
+                        {
+                            saveLogFile(blog.name);
+                        }
                         blog.posts.Clear();
                     }
                 }
 
-                statusCode = postProcessingCodes.Parsing;
+              //  statusCode = processingCodes.Parsing;
 
                 // generateImageListForDownload(blog.posts);
 
                 if (imagesList.Count == 0)
                     blog.posts.Clear();
 
-                statusCode = postProcessingCodes.Done;
+                statusCode = processingCodes.Done;
             }
             else
             {
-                statusCode = postProcessingCodes.invalidURL;
+                statusCode = processingCodes.invalidURL;
             }
 
             prevCode = statusCode;

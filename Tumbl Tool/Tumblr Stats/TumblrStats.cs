@@ -19,7 +19,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         public int parsed = 0;
         public int photoPosts;
         public int quotePosts;
-        public postProcessingCodes statusCode;
+        public processingCodes statusCode;
         public int textPosts;
         public int totalPosts;
         public int videoPosts;
@@ -79,7 +79,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             crawlManager.getJSONDocument(@query);
 
             List<TumblrPost> posts = crawlManager.getPostList("", apiModeEnum.JSON.ToString());
-            this.statusCode = postProcessingCodes.OK;
+            this.statusCode = processingCodes.OK;
             return posts;
         }
 
@@ -107,17 +107,17 @@ namespace Tumblr_Tool.Tumblr_Stats
                 }
 
                 List<TumblrPost> posts = crawlManager.getPostList("", apiModeEnum.XML.ToString());
-                this.statusCode = postProcessingCodes.OK;
+                this.statusCode = processingCodes.OK;
                 return posts;
             }
             else if (!WebHelper.webURLExists(@query))
             {
-                this.statusCode = postProcessingCodes.UnableDownload;
+                this.statusCode = processingCodes.UnableDownload;
                 return null;
             }
             else
             {
-                this.statusCode = postProcessingCodes.invalidURL;
+                this.statusCode = processingCodes.invalidURL;
                 return null;
             }
         }
@@ -186,11 +186,11 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 this.found = blog.posts.Count;
 
-                this.statusCode = postProcessingCodes.Done;
+                this.statusCode = processingCodes.Done;
             }
             else
             {
-                this.statusCode = postProcessingCodes.invalidURL;
+                this.statusCode = processingCodes.invalidURL;
             }
             return this.blog;
         }

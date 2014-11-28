@@ -3,6 +3,7 @@ using System.IO;
 
 namespace Tumblr_Tool.Tumblr_Objects
 {
+    [Serializable()]
     public class PhotoSetImage : ICloneable
     {
         public PhotoSetImage()

@@ -55,7 +55,7 @@
     <Compile Include="Enums\apiModeEnum.cs" />
     <Compile Include="Enums\downloadStatusCodes.cs" />
     <Compile Include="Enums\parseModes.cs" />
-    <Compile Include="Enums\postProcessingCodes.cs" />
+    <Compile Include="Enums\processingCodes.cs" />
     <Compile Include="Enums\postStepEnum.cs" />
     <Compile Include="Enums\tumblrPostTypes.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />

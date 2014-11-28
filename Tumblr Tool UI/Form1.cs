@@ -34,7 +34,7 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TumblrStats tumblrStats;
-        private string version = "Beta 0.14.1127";
+        private string version = "Beta 0.14.1128";
 
         private TimeSpan ts;
 
@@ -59,6 +59,8 @@ namespace Tumblr_Tool
             loadOptions();
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
+            lbl_Status.Text = "Ready";
+            lbl_Copyright.Text = "© 2013 - 2014";
         }
 
         public mainForm(string file)
@@ -90,6 +92,8 @@ namespace Tumblr_Tool
             this.select_Mode.SelectedIndex = 1;
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
+            lbl_Status.Text = "Ready";
+            lbl_Copyright.Text = "© 2013 - 2014";
         }
 
         public bool isValidURL(string urlString)
@@ -118,10 +122,13 @@ namespace Tumblr_Tool
 
         public void updateStatusText(string text)
         {
-            lbl_Status.Text = text;
-            lbl_Status.Invalidate();
-            status_Strip.Update();
-            status_Strip.Refresh();
+            if (!lbl_Status.Text.Contains(text))
+            {
+                lbl_Status.Text = text;
+                lbl_Status.Invalidate();
+                status_Strip.Update();
+                status_Strip.Refresh();
+            }
         }
 
         public void updateWorkStatusText(string text)
@@ -154,6 +161,9 @@ namespace Tumblr_Tool
         private void btn_Crawl_Click(object sender, EventArgs e)
         {
             btn_Crawl.Enabled = false;
+            select_Mode.Enabled = false;
+            openToolStripMenuItem.Enabled = false;
+            optionsToolStripMenuItem.Enabled = false;
             tab_TumblrStats.Enabled = false;
             lbl_PostCount.Visible = false;
             bar_Progress.Visible = false;
@@ -163,6 +173,7 @@ namespace Tumblr_Tool
             fileManager = new FileManager();
             stopWatch.Start();
             TimeSpan ts = stopWatch.Elapsed;
+            ripper = null;
 
             // Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -299,7 +310,7 @@ namespace Tumblr_Tool
         {
             if (ripper != null)
             {
-                if (ripper.statusCode == postProcessingCodes.Done)
+                if (ripper.statusCode == processingCodes.Done)
                 {
                     updateWorkStatusText("Indexing Blog done");
 
@@ -314,12 +325,12 @@ namespace Tumblr_Tool
                 }
                 else
                 {
-                    if (ripper.statusCode == postProcessingCodes.UnableDownload)
+                    if (ripper.statusCode == processingCodes.UnableDownload)
                     {
                         updateWorkStatusText("Error downloading the blog post XML");
                         updateStatusText("Error");
                     }
-                    else if (ripper.statusCode == postProcessingCodes.invalidURL)
+                    else if (ripper.statusCode == processingCodes.invalidURL)
                     {
                         updateWorkStatusText("Invalid Tumblr URL");
                         updateStatusText("Error");
@@ -330,7 +341,13 @@ namespace Tumblr_Tool
             tab_TumblrStats.Enabled = true;
 
             if (optionsForm.parseOnly)
+            {
+                openToolStripMenuItem.Enabled = true;
+                optionsToolStripMenuItem.Enabled = true;
                 btn_Crawl.Enabled = true;
+                tab_TumblrStats.Enabled = true;
+                select_Mode.Enabled = true;
+            }
 
             updateStatusText("Done");
             lbl_PostCount.Visible = false;
@@ -341,7 +358,6 @@ namespace Tumblr_Tool
         {
             while (ripper == null)
             {
-
             }
 
             if (ripper != null)
@@ -360,38 +376,91 @@ namespace Tumblr_Tool
                             updateWorkStatusText("Indexing Blog ...");
                         });
 
-                postProcessingCodes prevCode;
                 int percent = 0;
 
-                while (percent < 100 && (ripper.statusCode != postProcessingCodes.invalidURL && ripper.statusCode != postProcessingCodes.Done))
+                while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done))
                 {
                     TimeSpan ts = stopWatch.Elapsed;
 
-                    // Format and display the TimeSpan value.
-                    string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-
-                    this.Invoke((MethodInvoker)delegate
+                    if (ripper.statusCode == processingCodes.Initializing)
                     {
-                        lbl_Timer.Text = elapsedTime;
-                    });
-                    if (ripper.statusCode == postProcessingCodes.Started)
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateStatusText("Initializing ...");
+                            updateWorkStatusText("Initializing ... ");
+                        });
+                    }
+                    if (ripper.statusCode == processingCodes.checkingConnection)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Checking for internet connection ...");
+                        });
+                    }
+                    if (ripper.statusCode == processingCodes.connectionOK)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Internet Connection found ...");
+                            updateWorkStatusText("Getting Blog info ...");
+                        });
+                    }
+                    if (ripper.statusCode == processingCodes.connectionError)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateStatusText("Error");
+                            updateWorkStatusText("No internet connection detected!");
+                            btn_Crawl.Enabled = true;
+                            lbl_PostCount.Visible = false;
+                            bar_Progress.Visible = false;
+                            img_DisplayImage.Visible = false;
+                            tab_TumblrStats.Enabled = true;
+                        });
+                    }
+
+                    if (ripper.statusCode == processingCodes.gettingBlogInfo)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusText("Getting Blog info ...");
+                        });
+                    }
+
+                    if (ripper.statusCode == processingCodes.blogInfoOK)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+
+                            lbl_PostCount.Text = "0 / 0";
+                            lbl_PostCount.Visible = false;
+                            txt_WorkStatus.Visible = true;
+
+                            txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
+                        });
+                    }
+
+
+                    if (ripper.statusCode == processingCodes.Started)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
                             updateStatusText("Starting ...");
                         });
-                    }
 
-                    if (ripper.statusCode == postProcessingCodes.Crawling)
+                        if (ripper.totalPosts != 0)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("There are " + ripper.totalPosts + " photo posts found.");
+                            });
+                        }
+                    }
+                    if (ripper.statusCode == processingCodes.Crawling)
                     {
                         percent = ripper.percentComplete;
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            updateWorkStatusText("There are " + ripper.totalPosts + " photo posts found.");
-                        });
+                       
 
                         if (percent > 100)
                             percent = 100;
@@ -413,30 +482,24 @@ namespace Tumblr_Tool
                            });
                     }
 
-                    prevCode = ripper.statusCode;
                 }
 
-                if (ripper.statusCode == postProcessingCodes.invalidURL)
+                if (ripper.statusCode == processingCodes.invalidURL)
                 {
+                    
                     this.Invoke((MethodInvoker)delegate
                     {
                         updateStatusText("Error");
+                        updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
+                        btn_Crawl.Enabled = true;
                         lbl_PostCount.Visible = false;
                         bar_Progress.Visible = false;
+                        img_DisplayImage.Visible = false;
+                        tab_TumblrStats.Enabled = true;
                     });
-                    MessageBox.Show("Invalid Tumblr URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                while (ripper.statusCode != postProcessingCodes.Done)
-                {
-                    if (ripper.statusCode == postProcessingCodes.Parsing)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            updateStatusText("Parsing ...");
-                        });
-                    }
-                }
+                
             }
         }
 
@@ -444,7 +507,7 @@ namespace Tumblr_Tool
         {
             if (ripper != null)
             {
-                if (ripper.statusCode == postProcessingCodes.Done)
+                if (ripper.statusCode == processingCodes.Done)
                 {
                     saveFile.blog = ripper.blog;
 
@@ -465,13 +528,8 @@ namespace Tumblr_Tool
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string elapsedTime;
-
-            this.Invoke((MethodInvoker)delegate
-            {
-                updateStatusText("Initializing ...");
-                updateWorkStatusText("Initializing ... ");
-                updateWorkStatusText("Checking for internet connection ...");
-            });
+            this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+            ripper.statusCode = processingCodes.Initializing;
 
             ts = stopWatch.Elapsed;
 
@@ -480,18 +538,13 @@ namespace Tumblr_Tool
                ts.Hours, ts.Minutes, ts.Seconds,
                ts.Milliseconds / 10);
 
-            this.Invoke((MethodInvoker)delegate
-            {
-                lbl_Timer.Text = elapsedTime;
-            });
+            
 
+            ripper.statusCode = processingCodes.checkingConnection;
             if (WebHelper.CheckForInternetConnection())
             {
-                this.Invoke((MethodInvoker)delegate
-            {
-                updateWorkStatusText("Internet Connection found ...");
-                updateWorkStatusText("Getting Blog info ...");
-            });
+                ripper.statusCode = processingCodes.connectionOK;
+
                 tumblrBlog = new Tumblr();
                 tumblrBlog.cname = txt_TumblrURL.Text;
                 this.ts = stopWatch.Elapsed;
@@ -501,48 +554,26 @@ namespace Tumblr_Tool
                    ts.Hours, ts.Minutes, ts.Seconds,
                    ts.Milliseconds / 10);
 
-                this.Invoke((MethodInvoker)delegate
-                {
-                    lbl_Timer.Text = elapsedTime;
-                });
-
-                this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+                
 
                 if (this.ripper != null)
                 {
                     this.ripper.setAPIMode(options.apiMode);
                     this.ripper.setLogFile(logFile);
 
+                    ripper.statusCode = processingCodes.gettingBlogInfo;
                     if (this.ripper.setBlogInfo())
                     {
-                        ts = stopWatch.Elapsed;
-
-                        // Format and display the TimeSpan value.
-                        elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            lbl_Timer.Text = elapsedTime;
-
-                            lbl_PostCount.Text = "0 / 0";
-                            lbl_PostCount.Visible = false;
-                            txt_WorkStatus.Visible = true;
-
-                            txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
-                        });
+                        ripper.statusCode = processingCodes.blogInfoOK;
 
                         if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusText("Unable to save .tumblr file");
-                                updateStatusText("Error");
-                            });
+                            ripper.statusCode = processingCodes.saveFileError;
+                            
                         }
                         else
                         {
+                            ripper.statusCode = processingCodes.saveFileOK;
                             if (this.ripper != null)
                             {
                                 int mode = 0;
@@ -550,32 +581,20 @@ namespace Tumblr_Tool
                                 {
                                     mode = select_Mode.SelectedIndex + 1;
                                 });
-
+                                ripper.statusCode = processingCodes.Crawling;
                                 tumblrBlog = this.ripper.parseBlogPosts(mode);
                             }
                         }
                     }
                     else
                     {
-                        updateStatusText("Error");
-                        updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
-                        btn_Crawl.Enabled = true;
-                        lbl_PostCount.Visible = false;
-                        bar_Progress.Visible = false;
-                        img_DisplayImage.Visible = false;
-                        tab_TumblrStats.Enabled = true;
+                        ripper.statusCode = processingCodes.blogInfoError;
                     }
                 }
             }
             else
             {
-                updateStatusText("Error");
-                updateWorkStatusText("No internet connection detected!");
-                btn_Crawl.Enabled = true;
-                lbl_PostCount.Visible = false;
-                bar_Progress.Visible = false;
-                img_DisplayImage.Visible = false;
-                tab_TumblrStats.Enabled = true;
+                // ripper.statusCode = processingCodes.connectionError;
             }
 
             Thread.Sleep(100);
@@ -608,6 +627,9 @@ namespace Tumblr_Tool
             bar_Progress.Visible = false;
             btn_Crawl.Enabled = true;
             tab_TumblrStats.Enabled = true;
+            openToolStripMenuItem.Enabled = true;
+            optionsToolStripMenuItem.Enabled = true;
+            select_Mode.Enabled = true;
         }
 
         private void downloadUIUpdate_DoWork(object sender, DoWorkEventArgs e)
@@ -874,7 +896,7 @@ namespace Tumblr_Tool
                 if (percent >= 100)
                     percent = 100;
 
-                if (tumblrStats.statusCode == postProcessingCodes.invalidURL)
+                if (tumblrStats.statusCode == processingCodes.invalidURL)
                 {
                     percent = 100;
 

@@ -13,5 +13,7 @@
         public bool parsePhotoSets { get; set; }
 
         public bool parsePNG { get; set; }
+
+        public bool generateLog { get; set; }
     }
 }
