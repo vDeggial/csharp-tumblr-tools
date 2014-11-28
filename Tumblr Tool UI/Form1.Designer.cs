@@ -117,7 +117,7 @@
             this.tabControl_Main.Name = "tabControl_Main";
             this.tabControl_Main.Padding = new System.Drawing.Point(0, 0);
             this.tabControl_Main.SelectedIndex = 0;
-            this.tabControl_Main.Size = new System.Drawing.Size(625, 355);
+            this.tabControl_Main.Size = new System.Drawing.Size(625, 275);
             this.tabControl_Main.TabIndex = 0;
             this.tabControl_Main.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabMainTabSelect_Selecting);
             // 
@@ -125,10 +125,8 @@
             // 
             this.tab_ImageRipper.BackColor = System.Drawing.Color.Transparent;
             this.tab_ImageRipper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tab_ImageRipper.Controls.Add(this.lbl_PercentBar);
             this.tab_ImageRipper.Controls.Add(this.lbl_Mode);
             this.tab_ImageRipper.Controls.Add(this.select_Mode);
-            this.tab_ImageRipper.Controls.Add(this.bar_Progress);
             this.tab_ImageRipper.Controls.Add(this.txt_WorkStatus);
             this.tab_ImageRipper.Controls.Add(this.btn_Crawl);
             this.tab_ImageRipper.Controls.Add(this.btn_Browse);
@@ -142,7 +140,7 @@
             this.tab_ImageRipper.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_ImageRipper.Name = "tab_ImageRipper";
             this.tab_ImageRipper.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tab_ImageRipper.Size = new System.Drawing.Size(617, 323);
+            this.tab_ImageRipper.Size = new System.Drawing.Size(617, 243);
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Ripper";
             // 
@@ -150,7 +148,7 @@
             // 
             this.lbl_PercentBar.BackColor = System.Drawing.Color.Transparent;
             this.lbl_PercentBar.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_PercentBar.Location = new System.Drawing.Point(272, 292);
+            this.lbl_PercentBar.Location = new System.Drawing.Point(261, 345);
             this.lbl_PercentBar.Name = "lbl_PercentBar";
             this.lbl_PercentBar.Size = new System.Drawing.Size(117, 23);
             this.lbl_PercentBar.TabIndex = 14;
@@ -186,7 +184,7 @@
             // 
             this.bar_Progress.BackColor = System.Drawing.SystemColors.Control;
             this.bar_Progress.ForeColor = System.Drawing.Color.SteelBlue;
-            this.bar_Progress.Location = new System.Drawing.Point(0, 255);
+            this.bar_Progress.Location = new System.Drawing.Point(5, 308);
             this.bar_Progress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bar_Progress.Name = "bar_Progress";
             this.bar_Progress.Size = new System.Drawing.Size(616, 33);
@@ -204,7 +202,7 @@
             this.txt_WorkStatus.Name = "txt_WorkStatus";
             this.txt_WorkStatus.ReadOnly = true;
             this.txt_WorkStatus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txt_WorkStatus.Size = new System.Drawing.Size(401, 166);
+            this.txt_WorkStatus.Size = new System.Drawing.Size(401, 158);
             this.txt_WorkStatus.TabIndex = 8;
             this.txt_WorkStatus.TextChanged += new System.EventHandler(this.workStatusAutoScroll);
             // 
@@ -245,7 +243,7 @@
             this.img_DisplayImage.Location = new System.Drawing.Point(431, 4);
             this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.img_DisplayImage.Name = "img_DisplayImage";
-            this.img_DisplayImage.Size = new System.Drawing.Size(183, 243);
+            this.img_DisplayImage.Size = new System.Drawing.Size(183, 235);
             this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img_DisplayImage.TabIndex = 4;
             this.img_DisplayImage.TabStop = false;
@@ -310,14 +308,14 @@
             this.tab_TumblrStats.Location = new System.Drawing.Point(4, 28);
             this.tab_TumblrStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_TumblrStats.Name = "tab_TumblrStats";
-            this.tab_TumblrStats.Size = new System.Drawing.Size(617, 323);
+            this.tab_TumblrStats.Size = new System.Drawing.Size(617, 243);
             this.tab_TumblrStats.TabIndex = 1;
             this.tab_TumblrStats.Text = "Tumblr Stats";
             this.tab_TumblrStats.UseVisualStyleBackColor = true;
             // 
             // btn_GetStats
             // 
-            this.btn_GetStats.Location = new System.Drawing.Point(347, 4);
+            this.btn_GetStats.Location = new System.Drawing.Point(168, 4);
             this.btn_GetStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_GetStats.Name = "btn_GetStats";
             this.btn_GetStats.Size = new System.Drawing.Size(87, 28);
@@ -329,7 +327,7 @@
             // lbl_Stats_URL
             // 
             this.lbl_Stats_URL.AutoSize = true;
-            this.lbl_Stats_URL.Location = new System.Drawing.Point(196, 9);
+            this.lbl_Stats_URL.Location = new System.Drawing.Point(9, 11);
             this.lbl_Stats_URL.Name = "lbl_Stats_URL";
             this.lbl_Stats_URL.Size = new System.Drawing.Size(31, 16);
             this.lbl_Stats_URL.TabIndex = 1;
@@ -337,7 +335,7 @@
             // 
             // txt_StatsTumblrURL
             // 
-            this.txt_StatsTumblrURL.Location = new System.Drawing.Point(225, 6);
+            this.txt_StatsTumblrURL.Location = new System.Drawing.Point(46, 7);
             this.txt_StatsTumblrURL.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_StatsTumblrURL.Name = "txt_StatsTumblrURL";
             this.txt_StatsTumblrURL.Size = new System.Drawing.Size(116, 21);
@@ -363,11 +361,11 @@
             this.box_PostStats.Controls.Add(this.lbl_Stats_TextCount);
             this.box_PostStats.Controls.Add(this.lbl_Stats_PhotoCount);
             this.box_PostStats.Controls.Add(this.lbl_Stats_TotalCount);
-            this.box_PostStats.Location = new System.Drawing.Point(363, 48);
+            this.box_PostStats.Location = new System.Drawing.Point(369, 11);
             this.box_PostStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.box_PostStats.Name = "box_PostStats";
             this.box_PostStats.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.box_PostStats.Size = new System.Drawing.Size(203, 263);
+            this.box_PostStats.Size = new System.Drawing.Size(203, 228);
             this.box_PostStats.TabIndex = 18;
             this.box_PostStats.TabStop = false;
             this.box_PostStats.Visible = false;
@@ -558,7 +556,7 @@
             this.txt_Stats_BlogDescription.Name = "txt_Stats_BlogDescription";
             this.txt_Stats_BlogDescription.ReadOnly = true;
             this.txt_Stats_BlogDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txt_Stats_BlogDescription.Size = new System.Drawing.Size(248, 175);
+            this.txt_Stats_BlogDescription.Size = new System.Drawing.Size(248, 115);
             this.txt_Stats_BlogDescription.TabIndex = 4;
             this.txt_Stats_BlogDescription.Text = "";
             // 
@@ -702,7 +700,7 @@
             this.lbl_Timer,
             this.lbl_Size,
             this.lbl_Copyright});
-            this.status_Strip.Location = new System.Drawing.Point(0, 377);
+            this.status_Strip.Location = new System.Drawing.Point(0, 370);
             this.status_Strip.Name = "status_Strip";
             this.status_Strip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.status_Strip.Size = new System.Drawing.Size(625, 27);
@@ -720,7 +718,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(108, 22);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(178, 22);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // lbl_PostCount
@@ -728,14 +726,14 @@
             this.lbl_PostCount.AutoSize = false;
             this.lbl_PostCount.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_PostCount.Name = "lbl_PostCount";
-            this.lbl_PostCount.Size = new System.Drawing.Size(108, 22);
+            this.lbl_PostCount.Size = new System.Drawing.Size(178, 22);
             this.lbl_PostCount.Spring = true;
             this.lbl_PostCount.Text = "[Post Count]";
             // 
             // lbl_Timer
             // 
             this.lbl_Timer.Name = "lbl_Timer";
-            this.lbl_Timer.Size = new System.Drawing.Size(108, 22);
+            this.lbl_Timer.Size = new System.Drawing.Size(118, 22);
             this.lbl_Timer.Spring = true;
             this.lbl_Timer.Text = "[Timer]";
             this.lbl_Timer.Visible = false;
@@ -785,10 +783,12 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(625, 404);
+            this.ClientSize = new System.Drawing.Size(625, 397);
+            this.Controls.Add(this.lbl_PercentBar);
             this.Controls.Add(this.status_Strip);
             this.Controls.Add(this.tabControl_Main);
             this.Controls.Add(this.menu_TopMenu);
+            this.Controls.Add(this.bar_Progress);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
