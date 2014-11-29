@@ -31,10 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tab_ImageRipper = new System.Windows.Forms.TabPage();
-            this.lbl_PercentBar = new System.Windows.Forms.Label();
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.select_Mode = new System.Windows.Forms.ComboBox();
-            this.bar_Progress = new System.Windows.Forms.ProgressBar();
             this.txt_WorkStatus = new System.Windows.Forms.TextBox();
             this.btn_Crawl = new System.Windows.Forms.Button();
             this.btn_Browse = new System.Windows.Forms.Button();
@@ -71,6 +69,8 @@
             this.lbl_BlogDescription = new System.Windows.Forms.Label();
             this.lbl_Stats_BlogTitle = new System.Windows.Forms.Label();
             this.lbl_Stats_Title = new System.Windows.Forms.Label();
+            this.lbl_PercentBar = new System.Windows.Forms.Label();
+            this.bar_Progress = new System.Windows.Forms.ProgressBar();
             this.menuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,18 +144,6 @@
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Ripper";
             // 
-            // lbl_PercentBar
-            // 
-            this.lbl_PercentBar.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_PercentBar.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_PercentBar.Location = new System.Drawing.Point(261, 345);
-            this.lbl_PercentBar.Name = "lbl_PercentBar";
-            this.lbl_PercentBar.Size = new System.Drawing.Size(117, 23);
-            this.lbl_PercentBar.TabIndex = 14;
-            this.lbl_PercentBar.Text = "[Progress %]";
-            this.lbl_PercentBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl_PercentBar.Visible = false;
-            // 
             // lbl_Mode
             // 
             this.lbl_Mode.AutoSize = true;
@@ -179,17 +167,6 @@
             this.select_Mode.Name = "select_Mode";
             this.select_Mode.Size = new System.Drawing.Size(134, 24);
             this.select_Mode.TabIndex = 16;
-            // 
-            // bar_Progress
-            // 
-            this.bar_Progress.BackColor = System.Drawing.SystemColors.Control;
-            this.bar_Progress.ForeColor = System.Drawing.Color.SteelBlue;
-            this.bar_Progress.Location = new System.Drawing.Point(5, 308);
-            this.bar_Progress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.bar_Progress.Name = "bar_Progress";
-            this.bar_Progress.Size = new System.Drawing.Size(616, 33);
-            this.bar_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.bar_Progress.TabIndex = 13;
             // 
             // txt_WorkStatus
             // 
@@ -586,6 +563,29 @@
             this.lbl_Stats_Title.Size = new System.Drawing.Size(31, 16);
             this.lbl_Stats_Title.TabIndex = 0;
             this.lbl_Stats_Title.Text = "Title:";
+            // 
+            // lbl_PercentBar
+            // 
+            this.lbl_PercentBar.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_PercentBar.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_PercentBar.Location = new System.Drawing.Point(261, 345);
+            this.lbl_PercentBar.Name = "lbl_PercentBar";
+            this.lbl_PercentBar.Size = new System.Drawing.Size(117, 23);
+            this.lbl_PercentBar.TabIndex = 14;
+            this.lbl_PercentBar.Text = "[Progress %]";
+            this.lbl_PercentBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_PercentBar.Visible = false;
+            // 
+            // bar_Progress
+            // 
+            this.bar_Progress.BackColor = System.Drawing.SystemColors.Control;
+            this.bar_Progress.ForeColor = System.Drawing.Color.SteelBlue;
+            this.bar_Progress.Location = new System.Drawing.Point(5, 308);
+            this.bar_Progress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.bar_Progress.Name = "bar_Progress";
+            this.bar_Progress.Size = new System.Drawing.Size(616, 33);
+            this.bar_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.bar_Progress.TabIndex = 13;
             // 
             // menuItem_File
             // 

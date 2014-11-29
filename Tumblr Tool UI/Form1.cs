@@ -31,13 +31,12 @@ namespace Tumblr_Tool
         private ToolOptions options = new ToolOptions();
         private OptionsForm optionsForm;
         private bool readyForDownload = true;
-        private ImageRipper ripper;
+        private ImageRipper ripper = new ImageRipper();
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "Beta 0.14.1128";
-        private processingCodes uiProcessingState = processingCodes.OK;
+        private string version = "Beta 0.14.1129";
 
         public mainForm()
         {
@@ -174,7 +173,7 @@ namespace Tumblr_Tool
             fileManager = new FileManager();
             stopWatch.Start();
             TimeSpan ts = stopWatch.Elapsed;
-            ripper = null;
+            ripper = new ImageRipper();
 
             // Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -390,10 +389,7 @@ namespace Tumblr_Tool
 
         private void crawlUIWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            uiProcessingState = processingCodes.Starting;
-            while (ripper == null)
-            {
-            }
+            
 
             if (ripper != null)
             {
@@ -408,7 +404,7 @@ namespace Tumblr_Tool
                             // lbl_Timer.Visible = true;
                             lbl_PostCount.Text = "";
 
-                            updateWorkStatusText("Indexing Blog ...");
+                            
                         });
 
                 int percent = 0;
@@ -420,7 +416,6 @@ namespace Tumblr_Tool
                     
                     if (ripper.statusCode == processingCodes.Initializing)
                     {
-                        uiProcessingState = processingCodes.Initializing;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateStatusText("Initializing ...");
@@ -430,7 +425,6 @@ namespace Tumblr_Tool
                     
                     if (ripper.statusCode == processingCodes.checkingConnection)
                     {
-                        uiProcessingState = processingCodes.checkingConnection;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Checking for internet connection ...");
@@ -439,16 +433,14 @@ namespace Tumblr_Tool
                     
                     if (ripper.statusCode == processingCodes.connectionOK)
                     {
-                        uiProcessingState = processingCodes.connectionOK;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Internet Connection found ...");
-                            updateWorkStatusText("Getting Blog info ...");
+                            updateWorkStatusText("Indexing Blog ...");
                         });
                     }
                     if (ripper.statusCode == processingCodes.connectionError)
                     {
-                        uiProcessingState = processingCodes.connectionError;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateStatusText("Error");
@@ -463,7 +455,6 @@ namespace Tumblr_Tool
 
                     if (ripper.statusCode == processingCodes.gettingBlogInfo)
                     {
-                        uiProcessingState = processingCodes.gettingBlogInfo;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Getting Blog info ...");
@@ -472,7 +463,6 @@ namespace Tumblr_Tool
 
                     if (ripper.statusCode == processingCodes.blogInfoOK)
                     {
-                        uiProcessingState = processingCodes.blogInfoOK;
                         this.Invoke((MethodInvoker)delegate
                         {
                             lbl_PostCount.Text = "0 / 0";
@@ -485,7 +475,6 @@ namespace Tumblr_Tool
 
                     if (ripper.statusCode == processingCodes.Starting)
                     {
-                        uiProcessingState = processingCodes.Starting;
                         this.Invoke((MethodInvoker)delegate
                         {
                             updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
@@ -502,7 +491,6 @@ namespace Tumblr_Tool
                     }
                     if (ripper.statusCode == processingCodes.Crawling)
                     {
-                        uiProcessingState = processingCodes.Crawling;
                         percent = ripper.percentComplete;
 
                         if (percent > 100)
@@ -528,7 +516,6 @@ namespace Tumblr_Tool
 
                 if (ripper.statusCode == processingCodes.invalidURL)
                 {
-                    uiProcessingState = processingCodes.invalidURL;
                     this.Invoke((MethodInvoker)delegate
                     {
                         updateStatusText("Error");
@@ -549,7 +536,6 @@ namespace Tumblr_Tool
             {
                 if (ripper.statusCode == processingCodes.Done)
                 {
-                    uiProcessingState = processingCodes.Done;
                     saveFile.blog = ripper.blog;
 
                     if (!optionsForm.parseOnly)
@@ -568,41 +554,42 @@ namespace Tumblr_Tool
 
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.Sleep(100);
-            tumblrBlog = new Tumblr();
-            tumblrBlog.cname = txt_TumblrURL.Text;
             string elapsedTime;
-            this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
-            ripper.statusCode = processingCodes.Initializing;
-
-            while (uiProcessingState != processingCodes.Initializing)
+            lock (ripper)
             {
-                //
+                Thread.Sleep(100);
+                tumblrBlog = new Tumblr();
+                tumblrBlog.cname = txt_TumblrURL.Text;
+                
+                this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+                ripper.statusCode = processingCodes.Initializing;
+
+
+
+
+                ts = stopWatch.Elapsed;
+
+                // Format and display the TimeSpan value.
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                   ts.Hours, ts.Minutes, ts.Seconds,
+                   ts.Milliseconds / 10);
             }
 
-
-            ts = stopWatch.Elapsed;
-
-            // Format and display the TimeSpan value.
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-               ts.Hours, ts.Minutes, ts.Seconds,
-               ts.Milliseconds / 10);
-
-            ripper.statusCode = processingCodes.checkingConnection;
-
-            while (uiProcessingState != processingCodes.checkingConnection)
+            lock (ripper)
             {
-                //
+
+                ripper.statusCode = processingCodes.checkingConnection;
+
             }
 
 
             if (WebHelper.CheckForInternetConnection())
             {
-                ripper.statusCode = processingCodes.connectionOK;
-
-                while (uiProcessingState != processingCodes.connectionOK)
+                lock (ripper)
                 {
-                    //
+
+                    ripper.statusCode = processingCodes.connectionOK;
+
                 }
 
                 this.ts = stopWatch.Elapsed;
@@ -619,30 +606,36 @@ namespace Tumblr_Tool
 
                     if (ripper.isValidTumblr())
                     {
-                        ripper.statusCode = processingCodes.gettingBlogInfo;
-
-                        while (uiProcessingState != processingCodes.gettingBlogInfo)
+                        lock (ripper)
                         {
-                            //
+                            ripper.statusCode = processingCodes.gettingBlogInfo;
+
                         }
 
 
                         if (this.ripper.setBlogInfo())
                         {
-                            ripper.statusCode = processingCodes.blogInfoOK;
-
-                            while (uiProcessingState != processingCodes.blogInfoOK)
+                            lock (ripper)
                             {
-                                //
+                                ripper.statusCode = processingCodes.blogInfoOK;
+
                             }
 
                             if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
                             {
-                                ripper.statusCode = processingCodes.saveFileError;
+                                lock (ripper)
+                                {
+                                    ripper.statusCode = processingCodes.saveFileError;
+                                }
                             }
                             else
                             {
-                                ripper.statusCode = processingCodes.saveFileOK;
+
+                                lock (ripper)
+                                {
+                                    ripper.statusCode = processingCodes.saveFileOK;
+                                }
+
                                 if (this.ripper != null)
                                 {
                                     int mode = 0;
@@ -650,33 +643,46 @@ namespace Tumblr_Tool
                                     {
                                         mode = select_Mode.SelectedIndex + 1;
                                     });
-                                    ripper.statusCode = processingCodes.Starting;
 
-                                    while (uiProcessingState != processingCodes.Starting)
+                                    lock (ripper)
                                     {
-                                        //
+                                        ripper.statusCode = processingCodes.Starting;
                                     }
 
+                                    
 
                                     tumblrBlog = this.ripper.parseBlogPosts(mode);
                                 }
                             }
-                            ripper.statusCode = processingCodes.Done;
+
+                            lock (ripper)
+                            {
+                                ripper.statusCode = processingCodes.Done;
+                            }
                         }
                         else
                         {
-                            ripper.statusCode = processingCodes.blogInfoError;
+                            lock (ripper)
+                            {
+                                ripper.statusCode = processingCodes.blogInfoError;
+                            }
                         }
                     }
                     else
                     {
-                        ripper.statusCode = processingCodes.invalidURL;
+                        lock (ripper)
+                        {
+                            ripper.statusCode = processingCodes.invalidURL;
+                        }
                     }
                 }
             }
             else
             {
-                ripper.statusCode = processingCodes.connectionError;
+                lock (ripper)
+                {
+                    ripper.statusCode = processingCodes.connectionError;
+                }
             }
         }
 
@@ -851,11 +857,21 @@ namespace Tumblr_Tool
             downloadDone = false;
             fileDownloadDone = false;
             List<string> imagesList = (List<string>)e.Argument;
-            fileManager.statusCode = downloadStatusCodes.Preparing;
-            if (ripper.imagesList != null && ripper.imagesList.Count != 0)
+
+            lock (fileManager)
+            {
+                fileManager.statusCode = downloadStatusCodes.Preparing;
+            }
+
+            if (imagesList != null && imagesList.Count != 0)
             {
                 int j = 0;
-                fileManager.statusCode = downloadStatusCodes.Downloading;
+
+                lock (fileManager)
+                {
+                    fileManager.statusCode = downloadStatusCodes.Downloading;
+                }
+
                 readyForDownload = true;
 
                 foreach (string photoURL in imagesList)
@@ -866,7 +882,12 @@ namespace Tumblr_Tool
                     }
 
                     fileDownloadDone = false;
-                    fileManager.statusCode = downloadStatusCodes.Downloading;
+
+                    lock (fileManager)
+                    {
+                        fileManager.statusCode = downloadStatusCodes.Downloading;
+                    }
+
                     bool downloaded = false;
                     string fullPath = "";
 
@@ -893,7 +914,13 @@ namespace Tumblr_Tool
                         // notDownloadedList.Add(photoURL);
                     }
                 }
-                fileManager.statusCode = downloadStatusCodes.Done;
+
+                lock (fileManager)
+                {
+                    fileManager.statusCode = downloadStatusCodes.Done;
+                }
+
+
                 downloadDone = true;
             }
         }

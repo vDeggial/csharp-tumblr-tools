@@ -32,6 +32,12 @@ namespace Tumblr_Tool.Image_Ripper
         private string saveLocation;
         private string tumblrDomain = "";
 
+
+        public ImageRipper()
+        {
+
+        }
+
         public ImageRipper(Tumblr blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "XML")
         {
             this.tumblrURL = FileHelper.fixURL(blog.cname);
