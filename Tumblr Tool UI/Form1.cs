@@ -11,6 +11,7 @@ using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Image_Ripper;
 using Tumblr_Tool.Managers;
+using Tumblr_Tool.Properties;
 using Tumblr_Tool.Tumblr_Objects;
 using Tumblr_Tool.Tumblr_Stats;
 
@@ -381,8 +382,7 @@ namespace Tumblr_Tool
                                 updateStatusText("Done");
                                 lbl_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
-                                openToolStripMenuItem.Enabled = true;
-                                optionsToolStripMenuItem.Enabled = true;
+
                             }
                         });
         }
@@ -403,6 +403,7 @@ namespace Tumblr_Tool
                             lbl_PostCount.Visible = true;
                             // lbl_Timer.Visible = true;
                             lbl_PostCount.Text = "";
+                            img_DisplayImage.Image = Resources.crawling;
 
                             
                         });
@@ -692,7 +693,15 @@ namespace Tumblr_Tool
                         {
                             try
                             {
-                                img_DisplayImage.ImageLocation = downloadedList[downloadedList.Count - 1];
+                                if (fileManager.totalToDownload == 0)
+                                {
+                                    img_DisplayImage.Image = Resources.tumblr_logo;
+                                }
+
+                                else
+                                {
+                                    img_DisplayImage.ImageLocation = downloadedList[downloadedList.Count - 1];
+                                }
                             }
                             catch
                             {

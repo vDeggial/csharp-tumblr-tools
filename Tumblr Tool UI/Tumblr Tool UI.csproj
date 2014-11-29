@@ -124,7 +124,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Tumblr_logo_by_x_1337_x-d5ikwpp.png" />
+    <None Include="Resources\tumblr_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tumbl Tool\Tumblr Tool.csproj">
@@ -153,6 +153,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\crawling.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

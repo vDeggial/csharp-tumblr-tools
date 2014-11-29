@@ -63,9 +63,19 @@ namespace Tumblr_Tool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tumblr_logo_by_x_1337_x_d5ikwpp {
+        internal static System.Drawing.Bitmap crawling {
             get {
-                object obj = ResourceManager.GetObject("Tumblr_logo_by_x_1337_x-d5ikwpp", resourceCulture);
+                object obj = ResourceManager.GetObject("crawling", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tumblr_logo {
+            get {
+                object obj = ResourceManager.GetObject("tumblr_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
