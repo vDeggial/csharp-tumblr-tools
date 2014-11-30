@@ -52,7 +52,7 @@ namespace Tumblr_Tool.Common_Helpers
         {
             string query = string.Copy(jsonURL);
 
-            query += "/" + tumblrDomain + jsonPostQuery;
+            query += "/" + CommonHelper.fixURL(tumblrDomain) + "/" + jsonPostQuery;
             query += "?api_key=" + apiKey;
 
             if (!string.IsNullOrEmpty(type))
