@@ -31,6 +31,7 @@ namespace Tumblr_Tool.Image_Ripper
         private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
         private string saveLocation;
         private string tumblrDomain = "";
+        public bool isCancelled = false;
 
 
         public ImageRipper()
@@ -237,7 +238,7 @@ namespace Tumblr_Tool.Image_Ripper
 
             if (parseMode == (int)parseModes.FullRescan)
             {
-                while (i < totalPosts)
+                while (i < totalPosts && !isCancelled)
                 {
                     List<TumblrPost> posts = getTumblrPostList(i);
                     blog.posts.AddRange(posts);
@@ -255,7 +256,7 @@ namespace Tumblr_Tool.Image_Ripper
             }
             else if (parseMode == (int)parseModes.NewestOnly)
             {
-                while (!finished && i < totalPosts)
+                while (!finished && i < totalPosts && !isCancelled)
                 {
                     List<TumblrPost> posts = getTumblrPostList(i);
 

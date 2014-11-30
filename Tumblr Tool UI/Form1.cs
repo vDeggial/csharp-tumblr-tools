@@ -38,6 +38,7 @@ namespace Tumblr_Tool
         private TimeSpan ts;
         private TumblrStats tumblrStats;
         private string version = "Beta 0.14.1129";
+        public bool isCancelled = false;
 
         public mainForm()
         {
@@ -743,7 +744,7 @@ namespace Tumblr_Tool
             }
             else
             {
-                while (fileManager.statusCode != downloadStatusCodes.Downloading)
+                while (fileManager.statusCode != downloadStatusCodes.Downloading && !isCancelled)
                 {
                     if (fileManager.statusCode == downloadStatusCodes.Preparing)
                     {
@@ -773,7 +774,7 @@ namespace Tumblr_Tool
                     lbl_PostCount.Visible = true;
 
                     decimal totalLength = 0;
-                    while (downloadDone != true)
+                    while (downloadDone != true && !isCancelled)
                     {
                         TimeSpan ts = stopWatch.Elapsed;
 
@@ -796,7 +797,8 @@ namespace Tumblr_Tool
 
                             this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
+                                lbl_PostCount.ForeColor = Color.Red;
+                                // updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
                             });
                         }
 
@@ -885,6 +887,10 @@ namespace Tumblr_Tool
 
                 foreach (string photoURL in imagesList)
                 {
+                    if (isCancelled)
+                        break;
+
+
                     while (!readyForDownload)
                     {
                         //wait till ready for download
@@ -1144,6 +1150,12 @@ namespace Tumblr_Tool
         {
             txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
             txt_WorkStatus.ScrollToCaret();
+        }
+
+        private void form_Closing(object sender, FormClosingEventArgs e)
+        {
+            this.ripper.isCancelled = true;
+            this.isCancelled = true;
         }
     }
 }
