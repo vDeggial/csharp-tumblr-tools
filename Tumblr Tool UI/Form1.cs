@@ -37,7 +37,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "Beta 0.14.1129";
+        private string version = "Beta 0.14.1130";
         public bool isCancelled = false;
 
         public mainForm()
@@ -418,101 +418,125 @@ namespace Tumblr_Tool
                     
                     if (ripper.statusCode == processingCodes.Initializing)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            updateStatusText("Initializing ...");
-                            updateWorkStatusText("Initializing ... ");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateStatusText("Initializing ...");
+                                updateWorkStatusText("Initializing ... ");
+                            });
+                        }
                     }
                     
                     if (ripper.statusCode == processingCodes.checkingConnection)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            updateWorkStatusText("Checking for internet connection ...");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Checking for internet connection ...");
+                            });
+                        }
                     }
                     
                     if (ripper.statusCode == processingCodes.connectionOK)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            updateWorkStatusText("Internet Connection found ...");
-                            updateWorkStatusText("Indexing Blog ...");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Internet Connection found ...");
+                                updateWorkStatusText("Indexing Blog ...");
+                            });
+                        }
                     }
                     if (ripper.statusCode == processingCodes.connectionError)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            updateStatusText("Error");
-                            updateWorkStatusText("No internet connection detected!");
-                            btn_Crawl.Enabled = true;
-                            lbl_PostCount.Visible = false;
-                            bar_Progress.Visible = false;
-                            img_DisplayImage.Visible = false;
-                            tab_TumblrStats.Enabled = true;
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateStatusText("Error");
+                                updateWorkStatusText("No internet connection detected!");
+                                btn_Crawl.Enabled = true;
+                                lbl_PostCount.Visible = false;
+                                bar_Progress.Visible = false;
+                                img_DisplayImage.Visible = false;
+                                tab_TumblrStats.Enabled = true;
+                            });
+                        }
                     }
 
                     if (ripper.statusCode == processingCodes.gettingBlogInfo)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            updateWorkStatusText("Getting Blog info ...");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Getting Blog info ...");
+                            });
+                        }
                     }
 
                     if (ripper.statusCode == processingCodes.blogInfoOK)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        lock (ripper)
                         {
-                            lbl_PostCount.Text = "0 / 0";
-                            lbl_PostCount.Visible = false;
-                            txt_WorkStatus.Visible = true;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                lbl_PostCount.Text = "0 / 0";
+                                lbl_PostCount.Visible = false;
+                                txt_WorkStatus.Visible = true;
 
-                            txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
-                        });
+                                txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
+                            });
+                        }
                     }
 
                     if (ripper.statusCode == processingCodes.Starting)
                     {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
-                            updateStatusText("Starting ...");
-                        });
-
-                        if (ripper.totalPosts != 0)
+                        lock (ripper)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("There are " + ripper.totalPosts + " photo posts found.");
+                                updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
+                                updateStatusText("Starting ...");
                             });
+
+                            if (ripper.totalPosts != 0)
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    updateWorkStatusText("There are " + ripper.totalPosts + " photo posts found.");
+                                });
+                            }
                         }
                     }
                     if (ripper.statusCode == processingCodes.Crawling)
                     {
-                        percent = ripper.percentComplete;
+                        lock (ripper)
+                        {
+                            percent = ripper.percentComplete;
 
-                        if (percent > 100)
-                            percent = 100;
+                            if (percent > 100)
+                                percent = 100;
 
-                        this.Invoke((MethodInvoker)delegate
-                           {
-                               // colorizeProgressBar(percent);
-                           });
+                            this.Invoke((MethodInvoker)delegate
+                               {
+                                   // colorizeProgressBar(percent);
+                               });
 
-                        this.Invoke((MethodInvoker)delegate
-                           {
-                               updateStatusText("Crawling...");
-                               // lbl_PostCount.Visible = true;
-                               lbl_PercentBar.Visible = true;
-                               lbl_PostCount.Visible = true;
-                               lbl_PercentBar.Text = percent.ToString() + "%";
-                               lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
-                               bar_Progress.Value = percent;
-                           });
+                            this.Invoke((MethodInvoker)delegate
+                               {
+                                   updateStatusText("Crawling...");
+                                   // lbl_PostCount.Visible = true;
+                                   lbl_PercentBar.Visible = true;
+                                   lbl_PostCount.Visible = true;
+                                   lbl_PercentBar.Text = percent.ToString() + "%";
+                                   lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
+                                   bar_Progress.Value = percent;
+                               });
+                        }
                     }
                 }
 

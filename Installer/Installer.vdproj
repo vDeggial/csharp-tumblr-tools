@@ -52,6 +52,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AE7BC4EF375647D3BC273850349B0CFC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -59,12 +65,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8138977F81CEDA008F97812D0D7FD560"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_80F86A075CA7D8E75602323075BBB0F0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -364,15 +364,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
-        "ProductCode" = "8:{1F31303C-699F-4741-97D2-31E44CAA6E89}"
-        "PackageCode" = "8:{1A6FA7F8-93B9-4B85-9701-A7905BDCB884}"
+        "ProductCode" = "8:{4C867527-E89A-4EFB-83A6-FC8E9952AF2C}"
+        "PackageCode" = "8:{1D329FF0-4A04-495A-990D-CB5B7382D195}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.14.1129"
+        "ProductVersion" = "8:0.14.1130"
         "Manufacturer" = "8:Shino Amakusa"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
