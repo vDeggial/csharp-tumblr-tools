@@ -950,7 +950,7 @@ namespace Tumblr_Tool
                     }
                     else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
                     {
-                        // notDownloadedList.Add(photoURL);
+                         notDownloadedList.Add(photoURL);
                     }
                 }
 

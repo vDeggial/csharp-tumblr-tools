@@ -16,6 +16,7 @@ namespace Tumblr_Tool.Managers
             downloadedList = new List<string>();
             totalSize = 0;
             fileSizeRecieved = 0;
+
         }
 
         public List<string> downloadedList { get; set; }
@@ -30,6 +31,7 @@ namespace Tumblr_Tool.Managers
 
         public int totalToDownload { get; set; }
 
+
         public bool downloadFile(string url, string fullPath, string prefix = "", int method = 1)
         {
             url = FileHelper.fixURL(url);
@@ -37,12 +39,12 @@ namespace Tumblr_Tool.Managers
             fullPath = FileHelper.getFullFilePath(url, fullPath, prefix);
             fullPath = FileHelper.fixFileName(fullPath);
             percentDownloaded = 0;
+            statusCode = downloadStatusCodes.OK;
             Stopwatch _timer = new Stopwatch();
 
             switch (method)
             {
                 case 1:
-
                     using (WebClient webClient = new WebClient())
                     {
                         try
@@ -53,20 +55,27 @@ namespace Tumblr_Tool.Managers
                             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                             webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
-                            while (percentDownloaded < 100 && _timer.Elapsed.Seconds <= 30)
+                            while (statusCode != downloadStatusCodes.Done && statusCode != downloadStatusCodes.UnableDownload)
                             {
-                                if (!webClient.IsBusy && percentDownloaded < 100)
-                                {
-                                    statusCode = downloadStatusCodes.UnableDownload;
-                                    return false;
-                                }
+                                
                             }
 
-                            if (percentDownloaded < 100)
+                            if (percentDownloaded < 100 && statusCode == downloadStatusCodes.UnableDownload)
                             {
                                 webClient.CancelAsync();
                                 (new FileInfo(fullPath)).Delete(); //  delete partial file
                                 statusCode = downloadStatusCodes.UnableDownload;
+                                return false;
+                            }
+
+                            if (statusCode == downloadStatusCodes.Done)
+                            {
+                                downloadedList.Add(fullPath);
+                                return true;
+                            }
+
+                            else
+                            {
                                 return false;
                             }
                         }
@@ -75,10 +84,9 @@ namespace Tumblr_Tool.Managers
                             statusCode = downloadStatusCodes.UnableDownload;
                             return false;
                         }
-                        downloadedList.Add(fullPath);
-                        return true;
+                        
                     }
-
+                    break;
                 case 2:
 
                     int timeoutInSeconds = 10;
@@ -166,7 +174,12 @@ namespace Tumblr_Tool.Managers
                 return;
             }
 
-            totalSize += fileSizeRecieved;
+            if (e.Cancelled == false && e.Error == null)
+            {
+                statusCode = downloadStatusCodes.Done;
+                totalSize += fileSizeRecieved;
+                return;
+            }
         }
     }
 }
