@@ -730,7 +730,7 @@ namespace Tumblr_Tool
                             {
                                 if (fileManager.totalToDownload == 0)
                                 {
-                                    img_DisplayImage.Image = Resources.tumblr_logo;
+                                    img_DisplayImage.Image = Resources.tumblrlogo;
                                 }
 
                                 else

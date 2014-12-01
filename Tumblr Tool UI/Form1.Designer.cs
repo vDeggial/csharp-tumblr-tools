@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tab_ImageRipper = new System.Windows.Forms.TabPage();
             this.lbl_Mode = new System.Windows.Forms.Label();
+            this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.txt_WorkStatus = new System.Windows.Forms.TextBox();
             this.btn_Crawl = new System.Windows.Forms.Button();
             this.btn_Browse = new System.Windows.Forms.Button();
@@ -68,6 +70,7 @@
             this.lbl_BlogDescription = new System.Windows.Forms.Label();
             this.lbl_Stats_BlogTitle = new System.Windows.Forms.Label();
             this.lbl_Stats_Title = new System.Windows.Forms.Label();
+            this.tabIconsList = new System.Windows.Forms.ImageList(this.components);
             this.lbl_PercentBar = new System.Windows.Forms.Label();
             this.bar_Progress = new System.Windows.Forms.ProgressBar();
             this.menuItem_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,7 +97,6 @@
             this.getStats_Worker = new System.ComponentModel.BackgroundWorker();
             this.getStatsUI_Worker = new System.ComponentModel.BackgroundWorker();
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.tabControl_Main.SuspendLayout();
             this.tab_ImageRipper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).BeginInit();
@@ -112,6 +114,7 @@
             this.tabControl_Main.Controls.Add(this.tab_TumblrStats);
             this.tabControl_Main.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl_Main.HotTrack = true;
+            this.tabControl_Main.ImageList = this.tabIconsList;
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -136,6 +139,7 @@
             this.tab_ImageRipper.Controls.Add(this.txt_SaveLocation);
             this.tab_ImageRipper.Controls.Add(this.lbl_SaveLocation);
             this.tab_ImageRipper.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tab_ImageRipper.ImageIndex = 0;
             this.tab_ImageRipper.Location = new System.Drawing.Point(4, 28);
             this.tab_ImageRipper.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_ImageRipper.Name = "tab_ImageRipper";
@@ -153,6 +157,24 @@
             this.lbl_Mode.Size = new System.Drawing.Size(44, 16);
             this.lbl_Mode.TabIndex = 17;
             this.lbl_Mode.Text = "Mode:";
+            // 
+            // select_Mode
+            // 
+            this.select_Mode.BackColor = System.Drawing.SystemColors.Control;
+            this.select_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_Mode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.select_Mode.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.select_Mode.FormattingEnabled = true;
+            this.select_Mode.HighlightColor = System.Drawing.Color.LightGray;
+            this.select_Mode.Items.AddRange(new object[] {
+            "Full Rescan",
+            "Newest Only"});
+            this.select_Mode.Location = new System.Drawing.Point(272, 39);
+            this.select_Mode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.select_Mode.Name = "select_Mode";
+            this.select_Mode.Size = new System.Drawing.Size(134, 22);
+            this.select_Mode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_Mode.TabIndex = 16;
             // 
             // txt_WorkStatus
             // 
@@ -199,8 +221,8 @@
             // 
             this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
-            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblr_logo;
-            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.tumblr_logo;
+            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
+            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
             this.img_DisplayImage.InitialImage = null;
             this.img_DisplayImage.Location = new System.Drawing.Point(431, 4);
             this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -269,6 +291,7 @@
             this.tab_TumblrStats.Controls.Add(this.txt_StatsTumblrURL);
             this.tab_TumblrStats.Controls.Add(this.box_PostStats);
             this.tab_TumblrStats.Controls.Add(this.box_BlogInfo);
+            this.tab_TumblrStats.ImageIndex = 1;
             this.tab_TumblrStats.Location = new System.Drawing.Point(4, 28);
             this.tab_TumblrStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_TumblrStats.Name = "tab_TumblrStats";
@@ -555,6 +578,13 @@
             this.lbl_Stats_Title.Text = "Title:";
             this.lbl_Stats_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tabIconsList
+            // 
+            this.tabIconsList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("tabIconsList.ImageStream")));
+            this.tabIconsList.TransparentColor = System.Drawing.Color.Transparent;
+            this.tabIconsList.Images.SetKeyName(0, "down.ico");
+            this.tabIconsList.Images.SetKeyName(1, "info.ico");
+            // 
             // lbl_PercentBar
             // 
             this.lbl_PercentBar.BackColor = System.Drawing.Color.Transparent;
@@ -633,7 +663,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -641,7 +671,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Visible = false;
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
@@ -649,7 +679,7 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -779,24 +809,6 @@
             this.fileBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.fileBW_DoWork);
             this.fileBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.fileBW_AfterDone);
             // 
-            // select_Mode
-            // 
-            this.select_Mode.BackColor = System.Drawing.SystemColors.Control;
-            this.select_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_Mode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.select_Mode.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.select_Mode.FormattingEnabled = true;
-            this.select_Mode.HighlightColor = System.Drawing.Color.LightGray;
-            this.select_Mode.Items.AddRange(new object[] {
-            "Full Rescan",
-            "Newest Only"});
-            this.select_Mode.Location = new System.Drawing.Point(272, 39);
-            this.select_Mode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.select_Mode.Name = "select_Mode";
-            this.select_Mode.Size = new System.Drawing.Size(134, 22);
-            this.select_Mode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_Mode.TabIndex = 16;
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -908,6 +920,7 @@
         private System.Windows.Forms.Label lbl_Mode;
         private AdvancedComboBox select_Mode;
         private System.Windows.Forms.ToolStripStatusLabel lbl_Copyright;
+        private System.Windows.Forms.ImageList tabIconsList;
     }
 }
 

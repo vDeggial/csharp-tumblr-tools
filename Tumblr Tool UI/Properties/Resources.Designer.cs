@@ -73,9 +73,9 @@ namespace Tumblr_Tool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap tumblr_logo {
+        internal static System.Drawing.Bitmap tumblrlogo {
             get {
-                object obj = ResourceManager.GetObject("tumblr_logo", resourceCulture);
+                object obj = ResourceManager.GetObject("tumblrlogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
