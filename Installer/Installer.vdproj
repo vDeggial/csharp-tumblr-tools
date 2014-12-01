@@ -94,10 +94,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5.1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:Microsoft .NET Framework 4.5.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5.1"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.4.5"
                     {
@@ -164,7 +164,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.5.1"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -247,7 +247,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=0.14.1129.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Tumblr Tool, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_8138977F81CEDA008F97812D0D7FD560"
@@ -364,15 +364,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tumblr Tools"
-        "ProductCode" = "8:{4C867527-E89A-4EFB-83A6-FC8E9952AF2C}"
-        "PackageCode" = "8:{1D329FF0-4A04-495A-990D-CB5B7382D195}"
+        "ProductCode" = "8:{F3B2349F-5362-4E3C-B47A-AAB21E7230A1}"
+        "PackageCode" = "8:{F8CEDD52-0F57-4EB2-8679-35E1A9DE60A7}"
         "UpgradeCode" = "8:{C59613A3-04F0-4C92-895D-ACB3B8072C25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.14.1130"
+        "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Shino Amakusa"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

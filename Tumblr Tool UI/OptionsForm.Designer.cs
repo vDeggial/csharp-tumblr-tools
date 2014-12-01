@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.parseOptionSection = new System.Windows.Forms.GroupBox();
+            this.box_Log = new System.Windows.Forms.GroupBox();
+            this.check_GenerateLog = new System.Windows.Forms.CheckBox();
             this.box_APIOptions = new System.Windows.Forms.GroupBox();
-            this.select_APIMode = new System.Windows.Forms.ComboBox();
+            this.select_APIMode = new Tumblr_Tool.AdvancedComboBox();
             this.box_General = new System.Windows.Forms.GroupBox();
             this.check_ParseDownload = new System.Windows.Forms.CheckBox();
             this.check_ParseOnly = new System.Windows.Forms.CheckBox();
@@ -41,13 +43,11 @@
             this.check_PhotoSets = new System.Windows.Forms.CheckBox();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Accept = new System.Windows.Forms.Button();
-            this.box_Log = new System.Windows.Forms.GroupBox();
-            this.check_GenerateLog = new System.Windows.Forms.CheckBox();
             this.parseOptionSection.SuspendLayout();
+            this.box_Log.SuspendLayout();
             this.box_APIOptions.SuspendLayout();
             this.box_General.SuspendLayout();
             this.box_ImageTypes.SuspendLayout();
-            this.box_Log.SuspendLayout();
             this.SuspendLayout();
             // 
             // parseOptionSection
@@ -56,6 +56,7 @@
             this.parseOptionSection.Controls.Add(this.box_APIOptions);
             this.parseOptionSection.Controls.Add(this.box_General);
             this.parseOptionSection.Controls.Add(this.box_ImageTypes);
+            this.parseOptionSection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.parseOptionSection.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.parseOptionSection.Location = new System.Drawing.Point(5, 4);
             this.parseOptionSection.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -65,6 +66,29 @@
             this.parseOptionSection.TabIndex = 0;
             this.parseOptionSection.TabStop = false;
             this.parseOptionSection.Text = "Parse Options";
+            // 
+            // box_Log
+            // 
+            this.box_Log.Controls.Add(this.check_GenerateLog);
+            this.box_Log.Location = new System.Drawing.Point(7, 184);
+            this.box_Log.Name = "box_Log";
+            this.box_Log.Size = new System.Drawing.Size(291, 72);
+            this.box_Log.TabIndex = 6;
+            this.box_Log.TabStop = false;
+            this.box_Log.Text = "Log Options";
+            // 
+            // check_GenerateLog
+            // 
+            this.check_GenerateLog.AutoSize = true;
+            this.check_GenerateLog.Checked = true;
+            this.check_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_GenerateLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_GenerateLog.Location = new System.Drawing.Point(8, 26);
+            this.check_GenerateLog.Name = "check_GenerateLog";
+            this.check_GenerateLog.Size = new System.Drawing.Size(124, 20);
+            this.check_GenerateLog.TabIndex = 0;
+            this.check_GenerateLog.Text = "Generate Post Log";
+            this.check_GenerateLog.UseVisualStyleBackColor = true;
             // 
             // box_APIOptions
             // 
@@ -80,15 +104,19 @@
             // 
             // select_APIMode
             // 
+            this.select_APIMode.BackColor = System.Drawing.SystemColors.Control;
             this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.select_APIMode.FormattingEnabled = true;
+            this.select_APIMode.HighlightColor = System.Drawing.Color.LightGray;
             this.select_APIMode.Items.AddRange(new object[] {
             "API v.1 (XML)",
             "API v.2 (JSON)"});
             this.select_APIMode.Location = new System.Drawing.Point(8, 23);
             this.select_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.select_APIMode.Name = "select_APIMode";
-            this.select_APIMode.Size = new System.Drawing.Size(140, 24);
+            this.select_APIMode.Size = new System.Drawing.Size(140, 22);
+            this.select_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.TabIndex = 0;
             this.select_APIMode.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -110,10 +138,11 @@
             this.check_ParseDownload.AutoSize = true;
             this.check_ParseDownload.Checked = true;
             this.check_ParseDownload.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_ParseDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_ParseDownload.Location = new System.Drawing.Point(8, 65);
             this.check_ParseDownload.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_ParseDownload.Name = "check_ParseDownload";
-            this.check_ParseDownload.Size = new System.Drawing.Size(127, 20);
+            this.check_ParseDownload.Size = new System.Drawing.Size(124, 20);
             this.check_ParseDownload.TabIndex = 1;
             this.check_ParseDownload.Text = "Parse && Download";
             this.check_ParseDownload.UseVisualStyleBackColor = true;
@@ -122,10 +151,11 @@
             // check_ParseOnly
             // 
             this.check_ParseOnly.AutoSize = true;
+            this.check_ParseOnly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_ParseOnly.Location = new System.Drawing.Point(8, 36);
             this.check_ParseOnly.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_ParseOnly.Name = "check_ParseOnly";
-            this.check_ParseOnly.Size = new System.Drawing.Size(84, 20);
+            this.check_ParseOnly.Size = new System.Drawing.Size(81, 20);
             this.check_ParseOnly.TabIndex = 0;
             this.check_ParseOnly.Text = "Parse Only";
             this.check_ParseOnly.UseVisualStyleBackColor = true;
@@ -151,10 +181,11 @@
             this.check_GIF.AutoSize = true;
             this.check_GIF.Checked = true;
             this.check_GIF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_GIF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_GIF.Location = new System.Drawing.Point(8, 95);
             this.check_GIF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_GIF.Name = "check_GIF";
-            this.check_GIF.Size = new System.Drawing.Size(45, 20);
+            this.check_GIF.Size = new System.Drawing.Size(42, 20);
             this.check_GIF.TabIndex = 5;
             this.check_GIF.Text = "GIF";
             this.check_GIF.UseVisualStyleBackColor = true;
@@ -165,10 +196,11 @@
             this.check_PNG.Checked = true;
             this.check_PNG.CheckState = System.Windows.Forms.CheckState.Checked;
             this.check_PNG.Enabled = false;
+            this.check_PNG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_PNG.Location = new System.Drawing.Point(8, 65);
             this.check_PNG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_PNG.Name = "check_PNG";
-            this.check_PNG.Size = new System.Drawing.Size(52, 20);
+            this.check_PNG.Size = new System.Drawing.Size(49, 20);
             this.check_PNG.TabIndex = 4;
             this.check_PNG.Text = "PNG";
             this.check_PNG.UseVisualStyleBackColor = true;
@@ -179,10 +211,11 @@
             this.check_JPEG.Checked = true;
             this.check_JPEG.CheckState = System.Windows.Forms.CheckState.Checked;
             this.check_JPEG.Enabled = false;
+            this.check_JPEG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_JPEG.Location = new System.Drawing.Point(7, 36);
             this.check_JPEG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_JPEG.Name = "check_JPEG";
-            this.check_JPEG.Size = new System.Drawing.Size(82, 20);
+            this.check_JPEG.Size = new System.Drawing.Size(79, 20);
             this.check_JPEG.TabIndex = 2;
             this.check_JPEG.Text = "JPG/JPEG";
             this.check_JPEG.UseVisualStyleBackColor = true;
@@ -192,16 +225,18 @@
             this.check_PhotoSets.AutoSize = true;
             this.check_PhotoSets.Checked = true;
             this.check_PhotoSets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_PhotoSets.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_PhotoSets.Location = new System.Drawing.Point(7, 123);
             this.check_PhotoSets.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_PhotoSets.Name = "check_PhotoSets";
-            this.check_PhotoSets.Size = new System.Drawing.Size(80, 20);
+            this.check_PhotoSets.Size = new System.Drawing.Size(77, 20);
             this.check_PhotoSets.TabIndex = 3;
             this.check_PhotoSets.Text = "PhotoSets";
             this.check_PhotoSets.UseVisualStyleBackColor = true;
             // 
             // btn_Cancel
             // 
+            this.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Cancel.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Cancel.Location = new System.Drawing.Point(157, 277);
             this.btn_Cancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -214,6 +249,7 @@
             // 
             // btn_Accept
             // 
+            this.btn_Accept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Accept.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Accept.Location = new System.Drawing.Point(58, 277);
             this.btn_Accept.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -223,28 +259,6 @@
             this.btn_Accept.Text = "Accept";
             this.btn_Accept.UseVisualStyleBackColor = true;
             this.btn_Accept.Click += new System.EventHandler(this.btn_Accept_Click);
-            // 
-            // box_Log
-            // 
-            this.box_Log.Controls.Add(this.check_GenerateLog);
-            this.box_Log.Location = new System.Drawing.Point(7, 184);
-            this.box_Log.Name = "box_Log";
-            this.box_Log.Size = new System.Drawing.Size(291, 72);
-            this.box_Log.TabIndex = 6;
-            this.box_Log.TabStop = false;
-            this.box_Log.Text = "Log Options";
-            // 
-            // check_GenerateLog
-            // 
-            this.check_GenerateLog.AutoSize = true;
-            this.check_GenerateLog.Checked = true;
-            this.check_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_GenerateLog.Location = new System.Drawing.Point(8, 26);
-            this.check_GenerateLog.Name = "check_GenerateLog";
-            this.check_GenerateLog.Size = new System.Drawing.Size(127, 20);
-            this.check_GenerateLog.TabIndex = 0;
-            this.check_GenerateLog.Text = "Generate Post Log";
-            this.check_GenerateLog.UseVisualStyleBackColor = true;
             // 
             // OptionsForm
             // 
@@ -265,13 +279,13 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.setOptions);
             this.parseOptionSection.ResumeLayout(false);
+            this.box_Log.ResumeLayout(false);
+            this.box_Log.PerformLayout();
             this.box_APIOptions.ResumeLayout(false);
             this.box_General.ResumeLayout(false);
             this.box_General.PerformLayout();
             this.box_ImageTypes.ResumeLayout(false);
             this.box_ImageTypes.PerformLayout();
-            this.box_Log.ResumeLayout(false);
-            this.box_Log.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -290,7 +304,7 @@
         private System.Windows.Forms.Button btn_Accept;
         private System.Windows.Forms.Button btn_Cancel;
         private System.Windows.Forms.GroupBox box_APIOptions;
-        private System.Windows.Forms.ComboBox select_APIMode;
+        private AdvancedComboBox select_APIMode;
         private System.Windows.Forms.GroupBox box_Log;
         private System.Windows.Forms.CheckBox check_GenerateLog;
 

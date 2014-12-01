@@ -37,7 +37,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "Beta 0.14.1130";
+        private string version = "1.0.0 (Build 141201)";
         public bool isCancelled = false;
 
         public mainForm()
@@ -325,6 +325,9 @@ namespace Tumblr_Tool
 
                             updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
 
+                            
+
+
                             lbl_PostCount.Text = "";
 
                             bar_Progress.Value = 0;
@@ -501,15 +504,22 @@ namespace Tumblr_Tool
                             {
                                 updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
                                 updateStatusText("Starting ...");
+                                
                             });
 
                             if (ripper.totalPosts != 0)
                             {
                                 this.Invoke((MethodInvoker)delegate
                                 {
-                                    updateWorkStatusText("There are " + ripper.totalPosts + " photo posts found.");
+                                    updateWorkStatusText(ripper.totalPosts + " photo posts found.");
                                 });
                             }
+
+                            
+                            this.Invoke((MethodInvoker)delegate
+                                {
+                                    updateWorkStatusText("Parsing posts ...");
+                                });
                         }
                     }
                     if (ripper.statusCode == processingCodes.Crawling)

@@ -86,7 +86,6 @@ namespace Tumblr_Tool.Managers
                         }
                         
                     }
-                    break;
                 case 2:
 
                     int timeoutInSeconds = 10;
