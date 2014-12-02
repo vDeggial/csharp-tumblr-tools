@@ -13,6 +13,7 @@ namespace Tumblr_Tool.Image_Ripper
         public Dictionary<string, string> commentsList = new Dictionary<string, string>();
         public CrawlManager crawlManager;
         public List<string> imagesList;
+        public bool isCancelled = false;
         public SaveFile log;
         public int parsed = 0;
         public int percentComplete = 0;
@@ -31,12 +32,9 @@ namespace Tumblr_Tool.Image_Ripper
         private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
         private string saveLocation;
         private string tumblrDomain = "";
-        public bool isCancelled = false;
-
 
         public ImageRipper()
         {
-
         }
 
         public ImageRipper(Tumblr blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "XML")

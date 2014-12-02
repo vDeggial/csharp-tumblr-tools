@@ -6,7 +6,6 @@ namespace Tumblr_Tool.Common_Helpers
     {
         private static Regex _htmlRegex = new Regex("<.*?>", RegexOptions.Compiled);
 
-
         public static string fixURL(string url)
         {
             if (url.EndsWith("/"))

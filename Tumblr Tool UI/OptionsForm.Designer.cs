@@ -109,7 +109,8 @@
             this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.select_APIMode.FormattingEnabled = true;
-            this.select_APIMode.HighlightColor = System.Drawing.Color.LightGray;
+            this.select_APIMode.HighlightBackColor = System.Drawing.Color.LightGray;
+            this.select_APIMode.HighlightForeColor = System.Drawing.Color.Maroon;
             this.select_APIMode.Items.AddRange(new object[] {
             "API v.1 (XML)",
             "API v.2 (JSON)"});

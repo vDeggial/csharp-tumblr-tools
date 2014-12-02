@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.NetworkInformation;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -16,6 +17,12 @@ namespace Tumblr_Tool.Common_Helpers
             System.Text.RegularExpressions.Regex objRegEx = new System.Text.RegularExpressions.Regex("<[^>]*>");
 
             return objRegEx.Replace(HTML, "");
+        }
+
+        public static bool isValidUrl(this string source)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         }
 
         public static bool webURLExists(string url)

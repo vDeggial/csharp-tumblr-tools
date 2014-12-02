@@ -16,7 +16,6 @@ namespace Tumblr_Tool.Managers
             downloadedList = new List<string>();
             totalSize = 0;
             fileSizeRecieved = 0;
-
         }
 
         public List<string> downloadedList { get; set; }
@@ -30,7 +29,6 @@ namespace Tumblr_Tool.Managers
         public double totalSize { get; set; }
 
         public int totalToDownload { get; set; }
-
 
         public bool downloadFile(string url, string fullPath, string prefix = "", int method = 1)
         {
@@ -57,7 +55,6 @@ namespace Tumblr_Tool.Managers
 
                             while (statusCode != downloadStatusCodes.Done && statusCode != downloadStatusCodes.UnableDownload)
                             {
-                                
                             }
 
                             if (percentDownloaded < 100 && statusCode == downloadStatusCodes.UnableDownload)
@@ -73,7 +70,6 @@ namespace Tumblr_Tool.Managers
                                 downloadedList.Add(fullPath);
                                 return true;
                             }
-
                             else
                             {
                                 return false;
@@ -84,7 +80,6 @@ namespace Tumblr_Tool.Managers
                             statusCode = downloadStatusCodes.UnableDownload;
                             return false;
                         }
-                        
                     }
                 case 2:
 

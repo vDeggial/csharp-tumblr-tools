@@ -79,7 +79,7 @@ namespace Tumblr_Tool.Common_Helpers
                 query += "?num=" + ((int)postStepEnum.XML).ToString();
             }
 
-            return CommonHelper.fixURL( tumblrURL) + query;
+            return CommonHelper.fixURL(tumblrURL) + query;
         }
 
         public static XDocument getXMLDocument(string url)

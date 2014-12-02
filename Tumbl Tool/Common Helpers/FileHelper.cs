@@ -13,6 +13,11 @@ namespace Tumblr_Tool.Common_Helpers
             return File.Exists(fullPath);
         }
 
+        public static string findFile(string dir, string name)
+        {
+            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
+        }
+
         public static string fixFileName(string filename)
         {
             if (!Path.HasExtension(filename))
@@ -59,11 +64,6 @@ namespace Tumblr_Tool.Common_Helpers
             //}
 
             return imagesList;
-        }
-
-        public static string findFile(string dir, string name)
-        {
-            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
         }
 
         public static bool isFileInUse(FileInfo file)
@@ -132,6 +132,24 @@ namespace Tumblr_Tool.Common_Helpers
             return (SaveFile)XMLHelper.readObjectAsXML<SaveFile>(location);
         }
 
+        public static bool saveFileAsBin(string location, SaveFile file)
+        {
+            try
+            {
+                using (Stream stream = File.Open(location, FileMode.Create))
+                {
+                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                    bformatter.Serialize(stream, file);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool saveFileAsXML(string location, SaveFile file)
         {
             return XMLHelper.saveObjectAsXML<SaveFile>(location, file);
@@ -149,24 +167,6 @@ namespace Tumblr_Tool.Common_Helpers
 
                 default:
                     return false;
-            }
-        }
-
-        public static bool saveFileAsBin(string location, SaveFile file)
-        {
-            try
-            {
-                using (Stream stream = File.Open(location, FileMode.Create))
-                {
-                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-
-                    bformatter.Serialize(stream, file);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
     }

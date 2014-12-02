@@ -28,6 +28,19 @@ namespace Tumblr_Tool
             }
         }
 
+        public bool generateLog
+        {
+            get
+            {
+                return check_GenerateLog.Checked;
+            }
+
+            set
+            {
+                check_GenerateLog.Checked = value;
+            }
+        }
+
         public mainForm mainForm
         {
             get
@@ -54,19 +67,6 @@ namespace Tumblr_Tool
             get
             {
                 return check_ParseDownload.Checked;
-            }
-        }
-
-        public bool generateLog
-        {
-            get
-            {
-                return check_GenerateLog.Checked;
-            }
-
-            set
-            {
-                check_GenerateLog.Checked = value;
             }
         }
 
