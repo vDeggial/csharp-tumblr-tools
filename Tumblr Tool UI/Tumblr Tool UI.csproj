@@ -157,8 +157,21 @@
   <ItemGroup>
     <None Include="Resources\crawling.gif" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
+    <None Include="Resources\filesize.png" />
+    <None Include="Resources\image.png" />
+    <None Include="Resources\home.png" />
+    <None Include="Resources\browse.png" />
+    <None Include="Resources\open.png" />
+    <None Include="Resources\help.png" />
+    <None Include="Resources\menu.png" />
+    <None Include="Resources\about.png" />
+    <Content Include="Resources\down.ico" />
+    <Content Include="Resources\info.ico" />
+    <None Include="Resources\options.png" />
+    <Content Include="Images\tumblr icon.ico" />
+    <Content Include="Resources\tumblrlogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             this.parseOptionSection = new System.Windows.Forms.GroupBox();
             this.box_Log = new System.Windows.Forms.GroupBox();
             this.check_GenerateLog = new System.Windows.Forms.CheckBox();
@@ -236,6 +237,7 @@
             // 
             // btn_Cancel
             // 
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Cancel.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Cancel.Location = new System.Drawing.Point(157, 277);
@@ -249,6 +251,7 @@
             // 
             // btn_Accept
             // 
+            this.btn_Accept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Accept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Accept.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Accept.Location = new System.Drawing.Point(58, 277);
@@ -264,13 +267,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(307, 306);
-            this.ControlBox = false;
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.parseOptionSection);
             this.Controls.Add(this.btn_Accept);
             this.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "OptionsForm";
             this.ShowInTaskbar = false;

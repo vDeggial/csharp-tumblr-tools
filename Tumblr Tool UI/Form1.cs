@@ -328,7 +328,7 @@ namespace Tumblr_Tool
                             
 
 
-                            lbl_PostCount.Text = "";
+
 
                             bar_Progress.Value = 0;
                             bar_Progress.Update();
@@ -384,7 +384,6 @@ namespace Tumblr_Tool
                             else
                             {
                                 updateStatusText("Done");
-                                lbl_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
 
                             }
@@ -403,8 +402,7 @@ namespace Tumblr_Tool
                             bar_Progress.Value = 0;
                             bar_Progress.Step = 1;
                             bar_Progress.Maximum = 100;
-                            bar_Progress.Visible = true;
-                            lbl_PostCount.Visible = true;
+                            
                             // lbl_Timer.Visible = true;
                             lbl_PostCount.Text = "";
                             img_DisplayImage.Image = Resources.crawling;
@@ -539,6 +537,7 @@ namespace Tumblr_Tool
                             this.Invoke((MethodInvoker)delegate
                                {
                                    updateStatusText("Crawling...");
+                                   bar_Progress.Visible = true;
                                    // lbl_PostCount.Visible = true;
                                    lbl_PercentBar.Visible = true;
                                    lbl_PostCount.Visible = true;
@@ -752,7 +751,7 @@ namespace Tumblr_Tool
                 updateWorkStatusText("Downloaded " + downloadedList.Count.ToString() + " image(s).");
             }
             updateStatusText("Done");
-            lbl_PostCount.Visible = false;
+
             lbl_PercentBar.Visible = false;
             bar_Progress.Visible = false;
             btn_Crawl.Enabled = true;
@@ -867,7 +866,7 @@ namespace Tumblr_Tool
                             totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
                             decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
                             string suffix = totalLength > 1024 ? "GB" : "MB";
-
+                            lbl_Size.Visible = true;
                             lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
                         }
                         catch (Exception)
