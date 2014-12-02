@@ -78,14 +78,15 @@
             this.status_Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Timer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_Copyright = new System.Windows.Forms.ToolStripStatusLabel();
             this.download_UIUpdate_Worker = new System.ComponentModel.BackgroundWorker();
             this.getStats_Worker = new System.ComponentModel.BackgroundWorker();
             this.getStatsUI_Worker = new System.ComponentModel.BackgroundWorker();
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_PostCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Size = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_Copyright = new System.Windows.Forms.ToolStripStatusLabel();
             this.btn_Crawl = new System.Windows.Forms.Button();
             this.btn_Browse = new System.Windows.Forms.Button();
             this.img_DisplayImage = new System.Windows.Forms.PictureBox();
@@ -96,7 +97,6 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.tabControl_Main.SuspendLayout();
             this.tab_ImageRipper.SuspendLayout();
@@ -615,7 +615,7 @@
             this.status_Strip.Location = new System.Drawing.Point(0, 370);
             this.status_Strip.Name = "status_Strip";
             this.status_Strip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.status_Strip.Size = new System.Drawing.Size(640, 27);
+            this.status_Strip.Size = new System.Drawing.Size(678, 27);
             this.status_Strip.SizingGrip = false;
             this.status_Strip.Stretch = false;
             this.status_Strip.TabIndex = 7;
@@ -624,25 +624,16 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(155, 22);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(165, 22);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // lbl_Timer
             // 
             this.lbl_Timer.Name = "lbl_Timer";
-            this.lbl_Timer.Size = new System.Drawing.Size(103, 22);
+            this.lbl_Timer.Size = new System.Drawing.Size(110, 22);
             this.lbl_Timer.Spring = true;
             this.lbl_Timer.Text = "[Timer]";
             this.lbl_Timer.Visible = false;
-            // 
-            // lbl_Copyright
-            // 
-            this.lbl_Copyright.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Copyright.Name = "lbl_Copyright";
-            this.lbl_Copyright.Size = new System.Drawing.Size(155, 22);
-            this.lbl_Copyright.Spring = true;
-            this.lbl_Copyright.Text = "[Copyright]";
-            this.lbl_Copyright.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // download_UIUpdate_Worker
             // 
@@ -669,13 +660,19 @@
             this.fileBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.fileBW_DoWork);
             this.fileBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.fileBW_AfterDone);
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(165, 22);
+            this.toolStripStatusLabel2.Spring = true;
+            // 
             // lbl_Status
             // 
             this.lbl_Status.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Status.Image = global::Tumblr_Tool.Properties.Resources.home;
             this.lbl_Status.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(155, 22);
+            this.lbl_Status.Size = new System.Drawing.Size(165, 22);
             this.lbl_Status.Spring = true;
             this.lbl_Status.Text = "[Status]";
             this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -686,7 +683,7 @@
             this.lbl_PostCount.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_PostCount.Image = global::Tumblr_Tool.Properties.Resources.image;
             this.lbl_PostCount.Name = "lbl_PostCount";
-            this.lbl_PostCount.Size = new System.Drawing.Size(89, 22);
+            this.lbl_PostCount.Size = new System.Drawing.Size(94, 22);
             this.lbl_PostCount.Spring = true;
             this.lbl_PostCount.Text = "[Post Count]";
             this.lbl_PostCount.Visible = false;
@@ -697,11 +694,21 @@
             this.lbl_Size.Image = global::Tumblr_Tool.Properties.Resources.filesize;
             this.lbl_Size.LinkVisited = true;
             this.lbl_Size.Name = "lbl_Size";
-            this.lbl_Size.Size = new System.Drawing.Size(124, 22);
+            this.lbl_Size.Size = new System.Drawing.Size(132, 22);
             this.lbl_Size.Spring = true;
-            this.lbl_Size.Text = "[Downloaded Size]";
+            this.lbl_Size.Text = "[Size]";
             this.lbl_Size.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbl_Size.Visible = false;
+            // 
+            // lbl_Copyright
+            // 
+            this.lbl_Copyright.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Copyright.Image = global::Tumblr_Tool.Properties.Resources.copyright;
+            this.lbl_Copyright.Name = "lbl_Copyright";
+            this.lbl_Copyright.Size = new System.Drawing.Size(165, 22);
+            this.lbl_Copyright.Spring = true;
+            this.lbl_Copyright.Text = "[C]";
+            this.lbl_Copyright.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btn_Crawl
             // 
@@ -769,14 +776,17 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.fileToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.menu;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
             this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.MouseEnter += new System.EventHandler(this.topMenu_MouseEnter);
+            this.fileToolStripMenuItem.MouseLeave += new System.EventHandler(this.topMenu_MouseLeave);
             // 
             // openToolStripMenuItem
             // 
@@ -788,6 +798,8 @@
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.MouseEnter += new System.EventHandler(this.topMenu_MouseEnter);
+            this.openToolStripMenuItem.MouseLeave += new System.EventHandler(this.topMenu_MouseLeave);
             // 
             // saveToolStripMenuItem
             // 
@@ -808,15 +820,20 @@
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.ToolTipText = "View Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.MouseEnter += new System.EventHandler(this.topMenu_MouseEnter);
+            this.optionsToolStripMenuItem.MouseLeave += new System.EventHandler(this.topMenu_MouseLeave);
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.help;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(63, 21);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.MouseEnter += new System.EventHandler(this.topMenu_MouseEnter);
+            this.helpToolStripMenuItem.MouseLeave += new System.EventHandler(this.topMenu_MouseLeave);
             // 
             // aboutToolStripMenuItem
             // 
@@ -827,12 +844,8 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.ToolTipText = "About this product";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(155, 22);
-            this.toolStripStatusLabel2.Spring = true;
+            this.aboutToolStripMenuItem.MouseEnter += new System.EventHandler(this.topMenu_MouseEnter);
+            this.aboutToolStripMenuItem.MouseLeave += new System.EventHandler(this.topMenu_MouseLeave);
             // 
             // select_Mode
             // 

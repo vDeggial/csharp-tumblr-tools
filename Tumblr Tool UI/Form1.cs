@@ -62,7 +62,7 @@ namespace Tumblr_Tool
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
             lbl_Status.Text = "Ready";
-            lbl_Copyright.Text = "© 2013 - 2014";
+            lbl_Copyright.Text = "2013 - 2014";
         }
 
         public mainForm(string file)
@@ -172,6 +172,7 @@ namespace Tumblr_Tool
             txt_WorkStatus.Visible = true;
             txt_WorkStatus.Clear();
             lbl_Size.Text = "";
+            lbl_Size.Visible = false;
             fileManager = new FileManager();
             stopWatch.Start();
             TimeSpan ts = stopWatch.Elapsed;
@@ -1189,6 +1190,18 @@ namespace Tumblr_Tool
         {
             this.ripper.isCancelled = true;
             this.isCancelled = true;
+        }
+
+        private void topMenu_MouseEnter(object sender, EventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            TSMI.BackColor = Color.DarkGray;
+        }
+
+        private void topMenu_MouseLeave(object sender, EventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            TSMI.BackColor = SystemColors.Menu;
         }
     }
 }
