@@ -38,7 +38,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.0 (Build 141202)";
+        private string version = "1.0.1";
 
         public mainForm()
         {
@@ -404,7 +404,7 @@ namespace Tumblr_Tool
 
                 int percent = 0;
 
-                while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done))
+                while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done && ripper.statusCode != processingCodes.connectionError))
                 {
                     TimeSpan ts = stopWatch.Elapsed;
 
