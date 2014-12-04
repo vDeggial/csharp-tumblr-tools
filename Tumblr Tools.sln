@@ -8,8 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11B5566A-8F40-4290-AE2A-BAB7E67BE596}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
-		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		Tumblr Tool.vsmdi = Tumblr Tool.vsmdi
 	EndProjectSection
@@ -27,24 +25,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\Tumblr XML Sample.xml = Documents\Tumblr XML Sample.xml
 	EndProjectSection
 EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Tumblr Tools Setup", "Tumblr Tools Setup\Tumblr Tools Setup.aiproj", "{31727F39-0FEF-47F6-8897-01791D08589C}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs34
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Installer\\Installer.vdproj
-		SccProjectName1 = Installer
-		SccLocalPath1 = Installer
+		SccProjectUniqueName0 = Installer\\Installer.vdproj
+		SccProjectName0 = Installer
+		SccLocalPath0 = Installer
+		SccProjectUniqueName1 = Tumbl\u0020Tool\\Tumblr\u0020Tool.csproj
+		SccProjectName1 = Tumbl\u0020Tool
+		SccLocalPath1 = Tumbl\u0020Tool
 		SccProjectUniqueName2 = Tumblr\u0020Tool\u0020UI\\Tumblr\u0020Tool\u0020UI.csproj
 		SccProjectName2 = Tumblr\u0020Tool\u0020UI
 		SccLocalPath2 = Tumblr\u0020Tool\u0020UI
 		SccProjectUniqueName3 = UniTest\\UniTest.csproj
 		SccProjectName3 = UniTest
 		SccLocalPath3 = UniTest
-		SccProjectUniqueName4 = Tumbl\u0020Tool\\Tumblr\u0020Tool.csproj
-		SccProjectName4 = Tumbl\u0020Tool
-		SccLocalPath4 = Tumbl\u0020Tool
+		SccLocalPath4 = .
+		SccProjectUniqueName5 = Tumblr\u0020Tools\u0020Setup\\Tumblr\u0020Tools\u0020Setup.aiproj
+		SccProjectName5 = Tumblr\u0020Tools\u0020Setup
+		SccLocalPath5 = Tumblr\u0020Tools\u0020Setup
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -73,7 +76,6 @@ Global
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
 		{093408C5-48A3-48D9-A7F3-62F9B6FE8A1F}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
@@ -145,7 +147,6 @@ Global
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.CD_ROM|x86.ActiveCfg = Release
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|Any CPU.ActiveCfg = Debug
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|Mixed Platforms.Build.0 = Debug
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.Debug|x86.ActiveCfg = Debug
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.DVD-5|Any CPU.ActiveCfg = Debug
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.DVD-5|Mixed Platforms.ActiveCfg = Debug
@@ -156,12 +157,39 @@ Global
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|Any CPU.ActiveCfg = Release
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|Mixed Platforms.ActiveCfg = Release
 		{D55C45A4-ADCF-43AF-9875-34D1E1CEC1A2}.SingleImage|x86.ActiveCfg = Release
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|Any CPU.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|Any CPU.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|Mixed Platforms.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|Mixed Platforms.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|x86.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.CD_ROM|x86.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|Any CPU.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|Any CPU.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|Mixed Platforms.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|Mixed Platforms.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|x86.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Debug|x86.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|Any CPU.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|Any CPU.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|Mixed Platforms.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|Mixed Platforms.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|x86.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.DVD-5|x86.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|Any CPU.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|Any CPU.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|Mixed Platforms.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|Mixed Platforms.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|x86.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.Release|x86.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|Any CPU.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|Any CPU.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|Mixed Platforms.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|Mixed Platforms.Build.0 = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|x86.ActiveCfg = All
+		{31727F39-0FEF-47F6-8897-01791D08589C}.SingleImage|x86.Build.0 = All
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Tumblr Tool.vsmdi
