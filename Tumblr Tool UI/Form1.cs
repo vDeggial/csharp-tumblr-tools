@@ -50,7 +50,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.2";
+        private string version = "1.0.3";
 
         public mainForm()
         {
@@ -122,6 +122,25 @@ namespace Tumblr_Tool
             loadOptions();
             lbl_Status.Text = "Ready";
             lbl_Copyright.Text = "© 2013 - 2014";
+        }
+
+        public void button_MouseEnter(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.UseVisualStyleBackColor = false;
+            button.ForeColor = Color.Maroon;
+            button.FlatAppearance.BorderColor = Color.Maroon;
+            button.FlatAppearance.MouseOverBackColor = Color.White;
+            button.FlatAppearance.BorderSize = 1;
+        }
+
+        public void button_MouseLeave(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            button.UseVisualStyleBackColor = true;
+            button.ForeColor = Color.Black;
+            button.FlatAppearance.BorderSize = 0;
         }
 
         public bool isValidURL(string urlString)
@@ -347,135 +366,279 @@ namespace Tumblr_Tool
 
                 if (ripper.statusCode == processingCodes.Done)
                 {
-                    this.Invoke((MethodInvoker)delegate
-                        {
-                            updateWorkStatusText("Indexing Blog done");
+                    if (!this.IsDisposed)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Indexing Blog done");
 
-                            updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
-                            lbl_PostCount.Visible = false;
-                            bar_Progress.Value = 0;
-                            bar_Progress.Update();
+                                updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
+                                lbl_PostCount.Visible = false;
+                                bar_Progress.Value = 0;
+                                bar_Progress.Update();
 
-                            bar_Progress.Refresh();
-                        });
+                                bar_Progress.Refresh();
+                            });
+                    }
                 }
                 else
                 {
                     if (ripper.statusCode == processingCodes.UnableDownload)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        if (!this.IsDisposed)
                         {
-                            updateWorkStatusText("Error downloading the blog post XML");
-                            updateStatusText("Error");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Error downloading the blog post XML");
+                                updateStatusText("Error");
+                            });
+                        }
                     }
                     else if (ripper.statusCode == processingCodes.invalidURL)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        if (!this.IsDisposed)
                         {
-                            updateWorkStatusText("Invalid Tumblr URL");
-                            updateStatusText("Error");
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateWorkStatusText("Invalid Tumblr URL");
+                                updateStatusText("Error");
+                            });
+                        }
                     }
                 }
             }
 
-            this.Invoke((MethodInvoker)delegate
-                        {
-                            if (optionsForm.parseOnly)
-                            {
-                                tab_TumblrStats.Enabled = true;
-                                openToolStripMenuItem.Enabled = true;
-                                optionsToolStripMenuItem.Enabled = true;
-                                btn_Crawl.Enabled = true;
-                                tab_TumblrStats.Enabled = true;
-                                select_Mode.Enabled = true;
-                                openToolStripMenuItem.Enabled = true;
-                                optionsToolStripMenuItem.Enabled = true;
-                            }
-                            else if (ripper.statusCode != processingCodes.Done)
-                            {
-                                tab_TumblrStats.Enabled = true;
-                                openToolStripMenuItem.Enabled = true;
-                                optionsToolStripMenuItem.Enabled = true;
-                                btn_Crawl.Enabled = true;
-                                tab_TumblrStats.Enabled = true;
-                                select_Mode.Enabled = true;
-                                openToolStripMenuItem.Enabled = true;
-                                optionsToolStripMenuItem.Enabled = true;
-                            }
-                            else
-                            {
-                                updateStatusText("Done");
-                                bar_Progress.Visible = false;
-                            }
-                        });
+            if (!this.IsDisposed)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    if (optionsForm.parseOnly)
+                    {
+                        tab_TumblrStats.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        optionsToolStripMenuItem.Enabled = true;
+                        btn_Crawl.Enabled = true;
+                        tab_TumblrStats.Enabled = true;
+                        select_Mode.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        optionsToolStripMenuItem.Enabled = true;
+                    }
+                    else if (ripper.statusCode != processingCodes.Done)
+                    {
+                        tab_TumblrStats.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        optionsToolStripMenuItem.Enabled = true;
+                        btn_Crawl.Enabled = true;
+                        tab_TumblrStats.Enabled = true;
+                        select_Mode.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        optionsToolStripMenuItem.Enabled = true;
+                    }
+                    else
+                    {
+                        updateStatusText("Done");
+                        bar_Progress.Visible = false;
+                    }
+                });
+            }
         }
 
         private void crawlUIWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (ripper != null)
+            try
             {
-                this.Invoke((MethodInvoker)delegate
-                        {
-                            bar_Progress.Minimum = 0;
-                            bar_Progress.Value = 0;
-                            bar_Progress.Step = 1;
-                            bar_Progress.Maximum = 100;
-
-                            // lbl_Timer.Visible = true;
-                            lbl_PostCount.Text = "";
-                            img_DisplayImage.Image = Resources.crawling;
-                        });
-
-                int percent = 0;
-
-                while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done && ripper.statusCode != processingCodes.connectionError))
+                if (ripper != null)
                 {
-                    TimeSpan ts = stopWatch.Elapsed;
-
-                    if (ripper.statusCode == processingCodes.Initializing)
+                    if (!this.IsDisposed)
                     {
-                        lock (ripper)
+                        this.Invoke((MethodInvoker)delegate
+                                {
+                                    bar_Progress.Minimum = 0;
+                                    bar_Progress.Value = 0;
+                                    bar_Progress.Step = 1;
+                                    bar_Progress.Maximum = 100;
+
+                                    // lbl_Timer.Visible = true;
+                                    lbl_PostCount.Text = "";
+                                    img_DisplayImage.Image = Resources.crawling;
+                                });
+                    }
+
+                    int percent = 0;
+
+                    while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done && ripper.statusCode != processingCodes.connectionError))
+                    {
+                        TimeSpan ts = stopWatch.Elapsed;
+
+                        if (ripper.statusCode == processingCodes.Initializing)
                         {
-                            this.Invoke((MethodInvoker)delegate
+                            lock (ripper)
                             {
-                                updateStatusText("Initializing ...");
-                                updateWorkStatusText("Initializing ... ");
-                            });
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateStatusText("Initializing ...");
+                                        updateWorkStatusText("Initializing ... ");
+                                    });
+                                }
+                            }
+                        }
+
+                        if (ripper.statusCode == processingCodes.checkingConnection)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateWorkStatusText("Checking for internet connection ...");
+                                    });
+                                }
+                            }
+                        }
+
+                        if (ripper.statusCode == processingCodes.connectionOK)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateWorkStatusText("Internet Connection found ...");
+                                        updateWorkStatusText("Indexing Blog ...");
+                                    });
+                                }
+                            }
+                        }
+                        if (ripper.statusCode == processingCodes.connectionError)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateStatusText("Error");
+                                        updateWorkStatusText("No internet connection detected!");
+                                        btn_Crawl.Enabled = true;
+                                        lbl_PostCount.Visible = false;
+                                        bar_Progress.Visible = false;
+                                        img_DisplayImage.Visible = true;
+                                        img_DisplayImage.Image = Resources.tumblrlogo;
+                                        tab_TumblrStats.Enabled = true;
+                                    });
+                                }
+                            }
+                        }
+
+                        if (ripper.statusCode == processingCodes.gettingBlogInfo)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateWorkStatusText("Getting Blog info ...");
+                                    });
+                                }
+                            }
+                        }
+
+                        if (ripper.statusCode == processingCodes.blogInfoOK)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        lbl_PostCount.Text = "0 / 0";
+                                        lbl_PostCount.Visible = false;
+                                        txt_WorkStatus.Visible = true;
+
+                                        txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
+                                    });
+                                }
+                            }
+                        }
+
+                        if (ripper.statusCode == processingCodes.Starting)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
+                                        updateStatusText("Starting ...");
+                                    });
+                                }
+
+                                if (ripper.totalPosts != 0)
+                                {
+                                    if (!this.IsDisposed)
+                                    {
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            updateWorkStatusText(ripper.totalPosts + " photo posts found.");
+                                        });
+                                    }
+                                }
+
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                        {
+                                            updateWorkStatusText("Parsing posts ...");
+                                        });
+                                }
+                            }
+                        }
+                        if (ripper.statusCode == processingCodes.Crawling)
+                        {
+                            lock (ripper)
+                            {
+                                percent = ripper.percentComplete;
+
+                                if (percent > 100)
+                                    percent = 100;
+
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                       {
+                                           // colorizeProgressBar(percent);
+                                       });
+
+                                    this.Invoke((MethodInvoker)delegate
+                                       {
+                                           updateStatusText("Crawling...");
+                                           bar_Progress.Visible = true;
+                                           // lbl_PostCount.Visible = true;
+                                           lbl_PercentBar.Visible = true;
+                                           lbl_PostCount.Visible = true;
+                                           lbl_PercentBar.Text = percent.ToString() + "%";
+                                           lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
+                                           bar_Progress.Value = percent;
+                                       });
+                                }
+                            }
                         }
                     }
 
-                    if (ripper.statusCode == processingCodes.checkingConnection)
+                    if (ripper.statusCode == processingCodes.invalidURL)
                     {
-                        lock (ripper)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusText("Checking for internet connection ...");
-                            });
-                        }
-                    }
-
-                    if (ripper.statusCode == processingCodes.connectionOK)
-                    {
-                        lock (ripper)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusText("Internet Connection found ...");
-                                updateWorkStatusText("Indexing Blog ...");
-                            });
-                        }
-                    }
-                    if (ripper.statusCode == processingCodes.connectionError)
-                    {
-                        lock (ripper)
+                        if (!this.IsDisposed)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
                                 updateStatusText("Error");
-                                updateWorkStatusText("No internet connection detected!");
+                                updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
                                 btn_Crawl.Enabled = true;
                                 lbl_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
@@ -485,626 +648,646 @@ namespace Tumblr_Tool
                             });
                         }
                     }
-
-                    if (ripper.statusCode == processingCodes.gettingBlogInfo)
-                    {
-                        lock (ripper)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusText("Getting Blog info ...");
-                            });
-                        }
-                    }
-
-                    if (ripper.statusCode == processingCodes.blogInfoOK)
-                    {
-                        lock (ripper)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                lbl_PostCount.Text = "0 / 0";
-                                lbl_PostCount.Visible = false;
-                                txt_WorkStatus.Visible = true;
-
-                                txt_WorkStatus.SelectionStart = txt_WorkStatus.Text.Length;
-                            });
-                        }
-                    }
-
-                    if (ripper.statusCode == processingCodes.Starting)
-                    {
-                        lock (ripper)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
-                                updateStatusText("Starting ...");
-                            });
-
-                            if (ripper.totalPosts != 0)
-                            {
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    updateWorkStatusText(ripper.totalPosts + " photo posts found.");
-                                });
-                            }
-
-                            this.Invoke((MethodInvoker)delegate
-                                {
-                                    updateWorkStatusText("Parsing posts ...");
-                                });
-                        }
-                    }
-                    if (ripper.statusCode == processingCodes.Crawling)
-                    {
-                        lock (ripper)
-                        {
-                            percent = ripper.percentComplete;
-
-                            if (percent > 100)
-                                percent = 100;
-
-                            this.Invoke((MethodInvoker)delegate
-                               {
-                                   // colorizeProgressBar(percent);
-                               });
-
-                            this.Invoke((MethodInvoker)delegate
-                               {
-                                   updateStatusText("Crawling...");
-                                   bar_Progress.Visible = true;
-                                   // lbl_PostCount.Visible = true;
-                                   lbl_PercentBar.Visible = true;
-                                   lbl_PostCount.Visible = true;
-                                   lbl_PercentBar.Text = percent.ToString() + "%";
-                                   lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
-                                   bar_Progress.Value = percent;
-                               });
-                        }
-                    }
                 }
-
-                if (ripper.statusCode == processingCodes.invalidURL)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        updateStatusText("Error");
-                        updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
-                        btn_Crawl.Enabled = true;
-                        lbl_PostCount.Visible = false;
-                        bar_Progress.Visible = false;
-                        img_DisplayImage.Visible = true;
-                        img_DisplayImage.Image = Resources.tumblrlogo;
-                        tab_TumblrStats.Enabled = true;
-                    });
-                }
+            }
+            catch
+            {
+                //
             }
         }
 
         private void crawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (ripper != null)
+            try
             {
-                if (ripper.statusCode == processingCodes.Done)
+                if (ripper != null)
                 {
-                    saveFile.blog = ripper.blog;
+                    if (ripper.statusCode == processingCodes.Done)
+                    {
+                        saveFile.blog = ripper.blog;
 
-                    if (!optionsForm.parseOnly)
-                    {
-                        fileManager.totalToDownload = ripper.totalImagesCount;
-                        download_Worker.RunWorkerAsync(ripper.imagesList);
-                        download_UIUpdate_Worker.RunWorkerAsync(fileManager);
-                    }
-                    else
-                    {
-                        stopWatch.Stop();
+                        if (!optionsForm.parseOnly)
+                        {
+                            fileManager.totalToDownload = ripper.totalImagesCount;
+                            download_Worker.RunWorkerAsync(ripper.imagesList);
+                            download_UIUpdate_Worker.RunWorkerAsync(fileManager);
+                        }
+                        else
+                        {
+                            stopWatch.Stop();
+                        }
                     }
                 }
+            }
+            catch
+            {
             }
         }
 
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string elapsedTime;
-            lock (ripper)
+            try
             {
-                Thread.Sleep(100);
-                tumblrBlog = new Tumblr();
-                tumblrBlog.cname = txt_TumblrURL.Text;
-
-                this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
-                ripper.statusCode = processingCodes.Initializing;
-
-                ts = stopWatch.Elapsed;
-
-                // Format and display the TimeSpan value.
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                   ts.Hours, ts.Minutes, ts.Seconds,
-                   ts.Milliseconds / 10);
-            }
-
-            lock (ripper)
-            {
-                ripper.statusCode = processingCodes.checkingConnection;
-            }
-
-            if (WebHelper.CheckForInternetConnection())
-            {
+                string elapsedTime;
                 lock (ripper)
                 {
-                    ripper.statusCode = processingCodes.connectionOK;
+                    Thread.Sleep(100);
+                    tumblrBlog = new Tumblr();
+                    tumblrBlog.cname = txt_TumblrURL.Text;
+
+                    this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+                    ripper.statusCode = processingCodes.Initializing;
+
+                    ts = stopWatch.Elapsed;
+
+                    // Format and display the TimeSpan value.
+                    elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                       ts.Hours, ts.Minutes, ts.Seconds,
+                       ts.Milliseconds / 10);
                 }
 
-                this.ts = stopWatch.Elapsed;
-
-                // Format and display the TimeSpan value.
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                   ts.Hours, ts.Minutes, ts.Seconds,
-                   ts.Milliseconds / 10);
-
-                if (this.ripper != null)
+                lock (ripper)
                 {
-                    this.ripper.setAPIMode(options.apiMode);
-                    this.ripper.setLogFile(logFile);
+                    ripper.statusCode = processingCodes.checkingConnection;
+                }
 
-                    if (ripper.isValidTumblr())
+                if (WebHelper.CheckForInternetConnection())
+                {
+                    lock (ripper)
                     {
-                        lock (ripper)
-                        {
-                            ripper.statusCode = processingCodes.gettingBlogInfo;
-                        }
+                        ripper.statusCode = processingCodes.connectionOK;
+                    }
 
-                        if (this.ripper.setBlogInfo())
+                    this.ts = stopWatch.Elapsed;
+
+                    // Format and display the TimeSpan value.
+                    elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                       ts.Hours, ts.Minutes, ts.Seconds,
+                       ts.Milliseconds / 10);
+
+                    if (this.ripper != null)
+                    {
+                        this.ripper.setAPIMode(options.apiMode);
+                        this.ripper.setLogFile(logFile);
+
+                        if (ripper.isValidTumblr())
                         {
                             lock (ripper)
                             {
-                                ripper.statusCode = processingCodes.blogInfoOK;
+                                ripper.statusCode = processingCodes.gettingBlogInfo;
                             }
 
-                            if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+                            if (this.ripper.setBlogInfo())
                             {
                                 lock (ripper)
                                 {
-                                    ripper.statusCode = processingCodes.saveFileError;
+                                    ripper.statusCode = processingCodes.blogInfoOK;
+                                }
+
+                                if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+                                {
+                                    lock (ripper)
+                                    {
+                                        ripper.statusCode = processingCodes.saveFileError;
+                                    }
+                                }
+                                else
+                                {
+                                    lock (ripper)
+                                    {
+                                        ripper.statusCode = processingCodes.saveFileOK;
+                                    }
+
+                                    if (this.ripper != null)
+                                    {
+                                        int mode = 0;
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            mode = select_Mode.SelectedIndex + 1;
+                                        });
+
+                                        lock (ripper)
+                                        {
+                                            ripper.statusCode = processingCodes.Starting;
+                                        }
+
+                                        tumblrBlog = this.ripper.parseBlogPosts(mode);
+                                    }
+                                }
+
+                                lock (ripper)
+                                {
+                                    ripper.statusCode = processingCodes.Done;
                                 }
                             }
                             else
                             {
                                 lock (ripper)
                                 {
-                                    ripper.statusCode = processingCodes.saveFileOK;
+                                    ripper.statusCode = processingCodes.blogInfoError;
                                 }
-
-                                if (this.ripper != null)
-                                {
-                                    int mode = 0;
-                                    this.Invoke((MethodInvoker)delegate
-                                    {
-                                        mode = select_Mode.SelectedIndex + 1;
-                                    });
-
-                                    lock (ripper)
-                                    {
-                                        ripper.statusCode = processingCodes.Starting;
-                                    }
-
-                                    tumblrBlog = this.ripper.parseBlogPosts(mode);
-                                }
-                            }
-
-                            lock (ripper)
-                            {
-                                ripper.statusCode = processingCodes.Done;
                             }
                         }
                         else
                         {
                             lock (ripper)
                             {
-                                ripper.statusCode = processingCodes.blogInfoError;
+                                ripper.statusCode = processingCodes.invalidURL;
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    lock (ripper)
                     {
-                        lock (ripper)
-                        {
-                            ripper.statusCode = processingCodes.invalidURL;
-                        }
+                        ripper.statusCode = processingCodes.connectionError;
                     }
                 }
             }
-            else
+            catch
             {
-                lock (ripper)
-                {
-                    ripper.statusCode = processingCodes.connectionError;
-                }
             }
         }
 
         private void downloadUIUpdate_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate
-                        {
-                            try
-                            {
-                                if (fileManager.totalToDownload == 0)
-                                {
-                                    img_DisplayImage.Image = Resources.tumblrlogo;
-                                }
-                                else
-                                {
-                                    img_DisplayImage.ImageLocation = downloadedList[downloadedList.Count - 1];
-                                }
-                            }
-                            catch
-                            {
-                                //
-                            }
-                            // img_DisplayImage.Image = Image.FromFile(fileManager.downloadedList[fileManager.downloadedList.Count - 1]);
-                            img_DisplayImage.Update();
-                            img_DisplayImage.Refresh();
-                        });
-
-            if (fileManager.statusCode == downloadStatusCodes.Done)
+            try
             {
-                updateWorkStatusText("Downloaded " + downloadedList.Count.ToString() + " image(s).");
-            }
-            updateStatusText("Done");
+                if (!this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        try
+                        {
+                            if (fileManager.totalToDownload == 0)
+                            {
+                                img_DisplayImage.Image = Resources.tumblrlogo;
+                            }
+                            else
+                            {
+                                img_DisplayImage.ImageLocation = downloadedList[downloadedList.Count - 1];
+                            }
+                        }
+                        catch
+                        {
+                            //
+                        }
+                        // img_DisplayImage.Image = Image.FromFile(fileManager.downloadedList[fileManager.downloadedList.Count - 1]);
+                        img_DisplayImage.Update();
+                        img_DisplayImage.Refresh();
 
-            lbl_PercentBar.Visible = false;
-            bar_Progress.Visible = false;
-            btn_Crawl.Enabled = true;
-            tab_TumblrStats.Enabled = true;
-            openToolStripMenuItem.Enabled = true;
-            optionsToolStripMenuItem.Enabled = true;
-            select_Mode.Enabled = true;
+                        if (fileManager.statusCode == downloadStatusCodes.Done)
+                        {
+                            updateWorkStatusText("Downloaded " + downloadedList.Count.ToString() + " image(s).");
+                        }
+                        updateStatusText("Done");
+
+                        lbl_PercentBar.Visible = false;
+                        bar_Progress.Visible = false;
+                        btn_Crawl.Enabled = true;
+                        tab_TumblrStats.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        optionsToolStripMenuItem.Enabled = true;
+                        select_Mode.Enabled = true;
+                    });
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void downloadUIUpdate_DoWork(object sender, DoWorkEventArgs e)
         {
-            FileManager fileManager = (FileManager)e.Argument;
-
-            if (fileManager.totalToDownload == 0)
+            try
             {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    bar_Progress.Visible = false;
+                FileManager fileManager = (FileManager)e.Argument;
 
-                    updateWorkStatusText("No new images to download");
-                    updateStatusText("Done"); ;
-                });
-            }
-            else
-            {
-                while (fileManager.statusCode != downloadStatusCodes.Downloading && !isCancelled)
+                if (fileManager.totalToDownload == 0)
                 {
-                    if (fileManager.statusCode == downloadStatusCodes.Preparing)
+                    if (!this.IsDisposed)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            updateStatusText("Preparing..."); ;
+                            bar_Progress.Visible = false;
+
+                            updateWorkStatusText("No new images to download");
+                            updateStatusText("Done"); ;
                         });
                     }
                 }
-
-                if (fileManager.statusCode == downloadStatusCodes.Downloading)
+                else
                 {
-                    this.Invoke((MethodInvoker)delegate
+                    while (fileManager.statusCode != downloadStatusCodes.Downloading && !isCancelled)
                     {
-                        img_DisplayImage.Visible = true;
-                        bar_Progress.Step = 1;
-                        bar_Progress.Minimum = 0;
-                        bar_Progress.Maximum = 100;
-                        bar_Progress.Visible = true;
-                        lbl_PostCount.Visible = true;
-                        lbl_PostCount.Text = "";
-                        lbl_PercentBar.Visible = true;
-                        updateWorkStatusText("Downloading images ...");
-                        updateStatusText("Downloading..."); ;
-                    });
-                    lbl_PostCount.Visible = true;
-
-                    decimal totalLength = 0;
-                    while (downloadDone != true && !isCancelled)
-                    {
-                        TimeSpan ts = stopWatch.Elapsed;
-
-                        // Format and display the TimeSpan value.
-                        string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-
-                        this.Invoke((MethodInvoker)delegate
-                            {
-                                lbl_Timer.Text = elapsedTime;
-                            });
-
-                        int c = 0;
-                        int f = 0;
-
-                        if (notDownloadedList.Count != 0 && f != notDownloadedList.Count)
+                        if (fileManager.statusCode == downloadStatusCodes.Preparing)
                         {
-                            f = notDownloadedList.Count;
+                            if (!this.IsDisposed)
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    updateStatusText("Preparing..."); ;
+                                });
+                            }
+                        }
+                    }
 
+                    if (fileManager.statusCode == downloadStatusCodes.Downloading)
+                    {
+                        if (!this.IsDisposed)
+                        {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                lbl_PostCount.ForeColor = Color.Maroon;
-                                // updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
+                                img_DisplayImage.Visible = true;
+                                bar_Progress.Step = 1;
+                                bar_Progress.Minimum = 0;
+                                bar_Progress.Maximum = 100;
+                                bar_Progress.Visible = true;
+                                lbl_PostCount.Visible = true;
+                                lbl_PostCount.Text = "";
+                                lbl_PercentBar.Visible = true;
+                                updateWorkStatusText("Downloading images ...");
+                                updateStatusText("Downloading..."); ;
+                                lbl_PostCount.Visible = true;
                             });
                         }
 
-                        if (downloadedList.Count != 0 && c != downloadedList.Count)
+                        decimal totalLength = 0;
+                        while (!downloadDone && !isCancelled)
                         {
-                            c = downloadedList.Count;
+                            TimeSpan ts = stopWatch.Elapsed;
 
-                            this.Invoke((MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            img_DisplayImage.ImageLocation = downloadedList[c - 1];
-                            img_DisplayImage.Load();
-                            img_DisplayImage.Update();
-                            img_DisplayImage.Refresh();
-                        }
-                        catch (Exception)
-                        {
-                            readyForDownload = true;
-                        }
+                            // Format and display the TimeSpan value.
+                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                                ts.Hours, ts.Minutes, ts.Seconds,
+                                ts.Milliseconds / 10);
 
-                        int downloaded = fileManager.downloadedList.Count + 1;
-                        int total = fileManager.totalToDownload;
+                            int c = 0;
+                            int f = 0;
 
-                        if (downloaded > total)
-                            downloaded = total;
+                            if (notDownloadedList.Count != 0 && f != notDownloadedList.Count)
+                            {
+                                f = notDownloadedList.Count;
 
-                        lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        lbl_PostCount.ForeColor = Color.Maroon;
+                                        // updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
+                                    });
+                                }
+                            }
 
-                        try
-                        {
-                            totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
-                            decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
-                            string suffix = totalLength > 1024 ? "GB" : "MB";
-                            lbl_Size.Visible = true;
-                            lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
-                        }
-                        catch (Exception)
-                        {
-                            //
-                        }
+                            if (downloadedList.Count != 0 && c != downloadedList.Count)
+                            {
+                                c = downloadedList.Count;
 
-                        if (bar_Progress.Value != (int)fileManager.percentDownloaded)
-                        {
-                            bar_Progress.Value = (int)fileManager.percentDownloaded;
-                            lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
-                            bar_Progress.Update();
-                            bar_Progress.Refresh();
-                        }
-                    });
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        try
+                                        {
+                                            img_DisplayImage.ImageLocation = downloadedList[c - 1];
+                                            img_DisplayImage.Load();
+                                            img_DisplayImage.Update();
+                                            img_DisplayImage.Refresh();
+                                        }
+                                        catch (Exception)
+                                        {
+                                            readyForDownload = true;
+                                        }
+
+                                        int downloaded = fileManager.downloadedList.Count + 1;
+                                        int total = fileManager.totalToDownload;
+
+                                        if (downloaded > total)
+                                            downloaded = total;
+
+                                        lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
+
+                                        try
+                                        {
+                                            totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
+                                            decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
+                                            string suffix = totalLength > 1024 ? "GB" : "MB";
+                                            lbl_Size.Visible = true;
+                                            lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
+                                        }
+                                        catch (Exception)
+                                        {
+                                            //
+                                        }
+
+                                        if (bar_Progress.Value != (int)fileManager.percentDownloaded)
+                                        {
+                                            bar_Progress.Value = (int)fileManager.percentDownloaded;
+                                            lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
+                                            bar_Progress.Update();
+                                            bar_Progress.Refresh();
+                                        }
+                                    });
+                                }
+                            }
                         }
                     }
                 }
+            }
+            catch
+            {
             }
         }
 
         private void downloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            saveFile.blog.posts = null;
-            saveTumblrFile(ripper.blog.name);
-            downloadDone = true;
-            stopWatch.Stop();
+            try
+            {
+                saveFile.blog.posts = null;
+                saveTumblrFile(ripper.blog.name);
+                downloadDone = true;
+                stopWatch.Stop();
+            }
+            catch
+            {
+            }
         }
 
         private void downloadWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            downloadDone = false;
-            fileDownloadDone = false;
-            List<string> imagesList = (List<string>)e.Argument;
-
-            lock (fileManager)
+            try
             {
-                fileManager.statusCode = downloadStatusCodes.Preparing;
-            }
-
-            if (imagesList != null && imagesList.Count != 0)
-            {
-                int j = 0;
+                downloadDone = false;
+                fileDownloadDone = false;
+                List<string> imagesList = (List<string>)e.Argument;
 
                 lock (fileManager)
                 {
-                    fileManager.statusCode = downloadStatusCodes.Downloading;
+                    fileManager.statusCode = downloadStatusCodes.Preparing;
                 }
 
-                readyForDownload = true;
-
-                foreach (string photoURL in imagesList)
+                if (imagesList != null && imagesList.Count != 0)
                 {
-                    if (isCancelled)
-                        break;
-
-                    while (!readyForDownload)
-                    {
-                        //wait till ready for download
-                    }
-
-                    fileDownloadDone = false;
+                    int j = 0;
 
                     lock (fileManager)
                     {
                         fileManager.statusCode = downloadStatusCodes.Downloading;
                     }
 
-                    bool downloaded = false;
-                    string fullPath = "";
+                    readyForDownload = true;
 
-                    fullPath = FileHelper.getFullFilePath(Path.GetFileName(photoURL), txt_SaveLocation.Text);
-
-                    downloaded = fileManager.downloadFile(photoURL, txt_SaveLocation.Text, string.Empty, 1);
-
-                    if (downloaded)
+                    foreach (string photoURL in imagesList)
                     {
-                        if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                        if (isCancelled || downloadDone)
+                            break;
+
+                        while (!readyForDownload)
                         {
-                            ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                            //wait till ready for download
                         }
 
-                        j++;
-                        fileDownloadDone = true;
-                        fullPath = FileHelper.fixFileName(fullPath);
-                        downloadedList.Add(fullPath);
+                        fileDownloadDone = false;
 
-                        downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
+                        lock (fileManager)
+                        {
+                            fileManager.statusCode = downloadStatusCodes.Downloading;
+                        }
+
+                        bool downloaded = false;
+                        string fullPath = "";
+
+                        while (!fileDownloadDone)
+                        {
+                            fullPath = FileHelper.getFullFilePath(Path.GetFileName(photoURL), txt_SaveLocation.Text);
+
+                            downloaded = fileManager.downloadFile(photoURL, txt_SaveLocation.Text, string.Empty, 1);
+
+                            if (downloaded)
+                            {
+                                if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                                {
+                                    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                                }
+
+                                j++;
+                                fileDownloadDone = true;
+                                fullPath = FileHelper.fixFileName(fullPath);
+                                downloadedList.Add(fullPath);
+
+                                downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
+                            }
+                            else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
+                            {
+                                notDownloadedList.Add(photoURL);
+                                fileDownloadDone = true;
+                            }
+                        }
                     }
-                    else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
+
+                    lock (fileManager)
                     {
-                        notDownloadedList.Add(photoURL);
+                        fileManager.statusCode = downloadStatusCodes.Done;
                     }
-                }
 
-                lock (fileManager)
-                {
-                    fileManager.statusCode = downloadStatusCodes.Done;
+                    downloadDone = true;
                 }
-
-                downloadDone = true;
+            }
+            catch
+            {
             }
         }
 
         private void fileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate
+            try
+            {
+                if (!this.IsDisposed)
                 {
-                    txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
-                    txt_TumblrURL.Text = saveFile != null ? saveFile.blog.cname : "Error parsing savefile";
-                    btn_Crawl.Enabled = true;
-                });
+                    this.Invoke((MethodInvoker)delegate
+                        {
+                            txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
+                            txt_TumblrURL.Text = saveFile != null ? saveFile.blog.cname : "Error parsing savefile";
+                            btn_Crawl.Enabled = true;
+                        });
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void fileBW_DoWork(object sender, DoWorkEventArgs e)
         {
-            string filename = (string)e.Argument;
-            this.filename = filename;
-
-            saveFile = !string.IsNullOrEmpty(filename) ? fileManager.readTumblrFile(filename) : null;
-
-            if (saveFile != null)
+            try
             {
-                if (File.Exists(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log"))
+                string filename = (string)e.Argument;
+                this.filename = filename;
+
+                saveFile = !string.IsNullOrEmpty(filename) ? fileManager.readTumblrFile(filename) : null;
+
+                if (saveFile != null)
                 {
-                    logFile = fileManager.readTumblrFile(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log");
+                    if (File.Exists(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log"))
+                    {
+                        logFile = fileManager.readTumblrFile(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log");
+                    }
+                }
+                tumblrBlog = saveFile != null ? saveFile.blog : null;
+
+                if (!this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        updateStatusText("Ready");
+                    });
                 }
             }
-            tumblrBlog = saveFile != null ? saveFile.blog : null;
-
-            this.Invoke((MethodInvoker)delegate
-                {
-                    updateStatusText("Ready");
-                });
+            catch
+            {
+            }
         }
 
         private void form_Closing(object sender, FormClosingEventArgs e)
         {
+            //e.Cancel = true;
+
             this.ripper.isCancelled = true;
             this.isCancelled = true;
+            this.downloadDone = true;
+
+            //Application.Exit();
         }
 
         private void getStatsUIWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            tab_ImageRipper.Enabled = true;
-            updateStatusText("Done");
-            lbl_PostCount.Visible = false;
-            bar_Progress.Visible = false;
-            lbl_PercentBar.Visible = false;
+            try
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        tab_ImageRipper.Enabled = true;
+                        updateStatusText("Done");
+                        lbl_PostCount.Visible = false;
+                        bar_Progress.Visible = false;
+                        lbl_PercentBar.Visible = false;
+                    });
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void getStatsUIWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            TumblrStats tumblrStats = (TumblrStats)e.Argument;
+            try
+            {
+                TumblrStats tumblrStats = (TumblrStats)e.Argument;
 
-            this.Invoke((MethodInvoker)delegate
+                if (!this.IsDisposed)
                 {
-                    bar_Progress.Minimum = 0;
-                    bar_Progress.Value = 0;
-                    bar_Progress.Maximum = 100;
-                    bar_Progress.Step = 1;
-                    bar_Progress.Visible = true;
-                    lbl_Size.Visible = false;
-                });
-
-            while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
-            {
-            }
-
-            this.Invoke((MethodInvoker)delegate
-            {
-                bar_Progress.Minimum = 0;
-                bar_Progress.Value = 0;
-                bar_Progress.Maximum = 100;
-                bar_Progress.Step = 1;
-                bar_Progress.Visible = true;
-
-                box_PostStats.Visible = true;
-                lbl_Stats_TotalCount.Visible = true;
-                lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
-                lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
-
-                lbl_PostCount.Text = "";
-                lbl_PostCount.Visible = true;
-            });
-
-            int percent = 0;
-            while (percent < 100)
-            {
-                this.Invoke((MethodInvoker)delegate
-                    {
-                        if (txt_Stats_BlogDescription.Text == "")
-                            txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
-                    });
-
-                percent = (int)(((double)tumblrStats.parsed / (double)tumblrStats.totalPosts) * 100.00);
-                if (percent < 0)
-                    percent = 0;
-
-                if (percent >= 100)
-                    percent = 100;
-
-                if (tumblrStats.statusCode == processingCodes.invalidURL)
-                {
-                    percent = 100;
-
                     this.Invoke((MethodInvoker)delegate
-                {
-                    updateStatusText("Error");
-                    lbl_PostCount.Visible = false;
-                    bar_Progress.Visible = false;
-                    lbl_Size.Visible = false;
-                });
-                    MessageBox.Show("Invalid Tumblr URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        {
+                            bar_Progress.Minimum = 0;
+                            bar_Progress.Value = 0;
+                            bar_Progress.Maximum = 100;
+                            bar_Progress.Step = 1;
+                            bar_Progress.Visible = true;
+                            lbl_Size.Visible = false;
+                        });
                 }
-                else
+
+                while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
+                {
+                }
+
+                if (!this.IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
-                        updateStatusText("Getting stats ...");
-                        lbl_PercentBar.Visible = true;
+                        bar_Progress.Minimum = 0;
+                        bar_Progress.Value = 0;
+                        bar_Progress.Maximum = 100;
+                        bar_Progress.Step = 1;
+                        bar_Progress.Visible = true;
+
+                        box_PostStats.Visible = true;
+                        lbl_Stats_TotalCount.Visible = true;
+                        lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
                         lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
 
-                        lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
-                        lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
-                        lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
-                        lbl_Stats_LinkCount.Text = tumblrStats.linkPosts.ToString();
-                        lbl_Stats_AudioCount.Text = tumblrStats.audioPosts.ToString();
-                        lbl_Stats_VideoCount.Text = tumblrStats.videoPosts.ToString();
-                        lbl_Stats_ChatCount.Text = tumblrStats.chatPosts.ToString();
-                        lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
-                        lbl_PercentBar.Text = percent.ToString() + "%";
+                        lbl_PostCount.Text = "";
                         lbl_PostCount.Visible = true;
-                        lbl_PostCount.Text = tumblrStats.parsed.ToString() + "/" + tumblrStats.totalPosts.ToString();
-                        bar_Progress.Value = percent;
                     });
                 }
+
+                int percent = 0;
+                while (percent < 100)
+                {
+                    if (!this.IsDisposed)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            if (txt_Stats_BlogDescription.Text == "")
+                                txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
+                        });
+                    }
+
+                    percent = (int)(((double)tumblrStats.parsed / (double)tumblrStats.totalPosts) * 100.00);
+                    if (percent < 0)
+                        percent = 0;
+
+                    if (percent >= 100)
+                        percent = 100;
+
+                    if (tumblrStats.statusCode == processingCodes.invalidURL)
+                    {
+                        percent = 100;
+
+                        if (!this.IsDisposed)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateStatusText("Error");
+                                lbl_PostCount.Visible = false;
+                                bar_Progress.Visible = false;
+                                lbl_Size.Visible = false;
+                            });
+                        }
+                        MessageBox.Show("Invalid Tumblr URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        if (!this.IsDisposed)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                updateStatusText("Getting stats ...");
+                                lbl_PercentBar.Visible = true;
+                                lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+
+                                lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
+                                lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
+                                lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
+                                lbl_Stats_LinkCount.Text = tumblrStats.linkPosts.ToString();
+                                lbl_Stats_AudioCount.Text = tumblrStats.audioPosts.ToString();
+                                lbl_Stats_VideoCount.Text = tumblrStats.videoPosts.ToString();
+                                lbl_Stats_ChatCount.Text = tumblrStats.chatPosts.ToString();
+                                lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
+                                lbl_PercentBar.Text = percent.ToString() + "%";
+                                lbl_PostCount.Visible = true;
+                                lbl_PostCount.Text = tumblrStats.parsed.ToString() + "/" + tumblrStats.totalPosts.ToString();
+                                bar_Progress.Value = percent;
+                            });
+                        }
+                    }
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1114,9 +1297,15 @@ namespace Tumblr_Tool
 
         private void getStatsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.Sleep(100);
-            TumblrStats tumblrStats = (TumblrStats)e.Argument;
-            tumblrStats.parsePosts();
+            try
+            {
+                Thread.Sleep(100);
+                TumblrStats tumblrStats = (TumblrStats)e.Argument;
+                tumblrStats.parsePosts();
+            }
+            catch
+            {
+            }
         }
 
         private void imageLoaded(object sender, AsyncCompletedEventArgs e)
@@ -1200,12 +1389,6 @@ namespace Tumblr_Tool
             }
         }
 
-        private void workStatusAutoScroll(object sender, EventArgs e)
-        {
-            txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
-            txt_WorkStatus.ScrollToCaret();
-        }
-
         private void toolStripMenuItem_Paint(object sender, PaintEventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
@@ -1215,23 +1398,10 @@ namespace Tumblr_Tool
             renderer.changeTextForeColor(TSMI, e);
         }
 
-        public void button_MouseEnter(object sender, EventArgs e)
+        private void workStatusAutoScroll(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-
-            button.UseVisualStyleBackColor = false;
-            button.ForeColor = Color.Maroon;
-            button.FlatAppearance.BorderColor = Color.Maroon;
-            button.FlatAppearance.MouseOverBackColor = Color.White;
-            button.FlatAppearance.BorderSize = 1;
-        }
-
-        public void button_MouseLeave(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            button.UseVisualStyleBackColor = true;
-            button.ForeColor = Color.Black;
-            button.FlatAppearance.BorderSize = 0;
+            txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
+            txt_WorkStatus.ScrollToCaret();
         }
     }
 }
