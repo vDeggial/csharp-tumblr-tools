@@ -105,11 +105,12 @@
             // 
             // select_APIMode
             // 
-            this.select_APIMode.BackColor = System.Drawing.SystemColors.Control;
+            this.select_APIMode.BackColor = System.Drawing.Color.White;
             this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.select_APIMode.ForeColor = System.Drawing.Color.Black;
             this.select_APIMode.FormattingEnabled = true;
-            this.select_APIMode.HighlightBackColor = System.Drawing.Color.LightGray;
+            this.select_APIMode.HighlightBackColor = System.Drawing.Color.White;
             this.select_APIMode.HighlightForeColor = System.Drawing.Color.Maroon;
             this.select_APIMode.Items.AddRange(new object[] {
             "API v.1 (XML)",
@@ -239,6 +240,8 @@
             // btn_Cancel
             // 
             this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.FlatAppearance.BorderSize = 0;
+            this.btn_Cancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
             this.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Cancel.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Cancel.Location = new System.Drawing.Point(157, 277);
@@ -249,10 +252,14 @@
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
             this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            this.btn_Cancel.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btn_Cancel.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             // 
             // btn_Accept
             // 
             this.btn_Accept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Accept.FlatAppearance.BorderSize = 0;
+            this.btn_Accept.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
             this.btn_Accept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Accept.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Accept.Location = new System.Drawing.Point(58, 277);
@@ -263,17 +270,21 @@
             this.btn_Accept.Text = "Accept";
             this.btn_Accept.UseVisualStyleBackColor = true;
             this.btn_Accept.Click += new System.EventHandler(this.btn_Accept_Click);
+            this.btn_Accept.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btn_Accept.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(307, 306);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.parseOptionSection);
             this.Controls.Add(this.btn_Accept);
             this.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

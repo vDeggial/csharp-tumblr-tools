@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Tumblr_Tool
@@ -19,6 +20,7 @@ namespace Tumblr_Tool
             this.HighlightBackColor = Color.Black;
             this.HighlightForeColor = Color.White;
             this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
+            // this.SetStyle(ControlStyles.UserPaint, true);
         }
 
         private void AdvancedComboBox_DrawItem(object sender, DrawItemEventArgs e)
@@ -46,6 +48,53 @@ namespace Tumblr_Tool
             }
 
             e.DrawFocusRectangle();
+
+
+            
+          
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+
+            base.OnPaint(e);
+            e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
+                                      new SolidBrush(this.ForeColor),
+                                      new Point(this.Bounds.X, this.Bounds.Y));
+
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth;
+            Color highColor = Color.White;
+            Color lowColor = Color.White;
+            Rectangle itemRect = new Rectangle(this.Width - buttonWidth, 0, buttonWidth, this.Height);
+
+            //Create the brushes.            
+            LinearGradientBrush gradientBrush = new LinearGradientBrush(itemRect, highColor,
+                    lowColor, LinearGradientMode.Vertical);
+
+            ////Fill the rectangle background.
+            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            //e.Graphics.FillRectangle(gradientBrush, itemRect);
+            //gradientBrush.Dispose();
+
+            ////Draw the button outline.
+            //Pen outlinePen = new Pen(SystemColors.ButtonShadow, 0.0f);
+            //e.Graphics.DrawRectangle(outlinePen, itemRect.X, itemRect.Y, itemRect.Width - 2, itemRect.Height - 2);
+            //outlinePen.Dispose();
+
+            //Draw the arrow.
+            SolidBrush arrowBrush = new SolidBrush(Color.Black);
+            Point[] points = new Point[3];
+            points[0] = new Point(this.Width - (int)((double)itemRect.Width * .125) - 2, (int)((double)itemRect.Height * .333));
+            points[1] = new Point(this.Width - (int)((double)itemRect.Width * .875) - 2, (int)((double)itemRect.Height * .333));
+            points[2] = new Point(this.Width - (int)((double)itemRect.Width * .5) - 2, (int)((double)itemRect.Height * .666));
+
+            e.Graphics.FillPolygon(arrowBrush, points);
+            arrowBrush.Dispose();
+
+            
+        }        
+    
+
+            
     }
 }

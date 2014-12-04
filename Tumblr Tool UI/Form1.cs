@@ -14,6 +14,7 @@ using Tumblr_Tool.Managers;
 using Tumblr_Tool.Properties;
 using Tumblr_Tool.Tumblr_Objects;
 using Tumblr_Tool.Tumblr_Stats;
+using Dotnetrix.Controls;
 
 namespace Tumblr_Tool
 {
@@ -38,13 +39,20 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.1";
+        private string version = "1.0.2";
 
         public mainForm()
         {
             InitializeComponent();
+            this.select_Mode.SelectedIndex = 1;
+            AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
+            renderer.HighlightForeColor = Color.Maroon;
+            renderer.HighlightBackColor = Color.White;
+
+            menu_TopMenu.Renderer = renderer;
             txt_WorkStatus.Visible = false;
             lbl_Timer.Text = "";
+            lbl_Stats_BlogTitle.Text = "";
 
             bar_Progress.Visible = false;
             fileManager = new FileManager();
@@ -55,7 +63,7 @@ namespace Tumblr_Tool
             aboutForm.mainForm = this;
             aboutForm.version = "Version: " + version;
 
-            this.select_Mode.SelectedIndex = 1;
+            
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
 
             loadOptions();
@@ -68,6 +76,14 @@ namespace Tumblr_Tool
         public mainForm(string file)
         {
             InitializeComponent();
+            AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
+            renderer.HighlightForeColor = Color.Maroon;
+            renderer.HighlightBackColor = Color.White;
+
+            menu_TopMenu.Renderer = renderer;
+
+            lbl_Stats_BlogTitle.Text = "";
+
             txt_WorkStatus.Visible = false;
             lbl_Timer.Text = "";
             lbl_Size.Text = "";
@@ -805,7 +821,7 @@ namespace Tumblr_Tool
 
                             this.Invoke((MethodInvoker)delegate
                             {
-                                lbl_PostCount.ForeColor = Color.Red;
+                                lbl_PostCount.ForeColor = Color.Maroon;
                                 // updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
                             });
                         }
@@ -990,6 +1006,7 @@ namespace Tumblr_Tool
             updateStatusText("Done");
             lbl_PostCount.Visible = false;
             bar_Progress.Visible = false;
+            lbl_PercentBar.Visible = false;
         }
 
         private void getStatsUIWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -998,10 +1015,8 @@ namespace Tumblr_Tool
 
             this.Invoke((MethodInvoker)delegate
                 {
-                    box_PostStats.Visible = false;
-                    box_BlogInfo.Visible = false;
-                    lbl_PostCount.Text = "";
-                    lbl_PostCount.Visible = true;
+                    
+                    
                     bar_Progress.Minimum = 0;
                     bar_Progress.Value = 0;
                     bar_Progress.Maximum = 100;
@@ -1010,24 +1025,37 @@ namespace Tumblr_Tool
                     lbl_Size.Visible = false;
                 });
 
-            while (string.IsNullOrEmpty(tumblrStats.blog.title) && tumblrStats.totalPosts <= 0)
+            while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
             {
-                lbl_Stats_TotalCount.Visible = false;
+                
             }
 
             this.Invoke((MethodInvoker)delegate
             {
+                bar_Progress.Minimum = 0;
+                bar_Progress.Value = 0;
+                bar_Progress.Maximum = 100;
+                bar_Progress.Step = 1;
+                bar_Progress.Visible = true;
+
                 box_PostStats.Visible = true;
-                box_BlogInfo.Visible = true;
                 lbl_Stats_TotalCount.Visible = true;
                 lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
                 lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
-                txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
+                
+                lbl_PostCount.Text = "";
+                lbl_PostCount.Visible = true;
             });
 
             int percent = 0;
             while (percent < 100)
             {
+                this.Invoke((MethodInvoker)delegate
+                    {
+                        if (txt_Stats_BlogDescription.Text == "")
+                            txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
+                    });
+
                 percent = (int)(((double)tumblrStats.parsed / (double)tumblrStats.totalPosts) * 100.00);
                 if (percent < 0)
                     percent = 0;
@@ -1165,22 +1193,41 @@ namespace Tumblr_Tool
             }
         }
 
-        private void topMenu_MouseEnter(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            TSMI.BackColor = Color.DarkGray;
-        }
-
-        private void topMenu_MouseLeave(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            TSMI.BackColor = SystemColors.Menu;
-        }
 
         private void workStatusAutoScroll(object sender, EventArgs e)
         {
             txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
             txt_WorkStatus.ScrollToCaret();
+        }
+
+        private void toolStripMenuItem_Paint(object sender, PaintEventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+
+            AdvancedMenuRenderer renderer = TSMI.GetCurrentParent().Renderer as AdvancedMenuRenderer;
+
+            renderer.changeTextForeColor(TSMI, e);
+           
+            
+        }
+
+        public void button_MouseEnter(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+
+            button.UseVisualStyleBackColor = false;
+            button.ForeColor = Color.Maroon;
+            button.FlatAppearance.BorderColor = Color.Maroon;
+            button.FlatAppearance.MouseOverBackColor = Color.White;
+            button.FlatAppearance.BorderSize = 1;
+        }
+
+        public void button_MouseLeave(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            button.UseVisualStyleBackColor = true;
+            button.ForeColor = Color.Black;
+            button.FlatAppearance.BorderSize = 0;
         }
     }
 }

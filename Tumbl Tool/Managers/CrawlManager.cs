@@ -57,67 +57,71 @@ namespace Tumblr_Tool.Managers
         public List<TumblrPost> getPostListJSON(string type = "")
         {
             List<TumblrPost> postList = new List<TumblrPost>();
-            JArray jPostArray = jsonDocument.response.posts;
-            List<dynamic> jPostList = jPostArray.ToObject<List<dynamic>>();
 
-            foreach (dynamic jPost in jPostList)
+            if (jsonDocument != null)
             {
-                TumblrPost post = new TumblrPost();
-                if (type == "photo")
+                JArray jPostArray = jsonDocument.response.posts;
+                List<dynamic> jPostList = jPostArray.ToObject<List<dynamic>>();
+
+                foreach (dynamic jPost in jPostList)
                 {
-                    post = new PhotoPost();
-                }
-
-                if (jPost.type != null)
-                    post.type = jPost.type;
-
-                if (jPost.id != null)
-                    post.id = jPost.id;
-
-                if (jPost.post_url != null)
-                    post.url = jPost.post_url;
-
-                if (jPost.caption != null)
-                    post.caption = jPost.caption;
-
-                if (jPost.date != null)
-                    post.date = jPost.date;
-
-                if (jPost.format != null)
-                    post.format = jPost.format;
-
-                if (jPost.reblog_key != null)
-                    post.reblogKey = jPost.reblog_key;
-
-                if (jPost.tags != null)
-                {
-                    foreach (string tag in jPost.tags)
+                    TumblrPost post = new TumblrPost();
+                    if (type == "photo")
                     {
-                        post.addTag(tag);
+                        post = new PhotoPost();
                     }
-                }
 
-                if (jPost.type == tumblrPostTypes.photo.ToString())
-                {
-                    if (jPost.photos.Count == 1)
+                    if (jPost.type != null)
+                        post.type = jPost.type;
+
+                    if (jPost.id != null)
+                        post.id = jPost.id;
+
+                    if (jPost.post_url != null)
+                        post.url = jPost.post_url;
+
+                    if (jPost.caption != null)
+                        post.caption = jPost.caption;
+
+                    if (jPost.date != null)
+                        post.date = jPost.date;
+
+                    if (jPost.format != null)
+                        post.format = jPost.format;
+
+                    if (jPost.reblog_key != null)
+                        post.reblogKey = jPost.reblog_key;
+
+                    if (jPost.tags != null)
                     {
-                        post.imageURL = jPost.photos[0].original_size.url;
-                        post.fileName = Path.GetFileName(post.imageURL);
-                    }
-                    else
-                    {
-                        foreach (dynamic jPhoto in jPost.photos)
+                        foreach (string tag in jPost.tags)
                         {
-                            PhotoSetImage setImage = new PhotoSetImage();
-                            setImage.imageURL = jPhoto.original_size.url;
-                            setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
-
-                            post.addImageToPhotoSet(setImage);
+                            post.addTag(tag);
                         }
                     }
-                }
 
-                postList.Add(post);
+                    if (jPost.type == tumblrPostTypes.photo.ToString())
+                    {
+                        if (jPost.photos.Count == 1)
+                        {
+                            post.imageURL = jPost.photos[0].original_size.url;
+                            post.fileName = Path.GetFileName(post.imageURL);
+                        }
+                        else
+                        {
+                            foreach (dynamic jPhoto in jPost.photos)
+                            {
+                                PhotoSetImage setImage = new PhotoSetImage();
+                                setImage.imageURL = jPhoto.original_size.url;
+                                setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
+
+                                post.addImageToPhotoSet(setImage);
+                            }
+                        }
+                    }
+
+                    postList.Add(post);
+                }
             }
 
             // xmlDocument = JSONHelper.jsonToXML(jsonDocument);

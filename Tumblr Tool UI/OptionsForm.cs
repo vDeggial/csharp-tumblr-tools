@@ -169,5 +169,15 @@ namespace Tumblr_Tool
         {
             setOptions();
         }
+
+        private void button_MouseEnter(object sender, EventArgs e)
+        {
+            this._mainForm.button_MouseEnter(sender, e);
+        }
+
+        private void button_MouseLeave(object sender, EventArgs e)
+        {
+            this._mainForm.button_MouseLeave(sender, e);
+        }
     }
 }
