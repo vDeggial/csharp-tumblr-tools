@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2013
+ *
+ *  Last Updated: December, 2014
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,7 +26,6 @@ using Tumblr_Tool.Managers;
 using Tumblr_Tool.Properties;
 using Tumblr_Tool.Tumblr_Objects;
 using Tumblr_Tool.Tumblr_Stats;
-using Dotnetrix.Controls;
 
 namespace Tumblr_Tool
 {
@@ -63,7 +74,6 @@ namespace Tumblr_Tool
             aboutForm.mainForm = this;
             aboutForm.version = "Version: " + version;
 
-            
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
 
             loadOptions();
@@ -1015,8 +1025,6 @@ namespace Tumblr_Tool
 
             this.Invoke((MethodInvoker)delegate
                 {
-                    
-                    
                     bar_Progress.Minimum = 0;
                     bar_Progress.Value = 0;
                     bar_Progress.Maximum = 100;
@@ -1027,7 +1035,6 @@ namespace Tumblr_Tool
 
             while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
             {
-                
             }
 
             this.Invoke((MethodInvoker)delegate
@@ -1042,7 +1049,7 @@ namespace Tumblr_Tool
                 lbl_Stats_TotalCount.Visible = true;
                 lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
                 lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
-                
+
                 lbl_PostCount.Text = "";
                 lbl_PostCount.Visible = true;
             });
@@ -1193,7 +1200,6 @@ namespace Tumblr_Tool
             }
         }
 
-
         private void workStatusAutoScroll(object sender, EventArgs e)
         {
             txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
@@ -1207,8 +1213,6 @@ namespace Tumblr_Tool
             AdvancedMenuRenderer renderer = TSMI.GetCurrentParent().Renderer as AdvancedMenuRenderer;
 
             renderer.changeTextForeColor(TSMI, e);
-           
-            
         }
 
         public void button_MouseEnter(object sender, EventArgs e)

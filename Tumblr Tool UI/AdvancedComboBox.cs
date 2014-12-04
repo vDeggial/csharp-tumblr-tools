@@ -1,4 +1,16 @@
-﻿using System.Drawing;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2013
+ *
+ *  Last Updated: December, 2014
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -48,15 +60,10 @@ namespace Tumblr_Tool
             }
 
             e.DrawFocusRectangle();
-
-
-            
-          
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
             base.OnPaint(e);
             e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
                                       new SolidBrush(this.ForeColor),
@@ -67,7 +74,7 @@ namespace Tumblr_Tool
             Color lowColor = Color.White;
             Rectangle itemRect = new Rectangle(this.Width - buttonWidth, 0, buttonWidth, this.Height);
 
-            //Create the brushes.            
+            //Create the brushes.
             LinearGradientBrush gradientBrush = new LinearGradientBrush(itemRect, highColor,
                     lowColor, LinearGradientMode.Vertical);
 
@@ -90,11 +97,6 @@ namespace Tumblr_Tool
 
             e.Graphics.FillPolygon(arrowBrush, points);
             arrowBrush.Dispose();
-
-            
-        }        
-    
-
-            
+        }
     }
 }
