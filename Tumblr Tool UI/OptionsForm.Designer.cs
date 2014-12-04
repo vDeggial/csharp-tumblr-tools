@@ -107,6 +107,7 @@
             // 
             this.select_APIMode.BackColor = System.Drawing.Color.White;
             this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_APIMode.Enabled = false;
             this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.select_APIMode.ForeColor = System.Drawing.Color.Black;
             this.select_APIMode.FormattingEnabled = true;
