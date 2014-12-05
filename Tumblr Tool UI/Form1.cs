@@ -35,6 +35,8 @@ namespace Tumblr_Tool
         private static Tumblr tumblrBlog;
 
         private AboutForm aboutForm;
+        private int currentSelectedTab;
+        private bool disableOtherTabs = false;
         private bool downloadDone = false;
         private List<string> downloadedList = new List<string>();
         private List<int> downloadedSizesList = new List<int>();
@@ -50,11 +52,14 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.3";
+        private string version = "1.0.4";
 
         public mainForm()
         {
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
+
             InitializeComponent();
+
             this.select_Mode.SelectedIndex = 1;
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
             renderer.HighlightForeColor = Color.Maroon;
@@ -207,11 +212,7 @@ namespace Tumblr_Tool
 
         private void btn_Crawl_Click(object sender, EventArgs e)
         {
-            btn_Crawl.Enabled = false;
-            select_Mode.Enabled = false;
-            openToolStripMenuItem.Enabled = false;
-            optionsToolStripMenuItem.Enabled = false;
-            tab_TumblrStats.Enabled = false;
+            enableUI_Crawl(false);
             lbl_PostCount.Visible = false;
             bar_Progress.Visible = false;
             txt_WorkStatus.Visible = true;
@@ -257,7 +258,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    tab_ImageRipper.Enabled = false;
+                    enableUI_Stats(false);
 
                     tumblrStats = new TumblrStats(new Tumblr("Blog", txt_StatsTumblrURL.Text));
 
@@ -373,7 +374,6 @@ namespace Tumblr_Tool
                                 updateWorkStatusText("Indexing Blog done");
 
                                 updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
-                                lbl_PostCount.Visible = false;
                                 bar_Progress.Value = 0;
                                 bar_Progress.Update();
 
@@ -414,25 +414,11 @@ namespace Tumblr_Tool
                 {
                     if (optionsForm.parseOnly)
                     {
-                        tab_TumblrStats.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        optionsToolStripMenuItem.Enabled = true;
-                        btn_Crawl.Enabled = true;
-                        tab_TumblrStats.Enabled = true;
-                        select_Mode.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        optionsToolStripMenuItem.Enabled = true;
+                        enableUI_Crawl(true);
                     }
                     else if (ripper.statusCode != processingCodes.Done)
                     {
-                        tab_TumblrStats.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        optionsToolStripMenuItem.Enabled = true;
-                        btn_Crawl.Enabled = true;
-                        tab_TumblrStats.Enabled = true;
-                        select_Mode.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        optionsToolStripMenuItem.Enabled = true;
+                        enableUI_Crawl(true);
                     }
                     else
                     {
@@ -845,11 +831,7 @@ namespace Tumblr_Tool
 
                         lbl_PercentBar.Visible = false;
                         bar_Progress.Visible = false;
-                        btn_Crawl.Enabled = true;
-                        tab_TumblrStats.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        optionsToolStripMenuItem.Enabled = true;
-                        select_Mode.Enabled = true;
+                        enableUI_Crawl(true);
                     });
                 }
             }
@@ -1058,7 +1040,7 @@ namespace Tumblr_Tool
                         bool downloaded = false;
                         string fullPath = "";
 
-                        while (!fileDownloadDone)
+                        while (!fileDownloadDone && !isCancelled)
                         {
                             fullPath = FileHelper.getFullFilePath(Path.GetFileName(photoURL), txt_SaveLocation.Text);
 
@@ -1081,8 +1063,14 @@ namespace Tumblr_Tool
                             else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
                             {
                                 notDownloadedList.Add(photoURL);
+                                (new FileInfo(fullPath)).Delete();
                                 fileDownloadDone = true;
                             }
+                        }
+
+                        if (isCancelled)
+                        {
+                            (new FileInfo(fullPath)).Delete();
                         }
                     }
 
@@ -1097,6 +1085,28 @@ namespace Tumblr_Tool
             catch
             {
             }
+        }
+
+        private void enableUI_Crawl(bool state)
+        {
+            btn_Browse.Enabled = state;
+            btn_Crawl.Enabled = state;
+            select_Mode.Enabled = state;
+            fileToolStripMenuItem.Enabled = state;
+            optionsToolStripMenuItem.Enabled = state;
+            //lbl_PostCount.Visible = state;
+            txt_TumblrURL.Enabled = state;
+            txt_SaveLocation.Enabled = state;
+            disableOtherTabs = !state;
+        }
+
+        private void enableUI_Stats(bool state)
+        {
+            btn_GetStats.Enabled = state;
+            fileToolStripMenuItem.Enabled = state;
+            optionsToolStripMenuItem.Enabled = state;
+            txt_StatsTumblrURL.Enabled = state;
+            disableOtherTabs = !state;
         }
 
         private void fileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
@@ -1157,7 +1167,39 @@ namespace Tumblr_Tool
             this.isCancelled = true;
             this.downloadDone = true;
 
-            //Application.Exit();
+
+            if (crawl_Worker.IsBusy)
+            {
+                crawl_Worker.CancelAsync();
+            }
+
+            if (crawl_UpdateUI_Worker.IsBusy)
+            {
+                crawl_UpdateUI_Worker.CancelAsync();
+            }
+
+            if (download_Worker.IsBusy)
+            {
+                download_Worker.CancelAsync();
+            }
+
+            if (download_UIUpdate_Worker.IsBusy)
+            {
+                download_UIUpdate_Worker.CancelAsync();
+            }
+
+            if (getStats_Worker.IsBusy)
+            {
+                getStats_Worker.CancelAsync();
+            }
+
+            if (getStatsUI_Worker.IsBusy)
+            {
+                getStatsUI_Worker.CancelAsync();
+            }
+            
+
+            Application.Exit();
         }
 
         private void getStatsUIWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
@@ -1168,7 +1210,7 @@ namespace Tumblr_Tool
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
-                        tab_ImageRipper.Enabled = true;
+                        enableUI_Stats(true);
                         updateStatusText("Done");
                         lbl_PostCount.Visible = false;
                         bar_Progress.Visible = false;
@@ -1221,6 +1263,7 @@ namespace Tumblr_Tool
 
                         lbl_PostCount.Text = "";
                         lbl_PostCount.Visible = true;
+                        img_Stats_Avatar.LoadAsync(JSONHelper.getAvatarQueryString(tumblrStats.blog.cname));
                     });
                 }
 
@@ -1381,12 +1424,35 @@ namespace Tumblr_Tool
             txt_StatsTumblrURL.Text = txt_TumblrURL.Text;
         }
 
+        private void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (disableOtherTabs)
+            {
+                Dotnetrix.Controls.TabControl tabWizardControl = sender as Dotnetrix.Controls.TabControl;
+
+                int selectedTab = tabWizardControl.SelectedIndex;
+
+                //Disable the tab selection
+                if (currentSelectedTab != selectedTab)
+                {
+                    //If selected tab is different than the current one, re-select the current tab.
+                    //This disables the navigation using the tab selection.
+                    tabWizardControl.SelectTab(currentSelectedTab);
+                }
+            }
+        }
+
         private void tabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!e.TabPage.Enabled)
             {
                 e.Cancel = true;
             }
+        }
+
+        private void tabPage_Enter(object sender, EventArgs e)
+        {
+            currentSelectedTab = tabControl_Main.SelectedIndex;
         }
 
         private void toolStripMenuItem_Paint(object sender, PaintEventArgs e)

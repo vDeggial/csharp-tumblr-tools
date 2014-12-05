@@ -23,6 +23,8 @@ namespace Tumblr_Tool.Common_Helpers
         private static string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
         private static string jsonBlogInfoQuery = "info";
         private static string jsonPostQuery = "posts";
+        private static string jsonAvatarQuery = "avatar";
+        private static string jsonAvatarSize = "128";
         private static string jsonURL = "http://api.tumblr.com/v2/blog";
         private static int offset = 0;
 
@@ -58,6 +60,14 @@ namespace Tumblr_Tool.Common_Helpers
             {
                 return null;
             }
+        }
+
+        public static string getAvatarQueryString(string tumblrDomain)
+        {
+            tumblrDomain = CommonHelper.getDomainName(tumblrDomain);
+            string query = string.Copy(jsonURL);
+            query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
+            return query;
         }
 
         public static string getQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)

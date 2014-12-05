@@ -10,6 +10,7 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System;
 using System.Text.RegularExpressions;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -26,6 +27,11 @@ namespace Tumblr_Tool.Common_Helpers
             }
 
             return url;
+        }
+
+        public static string getDomainName(string url)
+        {
+            return new Uri(url) != null ? new Uri(url).Host : null;
         }
 
         public static string getMimeType(string extension)

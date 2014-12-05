@@ -25,7 +25,6 @@
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
-  <PropertyGroup Condition=" '$(Configuration)' == 'x86_Debug' " />
   <ItemGroup>
     <Compile Include="setup.aip">
       <SubType>Content</SubType>

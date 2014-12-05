@@ -30,6 +30,8 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public PhotoPost()
         {
+            this.type = "photo";
+            this.format = "html";
         }
 
         [XmlElement("caption")]
