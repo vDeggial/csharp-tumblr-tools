@@ -309,7 +309,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void saveLogFile(string name)
         {
-            if (log == null)
+            if (log == null || log.blog.name != name)
             {
                 log = new SaveFile(name + ".log", blog);
             }

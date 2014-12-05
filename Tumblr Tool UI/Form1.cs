@@ -730,7 +730,7 @@ namespace Tumblr_Tool
                                     ripper.statusCode = processingCodes.blogInfoOK;
                                 }
 
-                                if (saveFile == null && !saveTumblrFile(this.ripper.blog.name))
+                                if (!saveTumblrFile(this.ripper.blog.name))
                                 {
                                     lock (ripper)
                                     {
@@ -1412,7 +1412,7 @@ namespace Tumblr_Tool
 
         private bool saveTumblrFile(string name)
         {
-            if (saveFile == null)
+            if (saveFile == null || saveFile.blog.name != name)
             {
                 saveFile = new SaveFile(name + ".tumblr", ripper.blog);
             }
