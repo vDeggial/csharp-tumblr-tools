@@ -995,6 +995,8 @@ namespace Tumblr_Tool
         {
             try
             {
+                downloadedList.Clear();
+                downloadedSizesList.Clear();
                 downloadDone = false;
                 fileDownloadDone = false;
                 List<string> imagesList = (List<string>)e.Argument;
