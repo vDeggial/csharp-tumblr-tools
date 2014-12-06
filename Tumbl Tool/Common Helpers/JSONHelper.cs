@@ -76,12 +76,14 @@ namespace Tumblr_Tool.Common_Helpers
             string query = string.Copy(jsonURL);
 
             query += "/" + CommonHelper.fixURL(tumblrDomain) + "/" + jsonPostQuery;
-            query += "?api_key=" + apiKey;
+            
 
             if (type != tumblrPostTypes.empty.ToString())
             {
-                query += "&type=" + type;
+                query += "/" + type;
             }
+
+            query += "?api_key=" + apiKey;
 
             if (start != 0)
             {
