@@ -50,11 +50,11 @@ namespace Tumblr_Tool.Managers
             return this.mode;
         }
 
-        public List<TumblrPost> getPostList(string type = "", string mode = "XML")
+        public List<TumblrPost> getPostList(string type, string mode)
         {
             List<TumblrPost> postList = new List<TumblrPost>();
 
-            if (mode == "JSON")
+            if (mode == apiModeEnum.JSON.ToString())
             {
                 postList = getPostListJSON(type);
             }
@@ -66,11 +66,11 @@ namespace Tumblr_Tool.Managers
             return postList;
         }
 
-        public List<TumblrPost> getPostListJSON(string type = "")
+        public List<TumblrPost> getPostListJSON(string type)
         {
             List<TumblrPost> postList = new List<TumblrPost>();
 
-            if (jsonDocument != null)
+            if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.posts != null)
             {
                 JArray jPostArray = jsonDocument.response.posts;
                 List<dynamic> jPostList = jPostArray.ToObject<List<dynamic>>();
@@ -78,7 +78,7 @@ namespace Tumblr_Tool.Managers
                 foreach (dynamic jPost in jPostList)
                 {
                     TumblrPost post = new TumblrPost();
-                    if (type == "photo")
+                    if (type == tumblrPostTypes.photo.ToString())
                     {
                         post = new PhotoPost();
                     }
@@ -245,32 +245,6 @@ namespace Tumblr_Tool.Managers
             }
 
             return postList;
-        }
-
-        public int getTotalNumPosts()
-        {
-            if (mode == "XML" && xmlDocument != null)
-            {
-                return getTotalNumPostsXML();
-            }
-            else if (mode == "JSON" && jsonDocument != null)
-            {
-                return getTotalNumPostsJSON();
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public int getTotalNumPostsJSON()
-        {
-            return Convert.ToInt32(jsonDocument.response.blog.posts.ToString());
-        }
-
-        public int getTotalNumPostsXML()
-        {
-            return Convert.ToInt32(xmlDocument.Root.Element("posts").Attribute("total").Value);
         }
 
         public void getXMLDocument(string url)

@@ -16,7 +16,7 @@ using System.IO;
 namespace Tumblr_Tool.Tumblr_Objects
 {
     [Serializable()]
-    public class PhotoSetImage : ICloneable
+    public class PhotoSetImage
     {
         public PhotoSetImage()
         {
@@ -43,10 +43,5 @@ namespace Tumblr_Tool.Tumblr_Objects
         public string offset { get; set; }
 
         public string width { get; set; }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
     }
 }

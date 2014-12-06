@@ -52,11 +52,11 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.4";
+        private string version = "1.0.5";
 
         public mainForm()
         {
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
+            // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
 
             InitializeComponent();
 
@@ -276,11 +276,6 @@ namespace Tumblr_Tool
             {
                 MessageBox.Show("Please enter valid url!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void btn_Options_Click(object sender, EventArgs e)
-        {
-            this.optionsForm.ShowDialog();
         }
 
         private bool checkFields()
@@ -1167,7 +1162,6 @@ namespace Tumblr_Tool
             this.isCancelled = true;
             this.downloadDone = true;
 
-
             if (crawl_Worker.IsBusy)
             {
                 crawl_Worker.CancelAsync();
@@ -1197,7 +1191,6 @@ namespace Tumblr_Tool
             {
                 getStatsUI_Worker.CancelAsync();
             }
-            
 
             Application.Exit();
         }
@@ -1381,15 +1374,6 @@ namespace Tumblr_Tool
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.optionsForm.ShowDialog();
-        }
-
-        private bool saveLogFile(string name)
-        {
-            if (saveFile == null)
-            {
-                saveFile = new SaveFile(name + ".log", ripper.blog);
-            }
-            return fileManager.saveTumblrFile(txt_SaveLocation.Text + @"\" + saveFile.getFileName(), saveFile);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

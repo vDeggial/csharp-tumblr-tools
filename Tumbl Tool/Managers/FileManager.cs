@@ -141,11 +141,6 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
-        public downloadStatusCodes getDownloadStatusCode()
-        {
-            return statusCode;
-        }
-
         public SaveFile readTumblrFile(string location)
         {
             return FileHelper.readTumblrFile(location, "XML");

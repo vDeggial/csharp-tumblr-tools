@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
+using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Common_Helpers
 {
@@ -77,7 +78,7 @@ namespace Tumblr_Tool.Common_Helpers
             query += "/" + CommonHelper.fixURL(tumblrDomain) + "/" + jsonPostQuery;
             query += "?api_key=" + apiKey;
 
-            if (!string.IsNullOrEmpty(type))
+            if (type != tumblrPostTypes.empty.ToString())
             {
                 query += "&type=" + type;
             }

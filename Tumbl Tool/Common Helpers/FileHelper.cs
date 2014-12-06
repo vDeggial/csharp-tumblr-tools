@@ -20,11 +20,6 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public class FileHelper
     {
-        public static bool fileExists(string fullPath)
-        {
-            return File.Exists(fullPath);
-        }
-
         public static string findFile(string dir, string name)
         {
             return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
@@ -76,32 +71,6 @@ namespace Tumblr_Tool.Common_Helpers
             //}
 
             return imagesList;
-        }
-
-        public static bool isFileInUse(FileInfo file)
-        {
-            FileStream stream = null;
-
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
-
-            //file is not locked
-            return false;
         }
 
         public static SaveFile readTumblrFile(string location, string format)

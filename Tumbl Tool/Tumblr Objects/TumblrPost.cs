@@ -69,11 +69,6 @@ namespace Tumblr_Tool.Tumblr_Objects
             this.tags.Add(tag);
         }
 
-        public List<string> getTags()
-        {
-            return tags;
-        }
-
         public virtual bool isPhotoset()
         {
             return false;

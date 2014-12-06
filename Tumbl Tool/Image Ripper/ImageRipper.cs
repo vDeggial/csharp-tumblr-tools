@@ -177,7 +177,7 @@ namespace Tumblr_Tool.Image_Ripper
         public List<TumblrPost> getTumblrPostList(int start = 0)
         {
             string query;
-            if (this.apiMode == "XML") //XML
+            if (this.apiMode == apiModeEnum.XML.ToString()) //XML
             {
                 query = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString(), start);
             }
@@ -201,7 +201,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public bool isValidTumblr()
         {
-            string url = "";
+            string url = string.Empty;
             if (apiMode == apiModeEnum.XML.ToString())
                 url = XMLHelper.getQueryString(this.tumblrURL, tumblrPostTypes.photo.ToString());
             else
@@ -215,7 +215,7 @@ namespace Tumblr_Tool.Image_Ripper
         public Tumblr parseBlogPosts(int parseMode)
         {
             statusCode = processingCodes.Starting;
-            string url = "";
+            string url = string.Empty;
             if (apiMode == apiModeEnum.XML.ToString())
                 url = XMLHelper.getQueryString(tumblrURL, tumblrPostTypes.photo.ToString());
             else
