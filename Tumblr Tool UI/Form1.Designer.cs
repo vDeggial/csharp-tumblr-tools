@@ -76,26 +76,26 @@ namespace Tumblr_Tool
             this.lbl_Stats_URL = new System.Windows.Forms.Label();
             this.txt_StatsTumblrURL = new System.Windows.Forms.TextBox();
             this.box_PostStats = new System.Windows.Forms.GroupBox();
-            this.lbl_Stats_LinkCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_Photo = new System.Windows.Forms.Label();
-            this.lbl_Stats_ChatCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_Text = new System.Windows.Forms.Label();
-            this.lbl_Stats_AnswerCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_QuoteStats = new System.Windows.Forms.Label();
+            this.lbl_Stats_TotalCount = new System.Windows.Forms.Label();
+            this.table_Stats_PostStats = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_Stats_Link = new System.Windows.Forms.Label();
+            this.lbl_Stats_QuoteStats = new System.Windows.Forms.Label();
+            this.lbl_Stats_Photo = new System.Windows.Forms.Label();
+            this.lbl_Stats_Quote = new System.Windows.Forms.Label();
+            this.lbl_Stats_LinkCount = new System.Windows.Forms.Label();
+            this.lbl_Stats_ChatCount = new System.Windows.Forms.Label();
+            this.lbl_Stats_PhotoCount = new System.Windows.Forms.Label();
             this.lbl_Stats_AudioCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_Total = new System.Windows.Forms.Label();
+            this.lbl_Stats_Text = new System.Windows.Forms.Label();
+            this.lbl_Stats_Audio = new System.Windows.Forms.Label();
+            this.lbl_Stats_TextCount = new System.Windows.Forms.Label();
+            this.lbl_Stats_Video = new System.Windows.Forms.Label();
             this.lbl_Stats_VideoCount = new System.Windows.Forms.Label();
             this.lbl_Stats_Answer = new System.Windows.Forms.Label();
+            this.lbl_Stats_AnswerCount = new System.Windows.Forms.Label();
             this.lbl_Stats_Chat = new System.Windows.Forms.Label();
-            this.lbl_Stats_Video = new System.Windows.Forms.Label();
-            this.lbl_Stats_Audio = new System.Windows.Forms.Label();
-            this.lbl_Stats_Quote = new System.Windows.Forms.Label();
-            this.lbl_Stats_TextCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_PhotoCount = new System.Windows.Forms.Label();
-            this.lbl_Stats_TotalCount = new System.Windows.Forms.Label();
+            this.lbl_Stats_Total = new System.Windows.Forms.Label();
             this.btn_GetStats = new System.Windows.Forms.Button();
-            this.table_Stats_PostStats = new System.Windows.Forms.TableLayoutPanel();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.img_Stats_Avatar = new Tumblr_Tool.CirclePictureBox();
             this.menu_TopMenu.SuspendLayout();
@@ -644,223 +644,15 @@ namespace Tumblr_Tool
             this.box_PostStats.TabIndex = 18;
             this.box_PostStats.TabStop = false;
             // 
-            // lbl_Stats_LinkCount
-            // 
-            this.lbl_Stats_LinkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_LinkCount.AutoSize = true;
-            this.lbl_Stats_LinkCount.Location = new System.Drawing.Point(239, 18);
-            this.lbl_Stats_LinkCount.Name = "lbl_Stats_LinkCount";
-            this.lbl_Stats_LinkCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_LinkCount.TabIndex = 8;
-            this.lbl_Stats_LinkCount.Text = "0";
-            this.lbl_Stats_LinkCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Photo
-            // 
-            this.lbl_Stats_Photo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Photo.AutoSize = true;
-            this.lbl_Stats_Photo.Location = new System.Drawing.Point(3, 0);
-            this.lbl_Stats_Photo.Name = "lbl_Stats_Photo";
-            this.lbl_Stats_Photo.Size = new System.Drawing.Size(43, 16);
-            this.lbl_Stats_Photo.TabIndex = 3;
-            this.lbl_Stats_Photo.Text = "Photo:";
-            this.lbl_Stats_Photo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_ChatCount
-            // 
-            this.lbl_Stats_ChatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_ChatCount.AutoSize = true;
-            this.lbl_Stats_ChatCount.Location = new System.Drawing.Point(439, 0);
-            this.lbl_Stats_ChatCount.Name = "lbl_Stats_ChatCount";
-            this.lbl_Stats_ChatCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_ChatCount.TabIndex = 15;
-            this.lbl_Stats_ChatCount.Text = "0";
-            this.lbl_Stats_ChatCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Text
-            // 
-            this.lbl_Stats_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Text.AutoSize = true;
-            this.lbl_Stats_Text.Location = new System.Drawing.Point(102, 0);
-            this.lbl_Stats_Text.Name = "lbl_Stats_Text";
-            this.lbl_Stats_Text.Size = new System.Drawing.Size(33, 16);
-            this.lbl_Stats_Text.TabIndex = 4;
-            this.lbl_Stats_Text.Text = "Text:";
-            this.lbl_Stats_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_AnswerCount
-            // 
-            this.lbl_Stats_AnswerCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_AnswerCount.AutoSize = true;
-            this.lbl_Stats_AnswerCount.Location = new System.Drawing.Point(344, 0);
-            this.lbl_Stats_AnswerCount.Name = "lbl_Stats_AnswerCount";
-            this.lbl_Stats_AnswerCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_AnswerCount.TabIndex = 17;
-            this.lbl_Stats_AnswerCount.Text = "0";
-            this.lbl_Stats_AnswerCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_QuoteStats
-            // 
-            this.lbl_Stats_QuoteStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_QuoteStats.AutoSize = true;
-            this.lbl_Stats_QuoteStats.Location = new System.Drawing.Point(344, 18);
-            this.lbl_Stats_QuoteStats.Name = "lbl_Stats_QuoteStats";
-            this.lbl_Stats_QuoteStats.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_QuoteStats.TabIndex = 9;
-            this.lbl_Stats_QuoteStats.Text = "0";
-            this.lbl_Stats_QuoteStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Link
-            // 
-            this.lbl_Stats_Link.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Link.AutoSize = true;
-            this.table_Stats_PostStats.SetColumnSpan(this.lbl_Stats_Link, 5);
-            this.lbl_Stats_Link.Location = new System.Drawing.Point(3, 18);
-            this.lbl_Stats_Link.Name = "lbl_Stats_Link";
-            this.lbl_Stats_Link.Size = new System.Drawing.Size(230, 16);
-            this.lbl_Stats_Link.TabIndex = 5;
-            this.lbl_Stats_Link.Text = "Link:";
-            this.lbl_Stats_Link.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_Stats_AudioCount
-            // 
-            this.lbl_Stats_AudioCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_AudioCount.AutoSize = true;
-            this.lbl_Stats_AudioCount.Location = new System.Drawing.Point(537, 0);
-            this.lbl_Stats_AudioCount.Name = "lbl_Stats_AudioCount";
-            this.lbl_Stats_AudioCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_AudioCount.TabIndex = 13;
-            this.lbl_Stats_AudioCount.Text = "0";
-            this.lbl_Stats_AudioCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Total
-            // 
-            this.lbl_Stats_Total.AutoSize = true;
-            this.lbl_Stats_Total.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold);
-            this.lbl_Stats_Total.Location = new System.Drawing.Point(263, 18);
-            this.lbl_Stats_Total.Name = "lbl_Stats_Total";
-            this.lbl_Stats_Total.Size = new System.Drawing.Size(65, 15);
-            this.lbl_Stats_Total.TabIndex = 0;
-            this.lbl_Stats_Total.Text = "Total Posts:";
-            // 
-            // lbl_Stats_VideoCount
-            // 
-            this.lbl_Stats_VideoCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_VideoCount.AutoSize = true;
-            this.lbl_Stats_VideoCount.Location = new System.Drawing.Point(239, 0);
-            this.lbl_Stats_VideoCount.Name = "lbl_Stats_VideoCount";
-            this.lbl_Stats_VideoCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_VideoCount.TabIndex = 11;
-            this.lbl_Stats_VideoCount.Text = "0";
-            this.lbl_Stats_VideoCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Answer
-            // 
-            this.lbl_Stats_Answer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Answer.AutoSize = true;
-            this.lbl_Stats_Answer.Location = new System.Drawing.Point(289, 0);
-            this.lbl_Stats_Answer.Name = "lbl_Stats_Answer";
-            this.lbl_Stats_Answer.Size = new System.Drawing.Size(49, 16);
-            this.lbl_Stats_Answer.TabIndex = 16;
-            this.lbl_Stats_Answer.Text = "Answer:";
-            this.lbl_Stats_Answer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Chat
-            // 
-            this.lbl_Stats_Chat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Chat.AutoSize = true;
-            this.lbl_Stats_Chat.Location = new System.Drawing.Point(394, 0);
-            this.lbl_Stats_Chat.Name = "lbl_Stats_Chat";
-            this.lbl_Stats_Chat.Size = new System.Drawing.Size(39, 16);
-            this.lbl_Stats_Chat.TabIndex = 14;
-            this.lbl_Stats_Chat.Text = "Chat:";
-            this.lbl_Stats_Chat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Video
-            // 
-            this.lbl_Stats_Video.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Video.AutoSize = true;
-            this.lbl_Stats_Video.Location = new System.Drawing.Point(191, 0);
-            this.lbl_Stats_Video.Name = "lbl_Stats_Video";
-            this.lbl_Stats_Video.Size = new System.Drawing.Size(42, 16);
-            this.lbl_Stats_Video.TabIndex = 10;
-            this.lbl_Stats_Video.Text = "Video:";
-            this.lbl_Stats_Video.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Audio
-            // 
-            this.lbl_Stats_Audio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Audio.AutoSize = true;
-            this.lbl_Stats_Audio.Location = new System.Drawing.Point(489, 0);
-            this.lbl_Stats_Audio.Name = "lbl_Stats_Audio";
-            this.lbl_Stats_Audio.Size = new System.Drawing.Size(42, 16);
-            this.lbl_Stats_Audio.TabIndex = 12;
-            this.lbl_Stats_Audio.Text = "Audio:";
-            this.lbl_Stats_Audio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_Quote
-            // 
-            this.lbl_Stats_Quote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_Quote.AutoSize = true;
-            this.lbl_Stats_Quote.Location = new System.Drawing.Point(289, 18);
-            this.lbl_Stats_Quote.Name = "lbl_Stats_Quote";
-            this.lbl_Stats_Quote.Size = new System.Drawing.Size(49, 16);
-            this.lbl_Stats_Quote.TabIndex = 6;
-            this.lbl_Stats_Quote.Text = "Quote:";
-            this.lbl_Stats_Quote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl_Stats_TextCount
-            // 
-            this.lbl_Stats_TextCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_TextCount.AutoSize = true;
-            this.lbl_Stats_TextCount.Location = new System.Drawing.Point(141, 0);
-            this.lbl_Stats_TextCount.Name = "lbl_Stats_TextCount";
-            this.lbl_Stats_TextCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_TextCount.TabIndex = 7;
-            this.lbl_Stats_TextCount.Text = "0";
-            this.lbl_Stats_TextCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Stats_PhotoCount
-            // 
-            this.lbl_Stats_PhotoCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_PhotoCount.AutoSize = true;
-            this.lbl_Stats_PhotoCount.Location = new System.Drawing.Point(52, 0);
-            this.lbl_Stats_PhotoCount.Name = "lbl_Stats_PhotoCount";
-            this.lbl_Stats_PhotoCount.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_PhotoCount.TabIndex = 2;
-            this.lbl_Stats_PhotoCount.Text = "0";
-            this.lbl_Stats_PhotoCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lbl_Stats_TotalCount
             // 
             this.lbl_Stats_TotalCount.AutoSize = true;
             this.lbl_Stats_TotalCount.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold);
-            this.lbl_Stats_TotalCount.Location = new System.Drawing.Point(328, 18);
+            this.lbl_Stats_TotalCount.Location = new System.Drawing.Point(322, 13);
             this.lbl_Stats_TotalCount.Name = "lbl_Stats_TotalCount";
             this.lbl_Stats_TotalCount.Size = new System.Drawing.Size(13, 15);
             this.lbl_Stats_TotalCount.TabIndex = 1;
             this.lbl_Stats_TotalCount.Text = "0";
-            // 
-            // btn_GetStats
-            // 
-            this.btn_GetStats.FlatAppearance.BorderSize = 0;
-            this.btn_GetStats.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_GetStats.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GetStats.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_GetStats.ImageIndex = 3;
-            this.btn_GetStats.ImageList = this.iconList;
-            this.btn_GetStats.Location = new System.Drawing.Point(103, 51);
-            this.btn_GetStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btn_GetStats.Name = "btn_GetStats";
-            this.btn_GetStats.Size = new System.Drawing.Size(87, 24);
-            this.btn_GetStats.TabIndex = 3;
-            this.btn_GetStats.Text = "Get Stats";
-            this.btn_GetStats.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_GetStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_GetStats.UseVisualStyleBackColor = true;
-            this.btn_GetStats.Click += new System.EventHandler(this.btn_GetStats_Click);
-            this.btn_GetStats.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_GetStats.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             // 
             // table_Stats_PostStats
             // 
@@ -897,7 +689,7 @@ namespace Tumblr_Tool
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_Answer, 6, 0);
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_AnswerCount, 7, 0);
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_Chat, 8, 0);
-            this.table_Stats_PostStats.Location = new System.Drawing.Point(4, 33);
+            this.table_Stats_PostStats.Location = new System.Drawing.Point(4, 39);
             this.table_Stats_PostStats.Margin = new System.Windows.Forms.Padding(0);
             this.table_Stats_PostStats.Name = "table_Stats_PostStats";
             this.table_Stats_PostStats.RowCount = 2;
@@ -905,6 +697,214 @@ namespace Tumblr_Tool
             this.table_Stats_PostStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.table_Stats_PostStats.Size = new System.Drawing.Size(584, 36);
             this.table_Stats_PostStats.TabIndex = 15;
+            // 
+            // lbl_Stats_Link
+            // 
+            this.lbl_Stats_Link.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Link.AutoSize = true;
+            this.table_Stats_PostStats.SetColumnSpan(this.lbl_Stats_Link, 5);
+            this.lbl_Stats_Link.Location = new System.Drawing.Point(3, 18);
+            this.lbl_Stats_Link.Name = "lbl_Stats_Link";
+            this.lbl_Stats_Link.Size = new System.Drawing.Size(230, 16);
+            this.lbl_Stats_Link.TabIndex = 5;
+            this.lbl_Stats_Link.Text = "Link:";
+            this.lbl_Stats_Link.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_Stats_QuoteStats
+            // 
+            this.lbl_Stats_QuoteStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_QuoteStats.AutoSize = true;
+            this.lbl_Stats_QuoteStats.Location = new System.Drawing.Point(344, 18);
+            this.lbl_Stats_QuoteStats.Name = "lbl_Stats_QuoteStats";
+            this.lbl_Stats_QuoteStats.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_QuoteStats.TabIndex = 9;
+            this.lbl_Stats_QuoteStats.Text = "0";
+            this.lbl_Stats_QuoteStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Photo
+            // 
+            this.lbl_Stats_Photo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Photo.AutoSize = true;
+            this.lbl_Stats_Photo.Location = new System.Drawing.Point(3, 0);
+            this.lbl_Stats_Photo.Name = "lbl_Stats_Photo";
+            this.lbl_Stats_Photo.Size = new System.Drawing.Size(43, 16);
+            this.lbl_Stats_Photo.TabIndex = 3;
+            this.lbl_Stats_Photo.Text = "Photo:";
+            this.lbl_Stats_Photo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Quote
+            // 
+            this.lbl_Stats_Quote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Quote.AutoSize = true;
+            this.lbl_Stats_Quote.Location = new System.Drawing.Point(289, 18);
+            this.lbl_Stats_Quote.Name = "lbl_Stats_Quote";
+            this.lbl_Stats_Quote.Size = new System.Drawing.Size(49, 16);
+            this.lbl_Stats_Quote.TabIndex = 6;
+            this.lbl_Stats_Quote.Text = "Quote:";
+            this.lbl_Stats_Quote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbl_Stats_LinkCount
+            // 
+            this.lbl_Stats_LinkCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_LinkCount.AutoSize = true;
+            this.lbl_Stats_LinkCount.Location = new System.Drawing.Point(239, 18);
+            this.lbl_Stats_LinkCount.Name = "lbl_Stats_LinkCount";
+            this.lbl_Stats_LinkCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_LinkCount.TabIndex = 8;
+            this.lbl_Stats_LinkCount.Text = "0";
+            this.lbl_Stats_LinkCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_ChatCount
+            // 
+            this.lbl_Stats_ChatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_ChatCount.AutoSize = true;
+            this.lbl_Stats_ChatCount.Location = new System.Drawing.Point(439, 0);
+            this.lbl_Stats_ChatCount.Name = "lbl_Stats_ChatCount";
+            this.lbl_Stats_ChatCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_ChatCount.TabIndex = 15;
+            this.lbl_Stats_ChatCount.Text = "0";
+            this.lbl_Stats_ChatCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_PhotoCount
+            // 
+            this.lbl_Stats_PhotoCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_PhotoCount.AutoSize = true;
+            this.lbl_Stats_PhotoCount.Location = new System.Drawing.Point(52, 0);
+            this.lbl_Stats_PhotoCount.Name = "lbl_Stats_PhotoCount";
+            this.lbl_Stats_PhotoCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_PhotoCount.TabIndex = 2;
+            this.lbl_Stats_PhotoCount.Text = "0";
+            this.lbl_Stats_PhotoCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_AudioCount
+            // 
+            this.lbl_Stats_AudioCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_AudioCount.AutoSize = true;
+            this.lbl_Stats_AudioCount.Location = new System.Drawing.Point(537, 0);
+            this.lbl_Stats_AudioCount.Name = "lbl_Stats_AudioCount";
+            this.lbl_Stats_AudioCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_AudioCount.TabIndex = 13;
+            this.lbl_Stats_AudioCount.Text = "0";
+            this.lbl_Stats_AudioCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Text
+            // 
+            this.lbl_Stats_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Text.AutoSize = true;
+            this.lbl_Stats_Text.Location = new System.Drawing.Point(102, 0);
+            this.lbl_Stats_Text.Name = "lbl_Stats_Text";
+            this.lbl_Stats_Text.Size = new System.Drawing.Size(33, 16);
+            this.lbl_Stats_Text.TabIndex = 4;
+            this.lbl_Stats_Text.Text = "Text:";
+            this.lbl_Stats_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Audio
+            // 
+            this.lbl_Stats_Audio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Audio.AutoSize = true;
+            this.lbl_Stats_Audio.Location = new System.Drawing.Point(489, 0);
+            this.lbl_Stats_Audio.Name = "lbl_Stats_Audio";
+            this.lbl_Stats_Audio.Size = new System.Drawing.Size(42, 16);
+            this.lbl_Stats_Audio.TabIndex = 12;
+            this.lbl_Stats_Audio.Text = "Audio:";
+            this.lbl_Stats_Audio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_TextCount
+            // 
+            this.lbl_Stats_TextCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_TextCount.AutoSize = true;
+            this.lbl_Stats_TextCount.Location = new System.Drawing.Point(141, 0);
+            this.lbl_Stats_TextCount.Name = "lbl_Stats_TextCount";
+            this.lbl_Stats_TextCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_TextCount.TabIndex = 7;
+            this.lbl_Stats_TextCount.Text = "0";
+            this.lbl_Stats_TextCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Video
+            // 
+            this.lbl_Stats_Video.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Video.AutoSize = true;
+            this.lbl_Stats_Video.Location = new System.Drawing.Point(191, 0);
+            this.lbl_Stats_Video.Name = "lbl_Stats_Video";
+            this.lbl_Stats_Video.Size = new System.Drawing.Size(42, 16);
+            this.lbl_Stats_Video.TabIndex = 10;
+            this.lbl_Stats_Video.Text = "Video:";
+            this.lbl_Stats_Video.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_VideoCount
+            // 
+            this.lbl_Stats_VideoCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_VideoCount.AutoSize = true;
+            this.lbl_Stats_VideoCount.Location = new System.Drawing.Point(239, 0);
+            this.lbl_Stats_VideoCount.Name = "lbl_Stats_VideoCount";
+            this.lbl_Stats_VideoCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_VideoCount.TabIndex = 11;
+            this.lbl_Stats_VideoCount.Text = "0";
+            this.lbl_Stats_VideoCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Answer
+            // 
+            this.lbl_Stats_Answer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Answer.AutoSize = true;
+            this.lbl_Stats_Answer.Location = new System.Drawing.Point(289, 0);
+            this.lbl_Stats_Answer.Name = "lbl_Stats_Answer";
+            this.lbl_Stats_Answer.Size = new System.Drawing.Size(49, 16);
+            this.lbl_Stats_Answer.TabIndex = 16;
+            this.lbl_Stats_Answer.Text = "Answer:";
+            this.lbl_Stats_Answer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_AnswerCount
+            // 
+            this.lbl_Stats_AnswerCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_AnswerCount.AutoSize = true;
+            this.lbl_Stats_AnswerCount.Location = new System.Drawing.Point(344, 0);
+            this.lbl_Stats_AnswerCount.Name = "lbl_Stats_AnswerCount";
+            this.lbl_Stats_AnswerCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_AnswerCount.TabIndex = 17;
+            this.lbl_Stats_AnswerCount.Text = "0";
+            this.lbl_Stats_AnswerCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Chat
+            // 
+            this.lbl_Stats_Chat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_Chat.AutoSize = true;
+            this.lbl_Stats_Chat.Location = new System.Drawing.Point(394, 0);
+            this.lbl_Stats_Chat.Name = "lbl_Stats_Chat";
+            this.lbl_Stats_Chat.Size = new System.Drawing.Size(39, 16);
+            this.lbl_Stats_Chat.TabIndex = 14;
+            this.lbl_Stats_Chat.Text = "Chat:";
+            this.lbl_Stats_Chat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Stats_Total
+            // 
+            this.lbl_Stats_Total.AutoSize = true;
+            this.lbl_Stats_Total.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lbl_Stats_Total.Location = new System.Drawing.Point(255, 13);
+            this.lbl_Stats_Total.Name = "lbl_Stats_Total";
+            this.lbl_Stats_Total.Size = new System.Drawing.Size(65, 15);
+            this.lbl_Stats_Total.TabIndex = 0;
+            this.lbl_Stats_Total.Text = "Total Posts:";
+            // 
+            // btn_GetStats
+            // 
+            this.btn_GetStats.FlatAppearance.BorderSize = 0;
+            this.btn_GetStats.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_GetStats.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_GetStats.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_GetStats.ImageIndex = 3;
+            this.btn_GetStats.ImageList = this.iconList;
+            this.btn_GetStats.Location = new System.Drawing.Point(103, 51);
+            this.btn_GetStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_GetStats.Name = "btn_GetStats";
+            this.btn_GetStats.Size = new System.Drawing.Size(87, 24);
+            this.btn_GetStats.TabIndex = 3;
+            this.btn_GetStats.Text = "Get Stats";
+            this.btn_GetStats.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_GetStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_GetStats.UseVisualStyleBackColor = true;
+            this.btn_GetStats.Click += new System.EventHandler(this.btn_GetStats_Click);
+            this.btn_GetStats.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btn_GetStats.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             // 
             // select_Mode
             // 
