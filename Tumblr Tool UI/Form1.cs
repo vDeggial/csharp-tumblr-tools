@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats;
-        private string version = "1.0.5";
+        private string version = "1.0.6";
 
         public mainForm()
         {
@@ -67,6 +67,7 @@ namespace Tumblr_Tool
 
             menu_TopMenu.Renderer = renderer;
             txt_WorkStatus.Visible = false;
+            txt_Stats_BlogDescription.Visible = false;
             lbl_Timer.Text = "";
             lbl_Stats_BlogTitle.Text = "";
 
@@ -100,6 +101,7 @@ namespace Tumblr_Tool
             lbl_Stats_BlogTitle.Text = "";
 
             txt_WorkStatus.Visible = false;
+            txt_Stats_BlogDescription.Visible = false;
             lbl_Timer.Text = "";
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
@@ -214,6 +216,7 @@ namespace Tumblr_Tool
         {
             enableUI_Crawl(false);
             lbl_PostCount.Visible = false;
+            lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.Visible = false;
             txt_WorkStatus.Visible = true;
             txt_WorkStatus.Clear();
@@ -241,7 +244,7 @@ namespace Tumblr_Tool
             }
             else
             {
-                btn_Crawl.Enabled = true;
+                btn_Start.Enabled = true;
                 lbl_PostCount.Visible = false;
                 lbl_Size.Visible = false;
                 bar_Progress.Visible = false;
@@ -270,11 +273,13 @@ namespace Tumblr_Tool
                 else
                 {
                     MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    updateStatusText("Ready");
                 }
             }
             else
             {
                 MessageBox.Show("Please enter valid url!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                updateStatusText("Ready");
             }
         }
 
@@ -366,7 +371,7 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Indexing Blog done");
+                                updateWorkStatusText("Parsing done");
 
                                 updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
                                 bar_Progress.Value = 0;
@@ -489,7 +494,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateWorkStatusText("Internet Connection found ...");
-                                        updateWorkStatusText("Indexing Blog ...");
+                                        
                                     });
                                 }
                             }
@@ -504,7 +509,7 @@ namespace Tumblr_Tool
                                     {
                                         updateStatusText("Error");
                                         updateWorkStatusText("No internet connection detected!");
-                                        btn_Crawl.Enabled = true;
+                                        btn_Start.Enabled = true;
                                         lbl_PostCount.Visible = false;
                                         bar_Progress.Visible = false;
                                         img_DisplayImage.Visible = true;
@@ -523,6 +528,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
+                                        updateWorkStatusText("Starting ...");
                                         updateWorkStatusText("Getting Blog info ...");
                                     });
                                 }
@@ -555,7 +561,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Starting crawling Tumblr @ " + txt_TumblrURL.Text + " ... ");
+                                        updateWorkStatusText("Indexing Tumblr @ " + txt_TumblrURL.Text + " ... ");
                                         updateStatusText("Starting ...");
                                     });
                                 }
@@ -598,7 +604,7 @@ namespace Tumblr_Tool
 
                                     this.Invoke((MethodInvoker)delegate
                                        {
-                                           updateStatusText("Crawling...");
+                                           updateStatusText("Indexing...");
                                            bar_Progress.Visible = true;
                                            // lbl_PostCount.Visible = true;
                                            lbl_PercentBar.Visible = true;
@@ -620,7 +626,7 @@ namespace Tumblr_Tool
                             {
                                 updateStatusText("Error");
                                 updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
-                                btn_Crawl.Enabled = true;
+                                btn_Start.Enabled = true;
                                 lbl_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
                                 img_DisplayImage.Visible = true;
@@ -912,7 +918,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         lbl_PostCount.ForeColor = Color.Maroon;
-                                        // updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
+                                        updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
                                     });
                                 }
                             }
@@ -1087,7 +1093,7 @@ namespace Tumblr_Tool
         private void enableUI_Crawl(bool state)
         {
             btn_Browse.Enabled = state;
-            btn_Crawl.Enabled = state;
+            btn_Start.Enabled = state;
             select_Mode.Enabled = state;
             fileToolStripMenuItem.Enabled = state;
             optionsToolStripMenuItem.Enabled = state;
@@ -1116,7 +1122,7 @@ namespace Tumblr_Tool
                         {
                             txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
                             txt_TumblrURL.Text = saveFile != null ? saveFile.blog.cname : "Error parsing savefile";
-                            btn_Crawl.Enabled = true;
+                            btn_Start.Enabled = true;
                         });
                 }
             }
@@ -1269,6 +1275,7 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
+                            txt_Stats_BlogDescription.Visible = true;
                             if (txt_Stats_BlogDescription.Text == "")
                                 txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
                         });
@@ -1353,7 +1360,7 @@ namespace Tumblr_Tool
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            btn_Crawl.Enabled = false;
+            btn_Start.Enabled = false;
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.AddExtension = true;
@@ -1368,7 +1375,7 @@ namespace Tumblr_Tool
                 }
                 else
                 {
-                    btn_Crawl.Enabled = true;
+                    btn_Start.Enabled = true;
                 }
             }
         }
