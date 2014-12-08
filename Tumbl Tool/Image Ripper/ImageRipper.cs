@@ -333,7 +333,7 @@ namespace Tumblr_Tool.Image_Ripper
         public void setAPIMode(string mode)
         {
             this.apiMode = mode; // XML or JSON
-            this.crawlManager.setMode(mode);
+            this.crawlManager.mode = mode;
         }
 
         public bool setBlogInfo()

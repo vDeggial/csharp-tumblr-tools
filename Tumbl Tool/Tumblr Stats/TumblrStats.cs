@@ -10,8 +10,6 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
@@ -35,25 +33,28 @@ namespace Tumblr_Tool.Tumblr_Stats
         public int textPosts;
         public int totalPosts;
         public int videoPosts;
-        private string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
         private string apiMode;
         private CrawlManager crawlManager;
         private int found = 0;
-        private string jsonBlogInfoQuery = "info";
-        private string jsonCompletePath = "";
-        private string jsonPostQuery = "posts";
-        private string jsonURL = "http://api.tumblr.com/v2/blog";
-        private string query = @"/api/read?num=50";
         private int start;
         private int step = (int)postStepEnum.XML;
         private string tumblrDomain = "";
         private string url;
 
-        public TumblrStats(Tumblr blog, int startNum = 0, int endNum = 0)
+        public TumblrStats()
         {
+
+        }
+
+        public TumblrStats(Tumblr blog, string url, string apiMode, int startNum = 0, int endNum = 0)
+        {
+            crawlManager = new CrawlManager();
+            setAPIMode(apiMode);
+
             if (blog == null)
             {
                 this.blog = new Tumblr();
+                blog.cname = url;
 
                 setBlogInfo();
                 this.tumblrDomain = FileHelper.fixURL(blog.cname).Substring(7);
@@ -61,6 +62,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             else
             {
                 this.blog = blog;
+                setBlogInfo();
                 this.url = FileHelper.fixURL(blog.cname);
                 this.tumblrDomain = this.url.Substring(7);
             }
@@ -68,92 +70,24 @@ namespace Tumblr_Tool.Tumblr_Stats
             this.maxNumPosts = endNum;
             this.start = startNum;
 
-            crawlManager = new CrawlManager();
-            this.step = 50; //20 for JSON, 50 for XML
-        }
-
-        public List<TumblrPost> getTumblrPostList(int start = 0)
-        {
-
-            if (crawlManager.getMode() == apiModeEnum.JSON.ToString())
-            {
-                return getTumblrPostListJSON(start);
-            }
-            else
-            {
-                return getTumblrPostListXML(start);
-            }
-        }
-
-        public List<TumblrPost> getTumblrPostListJSON(int start = 0)
-        {
-            string query = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.empty.ToString(), start);
-
-            crawlManager.getJSONDocument(@query);
-
-            List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.empty.ToString(), apiModeEnum.JSON.ToString());
-            this.statusCode = processingCodes.OK;
-            return posts;
-        }
-
-        public List<TumblrPost> getTumblrPostListXML(int start = 0)
-        {
-            if (start != 0)
-            {
-                this.query += "&start=" + start.ToString();
-            }
-
-            if (maxNumPosts != 0)
-            {
-                this.query += "&end=" + maxNumPosts.ToString();
-            }
-
-            query = XMLHelper.getQueryString(url, tumblrPostTypes.empty.ToString(), start);
-
-            if (crawlManager.isValidTumblr(query))
-            {
-                crawlManager.getXMLDocument(@query);
-                if (totalPosts == 0)
-                {
-                    totalPosts = XMLHelper.getPostElementAttributeValue(crawlManager.xmlDocument, "posts", "total") != null ?
-                        Convert.ToInt32(XMLHelper.getPostElementAttributeValue(crawlManager.xmlDocument, "posts", "total")) : 0;
-                }
-
-                List<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.empty.ToString(), apiModeEnum.XML.ToString());
-                this.statusCode = processingCodes.OK;
-                return posts;
-            }
-            else if (!WebHelper.webURLExists(@query))
-            {
-                this.statusCode = processingCodes.UnableDownload;
-                return null;
-            }
-            else
-            {
-                this.statusCode = processingCodes.invalidURL;
-                return null;
-            }
+            
+            this.step = (int)postStepEnum.JSON; //20 for JSON, 50 for XML
         }
 
         public Tumblr parsePosts()
         {
-            string url = this.url + this.query;
+            string url = XMLHelper.getQueryString(this.url, tumblrPostTypes.empty.ToString(), 0);
+            step = (int)postStepEnum.XML;
 
-            if (this.crawlManager.getMode() == apiModeEnum.JSON.ToString())
+            if (this.crawlManager.mode == apiModeEnum.JSON.ToString())
             {
-                string query = string.Copy(this.jsonURL);
-
-                query += "/" + tumblrDomain + "/" + jsonPostQuery;
-                query += "?api_key=" + apiKey;
-
-                jsonCompletePath = query;
-                url = query;
+                url = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.empty.ToString(), 0);
                 step = (int)postStepEnum.JSON;
             }
 
             if (crawlManager.isValidTumblr(url))
             {
-                setBlogInfo();
+                //setBlogInfo();
 
                 // crawlManager.getDocument(url);
                 this.totalPosts = this.blog.totalPosts;
@@ -171,20 +105,14 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 while (i < this.totalPosts)
                 {
-                    if (this.crawlManager.getMode() == apiModeEnum.JSON.ToString())
+                    if (this.crawlManager.mode == apiModeEnum.JSON.ToString())
                     {
-                        string query = string.Copy(this.jsonURL);
-
-                        query += "/" + tumblrDomain + "/" + jsonPostQuery;
-                        query += "?api_key=" + apiKey;
-
-                        jsonCompletePath = query;
-                        url = query;
-                        url += "&offset=" + i.ToString();
+                        url = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.empty.ToString(), i);
                     }
 
                     crawlManager.getDocument(url);
-                    this.blog.posts.AddRange(getTumblrPostList(i));
+                    this.blog.posts.AddRange(crawlManager.getPostList(tumblrPostTypes.empty.ToString(), crawlManager.mode));
+
                     photoPosts = (from p in blog.posts where p.type == tumblrPostTypes.photo.ToString() select p).ToList().Count;
                     textPosts = (from p in blog.posts where p.type == tumblrPostTypes.regular.ToString() || p.type == tumblrPostTypes.text.ToString() select p).ToList().Count;
                     videoPosts = (from p in blog.posts where p.type == tumblrPostTypes.video.ToString() select p).ToList().Count;
@@ -211,16 +139,16 @@ namespace Tumblr_Tool.Tumblr_Stats
         public void setAPIMode(string mode)
         {
             this.apiMode = mode; // XML or JSON
-            this.crawlManager.setMode(mode);
+            this.crawlManager.mode = mode;
         }
 
         private void setBlogInfo()
         {
-            if (crawlManager.getMode() == apiModeEnum.XML.ToString())
+            if (crawlManager.mode == apiModeEnum.XML.ToString())
             {
                 crawlManager.setBlogInfo(XMLHelper.getQueryString(url, tumblrPostTypes.empty.ToString(), 0, 1), this.blog);
             }
-            else if (crawlManager.getMode() == apiModeEnum.JSON.ToString())
+            else if (crawlManager.mode == apiModeEnum.JSON.ToString())
             {
                 crawlManager.setBlogInfo(JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.empty.ToString(), 0, 1), this.blog);
             }

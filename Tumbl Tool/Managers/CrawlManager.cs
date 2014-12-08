@@ -25,8 +25,8 @@ namespace Tumblr_Tool.Managers
     public class CrawlManager
     {
         public dynamic jsonDocument;
+        public string mode;
         public XDocument xmlDocument;
-        private string mode;
 
         public CrawlManager()
         {
@@ -43,11 +43,6 @@ namespace Tumblr_Tool.Managers
         public void getJSONDocument(string url)
         {
             jsonDocument = JSONHelper.getJSONObject(url);
-        }
-
-        public string getMode()
-        {
-            return this.mode;
         }
 
         public List<TumblrPost> getPostList(string type, string mode)
@@ -254,7 +249,7 @@ namespace Tumblr_Tool.Managers
 
         public bool isValidTumblr(string url)
         {
-            if (mode == "JSON")
+            if (mode == apiModeEnum.JSON.ToString())
                 return JSONHelper.getJSONObject(url) != null;
             else
                 return XMLHelper.getXMLDocument(url) != null;
@@ -308,11 +303,6 @@ namespace Tumblr_Tool.Managers
             }
 
             return false;
-        }
-
-        public void setMode(string mode)
-        {
-            this.mode = mode;
         }
     }
 }

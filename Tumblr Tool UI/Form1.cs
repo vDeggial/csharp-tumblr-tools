@@ -51,14 +51,16 @@ namespace Tumblr_Tool
         private SaveFile saveFile, logFile;
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
-        private TumblrStats tumblrStats;
-        private string version = "1.0.6";
+        private TumblrStats tumblrStats = new TumblrStats();
+        private string version = "1.0.7";
 
         public mainForm()
         {
             // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
 
             InitializeComponent();
+
+            tumblrStats.blog = null;
 
             this.select_Mode.SelectedIndex = 1;
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
@@ -92,6 +94,7 @@ namespace Tumblr_Tool
         public mainForm(string file)
         {
             InitializeComponent();
+            tumblrStats.blog = null;
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
             renderer.HighlightForeColor = Color.Maroon;
             renderer.HighlightBackColor = Color.White;
@@ -259,22 +262,10 @@ namespace Tumblr_Tool
             updateStatusText("Initiliazing...");
             if (isValidURL(txt_StatsTumblrURL.Text))
             {
-                if (WebHelper.CheckForInternetConnection())
-                {
-                    enableUI_Stats(false);
+                enableUI_Stats(false);
 
-                    tumblrStats = new TumblrStats(new Tumblr("Blog", txt_StatsTumblrURL.Text));
-
-                    tumblrStats.setAPIMode(options.apiMode);
-
-                    getStats_Worker.RunWorkerAsync(tumblrStats);
-                    getStatsUI_Worker.RunWorkerAsync(tumblrStats);
-                }
-                else
-                {
-                    MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    updateStatusText("Ready");
-                }
+                getStats_Worker.RunWorkerAsync();
+                getStatsUI_Worker.RunWorkerAsync();
             }
             else
             {
@@ -494,7 +485,6 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateWorkStatusText("Internet Connection found ...");
-                                        
                                     });
                                 }
                             }
@@ -1228,7 +1218,7 @@ namespace Tumblr_Tool
         {
             try
             {
-                TumblrStats tumblrStats = (TumblrStats)e.Argument;
+                
 
                 if (!this.IsDisposed)
                 {
@@ -1240,11 +1230,22 @@ namespace Tumblr_Tool
                             bar_Progress.Step = 1;
                             bar_Progress.Visible = true;
                             lbl_Size.Visible = false;
+                            lbl_PercentBar.Visible = true;
                         });
+                }
+
+                while (tumblrStats.blog == null)
+                {
+                    // wait till other worker created and populated blog info
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lbl_PercentBar.Text = "Getting initial blog info ... ";
+                    });
                 }
 
                 while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
                 {
+                    // wait till we got the blog title and desc and posts number
                 }
 
                 if (!this.IsDisposed)
@@ -1345,8 +1346,30 @@ namespace Tumblr_Tool
             try
             {
                 Thread.Sleep(100);
-                TumblrStats tumblrStats = (TumblrStats)e.Argument;
-                tumblrStats.parsePosts();
+
+                if (WebHelper.CheckForInternetConnection())
+                {
+                    this.Invoke((MethodInvoker)delegate
+                            {
+
+                                this.tumblrStats = new TumblrStats(tumblrBlog, txt_StatsTumblrURL.Text, options.apiMode);
+                            });
+                            
+
+                    // tumblrStats.setAPIMode(options.apiMode);
+                }
+                else
+                {
+                    tumblrStats.statusCode = processingCodes.connectionError;
+
+                    this.Invoke((MethodInvoker)delegate
+                            {
+                                MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                updateStatusText("Ready");
+                            });
+                }
+
+                this.tumblrStats.parsePosts();
             }
             catch
             {
