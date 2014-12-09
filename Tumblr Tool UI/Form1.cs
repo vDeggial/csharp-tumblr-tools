@@ -425,6 +425,7 @@ namespace Tumblr_Tool
                     {
                         updateStatusText("Done");
                         bar_Progress.Visible = false;
+                        lbl_PostCount.Visible = false;
                     }
                 });
             }
@@ -818,6 +819,7 @@ namespace Tumblr_Tool
                         updateStatusText("Done");
 
                         lbl_PercentBar.Visible = false;
+
                         bar_Progress.Visible = false;
                         enableUI_Crawl(true);
                     });
@@ -843,6 +845,7 @@ namespace Tumblr_Tool
                             bar_Progress.Visible = false;
 
                             updateWorkStatusText("No new images to download");
+                            lbl_PostCount.Visible = false;
                             updateStatusText("Done"); ;
                         });
                     }
