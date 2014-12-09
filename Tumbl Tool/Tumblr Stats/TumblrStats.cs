@@ -54,18 +54,19 @@ namespace Tumblr_Tool.Tumblr_Stats
             if (blog == null)
             {
                 this.blog = new Tumblr();
-                blog.cname = url;
 
-                setBlogInfo();
-                this.tumblrDomain = FileHelper.fixURL(blog.cname).Substring(7);
             }
             else
             {
                 this.blog = blog;
-                setBlogInfo();
-                this.url = FileHelper.fixURL(blog.cname);
-                this.tumblrDomain = this.url.Substring(7);
+                
             }
+
+            this.blog.cname = url;
+            this.tumblrDomain = CommonHelper.getDomainName(url);
+            setBlogInfo();
+            this.url = FileHelper.fixURL(this.blog.cname);
+            this.tumblrDomain = CommonHelper.getDomainName(this.url);
 
             this.maxNumPosts = endNum;
             this.start = startNum;
@@ -101,6 +102,8 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 int i = start;
 
+                this.parsed = 0;
+
                 string prefix = string.Empty;
 
                 while (i < this.totalPosts)
@@ -113,21 +116,21 @@ namespace Tumblr_Tool.Tumblr_Stats
                     crawlManager.getDocument(url);
                     this.blog.posts.AddRange(crawlManager.getPostList(tumblrPostTypes.empty.ToString(), crawlManager.mode));
 
-                    photoPosts = (from p in blog.posts where p.type == tumblrPostTypes.photo.ToString() select p).ToList().Count;
-                    textPosts = (from p in blog.posts where p.type == tumblrPostTypes.regular.ToString() || p.type == tumblrPostTypes.text.ToString() select p).ToList().Count;
-                    videoPosts = (from p in blog.posts where p.type == tumblrPostTypes.video.ToString() select p).ToList().Count;
-                    linkPosts = (from p in blog.posts where p.type == tumblrPostTypes.link.ToString() select p).ToList().Count;
-                    audioPosts = (from p in blog.posts where p.type == tumblrPostTypes.audio.ToString() select p).ToList().Count;
-                    quotePosts = (from p in blog.posts where p.type == tumblrPostTypes.quote.ToString() select p).ToList().Count;
-                    chatPosts = (from p in blog.posts where p.type == tumblrPostTypes.chat.ToString() || p.type == tumblrPostTypes.conversation.ToString() select p).ToList().Count;
-                    answerPosts = (from p in blog.posts where p.type == tumblrPostTypes.answer.ToString() select p).ToList().Count;
-                    this.parsed = this.blog.posts.Count;
+                    photoPosts += (from p in blog.posts where p.type == tumblrPostTypes.photo.ToString() select p).ToList().Count;
+                    textPosts += (from p in blog.posts where p.type == tumblrPostTypes.regular.ToString() || p.type == tumblrPostTypes.text.ToString() select p).ToList().Count;
+                    videoPosts += (from p in blog.posts where p.type == tumblrPostTypes.video.ToString() select p).ToList().Count;
+                    linkPosts += (from p in blog.posts where p.type == tumblrPostTypes.link.ToString() select p).ToList().Count;
+                    audioPosts += (from p in blog.posts where p.type == tumblrPostTypes.audio.ToString() select p).ToList().Count;
+                    quotePosts += (from p in blog.posts where p.type == tumblrPostTypes.quote.ToString() select p).ToList().Count;
+                    chatPosts += (from p in blog.posts where p.type == tumblrPostTypes.chat.ToString() || p.type == tumblrPostTypes.conversation.ToString() select p).ToList().Count;
+                    answerPosts += (from p in blog.posts where p.type == tumblrPostTypes.answer.ToString() select p).ToList().Count;
+                    this.parsed += this.blog.posts.Count;
+                    this.blog.posts.Clear();
                     i += step;
                 }
 
                 this.found = blog.posts.Count;
 
-                this.statusCode = processingCodes.Done;
             }
             else
             {

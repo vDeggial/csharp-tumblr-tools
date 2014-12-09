@@ -30,6 +30,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public Tumblr()
         {
+            posts = new List<TumblrPost>();
         }
 
         [XmlElement("cname")]

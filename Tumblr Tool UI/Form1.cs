@@ -1125,6 +1125,11 @@ namespace Tumblr_Tool
         {
             try
             {
+                this.Invoke((MethodInvoker)delegate
+                    {
+                        updateStatusText("Opening savefile ...");
+                    });
+
                 string filename = (string)e.Argument;
                 this.filename = filename;
 
@@ -1134,6 +1139,10 @@ namespace Tumblr_Tool
                 {
                     if (File.Exists(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log"))
                     {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateStatusText("Reading log file ...");
+                        });
                         logFile = fileManager.readTumblrFile(Path.GetDirectoryName(filename) + @"\" + Path.GetFileNameWithoutExtension(filename) + ".log");
                     }
                 }
@@ -1234,118 +1243,142 @@ namespace Tumblr_Tool
                         });
                 }
 
-                while (tumblrStats.blog == null)
+
+                while (this.tumblrStats.statusCode != processingCodes.Done && this.tumblrStats.statusCode != processingCodes.connectionError && this.tumblrStats.statusCode != processingCodes.invalidURL)
                 {
-                    // wait till other worker created and populated blog info
-                    this.Invoke((MethodInvoker)delegate
+
+                    if (tumblrStats.blog == null)
                     {
-                        lbl_PercentBar.Text = "Getting initial blog info ... ";
-                    });
-                }
+                        // wait till other worker created and populated blog info
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            lbl_PercentBar.Text = "Getting initial blog info ... ";
+                        });
+                    }
 
-                while (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
-                {
-                    // wait till we got the blog title and desc and posts number
-                }
 
-                if (!this.IsDisposed)
-                {
-                    this.Invoke((MethodInvoker)delegate
+
+                    else if (string.IsNullOrEmpty(tumblrStats.blog.title) && string.IsNullOrEmpty(tumblrStats.blog.description) && tumblrStats.totalPosts <= 0)
                     {
-                        bar_Progress.Minimum = 0;
-                        bar_Progress.Value = 0;
-                        bar_Progress.Maximum = 100;
-                        bar_Progress.Step = 1;
-                        bar_Progress.Visible = true;
+                        // wait till we got the blog title and desc and posts number
+                    }
 
-                        box_PostStats.Visible = true;
-                        lbl_Stats_TotalCount.Visible = true;
-                        lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
-                        lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+                    else
+                    {
 
-                        lbl_PostCount.Text = "";
-                        lbl_PostCount.Visible = true;
-                        img_Stats_Avatar.LoadAsync(JSONHelper.getAvatarQueryString(tumblrStats.blog.cname));
-                    });
+                        if (!this.IsDisposed)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                bar_Progress.Minimum = 0;
+                                bar_Progress.Value = 0;
+                                bar_Progress.Maximum = 100;
+                                bar_Progress.Step = 1;
+                                bar_Progress.Visible = true;
+
+                                box_PostStats.Visible = true;
+                                lbl_Stats_TotalCount.Visible = true;
+                                lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
+                                lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+
+                                lbl_PostCount.Text = "";
+                                lbl_PostCount.Visible = true;
+                                img_Stats_Avatar.LoadAsync(JSONHelper.getAvatarQueryString(tumblrStats.blog.cname));
+                            });
+                        }
+
+                        int percent = 0;
+                        while (percent < 100)
+                        {
+                            if (!this.IsDisposed)
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    txt_Stats_BlogDescription.Visible = true;
+                                    if (txt_Stats_BlogDescription.Text == "")
+                                        txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
+                                });
+                            }
+
+                            percent = (int)(((double)tumblrStats.parsed / (double)tumblrStats.totalPosts) * 100.00);
+                            if (percent < 0)
+                                percent = 0;
+
+                            if (percent >= 100)
+                                percent = 100;
+
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateStatusText("Getting stats ...");
+                                        lbl_PercentBar.Visible = true;
+                                        lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+
+                                        lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
+                                        lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
+                                        lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
+                                        lbl_Stats_LinkCount.Text = tumblrStats.linkPosts.ToString();
+                                        lbl_Stats_AudioCount.Text = tumblrStats.audioPosts.ToString();
+                                        lbl_Stats_VideoCount.Text = tumblrStats.videoPosts.ToString();
+                                        lbl_Stats_ChatCount.Text = tumblrStats.chatPosts.ToString();
+                                        lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
+                                        lbl_PercentBar.Text = percent.ToString() + "%";
+                                        lbl_PostCount.Visible = true;
+                                        lbl_PostCount.Text = tumblrStats.parsed.ToString() + "/" + tumblrStats.totalPosts.ToString();
+                                        bar_Progress.Value = percent;
+                                    });
+                                }
+                            
+                        }
+                    }
                 }
 
-                int percent = 0;
-                while (percent < 100)
+                if (tumblrStats.statusCode == processingCodes.invalidURL)
                 {
+
                     if (!this.IsDisposed)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            txt_Stats_BlogDescription.Visible = true;
-                            if (txt_Stats_BlogDescription.Text == "")
-                                txt_Stats_BlogDescription.Text = WebHelper.stripHTMLTags(tumblrStats.blog.description);
+                            updateStatusText("Error");
+                            lbl_PostCount.Visible = false;
+                            bar_Progress.Visible = false;
+                            lbl_Size.Visible = false;
+
+                            MessageBox.Show("Invalid Tumblr URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         });
                     }
 
-                    percent = (int)(((double)tumblrStats.parsed / (double)tumblrStats.totalPosts) * 100.00);
-                    if (percent < 0)
-                        percent = 0;
+                }
 
-                    if (percent >= 100)
-                        percent = 100;
-
-                    if (tumblrStats.statusCode == processingCodes.invalidURL)
+                else if (this.tumblrStats.statusCode == processingCodes.connectionError)
+                {
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        percent = 100;
-
-                        if (!this.IsDisposed)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateStatusText("Error");
-                                lbl_PostCount.Visible = false;
-                                bar_Progress.Visible = false;
-                                lbl_Size.Visible = false;
-                            });
-                        }
-                        MessageBox.Show("Invalid Tumblr URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        if (!this.IsDisposed)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateStatusText("Getting stats ...");
-                                lbl_PercentBar.Visible = true;
-                                lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
-
-                                lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
-                                lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
-                                lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
-                                lbl_Stats_LinkCount.Text = tumblrStats.linkPosts.ToString();
-                                lbl_Stats_AudioCount.Text = tumblrStats.audioPosts.ToString();
-                                lbl_Stats_VideoCount.Text = tumblrStats.videoPosts.ToString();
-                                lbl_Stats_ChatCount.Text = tumblrStats.chatPosts.ToString();
-                                lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
-                                lbl_PercentBar.Text = percent.ToString() + "%";
-                                lbl_PostCount.Visible = true;
-                                lbl_PostCount.Text = tumblrStats.parsed.ToString() + "/" + tumblrStats.totalPosts.ToString();
-                                bar_Progress.Value = percent;
-                            });
-                        }
-                    }
+                        MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        updateStatusText("Error");
+                    });
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                // throw ex;
             }
         }
 
         private void getStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
+            this.tumblrStats.statusCode = processingCodes.Done;
         }
 
         private void getStatsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            this.tumblrStats.statusCode = processingCodes.Initializing;
             try
             {
-                Thread.Sleep(100);
+                this.tumblrStats = new TumblrStats();
+                // Thread.Sleep(100);
 
                 if (WebHelper.CheckForInternetConnection())
                 {
@@ -1353,7 +1386,11 @@ namespace Tumblr_Tool
                             {
 
                                 this.tumblrStats = new TumblrStats(tumblrBlog, txt_StatsTumblrURL.Text, options.apiMode);
+                                this.tumblrStats.statusCode = processingCodes.Initializing;
+                                
                             });
+
+                    this.tumblrStats.parsePosts();
                             
 
                     // tumblrStats.setAPIMode(options.apiMode);
@@ -1362,14 +1399,10 @@ namespace Tumblr_Tool
                 {
                     tumblrStats.statusCode = processingCodes.connectionError;
 
-                    this.Invoke((MethodInvoker)delegate
-                            {
-                                MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                updateStatusText("Ready");
-                            });
+                    
                 }
 
-                this.tumblrStats.parsePosts();
+                
             }
             catch
             {
@@ -1392,7 +1425,7 @@ namespace Tumblr_Tool
                 ofd.Filter = "Tumblr Tools Files (.tumblr)|*.tumblr|All Files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    updateStatusText("Opening savefile ...");
+                    
 
                     fileBackgroundWorker.RunWorkerAsync(ofd.FileName);
                 }
