@@ -319,15 +319,21 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void saveLogFile(SaveFile log)
         {
+            bool logUpdated = false;
             foreach (TumblrPost post in blog.posts)
             {
                 if (!log.blog.posts.Exists(p => p.id == post.id))
                 {
                     log.blog.posts.Add(post);
+                    logUpdated = true;
                 }
             }
-            FileManager fileManager = new FileManager();
-            fileManager.saveTumblrFile(saveLocation + @"\" + log.getFileName(), log);
+
+            if (logUpdated)
+            {
+                FileManager fileManager = new FileManager();
+                fileManager.saveTumblrFile(saveLocation + @"\" + log.getFileName(), log);
+            }
         }
 
         public void setAPIMode(string mode)
