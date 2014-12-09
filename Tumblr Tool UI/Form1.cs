@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.7";
+        private string version = "1.0.8";
 
         public mainForm()
         {
@@ -70,7 +70,6 @@ namespace Tumblr_Tool
             menu_TopMenu.Renderer = renderer;
             txt_WorkStatus.Visible = false;
             txt_Stats_BlogDescription.Visible = false;
-            lbl_Timer.Text = "";
             lbl_Stats_BlogTitle.Text = "";
 
             bar_Progress.Visible = false;
@@ -88,7 +87,6 @@ namespace Tumblr_Tool
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
             lbl_Status.Text = "Ready";
-            lbl_Copyright.Text = "2013 - 2014";
         }
 
         public mainForm(string file)
@@ -105,7 +103,6 @@ namespace Tumblr_Tool
 
             txt_WorkStatus.Visible = false;
             txt_Stats_BlogDescription.Visible = false;
-            lbl_Timer.Text = "";
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
             bar_Progress.Visible = false;
@@ -131,7 +128,6 @@ namespace Tumblr_Tool
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
             lbl_Status.Text = "Ready";
-            lbl_Copyright.Text = "© 2013 - 2014";
         }
 
         public void button_MouseEnter(object sender, EventArgs e)
@@ -235,10 +231,6 @@ namespace Tumblr_Tool
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
 
-            this.Invoke((MethodInvoker)delegate
-            {
-                lbl_Timer.Text = elapsedTime;
-            });
             if (checkFields())
             {
 
@@ -270,7 +262,7 @@ namespace Tumblr_Tool
         {
             lbl_PostCount.Visible = false;
             updateStatusText("Initiliazing...");
-            if (isValidURL(txt_StatsTumblrURL.Text))
+            if (isValidURL(txt_Stats_TumblrURL.Text))
             {
                 enableUI_Stats(false);
 
@@ -661,6 +653,9 @@ namespace Tumblr_Tool
 
         private void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+
+            
+
             try
             {
                 string elapsedTime;
@@ -812,7 +807,7 @@ namespace Tumblr_Tool
                         img_DisplayImage.Update();
                         img_DisplayImage.Refresh();
 
-                        if (fileManager.statusCode == downloadStatusCodes.Done)
+                        if (fileManager.statusCode == downloadStatusCodes.Done && downloadedList.Count > 0)
                         {
                             updateWorkStatusText("Downloaded " + downloadedList.Count.ToString() + " image(s).");
                         }
@@ -957,6 +952,18 @@ namespace Tumblr_Tool
                                         if (bar_Progress.Value != (int)fileManager.percentDownloaded)
                                         {
                                             bar_Progress.Value = (int)fileManager.percentDownloaded;
+
+                                            if ((int)fileManager.percentDownloaded <= 0)
+                                            {
+                                                updateStatusText("Getting image ...");
+                                                
+                                            }
+                                            else
+                                            {
+                                                updateStatusText("Downloading ...");
+                                                
+                                            }
+
                                             lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
                                             bar_Progress.Update();
                                             bar_Progress.Refresh();
@@ -975,6 +982,11 @@ namespace Tumblr_Tool
 
         private void downloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
+            lock (fileManager)
+            {
+                fileManager.statusCode = downloadStatusCodes.Done;
+            }
+
             try
             {
                 saveFile.blog.posts = null;
@@ -1043,7 +1055,7 @@ namespace Tumblr_Tool
                             {
                                 if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
                                 {
-                                    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                                   // ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
                                 }
 
                                 j++;
@@ -1067,10 +1079,7 @@ namespace Tumblr_Tool
                         }
                     }
 
-                    lock (fileManager)
-                    {
-                        fileManager.statusCode = downloadStatusCodes.Done;
-                    }
+                    
 
                     downloadDone = true;
                 }
@@ -1098,7 +1107,7 @@ namespace Tumblr_Tool
             btn_GetStats.Enabled = state;
             fileToolStripMenuItem.Enabled = state;
             optionsToolStripMenuItem.Enabled = state;
-            txt_StatsTumblrURL.Enabled = state;
+            txt_Stats_TumblrURL.Enabled = state;
             disableOtherTabs = !state;
         }
 
@@ -1361,7 +1370,7 @@ namespace Tumblr_Tool
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // throw ex;
             }
@@ -1385,7 +1394,7 @@ namespace Tumblr_Tool
                     this.Invoke((MethodInvoker)delegate
                             {
 
-                                this.tumblrStats = new TumblrStats(tumblrBlog, txt_StatsTumblrURL.Text, options.apiMode);
+                                this.tumblrStats = new TumblrStats(tumblrBlog, txt_Stats_TumblrURL.Text, options.apiMode);
                                 this.tumblrStats.statusCode = processingCodes.Initializing;
                                 
                             });
@@ -1470,7 +1479,7 @@ namespace Tumblr_Tool
 
         private void statsTumblrURLUpdate(object sender, EventArgs e)
         {
-            txt_StatsTumblrURL.Text = txt_TumblrURL.Text;
+            txt_Stats_TumblrURL.Text = txt_TumblrURL.Text;
         }
 
         private void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
@@ -1517,6 +1526,11 @@ namespace Tumblr_Tool
         {
             txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
             txt_WorkStatus.ScrollToCaret();
+        }
+
+        private void txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
+        {
+            txt_TumblrURL.Text = txt_Stats_TumblrURL.Text;
         }
     }
 }
