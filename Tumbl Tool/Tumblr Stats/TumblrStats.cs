@@ -10,6 +10,7 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
@@ -62,6 +63,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 
             }
 
+            this.blog.posts = new List<TumblrPost>();
             this.blog.cname = url;
             this.tumblrDomain = CommonHelper.getDomainName(url);
             setBlogInfo();
