@@ -241,6 +241,16 @@ namespace Tumblr_Tool
             });
             if (checkFields())
             {
+
+                if (!this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        updateStatusText("Initializing ...");
+                        updateWorkStatusText("Initializing ... ");
+                    });
+                }
+
                 crawl_Worker.RunWorkerAsync(ripper);
 
                 crawl_UpdateUI_Worker.RunWorkerAsync(ripper);
@@ -447,20 +457,7 @@ namespace Tumblr_Tool
                     {
                         TimeSpan ts = stopWatch.Elapsed;
 
-                        if (ripper.statusCode == processingCodes.Initializing)
-                        {
-                            lock (ripper)
-                            {
-                                if (!this.IsDisposed)
-                                {
-                                    this.Invoke((MethodInvoker)delegate
-                                    {
-                                        updateStatusText("Initializing ...");
-                                        updateWorkStatusText("Initializing ... ");
-                                    });
-                                }
-                            }
-                        }
+                        
 
                         if (ripper.statusCode == processingCodes.checkingConnection)
                         {
