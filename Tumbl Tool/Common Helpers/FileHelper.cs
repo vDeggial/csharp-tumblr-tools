@@ -18,7 +18,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Tumblr_Tool.Common_Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
         public static string findFile(string dir, string name)
         {

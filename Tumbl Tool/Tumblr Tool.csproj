@@ -61,10 +61,19 @@
     <Compile Include="Managers\CrawlManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tumblr Objects\AnswerPost.cs" />
+    <Compile Include="Tumblr Objects\AudioPost.cs" />
+    <Compile Include="Tumblr Objects\ChatPost.cs" />
+    <Compile Include="Tumblr Objects\ChatPostFragment.cs" />
+    <Compile Include="Tumblr Objects\LinkPost.cs" />
     <Compile Include="Tumblr Objects\PhotoPost.cs" />
-    <Compile Include="Tumblr Objects\PhotoSetImage.cs" />
+    <Compile Include="Tumblr Objects\PhotoPostImage.cs" />
+    <Compile Include="Tumblr Objects\QuotePost.cs" />
+    <Compile Include="Tumblr Objects\TextPost.cs" />
     <Compile Include="Tumblr Objects\Tumblr.cs" />
     <Compile Include="Tumblr Objects\TumblrPost.cs" />
+    <Compile Include="Tumblr Objects\VideoPost.cs" />
+    <Compile Include="Tumblr Objects\VideoPostEmbedPlayer.cs" />
     <Compile Include="Tumblr Stats\TumblrStats.cs" />
   </ItemGroup>
   <ItemGroup>

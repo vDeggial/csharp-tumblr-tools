@@ -53,5 +53,15 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         [XmlElement("totalPosts")]
         public int totalPosts { get; set; }
+
+        public bool isAskEnabled { get; set; }
+
+        public bool isAnonAskEnabled { get; set; }
+
+        public long likesCount { get; set; }
+
+        public bool isNsfw { get; set; }
+
+        public DateTime lastUpdated { get; set; }
     }
 }

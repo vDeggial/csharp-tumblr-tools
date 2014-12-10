@@ -118,7 +118,7 @@ namespace Tumblr_Tool.Managers
                         {
                             foreach (dynamic jPhoto in jPost.photos)
                             {
-                                PhotoSetImage setImage = new PhotoSetImage();
+                                PhotoPostImage setImage = new PhotoPostImage();
                                 setImage.imageURL = jPhoto.original_size.url;
                                 setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
 
@@ -208,7 +208,7 @@ namespace Tumblr_Tool.Managers
                         XElement image = setElement.Descendants("photo-url").FirstOrDefault();
                         if (image != null)
                         {
-                            PhotoSetImage setImage = new PhotoSetImage();
+                            PhotoPostImage setImage = new PhotoPostImage();
                             setImage.imageURL = image.Value;
                             setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
 

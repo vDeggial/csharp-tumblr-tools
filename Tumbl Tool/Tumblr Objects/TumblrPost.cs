@@ -24,10 +24,26 @@ namespace Tumblr_Tool.Tumblr_Objects
         {
         }
 
+        public virtual string album { get; set; }
+
+        public virtual string albumArt { get; set; }
+
+        public virtual string artist { get; set; }
+
+        public virtual string audioUrl { get; set; }
+
+        public virtual string body { get; set; }
+
         public virtual string caption { get; set; }
 
         [XmlElement("date")]
         public string date { get; set; }
+
+        public virtual string description { get; set; }
+
+        public virtual List<ChatPostFragment> dialogue { get; set; }
+
+        public virtual double duration { get; set; }
 
         public virtual string fileName { get; set; }
 
@@ -40,7 +56,15 @@ namespace Tumblr_Tool.Tumblr_Objects
         //Overridden
         public virtual string imageURL { get; set; }
 
-        public virtual List<PhotoSetImage> photoset { get; set; }
+        public virtual bool isHtml5Capable { get; set; }
+
+        public virtual string linkUrl { get; set; }
+
+        public virtual List<PhotoPostImage> photoset { get; set; }
+
+        public virtual string player { get; set; }
+
+        public virtual int playsCount { get; set; }
 
         [XmlElement("postText")]
         public string postText { get; set; }
@@ -48,7 +72,23 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("reblogKey")]
         public string reblogKey { get; set; }
 
+        public virtual string source { get; set; }
+
         public List<string> tags { get; set; }
+
+        public virtual string text { get; set; }
+
+        public virtual int thumbnailHeight { get; set; }
+
+        public virtual string thumbnailUrl { get; set; }
+
+        public virtual int thumbnailWidth { get; set; }
+
+        public virtual string title { get; set; }
+
+        public virtual string trackName { get; set; }
+
+        public virtual int trackNumber { get; set; }
 
         [XmlElement("type")]
         public string type { get; set; }
@@ -56,7 +96,13 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("url")]
         public string url { get; set; }
 
-        public virtual void addImageToPhotoSet(PhotoSetImage image)
+        public virtual List<VideoPostEmbedPlayer> videoPlayers { get; set; }
+
+        public virtual string videoUrl { get; set; }
+
+        public virtual int year { get; set; }
+
+        public virtual void addImageToPhotoSet(PhotoPostImage image)
         {
             // void
         }

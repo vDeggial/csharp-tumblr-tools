@@ -95,7 +95,7 @@ namespace Tumblr_Tool.Image_Ripper
             {
                 if (post.isPhotoset())
                 {
-                    foreach (PhotoSetImage image in post.photoset)
+                    foreach (PhotoPostImage image in post.photoset)
                     {
                         if (!existingImageList.Contains(image.filename))
                         {

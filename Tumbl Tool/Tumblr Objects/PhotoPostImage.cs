@@ -16,13 +16,13 @@ using System.IO;
 namespace Tumblr_Tool.Tumblr_Objects
 {
     [Serializable()]
-    public class PhotoSetImage
+    public class PhotoPostImage
     {
-        public PhotoSetImage()
+        public PhotoPostImage()
         {
         }
 
-        public PhotoSetImage(string url, string caption, string width, string height, string offset)
+        public PhotoPostImage(string url, string caption, string width, string height, string offset)
         {
             this.caption = caption;
             this.imageURL = url;

@@ -44,7 +44,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public TumblrStats()
         {
-
         }
 
         public TumblrStats(Tumblr blog, string url, string apiMode, int startNum = 0, int endNum = 0)
@@ -55,12 +54,10 @@ namespace Tumblr_Tool.Tumblr_Stats
             if (blog == null)
             {
                 this.blog = new Tumblr();
-
             }
             else
             {
                 this.blog = blog;
-                
             }
 
             this.blog.posts = new List<TumblrPost>();
@@ -73,7 +70,6 @@ namespace Tumblr_Tool.Tumblr_Stats
             this.maxNumPosts = endNum;
             this.start = startNum;
 
-            
             this.step = (int)postStepEnum.JSON; //20 for JSON, 50 for XML
         }
 
@@ -132,7 +128,6 @@ namespace Tumblr_Tool.Tumblr_Stats
                 }
 
                 this.found = blog.posts.Count;
-
             }
             else
             {

@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Tumblr_Objects
 {
@@ -22,7 +23,7 @@ namespace Tumblr_Tool.Tumblr_Objects
         public PhotoPost(string url = "", string caption = "")
             : base()
         {
-            this.type = "photo";
+            this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
             this.caption = caption;
             this.imageURL = url;
@@ -30,7 +31,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public PhotoPost()
         {
-            this.type = "photo";
+            this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
         }
 
@@ -42,12 +43,12 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("imageURL")]
         public override string imageURL { get; set; }
 
-        public override List<PhotoSetImage> photoset { get; set; }
+        public override List<PhotoPostImage> photoset { get; set; }
 
-        public override void addImageToPhotoSet(PhotoSetImage image)
+        public override void addImageToPhotoSet(PhotoPostImage image)
         {
             if (photoset == null)
-                photoset = new List<PhotoSetImage>();
+                photoset = new List<PhotoPostImage>();
 
             photoset.Add(image);
         }
