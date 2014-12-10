@@ -130,20 +130,20 @@ namespace Tumblr_Tool.Image_Ripper
                             caption = CommonHelper.StripTags(caption);
                             this.imagesList.Add(post.imageURL);
 
-                            if (caption != null)
-                            {
-                                try
-                                {
-                                    if (!this.commentsList.ContainsKey(post.fileName))
-                                    {
-                                        this.commentsList.Add(post.fileName, caption);
-                                    }
-                                }
-                                catch
-                                {
-                                    //do nothing
-                                }
-                            }
+                            //if (caption != null)
+                            //{
+                            //    try
+                            //    {
+                            //        if (!this.commentsList.ContainsKey(post.fileName))
+                            //        {
+                            //            this.commentsList.Add(post.fileName, caption);
+                            //        }
+                            //    }
+                            //    catch
+                            //    {
+                            //        //do nothing
+                            //    }
+                            //}
                         }
                         catch
                         {

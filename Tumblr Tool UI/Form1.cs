@@ -1053,10 +1053,10 @@ namespace Tumblr_Tool
 
                             if (downloaded)
                             {
-                                if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
-                                {
-                                   // ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
-                                }
+                                //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                                //{
+                                //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                                //}
 
                                 j++;
                                 fileDownloadDone = true;
