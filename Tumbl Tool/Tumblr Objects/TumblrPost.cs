@@ -22,6 +22,7 @@ namespace Tumblr_Tool.Tumblr_Objects
     {
         public TumblrPost()
         {
+            this.tags = new HashSet<string>();
         }
 
         public virtual string album { get; set; }
@@ -41,11 +42,10 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string description { get; set; }
 
-        public virtual List<ChatPostFragment> dialogue { get; set; }
+        public virtual HashSet<ChatPostFragment> dialogue { get; set; }
 
         public virtual double duration { get; set; }
 
-        public virtual string fileName { get; set; }
 
         [XmlElement("format")]
         public string format { get; set; }
@@ -53,14 +53,12 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("id")]
         public string id { get; set; }
 
-        //Overridden
-        public virtual string imageURL { get; set; }
 
         public virtual bool isHtml5Capable { get; set; }
 
         public virtual string linkUrl { get; set; }
 
-        public virtual List<PhotoPostImage> photoset { get; set; }
+        public virtual HashSet<PhotoPostImage> photos { get; set; }
 
         public virtual string player { get; set; }
 
@@ -74,7 +72,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string source { get; set; }
 
-        public List<string> tags { get; set; }
+        public HashSet<string> tags { get; set; }
 
         public virtual string text { get; set; }
 
@@ -96,7 +94,7 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("url")]
         public string url { get; set; }
 
-        public virtual List<VideoPostEmbedPlayer> videoPlayers { get; set; }
+        public virtual HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
 
         public virtual string videoUrl { get; set; }
 
@@ -110,14 +108,11 @@ namespace Tumblr_Tool.Tumblr_Objects
         public void addTag(string tag)
         {
             if (this.tags == null)
-                tags = new List<string>();
+                tags = new HashSet<string>();
 
             this.tags.Add(tag);
         }
 
-        public virtual bool isPhotoset()
-        {
-            return false;
-        }
+
     }
 }

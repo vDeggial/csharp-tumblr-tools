@@ -26,36 +26,30 @@ namespace Tumblr_Tool.Tumblr_Objects
             this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
             this.caption = caption;
-            this.imageURL = url;
+            this.photos = new HashSet<PhotoPostImage>();
         }
 
         public PhotoPost()
         {
             this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
+            this.photos = new HashSet<PhotoPostImage>();
         }
 
         [XmlElement("caption")]
         public override string caption { get; set; }
 
-        public override string fileName { get; set; }
 
-        [XmlElement("imageURL")]
-        public override string imageURL { get; set; }
 
-        public override List<PhotoPostImage> photoset { get; set; }
+        public override HashSet<PhotoPostImage> photos { get; set; }
 
         public override void addImageToPhotoSet(PhotoPostImage image)
         {
-            if (photoset == null)
-                photoset = new List<PhotoPostImage>();
+            if (photos == null)
+                photos = new HashSet<PhotoPostImage>();
 
-            photoset.Add(image);
+            photos.Add(image);
         }
 
-        public override bool isPhotoset()
-        {
-            return photoset != null && photoset.Count != 0;
-        }
     }
 }

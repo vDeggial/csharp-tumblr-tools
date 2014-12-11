@@ -60,7 +60,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.blog = blog;
             }
 
-            this.blog.posts = new List<TumblrPost>();
+            this.blog.posts = new HashSet<TumblrPost>();
             this.blog.cname = url;
             this.tumblrDomain = CommonHelper.getDomainName(url);
             setBlogInfo();
@@ -112,7 +112,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                     }
 
                     crawlManager.getDocument(url);
-                    this.blog.posts.AddRange(crawlManager.getPostList(tumblrPostTypes.empty.ToString(), crawlManager.mode));
+                    this.blog.posts.UnionWith(crawlManager.getPostList(tumblrPostTypes.empty.ToString(), crawlManager.mode));
 
                     photoPosts += (from p in blog.posts where p.type == tumblrPostTypes.photo.ToString() select p).ToList().Count;
                     textPosts += (from p in blog.posts where p.type == tumblrPostTypes.regular.ToString() || p.type == tumblrPostTypes.text.ToString() select p).ToList().Count;

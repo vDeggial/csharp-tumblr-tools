@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.8";
+        private string version = "1.0.9";
 
         public mainForm()
         {
@@ -365,7 +365,7 @@ namespace Tumblr_Tool
                             {
                                 updateWorkStatusText("Parsing done");
 
-                                updateWorkStatusText("Found " + (ripper.imagesList.Count() == 0 ? "no" : ripper.imagesList.Count().ToString()) + " new image(s) to download");
+                                updateWorkStatusText("Found " + (ripper.imageList.Count() == 0 ? "no" : ripper.imageList.Count().ToString()) + " new image(s) to download");
                                 bar_Progress.Value = 0;
                                 bar_Progress.Update();
 
@@ -633,7 +633,7 @@ namespace Tumblr_Tool
                         if (!optionsForm.parseOnly)
                         {
                             fileManager.totalToDownload = ripper.totalImagesCount;
-                            download_Worker.RunWorkerAsync(ripper.imagesList);
+                            download_Worker.RunWorkerAsync(ripper.imageList);
                             download_UIUpdate_Worker.RunWorkerAsync(fileManager);
                         }
                         else
@@ -999,7 +999,7 @@ namespace Tumblr_Tool
                 downloadedSizesList.Clear();
                 downloadDone = false;
                 fileDownloadDone = false;
-                List<string> imagesList = (List<string>)e.Argument;
+                HashSet<string> imagesList = (HashSet<string>)e.Argument;
 
                 lock (fileManager)
                 {

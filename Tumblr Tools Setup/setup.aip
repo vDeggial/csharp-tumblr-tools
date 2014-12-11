@@ -22,10 +22,10 @@
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="DefaultBuild:tumblricon.ico" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>
-    <ROW Property="ProductCode" Value="1033:{33CF51D1-32C2-485F-9BAB-E1767C0FBB6E} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{2C0EF5EA-C088-404E-8BAF-7171524DED64} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Tumblr Tools"/>
-    <ROW Property="ProductVersion" Value="1.0.7" Type="32"/>
+    <ROW Property="ProductVersion" Value="1.0.8" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{C43D57AB-D004-49BF-871E-513E0F63FC6E}"/>
     <ROW Property="WIMinVersion" MultiBuildValue="DefaultBuild:4.0" ValueLocId="-"/>
@@ -64,7 +64,7 @@
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="Dotnetrix.TabControl.dll" Component_="Dotnetrix.TabControl.dll" FileName="DOTNET~1.DLL|Dotnetrix.TabControl.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\Dotnetrix.TabControl.dll" SelfReg="false" NextFile="GOTHIC.TTF"/>
+    <ROW File="Dotnetrix.TabControl.dll" Component_="Dotnetrix.TabControl.dll" FileName="DOTNET~1.DLL|Dotnetrix.TabControl.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Dotnetrix.TabControl.dll" SelfReg="false" NextFile="GOTHIC.TTF"/>
     <ROW File="GOTHIC.TTF" Component_="GOTHIC.TTF" FileName="GOTHIC.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHIC.TTF" SelfReg="false" NextFile="GOTHICB.TTF"/>
     <ROW File="GOTHICB.TTF" Component_="GOTHIC.TTF" FileName="GOTHICB.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICB.TTF" SelfReg="false" NextFile="GOTHICBI.TTF"/>
     <ROW File="GOTHICBI.TTF" Component_="GOTHIC.TTF" FileName="GOTHICBI.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICBI.TTF" SelfReg="false" NextFile="GOTHICI.TTF"/>

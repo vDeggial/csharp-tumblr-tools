@@ -25,12 +25,12 @@ namespace Tumblr_Tool.Managers
     {
         public FileManager()
         {
-            downloadedList = new List<string>();
+            downloadedList = new HashSet<string>();
             totalSize = 0;
             fileSizeRecieved = 0;
         }
 
-        public List<string> downloadedList { get; set; }
+        public HashSet<string> downloadedList { get; set; }
 
         public double fileSizeRecieved { get; set; }
 

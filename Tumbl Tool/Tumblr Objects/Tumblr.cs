@@ -25,12 +25,12 @@ namespace Tumblr_Tool.Tumblr_Objects
             this.name = name;
             this.title = title;
             this.description = description;
-            posts = new List<TumblrPost>();
+            posts = new HashSet<TumblrPost>();
         }
 
         public Tumblr()
         {
-            posts = new List<TumblrPost>();
+            posts = new HashSet<TumblrPost>();
         }
 
         [XmlElement("cname")]
@@ -43,7 +43,7 @@ namespace Tumblr_Tool.Tumblr_Objects
         public string name { get; set; }
 
         //[XmlIgnoreAttribute]
-        public List<TumblrPost> posts { get; set; }
+        public HashSet<TumblrPost> posts { get; set; }
 
         [XmlElement("timezone")]
         public string timezone { get; set; }

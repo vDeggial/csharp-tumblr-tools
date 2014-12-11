@@ -11,6 +11,7 @@
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -51,6 +52,11 @@ namespace Tumblr_Tool.Common_Helpers
                 return _htmlRegex.Replace(source, string.Empty);
             else
                 return source;
+        }
+
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
+        {
+            return new HashSet<T>(source);
         }
     }
 }

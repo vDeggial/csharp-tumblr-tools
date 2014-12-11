@@ -102,6 +102,7 @@
             this.box_APIOptions.TabIndex = 5;
             this.box_APIOptions.TabStop = false;
             this.box_APIOptions.Text = "API Options";
+            this.box_APIOptions.Visible = false;
             // 
             // select_APIMode
             // 

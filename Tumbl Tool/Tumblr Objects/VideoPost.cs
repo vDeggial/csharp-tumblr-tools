@@ -16,7 +16,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public override int thumbnailWidth { get; set; }
 
-        public override List<VideoPostEmbedPlayer> videoPlayers { get; set; }
+        public override HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
 
         public override string videoUrl { get; set; }
     }

@@ -8,7 +8,7 @@ namespace Tumblr_Tool.Tumblr_Objects
     {
         public override string body { get; set; }
 
-        public override List<ChatPostFragment> dialogue { get; set; }
+        public override HashSet<ChatPostFragment> dialogue { get; set; }
 
         public override string title { get; set; }
     }

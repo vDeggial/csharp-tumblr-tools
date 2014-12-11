@@ -38,9 +38,9 @@ namespace Tumblr_Tool.Common_Helpers
                 doc.Root.Element(elementName).Attribute(attributeName).Value : null : null : null;
         }
 
-        public static List<XElement> getPostElementList(XDocument doc)
+        public static HashSet<XElement> getPostElementList(XDocument doc)
         {
-            return doc.Descendants("post").ToList();
+            return doc.Descendants("post").ToHashSet();
         }
 
         public static string getPostElementValue(XDocument doc, string elementName)

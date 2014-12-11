@@ -45,87 +45,40 @@ namespace Tumblr_Tool.Managers
             jsonDocument = JSONHelper.getJSONObject(url);
         }
 
-        public List<TumblrPost> getPostList(string type, string mode)
+        public HashSet<TumblrPost> getPostList(string type, string mode)
         {
-            List<TumblrPost> postList = new List<TumblrPost>();
+            HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
             if (mode == apiModeEnum.JSON.ToString())
             {
                 postList = getPostListJSON(type);
             }
-            else
-            {
-                postList = getPostListXML(type);
-            }
 
             return postList;
         }
 
-        public List<TumblrPost> getPostListJSON(string type)
+        public HashSet<TumblrPost> getPostListJSON(string type)
         {
-            List<TumblrPost> postList = new List<TumblrPost>();
+            HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
             if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.posts != null)
             {
                 JArray jPostArray = jsonDocument.response.posts;
-                List<dynamic> jPostList = jPostArray.ToObject<List<dynamic>>();
+                HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
 
                 foreach (dynamic jPost in jPostList)
                 {
                     TumblrPost post = new TumblrPost();
+
+
                     if (type == tumblrPostTypes.photo.ToString())
                     {
-                        post = new PhotoPost();
+                        PostHelper.createPhotoPost(ref post, jPost);
                     }
 
-                    if (jPost.type != null)
-                        post.type = jPost.type;
+                    PostHelper.createTumblrPost(ref post, jPost);
 
-                    if (jPost.id != null)
-                        post.id = jPost.id;
-
-                    if (jPost.post_url != null)
-                        post.url = jPost.post_url;
-
-                    if (jPost.caption != null)
-                        post.caption = jPost.caption;
-
-                    if (jPost.date != null)
-                        post.date = jPost.date;
-
-                    if (jPost.format != null)
-                        post.format = jPost.format;
-
-                    if (jPost.reblog_key != null)
-                        post.reblogKey = jPost.reblog_key;
-
-                    if (jPost.tags != null)
-                    {
-                        foreach (string tag in jPost.tags)
-                        {
-                            post.addTag(tag);
-                        }
-                    }
-
-                    if (jPost.type == tumblrPostTypes.photo.ToString())
-                    {
-                        if (jPost.photos.Count == 1)
-                        {
-                            post.imageURL = jPost.photos[0].original_size.url;
-                            post.fileName = Path.GetFileName(post.imageURL);
-                        }
-                        else
-                        {
-                            foreach (dynamic jPhoto in jPost.photos)
-                            {
-                                PhotoPostImage setImage = new PhotoPostImage();
-                                setImage.imageURL = jPhoto.original_size.url;
-                                setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
-
-                                post.addImageToPhotoSet(setImage);
-                            }
-                        }
-                    }
+                    
 
                     postList.Add(post);
                 }
@@ -136,111 +89,7 @@ namespace Tumblr_Tool.Managers
             return postList;
         }
 
-        public List<TumblrPost> getPostListXML(string type = "")
-        {
-            List<TumblrPost> postList = new List<TumblrPost>();
-            List<XElement> postElementList = XMLHelper.getPostElementList(xmlDocument);
 
-            foreach (XElement element in postElementList)
-            {
-                TumblrPost post = new TumblrPost();
-                if (type == tumblrPostTypes.photo.ToString())
-                {
-                    post = new PhotoPost();
-                }
-
-                if (element.Attribute("id") != null)
-                {
-                    post.id = element.Attribute("id").Value;
-                }
-
-                if (element.Attribute("url") != null)
-                {
-                    post.url = element.Attribute("url").Value;
-                }
-
-                if (element.Element("photo-caption") != null)
-                {
-                    post.caption = element.Element("photo-caption").Value;
-                }
-
-                if (element.Attribute("format") != null)
-                {
-                    post.format = element.Attribute("format").Value;
-                }
-
-                if (element.Attribute("unix-timestamp") != null)
-                {
-                    post.date = element.Attribute("unix-timestamp").Value;
-                }
-
-                if (element.Elements("tag") != null)
-                {
-                    foreach (string tag in element.Elements("tag").ToList())
-                    {
-                        post.addTag(tag);
-                    }
-                }
-
-                if (element.Attribute("type") != null)
-                {
-                    post.type = element.Attribute("type").Value;
-                }
-
-                if (element.Attribute("reblog-key") != null)
-                {
-                    post.reblogKey = element.Attribute("reblog-key").Value;
-                }
-
-                if (element.Element("photo-url") != null)
-                {
-                    post.imageURL = (element.Element("photo-url").Value);
-                    post.fileName = Path.GetFileName(post.imageURL);
-                }
-
-                // If it is PhotoSet
-                XElement photoset = element.Element("photoset");
-
-                if (photoset != null)
-                {
-                    foreach (XElement setElement in photoset.Descendants("photo"))
-                    {
-                        XElement image = setElement.Descendants("photo-url").FirstOrDefault();
-                        if (image != null)
-                        {
-                            PhotoPostImage setImage = new PhotoPostImage();
-                            setImage.imageURL = image.Value;
-                            setImage.filename = !string.IsNullOrEmpty(setImage.imageURL) ? Path.GetFileName(setImage.imageURL) : null;
-
-                            if (setElement.Attribute("photo-caption") != null)
-                            {
-                                setImage.caption = setElement.Attribute("photo-caption").Value;
-                            }
-
-                            if (setElement.Attribute("width") != null)
-                            {
-                                setImage.width = setElement.Attribute("width").Value;
-                            }
-
-                            if (setElement.Attribute("height") != null)
-                            {
-                                setImage.height = setElement.Attribute("height").Value;
-                            }
-
-                            if (setElement.Attribute("offset") != null)
-                            {
-                                setImage.offset = setElement.Attribute("offset").Value;
-                            }
-
-                            post.addImageToPhotoSet(setImage);
-                        }
-                    }
-                }
-                postList.Add(post);
-            }
-
-            return postList;
-        }
 
         public void getXMLDocument(string url)
         {

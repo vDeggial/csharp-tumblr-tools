@@ -35,7 +35,7 @@ namespace Tumblr_Tool.Common_Helpers
             //this.blog.cname = blog.cname;
             //this.blog.description = blog.description;
             //this.blog.name = blog.name;
-            //this.blog.posts = new List<TumblrPost>();
+            //this.blog.posts = new HashSet<TumblrPost>();
             //this.blog.posts.AddRange(blog.posts);
             //this.blog.timezone = blog.timezone;
             //this.blog.title = blog.title;

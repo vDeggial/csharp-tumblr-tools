@@ -55,15 +55,15 @@ namespace Tumblr_Tool.Common_Helpers
             return @location + @"\" + prefix + Path.GetFileName(url);
         }
 
-        public static List<string> getImageListFromDir(string location)
+        public static HashSet<string> getImageListFromDir(string location)
         {
-            List<string> imagesList = new List<string>();
+            HashSet<string> imagesList = new HashSet<string>();
             string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
             DirectoryInfo di = new DirectoryInfo(location);
             HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
             FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
-            imagesList = (from f in files select f.Name).ToList();
+            imagesList = (from f in files select f.Name).ToHashSet();
 
             //foreach (FileInfo f in files)
             //{
