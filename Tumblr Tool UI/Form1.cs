@@ -109,15 +109,21 @@ namespace Tumblr_Tool
             bar_Progress.Visible = false;
             fileManager = new FileManager();
             txt_SaveLocation.Text = Path.GetDirectoryName(file);
-            saveFile = fileManager.readTumblrFile(file);
 
-            if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
-            {
-                logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
-            }
+            updateStatusText("Opening savefile ...");
 
-            txt_TumblrURL.Text = saveFile != null ? saveFile.getBlogURL() : "";
-            tumblrBlog = saveFile != null ? saveFile.blog : null;
+
+            openTumblrFile(file);
+
+            //saveFile = fileManager.readTumblrFile(file);
+
+            //if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
+            //{
+            //    logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
+            //}
+
+            //txt_TumblrURL.Text = saveFile != null ? saveFile.getBlogURL() : "";
+            //tumblrBlog = saveFile != null ? saveFile.blog : null;
 
             this.Text += " (" + version + ")";
             optionsForm = new OptionsForm();
@@ -129,6 +135,46 @@ namespace Tumblr_Tool
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
             lbl_Status.Text = "Ready";
+        }
+
+
+        public void openTumblrFile(string file)
+        {
+
+            saveFile = fileManager.readTumblrFile(file);
+
+            saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
+
+            if (saveFile != null)
+            {
+                if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
+                {
+                    
+                    updateStatusText("Reading log file ...");
+                    
+                    logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
+                }
+            }
+            tumblrBlog = saveFile != null ? saveFile.blog : null;
+
+
+            txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
+
+            txt_TumblrURL.Text = "File:" + file;
+
+            if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
+            {
+                txt_TumblrURL.Text = saveFile.blog.url;
+            }
+            else if (saveFile != null && saveFile.blog != null && string.IsNullOrEmpty(saveFile.blog.url) && !string.IsNullOrEmpty(saveFile.blog.cname))
+            {
+                txt_TumblrURL.Text = saveFile.blog.cname;
+            }
+            else
+            {
+                 txt_TumblrURL.Text = "Error parsing savefile...";
+            }
+
         }
 
         public void button_MouseEnter(object sender, EventArgs e)
@@ -1143,6 +1189,8 @@ namespace Tumblr_Tool
                         {
                             txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
 
+                            txt_TumblrURL.Text = "File:" + filename;
+
                             if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
                             {
                                 txt_TumblrURL.Text = saveFile.blog.url;
@@ -1153,7 +1201,7 @@ namespace Tumblr_Tool
                             }
                             else
                             {
-                                txt_TumblrURL.Text = "Error parsing savefile...";
+                                // txt_TumblrURL.Text = "Error parsing savefile...";
                             }
 
                             btn_Start.Enabled = true;
