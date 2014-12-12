@@ -87,6 +87,7 @@ namespace Tumblr_Tool
             lbl_Size.Text = "";
             lbl_PostCount.Text = "";
             lbl_Status.Text = "Ready";
+
         }
 
         public mainForm(string file)
@@ -366,6 +367,7 @@ namespace Tumblr_Tool
                                 updateWorkStatusText("Parsing done");
 
                                 updateWorkStatusText("Found " + (ripper.imageList.Count() == 0 ? "no" : ripper.imageList.Count().ToString()) + " new image(s) to download");
+                                bar_Progress.Visible = false;
                                 bar_Progress.Value = 0;
                                 bar_Progress.Update();
 
@@ -381,6 +383,7 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
+
                                 updateWorkStatusText("Error downloading the blog post XML");
                                 updateStatusText("Error");
                             });
@@ -849,7 +852,20 @@ namespace Tumblr_Tool
                             {
                                 this.Invoke((MethodInvoker)delegate
                                 {
-                                    updateStatusText("Preparing..."); ;
+                                    updateStatusText("Preparing...");
+
+
+                                    img_DisplayImage.Visible = true;
+                                    bar_Progress.Step = 1;
+                                    bar_Progress.Minimum = 0;
+                                    bar_Progress.Maximum = 100;
+                                    bar_Progress.Visible = true;
+                                    lbl_PostCount.Visible = true;
+                                    lbl_PostCount.Text = "";
+                                    lbl_PercentBar.Visible = true;
+                                    lbl_PostCount.Visible = true;
+                                    bar_Progress.Refresh();
+                                    bar_Progress.Update();
                                 });
                             }
                         }
@@ -861,19 +877,10 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                img_DisplayImage.Visible = true;
-                                bar_Progress.Step = 1;
-                                bar_Progress.Minimum = 0;
-                                bar_Progress.Maximum = 100;
-                                bar_Progress.Visible = true;
-                                lbl_PostCount.Visible = true;
-                                lbl_PostCount.Text = "";
-                                lbl_PercentBar.Visible = true;
+                                
                                 updateWorkStatusText("Downloading images ...");
                                 updateStatusText("Downloading..."); ;
-                                lbl_PostCount.Visible = true;
-                                bar_Progress.Refresh();
-                                bar_Progress.Update();
+                                
                             });
                         }
 
