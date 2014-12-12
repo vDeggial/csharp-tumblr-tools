@@ -52,90 +52,94 @@ namespace Tumblr_Tool.Managers
             statusCode = downloadStatusCodes.OK;
             Stopwatch _timer = new Stopwatch();
 
-            switch (method)
+            if (WebHelper.urlExists(@url))
             {
-                case 1:
-                    using (WebClient webClient = new WebClient())
-                    {
-                        try
+
+                switch (method)
+                {
+                    case 1:
+                        using (WebClient webClient = new WebClient())
                         {
-                            _timer.Reset();
-                            _timer.Start();
-                            webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                            webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-                            webClient.DownloadFileAsync(new Uri(@url), fullPath);
-
-                            while (statusCode != downloadStatusCodes.Done && statusCode != downloadStatusCodes.UnableDownload)
+                            try
                             {
+                                _timer.Reset();
+                                _timer.Start();
+                                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                                webClient.DownloadFileAsync(new Uri(@url), fullPath);
+
+                                while (statusCode != downloadStatusCodes.Done && statusCode != downloadStatusCodes.UnableDownload)
+                                {
+                                }
+
+                                if (percentDownloaded < 100 && statusCode == downloadStatusCodes.UnableDownload)
+                                {
+                                    webClient.CancelAsync();
+                                    (new FileInfo(fullPath)).Delete(); //  delete partial file
+                                    statusCode = downloadStatusCodes.UnableDownload;
+                                    return false;
+                                }
+
+                                if (statusCode == downloadStatusCodes.Done)
+                                {
+                                    downloadedList.Add(fullPath);
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
                             }
-
-                            if (percentDownloaded < 100 && statusCode == downloadStatusCodes.UnableDownload)
+                            catch (Exception)
                             {
-                                webClient.CancelAsync();
-                                (new FileInfo(fullPath)).Delete(); //  delete partial file
                                 statusCode = downloadStatusCodes.UnableDownload;
                                 return false;
                             }
-
-                            if (statusCode == downloadStatusCodes.Done)
-                            {
-                                downloadedList.Add(fullPath);
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
                         }
-                        catch (Exception)
-                        {
-                            statusCode = downloadStatusCodes.UnableDownload;
-                            return false;
-                        }
-                    }
-                case 2:
+                    case 2:
 
-                    int timeoutInSeconds = 10;
-                    HttpWebRequest MyRequest = (HttpWebRequest)WebRequest.Create(url);
-                    MyRequest.Proxy = null;
-                    MyRequest.Timeout = timeoutInSeconds * 1000;
-                    try
-                    {
-                        // Get the web response
-                        using (HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse())
+                        int timeoutInSeconds = 10;
+                        HttpWebRequest MyRequest = (HttpWebRequest)WebRequest.Create(url);
+                        MyRequest.Proxy = null;
+                        MyRequest.Timeout = timeoutInSeconds * 1000;
+                        try
                         {
-                            // Make sure the response is valid
-                            if (HttpStatusCode.OK == MyResponse.StatusCode)
+                            // Get the web response
+                            using (HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse())
                             {
-                                // Open the response stream
-                                using (Stream MyResponseStream = MyResponse.GetResponseStream())
+                                // Make sure the response is valid
+                                if (HttpStatusCode.OK == MyResponse.StatusCode)
                                 {
-                                    // Open the destination file
-                                    using (FileStream MyFileStream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.Write))
+                                    // Open the response stream
+                                    using (Stream MyResponseStream = MyResponse.GetResponseStream())
                                     {
-                                        // Create a 4K buffer to chunk the file
-                                        byte[] MyBuffer = new byte[4096];
-                                        int BytesRead;
-                                        // Read the chunk of the web response into the buffer
-                                        while (0 < (BytesRead = MyResponseStream.Read(MyBuffer, 0, MyBuffer.Length)))
+                                        // Open the destination file
+                                        using (FileStream MyFileStream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.Write))
                                         {
-                                            // Write the chunk from the buffer to the file
-                                            MyFileStream.Write(MyBuffer, 0, BytesRead);
+                                            // Create a 4K buffer to chunk the file
+                                            byte[] MyBuffer = new byte[4096];
+                                            int BytesRead;
+                                            // Read the chunk of the web response into the buffer
+                                            while (0 < (BytesRead = MyResponseStream.Read(MyBuffer, 0, MyBuffer.Length)))
+                                            {
+                                                // Write the chunk from the buffer to the file
+                                                MyFileStream.Write(MyBuffer, 0, BytesRead);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    catch (Exception err)
-                    {
-                        string e = err.Message;
-                        statusCode = downloadStatusCodes.UnableDownload;
-                        // throw new Exception("Error saving file from URL:" + err.Message, err);
-                        return false;
-                    }
-                    downloadedList.Add(fullPath);
-                    return true;
+                        catch (Exception err)
+                        {
+                            string e = err.Message;
+                            statusCode = downloadStatusCodes.UnableDownload;
+                            // throw new Exception("Error saving file from URL:" + err.Message, err);
+                            return false;
+                        }
+                        downloadedList.Add(fullPath);
+                        return true;
+                }
             }
 
             return false;

@@ -81,8 +81,6 @@
             // check_GenerateLog
             // 
             this.check_GenerateLog.AutoSize = true;
-            this.check_GenerateLog.Checked = true;
-            this.check_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.check_GenerateLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_GenerateLog.Location = new System.Drawing.Point(8, 26);
             this.check_GenerateLog.Name = "check_GenerateLog";

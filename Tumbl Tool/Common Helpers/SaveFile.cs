@@ -20,7 +20,7 @@ namespace Tumblr_Tool.Common_Helpers
     public class SaveFile
     {
         [XmlElement("blog")]
-        public Tumblr blog;
+        public TumblrBlog blog;
 
         [XmlElement("date")]
         public string date;
@@ -28,7 +28,7 @@ namespace Tumblr_Tool.Common_Helpers
         [XmlElement("filename")]
         public string fileName;
 
-        public SaveFile(string fileName = "", Tumblr blog = null)
+        public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
             this.fileName = fileName;
             //this.blog = new Tumblr();
@@ -52,7 +52,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public string getBlogURL()
         {
-            return blog.cname;
+            return blog.url;
         }
 
         public string getFileName()

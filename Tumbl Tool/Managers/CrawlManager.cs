@@ -73,10 +73,10 @@ namespace Tumblr_Tool.Managers
 
                     if (type == tumblrPostTypes.photo.ToString())
                     {
-                        PostHelper.createPhotoPost(ref post, jPost);
+                        PostHelper.generatePhotoPost(ref post, jPost);
                     }
 
-                    PostHelper.createTumblrPost(ref post, jPost);
+                    PostHelper.generateBasePost(ref post, jPost);
 
                     
 
@@ -99,12 +99,15 @@ namespace Tumblr_Tool.Managers
         public bool isValidTumblr(string url)
         {
             if (mode == apiModeEnum.JSON.ToString())
-                return JSONHelper.getJSONObject(url) != null;
+            {
+                dynamic jsonObject = JSONHelper.getJSONObject(url);
+                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString());
+            }
             else
                 return XMLHelper.getXMLDocument(url) != null;
         }
 
-        public bool setBlogInfo(string url, Tumblr blog)
+        public bool setBlogInfo(string url, TumblrBlog blog)
         {
             if (mode == apiModeEnum.JSON.ToString())
             {
@@ -116,29 +119,46 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public bool setBlogInfoJSON(string url, Tumblr blog)
+        public bool setBlogInfoJSON(string url, TumblrBlog blog)
         {
-            dynamic jsonDocument = JSONHelper.getJSONObject(url);
-
-            if (jsonDocument != null)
+            try
             {
-                blog.title = jsonDocument.response.blog.title;
-                blog.description = jsonDocument.response.blog.description;
-                blog.timezone = "";
-                blog.name = jsonDocument.response.blog.name;
+                dynamic jsonDocument = JSONHelper.getJSONObject(url);
 
-                if (jsonDocument.response.total_posts != null)
-                    blog.totalPosts = Convert.ToInt32(jsonDocument.response.total_posts);
-                else if (jsonDocument.response.blog.posts != null)
-                    blog.totalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
+                if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
+                {
+                    blog.title = jsonDocument.response.blog.title;
+                    blog.description = jsonDocument.response.blog.description;
+                    blog.name = jsonDocument.response.blog.name;
+                    blog.url = jsonDocument.response.blog.url;
+                    blog.isNsfw = Convert.ToBoolean(jsonDocument.response.blog.is_nsfw);
+                    blog.isAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask);
+                    blog.isAnonAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask_anon);
+                    blog.lastUpdated = CommonHelper.UnixTimeStampToDateTime( Convert.ToDouble(jsonDocument.response.blog.updated));
 
-                return true;
+
+                    if (jsonDocument.response.total_posts != null)
+                        blog.totalPosts = Convert.ToInt32(jsonDocument.response.total_posts);
+                    else if (jsonDocument.response.blog.posts != null)
+                        blog.totalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
+
+                    if (jsonDocument.response.blog.posts != null)
+                        blog.blogTotalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
+
+                    return true;
+                }
+            }
+
+            catch
+            {
+
+                return false;
             }
 
             return false;
         }
 
-        public bool setBlogInfoXML(string url, Tumblr blog)
+        public bool setBlogInfoXML(string url, TumblrBlog blog)
         {
             XDocument rDoc = XMLHelper.getXMLDocument(url);
             if (rDoc != null)

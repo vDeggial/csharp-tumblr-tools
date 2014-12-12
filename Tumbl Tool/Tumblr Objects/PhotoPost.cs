@@ -26,14 +26,12 @@ namespace Tumblr_Tool.Tumblr_Objects
             this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
             this.caption = caption;
-            this.photos = new HashSet<PhotoPostImage>();
         }
 
         public PhotoPost()
         {
             this.type = tumblrPostTypes.photo.ToString();
             this.format = "html";
-            this.photos = new HashSet<PhotoPostImage>();
         }
 
         [XmlElement("caption")]

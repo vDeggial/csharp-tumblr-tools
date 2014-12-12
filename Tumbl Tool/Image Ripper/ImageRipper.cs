@@ -21,7 +21,7 @@ namespace Tumblr_Tool.Image_Ripper
 {
     public class ImageRipper
     {
-        public Tumblr blog;
+        public TumblrBlog blog;
         public Dictionary<string, string> commentsList = new Dictionary<string, string>();
         public CrawlManager crawlManager;
         public HashSet<string> imageList;
@@ -29,7 +29,6 @@ namespace Tumblr_Tool.Image_Ripper
         public SaveFile log;
         public int parsed = 0;
         public int percentComplete = 0;
-        public processingCodes prevCode;
         public processingCodes statusCode;
         public int totalImagesCount;
         public int totalPosts = 0;
@@ -49,10 +48,10 @@ namespace Tumblr_Tool.Image_Ripper
         {
         }
 
-        public ImageRipper(Tumblr blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "JSON")
+        public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "JSON")
         {
-            this.tumblrURL = FileHelper.fixURL(blog.cname);
-            this.tumblrDomain = blog.cname.Substring(7);
+            this.tumblrURL = FileHelper.fixURL(blog.url);
+            this.tumblrDomain = CommonHelper.getDomainName(blog.url);
 
             this.generateLog = generateLog;
 
@@ -111,7 +110,7 @@ namespace Tumblr_Tool.Image_Ripper
                                 caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
                                 caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
                                 caption = CommonHelper.StripTags(caption);
-                                this.imageList.Add(image.imageURL);
+                                this.imageList.Add(image.url);
 
                                 //if (!this.commentsList.ContainsKey(image.filename))
                                 //{
@@ -160,7 +159,7 @@ namespace Tumblr_Tool.Image_Ripper
                 query = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.photo.ToString(), start);
             }
 
-            if (WebHelper.webURLExists(@query))
+            if (crawlManager.isValidTumblr(@query))
             {
                 crawlManager.getDocument(query);
                 HashSet<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
@@ -186,7 +185,7 @@ namespace Tumblr_Tool.Image_Ripper
             return crawlManager.isValidTumblr(url);
         }
 
-        public Tumblr parseBlogPosts(int parseMode)
+        public TumblrBlog parseBlogPosts(int parseMode)
         {
             statusCode = processingCodes.Starting;
             string url = string.Empty;
@@ -279,7 +278,6 @@ namespace Tumblr_Tool.Image_Ripper
                 blog.posts.Clear();
 
 
-            prevCode = statusCode;
             return blog;
         }
 

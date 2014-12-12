@@ -10,15 +10,12 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using System;
-
-namespace Tumblr_Tool.Tumblr_Objects
+namespace Tumblr_Tool.Enums
 {
-    [Serializable()]
-    public class TextPost : TumblrPost
+    public enum tumblrAPIResponseEnum
     {
-        public override string body { get; set; }
-
-        public override string title { get; set; }
+        OK = 200,
+        NotAuthorized = 401,
+        NotFound = 404
     }
 }

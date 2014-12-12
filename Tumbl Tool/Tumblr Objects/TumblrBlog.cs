@@ -17,32 +17,29 @@ using System.Xml.Serialization;
 namespace Tumblr_Tool.Tumblr_Objects
 {
     [Serializable()]
-    public class Tumblr
+    public class TumblrBlog
     {
-        public Tumblr(string name = "", string cname = "", string title = "", string description = "")
+        public TumblrBlog()
         {
-            this.cname = cname;
-            this.name = name;
-            this.title = title;
-            this.description = description;
-            posts = new HashSet<TumblrPost>();
+            // posts = new HashSet<TumblrPost>();
         }
-
-        public Tumblr()
-        {
-            posts = new HashSet<TumblrPost>();
-        }
-
-        [XmlElement("cname")]
-        public string cname { get; set; }
 
         [XmlElement("description")]
         public string description { get; set; }
+
+        public bool isAnonAskEnabled { get; set; }
+
+        public bool isAskEnabled { get; set; }
+
+        public bool isNsfw { get; set; }
+
+        public DateTime lastUpdated { get; set; }
 
         [XmlElement("name")]
         public string name { get; set; }
 
         //[XmlIgnoreAttribute]
+        [XmlArrayItem("post")]
         public HashSet<TumblrPost> posts { get; set; }
 
         [XmlElement("timezone")]
@@ -51,17 +48,13 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("title")]
         public string title { get; set; }
 
-        [XmlElement("totalPosts")]
         public int totalPosts { get; set; }
 
-        public bool isAskEnabled { get; set; }
+        public int blogTotalPosts { get; set; }
 
-        public bool isAnonAskEnabled { get; set; }
+        [XmlElement("url")]
+        public string url { get; set; }
 
-        public long likesCount { get; set; }
-
-        public bool isNsfw { get; set; }
-
-        public DateTime lastUpdated { get; set; }
+        public string cname { get; set; }
     }
 }

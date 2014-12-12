@@ -18,9 +18,15 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class WebHelper
     {
-        public static bool CheckForInternetConnection()
+        public static bool checkForInternetConnection()
         {
             return new Ping().Send("www.google.com").Status == IPStatus.Success;
+        }
+
+        public static bool isValidUrl(this string source)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         }
 
         public static string stripHTMLTags(string HTML)
@@ -30,14 +36,7 @@ namespace Tumblr_Tool.Common_Helpers
 
             return objRegEx.Replace(HTML, "");
         }
-
-        public static bool isValidUrl(this string source)
-        {
-            Uri uriResult;
-            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-        }
-
-        public static bool webURLExists(string url)
+        public static bool urlExists(string url)
         {
             try
             {

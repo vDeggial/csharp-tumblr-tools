@@ -32,7 +32,7 @@ namespace Tumblr_Tool
     public partial class mainForm : Form
     {
         public bool isCancelled = false;
-        private static Tumblr tumblrBlog;
+        private static TumblrBlog tumblrBlog;
 
         private AboutForm aboutForm;
         private int currentSelectedTab;
@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.9";
+        private string version = "1.0.10";
 
         public mainForm()
         {
@@ -656,8 +656,8 @@ namespace Tumblr_Tool
                 lock (ripper)
                 {
                     Thread.Sleep(100);
-                    tumblrBlog = new Tumblr();
-                    tumblrBlog.cname = txt_TumblrURL.Text;
+                    tumblrBlog = new TumblrBlog();
+                    tumblrBlog.url = txt_TumblrURL.Text;
 
                     this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
                     ripper.statusCode = processingCodes.Initializing;
@@ -675,7 +675,7 @@ namespace Tumblr_Tool
                     ripper.statusCode = processingCodes.checkingConnection;
                 }
 
-                if (WebHelper.CheckForInternetConnection())
+                if (WebHelper.checkForInternetConnection())
                 {
                     lock (ripper)
                     {
@@ -872,6 +872,8 @@ namespace Tumblr_Tool
                                 updateWorkStatusText("Downloading images ...");
                                 updateStatusText("Downloading..."); ;
                                 lbl_PostCount.Visible = true;
+                                bar_Progress.Refresh();
+                                bar_Progress.Update();
                             });
                         }
 
@@ -957,6 +959,7 @@ namespace Tumblr_Tool
                                             }
 
                                             lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
+                                            bar_Progress.Visible = true;
                                             bar_Progress.Update();
                                             bar_Progress.Refresh();
                                         }
@@ -1110,7 +1113,20 @@ namespace Tumblr_Tool
                     this.Invoke((MethodInvoker)delegate
                         {
                             txt_SaveLocation.Text = !string.IsNullOrEmpty(filename) ? Path.GetDirectoryName(filename) : "";
-                            txt_TumblrURL.Text = saveFile != null ? saveFile.blog.cname : "Error parsing savefile";
+
+                            if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
+                            {
+                                txt_TumblrURL.Text = saveFile.blog.url;
+                            }
+                            else if (saveFile != null && saveFile.blog != null && string.IsNullOrEmpty(saveFile.blog.url) && !string.IsNullOrEmpty(saveFile.blog.cname))
+                            {
+                                txt_TumblrURL.Text = saveFile.blog.cname;
+                            }
+                            else
+                            {
+                                txt_TumblrURL.Text = "Error parsing savefile...";
+                            }
+
                             btn_Start.Enabled = true;
                         });
                 }
@@ -1273,7 +1289,7 @@ namespace Tumblr_Tool
 
                                 lbl_PostCount.Text = "";
                                 lbl_PostCount.Visible = true;
-                                img_Stats_Avatar.LoadAsync(JSONHelper.getAvatarQueryString(tumblrStats.blog.cname));
+                                img_Stats_Avatar.LoadAsync(JSONHelper.getAvatarQueryString(tumblrStats.blog.url));
                             });
                         }
 
@@ -1366,7 +1382,7 @@ namespace Tumblr_Tool
                 this.tumblrStats = new TumblrStats();
                 // Thread.Sleep(100);
 
-                if (WebHelper.CheckForInternetConnection())
+                if (WebHelper.checkForInternetConnection())
                 {
                     this.Invoke((MethodInvoker)delegate
                             {
@@ -1440,10 +1456,13 @@ namespace Tumblr_Tool
 
         private bool saveTumblrFile(string name)
         {
-            if (saveFile == null || saveFile.blog.name != name)
-            {
-                saveFile = new SaveFile(name + ".tumblr", ripper.blog);
-            }
+            //if (saveFile == null || saveFile.blog.name != name)
+            //{
+            //    saveFile = new SaveFile(name + ".tumblr", ripper.blog);
+            //}
+
+            saveFile = new SaveFile(name + ".tumblr", ripper.blog);
+
             return fileManager.saveTumblrFile(txt_SaveLocation.Text + @"\" + saveFile.getFileName(), saveFile);
         }
 
@@ -1492,15 +1511,15 @@ namespace Tumblr_Tool
             renderer.changeTextForeColor(TSMI, e);
         }
 
+        private void txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
+        {
+            txt_TumblrURL.Text = txt_Stats_TumblrURL.Text;
+        }
+
         private void workStatusAutoScroll(object sender, EventArgs e)
         {
             txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
             txt_WorkStatus.ScrollToCaret();
-        }
-
-        private void txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
-        {
-            txt_TumblrURL.Text = txt_Stats_TumblrURL.Text;
         }
     }
 }

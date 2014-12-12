@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 
 namespace Tumblr_Tool.Tumblr_Objects
 {
-    [XmlInclude(typeof(PhotoPost))]
+    [XmlInclude(typeof(PhotoPost)), XmlInclude(typeof(AnswerPost)), XmlInclude(typeof(AudioPost)), XmlInclude(typeof(ChatPost)), XmlInclude(typeof(LinkPost)), XmlInclude(typeof(QuotePost)), XmlInclude(typeof(TextPost)), XmlInclude(typeof(VideoPost))]
     [Serializable()]
     public class TumblrPost
     {
@@ -44,8 +44,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual HashSet<ChatPostFragment> dialogue { get; set; }
 
-        public virtual double duration { get; set; }
-
+        public virtual string duration { get; set; }
 
         [XmlElement("format")]
         public string format { get; set; }
@@ -53,16 +52,16 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("id")]
         public string id { get; set; }
 
-
-        public virtual bool isHtml5Capable { get; set; }
+        public virtual string isHtml5Capable { get; set; }
 
         public virtual string linkUrl { get; set; }
 
+        [XmlArrayItem("photo")]
         public virtual HashSet<PhotoPostImage> photos { get; set; }
 
         public virtual string player { get; set; }
 
-        public virtual int playsCount { get; set; }
+        public virtual string playsCount { get; set; }
 
         [XmlElement("postText")]
         public string postText { get; set; }
@@ -70,23 +69,27 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("reblogKey")]
         public string reblogKey { get; set; }
 
+        public string shortURL { get; set; }
+
         public virtual string source { get; set; }
 
+
+        [XmlArrayItem("tag")]
         public HashSet<string> tags { get; set; }
 
         public virtual string text { get; set; }
 
-        public virtual int thumbnailHeight { get; set; }
+        public virtual string thumbnailHeight { get; set; }
 
         public virtual string thumbnailUrl { get; set; }
 
-        public virtual int thumbnailWidth { get; set; }
+        public virtual string thumbnailWidth { get; set; }
 
         public virtual string title { get; set; }
 
         public virtual string trackName { get; set; }
 
-        public virtual int trackNumber { get; set; }
+        public virtual string trackNumber { get; set; }
 
         [XmlElement("type")]
         public string type { get; set; }
@@ -98,7 +101,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string videoUrl { get; set; }
 
-        public virtual int year { get; set; }
+        public virtual string year { get; set; }
 
         public virtual void addImageToPhotoSet(PhotoPostImage image)
         {
@@ -112,7 +115,5 @@ namespace Tumblr_Tool.Tumblr_Objects
 
             this.tags.Add(tag);
         }
-
-
     }
 }

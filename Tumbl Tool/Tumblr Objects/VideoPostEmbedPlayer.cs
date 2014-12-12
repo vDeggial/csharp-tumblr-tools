@@ -7,6 +7,6 @@ namespace Tumblr_Tool.Tumblr_Objects
     {
         public string embedCode { get; set; }
 
-        public int width { get; set; }
+        public string width { get; set; }
     }
 }

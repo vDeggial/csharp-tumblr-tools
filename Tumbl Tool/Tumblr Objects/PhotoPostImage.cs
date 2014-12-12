@@ -22,14 +22,13 @@ namespace Tumblr_Tool.Tumblr_Objects
         {
         }
 
-        public PhotoPostImage(string url, string caption, string width, string height, string offset)
+        public PhotoPostImage(string url, string caption, string width, string height)
         {
             this.caption = caption;
-            this.imageURL = url;
+            this.url = url;
             this.width = width;
             this.height = height;
-            this.offset = offset;
-            this.filename = !string.IsNullOrEmpty(this.imageURL) ? Path.GetFileName(this.imageURL) : null;
+            this.filename = !string.IsNullOrEmpty(this.url) ? Path.GetFileName(this.url) : null;
         }
 
         public string caption { get; set; }
@@ -38,9 +37,8 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public string height { get; set; }
 
-        public string imageURL { get; set; }
+        public string url { get; set; }
 
-        public string offset { get; set; }
 
         public string width { get; set; }
     }

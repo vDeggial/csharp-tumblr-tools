@@ -23,7 +23,7 @@ namespace Tumblr_Tool.Tumblr_Stats
     {
         public int answerPosts;
         public int audioPosts;
-        public Tumblr blog;
+        public TumblrBlog blog;
         public int chatPosts;
         public int linkPosts;
         public int maxNumPosts = 0;
@@ -46,14 +46,14 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
         }
 
-        public TumblrStats(Tumblr blog, string url, string apiMode, int startNum = 0, int endNum = 0)
+        public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
         {
             crawlManager = new CrawlManager();
             setAPIMode(apiMode);
 
             if (blog == null)
             {
-                this.blog = new Tumblr();
+                this.blog = new TumblrBlog();
             }
             else
             {
@@ -61,10 +61,10 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
 
             this.blog.posts = new HashSet<TumblrPost>();
-            this.blog.cname = url;
+            this.blog.url = url;
             this.tumblrDomain = CommonHelper.getDomainName(url);
             setBlogInfo();
-            this.url = FileHelper.fixURL(this.blog.cname);
+            this.url = FileHelper.fixURL(this.blog.url);
             this.tumblrDomain = CommonHelper.getDomainName(this.url);
 
             this.maxNumPosts = endNum;
@@ -73,7 +73,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             this.step = (int)postStepEnum.JSON; //20 for JSON, 50 for XML
         }
 
-        public Tumblr parsePosts()
+        public TumblrBlog parsePosts()
         {
             string url = XMLHelper.getQueryString(this.url, tumblrPostTypes.empty.ToString(), 0);
             step = (int)postStepEnum.XML;

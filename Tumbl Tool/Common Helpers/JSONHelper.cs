@@ -10,11 +10,9 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
-using System.Xml.Linq;
 using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -94,11 +92,6 @@ namespace Tumblr_Tool.Common_Helpers
             }
 
             return query;
-        }
-
-        public static XDocument jsonToXML(string json)
-        {
-            return JsonConvert.DeserializeXNode(json, "tumblr");
         }
     }
 }

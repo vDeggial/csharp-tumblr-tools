@@ -57,6 +57,7 @@
     <Compile Include="Enums\parseModes.cs" />
     <Compile Include="Enums\processingCodes.cs" />
     <Compile Include="Enums\postStepEnum.cs" />
+    <Compile Include="Enums\tumblrAPIResponseEnum.cs" />
     <Compile Include="Enums\tumblrPostTypes.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />
     <Compile Include="Managers\CrawlManager.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Tumblr Objects\PhotoPostImage.cs" />
     <Compile Include="Tumblr Objects\QuotePost.cs" />
     <Compile Include="Tumblr Objects\TextPost.cs" />
-    <Compile Include="Tumblr Objects\Tumblr.cs" />
+    <Compile Include="Tumblr Objects\TumblrBlog.cs" />
     <Compile Include="Tumblr Objects\TumblrPost.cs" />
     <Compile Include="Tumblr Objects\VideoPost.cs" />
     <Compile Include="Tumblr Objects\VideoPostEmbedPlayer.cs" />
