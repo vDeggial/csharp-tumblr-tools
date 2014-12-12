@@ -135,7 +135,7 @@ namespace Tumblr_Tool
             this.bar_Progress.BackColor = System.Drawing.Color.White;
             this.bar_Progress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.bar_Progress.Location = new System.Drawing.Point(4, 308);
-            this.bar_Progress.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.bar_Progress.Margin = new System.Windows.Forms.Padding(0);
             this.bar_Progress.Name = "bar_Progress";
             this.bar_Progress.Size = new System.Drawing.Size(618, 33);
             this.bar_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -364,7 +364,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.Font = new System.Drawing.Font("Century Gothic", 8.25F);
             this.tabControl_Main.ImageList = this.iconList;
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
-            this.tabControl_Main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabControl_Main.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl_Main.Name = "tabControl_Main";
             this.tabControl_Main.Padding = new System.Drawing.Point(5, 0);
             this.tabControl_Main.SelectedIndex = 0;

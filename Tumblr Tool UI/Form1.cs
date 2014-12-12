@@ -877,7 +877,20 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                
+
+                                if (!bar_Progress.Visible)
+                                    bar_Progress.Visible = true;
+
+                                if (!lbl_PercentBar.Visible)
+                                    lbl_PercentBar.Visible = true;
+
+                                if (!lbl_PostCount.Visible)
+                                    lbl_PostCount.Visible = true;
+
+                                if (!lbl_Size.Visible)
+                                    lbl_Size.Visible = true;
+
+
                                 updateWorkStatusText("Downloading images ...");
                                 updateStatusText("Downloading..."); ;
                                 
