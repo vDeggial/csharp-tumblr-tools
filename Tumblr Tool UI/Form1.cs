@@ -475,6 +475,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateWorkStatusText("Internet Connection found ...");
+                                        updateWorkStatusText("Starting ...");
                                     });
                                 }
                             }
@@ -508,7 +509,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Starting ...");
+                                        
                                         updateWorkStatusText("Getting Blog info ...");
                                     });
                                 }
@@ -878,17 +879,7 @@ namespace Tumblr_Tool
                             this.Invoke((MethodInvoker)delegate
                             {
 
-                                if (!bar_Progress.Visible)
-                                    bar_Progress.Visible = true;
-
-                                if (!lbl_PercentBar.Visible)
-                                    lbl_PercentBar.Visible = true;
-
-                                if (!lbl_PostCount.Visible)
-                                    lbl_PostCount.Visible = true;
-
-                                if (!lbl_Size.Visible)
-                                    lbl_Size.Visible = true;
+                                
 
 
                                 updateWorkStatusText("Downloading images ...");
@@ -950,6 +941,24 @@ namespace Tumblr_Tool
                                         if (downloaded > total)
                                             downloaded = total;
 
+
+                                        if (!bar_Progress.Visible)
+                                        {
+                                            bar_Progress.Visible = true;
+                                        }
+
+                                        if (!lbl_PercentBar.Visible)
+                                            lbl_PercentBar.Visible = true;
+
+                                        if (!lbl_PostCount.Visible)
+                                            lbl_PostCount.Visible = true;
+
+                                        if (!lbl_Size.Visible)
+                                            lbl_Size.Visible = true;
+
+
+
+                                        lbl_PostCount.Visible = true;
                                         lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
 
                                         try
