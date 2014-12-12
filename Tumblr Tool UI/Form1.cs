@@ -88,6 +88,7 @@ namespace Tumblr_Tool
             lbl_PostCount.Text = "";
             lbl_Status.Text = "Ready";
 
+            SetDoubleBuffering(bar_Progress, true);
         }
 
         public mainForm(string file)
@@ -112,7 +113,6 @@ namespace Tumblr_Tool
 
             updateStatusText("Opening savefile ...");
 
-
             openTumblrFile(file);
 
             //saveFile = fileManager.readTumblrFile(file);
@@ -135,60 +135,14 @@ namespace Tumblr_Tool
             optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
             lbl_Status.Text = "Ready";
+            SetDoubleBuffering(bar_Progress, true);
         }
 
-
-        public void openTumblrFile(string file)
+        public static void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
         {
-            try
-            {
-                if (!this.IsDisposed)
-                {
-                    saveFile = fileManager.readTumblrFile(file);
-
-                    saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
-
-                    if (saveFile != null)
-                    {
-                        if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
-                        {
-
-                            updateStatusText("Reading log file ...");
-
-                            logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
-                        }
-                    }
-                    tumblrBlog = saveFile != null ? saveFile.blog : null;
-
-
-                    txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
-
-                    txt_TumblrURL.Text = "File:" + file;
-
-                    if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
-                    {
-                        txt_TumblrURL.Text = saveFile.blog.url;
-                    }
-                    else if (saveFile != null && saveFile.blog != null && string.IsNullOrEmpty(saveFile.blog.url) && !string.IsNullOrEmpty(saveFile.blog.cname))
-                    {
-                        txt_TumblrURL.Text = saveFile.blog.cname;
-                    }
-                    else
-                    {
-                        txt_TumblrURL.Text = "Error parsing savefile...";
-                    }
-
-                    updateStatusText("Ready");
-                    btn_Start.Enabled = true;
-                }
-
-            }
-
-            catch
-            {
-
-            }
-
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+                .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
         }
 
         public void button_MouseEnter(object sender, EventArgs e)
@@ -232,6 +186,53 @@ namespace Tumblr_Tool
         public void loadOptions(ToolOptions _options)
         {
             this.options = _options;
+        }
+
+        public void openTumblrFile(string file)
+        {
+            try
+            {
+                if (!this.IsDisposed)
+                {
+                    saveFile = fileManager.readTumblrFile(file);
+
+                    saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
+
+                    if (saveFile != null)
+                    {
+                        if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
+                        {
+                            updateStatusText("Reading log file ...");
+
+                            logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
+                        }
+                    }
+                    tumblrBlog = saveFile != null ? saveFile.blog : null;
+
+                    txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
+
+                    txt_TumblrURL.Text = "File:" + file;
+
+                    if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
+                    {
+                        txt_TumblrURL.Text = saveFile.blog.url;
+                    }
+                    else if (saveFile != null && saveFile.blog != null && string.IsNullOrEmpty(saveFile.blog.url) && !string.IsNullOrEmpty(saveFile.blog.cname))
+                    {
+                        txt_TumblrURL.Text = saveFile.blog.cname;
+                    }
+                    else
+                    {
+                        txt_TumblrURL.Text = "Error parsing savefile...";
+                    }
+
+                    updateStatusText("Ready");
+                    btn_Start.Enabled = true;
+                }
+            }
+            catch
+            {
+            }
         }
 
         public void updateStatusText(string text)
@@ -443,7 +444,6 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-
                                 updateWorkStatusText("Error downloading the blog post XML");
                                 updateStatusText("Error");
                             });
@@ -569,7 +569,6 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        
                                         updateWorkStatusText("Getting Blog info ...");
                                     });
                                 }
@@ -915,18 +914,12 @@ namespace Tumblr_Tool
                                 {
                                     updateStatusText("Preparing...");
 
-
-                                    img_DisplayImage.Visible = true;
                                     bar_Progress.Step = 1;
                                     bar_Progress.Minimum = 0;
                                     bar_Progress.Maximum = 100;
-                                    bar_Progress.Visible = true;
-                                    lbl_PostCount.Visible = true;
+
                                     lbl_PostCount.Text = "";
-                                    lbl_PercentBar.Visible = true;
-                                    lbl_PostCount.Visible = true;
-                                    bar_Progress.Refresh();
-                                    bar_Progress.Update();
+
                                 });
                             }
                         }
@@ -938,13 +931,8 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-
-                                
-
-
                                 updateWorkStatusText("Downloading images ...");
                                 updateStatusText("Downloading..."); ;
-                                
                             });
                         }
 
@@ -1001,7 +989,6 @@ namespace Tumblr_Tool
                                         if (downloaded > total)
                                             downloaded = total;
 
-
                                         if (!bar_Progress.Visible)
                                         {
                                             bar_Progress.Visible = true;
@@ -1016,9 +1003,6 @@ namespace Tumblr_Tool
                                         if (!lbl_Size.Visible)
                                             lbl_Size.Visible = true;
 
-
-
-                                        lbl_PostCount.Visible = true;
                                         lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
 
                                         try
@@ -1026,7 +1010,6 @@ namespace Tumblr_Tool
                                             totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
                                             decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
                                             string suffix = totalLength > 1024 ? "GB" : "MB";
-                                            lbl_Size.Visible = true;
                                             lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
                                         }
                                         catch (Exception)
@@ -1048,7 +1031,6 @@ namespace Tumblr_Tool
                                             }
 
                                             lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
-                                            bar_Progress.Visible = true;
                                             bar_Progress.Update();
                                             bar_Progress.Refresh();
                                         }
@@ -1195,7 +1177,6 @@ namespace Tumblr_Tool
 
         private void fileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            
         }
 
         private void fileBW_DoWork(object sender, DoWorkEventArgs e)
@@ -1204,13 +1185,8 @@ namespace Tumblr_Tool
             {
                 this.Invoke((MethodInvoker)delegate
                     {
-
                         openTumblrFile((string)e.Argument);
-
-                        
                     });
-
-                
             }
             catch
             {
