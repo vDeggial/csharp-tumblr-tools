@@ -16,6 +16,7 @@ using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Tumblr_Objects;
+using System.Linq;
 
 namespace Tumblr_Tool.Image_Ripper
 {
@@ -41,8 +42,10 @@ namespace Tumblr_Tool.Image_Ripper
         private int offset = 0;
         private HashSet<TumblrPost> oldPosts;
         private bool parsePhotoSets, parseJPEG, parsePNG, parseGIF;
-        private string saveLocation;
+        public string saveLocation;
         private string tumblrDomain = "";
+
+        public bool logUpdated;
 
         public ImageRipper()
         {
@@ -259,10 +262,12 @@ namespace Tumblr_Tool.Image_Ripper
                     generateImageListForDownload(blog.posts);
                     percentComplete = totalPosts > 0 ? (int)(((double)parsed / (double)totalPosts) * 100.00) : 0;
                     i += step;
+
                     if (this.generateLog)
                     {
                         saveLogFile(blog.name);
                     }
+
                     blog.posts.Clear();
                 }
             }
@@ -293,20 +298,16 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void saveLogFile(SaveFile log)
         {
-            bool logUpdated = false;
+
             foreach (TumblrPost post in blog.posts)
             {
-                if (!log.blog.posts.ToList().Exists(p => p.id == post.id))
+
+
+                if (!log.blog.posts.Any(p => p.id == post.id))
                 {
                     log.blog.posts.Add(post);
-                    logUpdated = true;
+                    this.logUpdated = true;
                 }
-            }
-
-            if (logUpdated)
-            {
-                FileManager fileManager = new FileManager();
-                fileManager.saveTumblrFile(saveLocation + @"\" + log.getFileName(), log);
             }
         }
 
@@ -330,7 +331,7 @@ namespace Tumblr_Tool.Image_Ripper
             return crawlManager.setBlogInfo(query, this.blog);
         }
 
-        public void setLogFile(SaveFile log)
+        public void setLogFile(ref SaveFile log)
         {
             this.log = log;
         }

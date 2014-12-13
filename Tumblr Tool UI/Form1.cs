@@ -600,6 +600,22 @@ namespace Tumblr_Tool
                             }
                         }
 
+
+                        if (ripper.statusCode == processingCodes.SavingLogFile)
+                        {
+                            lock (ripper)
+                            {
+                                if (!this.IsDisposed)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        updateStatusText("Saving Log File");
+                                        updateWorkStatusText("Saving Log File ...");
+                                    });
+                                }
+                            }
+                        }
+
                         if (ripper.statusCode == processingCodes.Starting)
                         {
                             lock (ripper)
@@ -699,6 +715,8 @@ namespace Tumblr_Tool
                     if (ripper.statusCode == processingCodes.Done)
                     {
                         saveFile.blog = ripper.blog;
+                        logFile = null;
+                        ripper.log = null;
 
                         if (!optionsForm.parseOnly)
                         {
@@ -762,7 +780,7 @@ namespace Tumblr_Tool
                     if (this.ripper != null)
                     {
                         this.ripper.setAPIMode(options.apiMode);
-                        this.ripper.setLogFile(logFile);
+                        this.ripper.setLogFile(ref logFile);
 
                         if (ripper.isValidTumblr())
                         {
@@ -806,6 +824,34 @@ namespace Tumblr_Tool
                                         }
 
                                         tumblrBlog = this.ripper.parseBlogPosts(mode);
+
+                                        if (ripper.logUpdated)
+                                        {
+                                            lock (ripper)
+                                            {
+                                                ripper.statusCode = processingCodes.SavingLogFile;
+
+                                                if (!this.IsDisposed)
+                                                {
+                                                    this.Invoke((MethodInvoker)delegate
+                                                    {
+                                                        updateStatusText("Saving Log File");
+                                                        updateWorkStatusText("Saving Log File ...");
+                                                    });
+                                                }
+                                                
+                                                fileManager.saveTumblrFile(ripper.saveLocation + @"\" + ripper.log.getFileName(), ripper.log);
+
+                                                if (!this.IsDisposed)
+                                                {
+                                                    this.Invoke((MethodInvoker)delegate
+                                                    {
+                                                        updateStatusText("Log Saved");
+                                                        updateWorkStatusText("Log file saved");
+                                                    });
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 

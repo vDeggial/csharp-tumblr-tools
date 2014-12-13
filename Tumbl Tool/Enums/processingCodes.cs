@@ -31,6 +31,7 @@ namespace Tumblr_Tool.Enums
         saveFileOK,
         saveFileError,
         Done,
-        Error
+        Error,
+        SavingLogFile
     }
 }
