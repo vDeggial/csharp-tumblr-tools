@@ -112,7 +112,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static Object readObjectAsXML<T>(string filename)
+        public static Object readObjectFromXML<T>(string filename)
         {
             try
             {

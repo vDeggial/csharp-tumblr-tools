@@ -28,6 +28,7 @@ namespace Tumblr_Tool.Managers
             downloadedList = new HashSet<string>();
             totalSize = 0;
             fileSizeRecieved = 0;
+            saveFileFormat = "JSON";
         }
 
         public HashSet<string> downloadedList { get; set; }
@@ -41,6 +42,8 @@ namespace Tumblr_Tool.Managers
         public double totalSize { get; set; }
 
         public int totalToDownload { get; set; }
+
+        public string saveFileFormat { get; set; }
 
         public bool downloadFile(string url, string fullPath, string prefix = "", int method = 1)
         {
@@ -147,12 +150,20 @@ namespace Tumblr_Tool.Managers
 
         public SaveFile readTumblrFile(string location)
         {
-            return FileHelper.readTumblrFile(location, "XML");
+            SaveFile saveFile = FileHelper.readTumblrFile(location, "BIN");
+
+            if (saveFile == null)
+                saveFile = FileHelper.readTumblrFile(location, "XML");
+
+            if (saveFile == null)
+                saveFile  = FileHelper.readTumblrFile(location, "JSON");
+
+            return saveFile;
         }
 
         public bool saveTumblrFile(string location, SaveFile saveFile)
         {
-            return FileHelper.saveTumblrFile(location, saveFile, "XML");
+            return FileHelper.saveTumblrFile(location, saveFile, saveFileFormat);
         }
 
         public void wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)

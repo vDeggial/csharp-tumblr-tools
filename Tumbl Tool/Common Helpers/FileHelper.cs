@@ -83,9 +83,17 @@ namespace Tumblr_Tool.Common_Helpers
                 case "XML":
                     return readTumblrFileFromXML(location);
 
+                case "JSON":
+                    return readTumblrFileFromJSON(location);
+
                 default:
                     return null;
             }
+        }
+
+        public static SaveFile readTumblrFileFromJSON(string location)
+        {
+            return (SaveFile)JSONHelper.readFromJSON<SaveFile>(location);
         }
 
         public static SaveFile readTumblrFileFromBin(string location)
@@ -110,7 +118,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static SaveFile readTumblrFileFromXML(string location)
         {
-            return (SaveFile)XMLHelper.readObjectAsXML<SaveFile>(location);
+            return (SaveFile)XMLHelper.readObjectFromXML<SaveFile>(location);
         }
 
         public static bool saveFileAsBin(string location, SaveFile file)
@@ -136,6 +144,11 @@ namespace Tumblr_Tool.Common_Helpers
             return XMLHelper.saveObjectAsXML<SaveFile>(location, file);
         }
 
+        public static bool saveFileAsJSON(string location, SaveFile file)
+        {
+            return JSONHelper.saveObjectAsJSON<SaveFile>(location, file);
+        }
+
         public static bool saveTumblrFile(string location, SaveFile file, string format)
         {
             switch (format)
@@ -145,6 +158,9 @@ namespace Tumblr_Tool.Common_Helpers
 
                 case "XML":
                     return saveFileAsXML(location, file);
+
+                case "JSON":
+                    return saveFileAsJSON(location, file);
 
                 default:
                     return false;

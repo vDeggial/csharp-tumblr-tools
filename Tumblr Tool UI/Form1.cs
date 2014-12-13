@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.11";
+        private string version = "1.0.12";
 
         public mainForm()
         {
@@ -194,19 +194,11 @@ namespace Tumblr_Tool
             {
                 if (!this.IsDisposed)
                 {
-                    saveFile = fileManager.readTumblrFile(file);
+                   
 
                     saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
 
-                    if (saveFile != null)
-                    {
-                        if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
-                        {
-                            updateStatusText("Reading log file ...");
-
-                            logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
-                        }
-                    }
+                    
                     tumblrBlog = saveFile != null ? saveFile.blog : null;
 
                     txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
@@ -276,6 +268,21 @@ namespace Tumblr_Tool
         private void btn_Crawl_Click(object sender, EventArgs e)
         {
             enableUI_Crawl(false);
+
+
+            if (saveFile != null && options.generateLog)
+            {
+                string file = txt_SaveLocation.Text + @"\" + Path.GetFileNameWithoutExtension(saveFile.fileName);
+
+                if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
+                {
+                    updateStatusText("Reading log file ...");
+
+                    logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
+                }
+            }
+
+
             lbl_PostCount.Visible = false;
             lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.Visible = false;

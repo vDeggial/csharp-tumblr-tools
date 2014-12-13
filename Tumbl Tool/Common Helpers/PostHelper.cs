@@ -31,38 +31,34 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static void generateBasePost(ref TumblrPost post, dynamic jPost)
         {
-            if (jPost.type != null)
-                post.type = jPost.type;
 
-            if (jPost.id != null)
-                post.id = jPost.id;
+            post.type = !string.IsNullOrEmpty((string)jPost.type ) ? jPost.type : null;
 
-            if (jPost.post_url != null)
-                post.url = jPost.post_url;
+            post.id = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
 
-            if (jPost.caption != null)
-                post.caption = jPost.caption;
+            post.url = !string.IsNullOrEmpty((string)jPost.post_url) ? jPost.post_url : null;
 
-            if (jPost.date != null)
-                post.date = jPost.date;
+            post.caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
 
-            if (jPost.format != null)
-                post.format = jPost.format;
+            post.date = !string.IsNullOrEmpty((string)jPost.date) ? jPost.date : null;
 
-            if (jPost.reblog_key != null)
-                post.reblogKey = jPost.reblog_key;
+            post.format = !string.IsNullOrEmpty((string)jPost.format) ? jPost.format : null;
 
-            if (jPost.short_url != null)
-            {
-                post.shortURL = jPost.short_url;
-            }
+            post.reblogKey = !string.IsNullOrEmpty((string)jPost.reblog_key) ? jPost.reblog_key : null;
 
-            if (jPost.tags != null)
+            post.shortURL = !string.IsNullOrEmpty((string)jPost.short_url) ? jPost.short_url : null;
+
+            if (jPost.tags != null && jPost.tags.Count > 0)
             {
                 foreach (string tag in jPost.tags)
                 {
                     post.tags.Add(tag);
                 }
+            }
+
+            else
+            {
+                post.tags = null;
             }
         }
 
@@ -86,11 +82,11 @@ namespace Tumblr_Tool.Common_Helpers
                 foreach (dynamic jPhoto in jPost.photos)
                 {
                     PhotoPostImage postImage = new PhotoPostImage();
-                    postImage.url = jPhoto.original_size.url;
+                    postImage.url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
                     postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
-                    postImage.width = jPhoto.original_size != null ? jPhoto.original_size.width : null;
-                    postImage.height = jPhoto.original_size != null ? jPhoto.original_size.height : null;
-                    postImage.caption = jPhoto.caption != null && !string.IsNullOrEmpty(jPhoto.caption as string) ? jPhoto.caption : null;
+                    postImage.width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
+                    postImage.height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
+                    postImage.caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
 
                     post.photos.Add(postImage);
                 }
