@@ -24,7 +24,7 @@ namespace Tumblr_Tool.Common_Helpers
         private static string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
         private static string jsonAvatarQuery = "avatar";
         private static string jsonAvatarSize = "128";
-        private static string jsonBlogInfoQuery = "info";
+        // private static string jsonBlogInfoQuery = "info";
         private static string jsonPostQuery = "posts";
         private static string jsonURL = "http://api.tumblr.com/v2/blog";
 

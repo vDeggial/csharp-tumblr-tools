@@ -16,7 +16,6 @@ using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Tumblr_Objects;
-using System.Linq;
 
 namespace Tumblr_Tool.Image_Ripper
 {
@@ -99,10 +98,8 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     // do not parse images from photoset
                 }
-
                 else
                 {
-
                     foreach (PhotoPostImage image in post.photos)
                     {
                         if (!existingImageList.Contains(image.filename))
@@ -146,8 +143,6 @@ namespace Tumblr_Tool.Image_Ripper
             }
 
             imageList.RemoveWhere(x => removeHash.Contains(x));
-
-            
         }
 
         public HashSet<TumblrPost> getTumblrPostList(int start = 0)
@@ -222,6 +217,8 @@ namespace Tumblr_Tool.Image_Ripper
 
             int i = offset;
 
+            percentComplete = 0;
+
             if (parseMode == (int)parseModes.FullRescan)
             {
                 while (i < totalPosts && !isCancelled)
@@ -251,7 +248,7 @@ namespace Tumblr_Tool.Image_Ripper
                         if (post.photos.Count > 0 && existingImageList.Contains(post.photos.First().filename))
                         {
                             finished = true;
-                            percentComplete = 100;
+                            //percentComplete = 100;
                         }
                         else if (!finished)
                         {
@@ -276,12 +273,10 @@ namespace Tumblr_Tool.Image_Ripper
 
             // generateImageListForDownload(blog.posts);
 
-
             this.totalImagesCount = this.imageList.Count;
 
             if (imageList.Count == 0)
                 blog.posts.Clear();
-
 
             return blog;
         }
@@ -298,11 +293,8 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void saveLogFile(SaveFile log)
         {
-
             foreach (TumblrPost post in blog.posts)
             {
-
-
                 if (!log.blog.posts.Any(p => p.id == post.id))
                 {
                     log.blog.posts.Add(post);

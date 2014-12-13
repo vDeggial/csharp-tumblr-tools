@@ -112,7 +112,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static Object readObjectFromXML<T>(string filename)
+        public static T readObjectFromXML<T>(string filename) where T : new()
         {
             try
             {
@@ -126,7 +126,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
             catch (Exception)
             {
-                return null;
+                return default(T);
             }
         }
 

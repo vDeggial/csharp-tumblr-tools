@@ -67,7 +67,7 @@ namespace Tumblr_Tool.Managers
                             {
                                 _timer.Reset();
                                 _timer.Start();
-                                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadCompleted);
                                 webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                                 webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
@@ -176,7 +176,7 @@ namespace Tumblr_Tool.Managers
                 fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
         }
 
-        private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {

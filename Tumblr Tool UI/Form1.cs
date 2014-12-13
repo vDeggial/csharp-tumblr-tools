@@ -42,7 +42,6 @@ namespace Tumblr_Tool
         private List<int> downloadedSizesList = new List<int>();
         private bool fileDownloadDone = false;
         private FileManager fileManager;
-        private string filename;
         private List<string> notDownloadedList = new List<string>();
         private ToolOptions options = new ToolOptions();
         private OptionsForm optionsForm;
@@ -52,11 +51,11 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.12";
+        private string version = "1.0.13";
 
         public mainForm()
         {
-            // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+            // Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
 
             InitializeComponent();
 
@@ -194,11 +193,8 @@ namespace Tumblr_Tool
             {
                 if (!this.IsDisposed)
                 {
-                   
-
                     saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
 
-                    
                     tumblrBlog = saveFile != null ? saveFile.blog : null;
 
                     txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
@@ -238,7 +234,17 @@ namespace Tumblr_Tool
             }
         }
 
-        public void updateWorkStatusText(string text)
+        public void updateWorkStatusText(string text, string text2)
+        {
+            if (!txt_WorkStatus.Text.EndsWith(text) && txt_WorkStatus.Text.EndsWith(text2))
+            {
+                txt_WorkStatus.Text += text;
+                txt_WorkStatus.Update();
+                txt_WorkStatus.Refresh();
+            }
+        }
+
+        public void updateWorkStatusTextNewLine(string text)
         {
             if (!txt_WorkStatus.Text.Contains(text))
             {
@@ -269,7 +275,6 @@ namespace Tumblr_Tool
         {
             enableUI_Crawl(false);
 
-
             if (saveFile != null && options.generateLog)
             {
                 string file = txt_SaveLocation.Text + @"\" + Path.GetFileNameWithoutExtension(saveFile.fileName);
@@ -281,7 +286,6 @@ namespace Tumblr_Tool
                     logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
                 }
             }
-
 
             lbl_PostCount.Visible = false;
             lbl_PostCount.ForeColor = Color.Black;
@@ -307,7 +311,7 @@ namespace Tumblr_Tool
                     this.Invoke((MethodInvoker)delegate
                     {
                         updateStatusText("Initializing ...");
-                        updateWorkStatusText("Initializing ... ");
+                        updateWorkStatusTextNewLine("Initializing ... ");
                     });
                 }
 
@@ -432,9 +436,9 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Parsing done");
+                                updateWorkStatusText(" done", "Parsing posts ...");
 
-                                updateWorkStatusText("Found " + (ripper.imageList.Count() == 0 ? "no" : ripper.imageList.Count().ToString()) + " new image(s) to download");
+                                updateWorkStatusTextNewLine("Found " + (ripper.imageList.Count() == 0 ? "no" : ripper.imageList.Count().ToString()) + " new image(s) to download");
                                 bar_Progress.Visible = false;
                                 bar_Progress.Value = 0;
                                 bar_Progress.Update();
@@ -451,7 +455,7 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Error downloading the blog post XML");
+                                updateWorkStatusTextNewLine("Error downloading the blog post XML");
                                 updateStatusText("Error");
                             });
                         }
@@ -462,7 +466,7 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Invalid Tumblr URL");
+                                updateWorkStatusTextNewLine("Invalid Tumblr URL");
                                 updateStatusText("Error");
                             });
                         }
@@ -527,7 +531,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Checking for internet connection ...");
+                                        updateWorkStatusTextNewLine("Checking for internet connection ...");
                                     });
                                 }
                             }
@@ -541,8 +545,8 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Internet Connection found ...");
-                                        updateWorkStatusText("Starting ...");
+                                        updateWorkStatusText(" found", "Checking for internet connection ...");
+                                        updateWorkStatusTextNewLine("Starting ...");
                                     });
                                 }
                             }
@@ -556,7 +560,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateStatusText("Error");
-                                        updateWorkStatusText("No internet connection detected!");
+                                        updateWorkStatusText(" not found", "Checking for internet connection ...");
                                         btn_Start.Enabled = true;
                                         lbl_PostCount.Visible = false;
                                         bar_Progress.Visible = false;
@@ -576,7 +580,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Getting Blog info ...");
+                                        updateWorkStatusTextNewLine("Getting Blog info ...");
                                     });
                                 }
                             }
@@ -590,6 +594,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
+                                        updateWorkStatusText(" done", "Getting Blog info ...");
                                         lbl_PostCount.Text = "0 / 0";
                                         lbl_PostCount.Visible = false;
                                         txt_WorkStatus.Visible = true;
@@ -600,7 +605,6 @@ namespace Tumblr_Tool
                             }
                         }
 
-
                         if (ripper.statusCode == processingCodes.SavingLogFile)
                         {
                             lock (ripper)
@@ -610,7 +614,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateStatusText("Saving Log File");
-                                        updateWorkStatusText("Saving Log File ...");
+                                        updateWorkStatusTextNewLine("Saving Log File ...");
                                     });
                                 }
                             }
@@ -624,7 +628,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Indexing Tumblr @ " + txt_TumblrURL.Text + " ... ");
+                                        updateWorkStatusTextNewLine("Indexing " + "\"" + ripper.blog.title + "\" ... ");
                                         updateStatusText("Starting ...");
                                     });
                                 }
@@ -635,7 +639,7 @@ namespace Tumblr_Tool
                                     {
                                         this.Invoke((MethodInvoker)delegate
                                         {
-                                            updateWorkStatusText(ripper.totalPosts + " photo posts found.");
+                                            updateWorkStatusTextNewLine(ripper.totalPosts + " photo posts found.");
                                         });
                                     }
                                 }
@@ -644,7 +648,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                         {
-                                            updateWorkStatusText("Parsing posts ...");
+                                            updateWorkStatusTextNewLine("Parsing posts ...");
                                         });
                                 }
                             }
@@ -688,7 +692,7 @@ namespace Tumblr_Tool
                             this.Invoke((MethodInvoker)delegate
                             {
                                 updateStatusText("Error");
-                                updateWorkStatusText("Invalid Tumblr URL: " + txt_TumblrURL.Text);
+                                updateWorkStatusTextNewLine("Invalid Tumblr URL: " + txt_TumblrURL.Text);
                                 btn_Start.Enabled = true;
                                 lbl_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
@@ -836,10 +840,10 @@ namespace Tumblr_Tool
                                                     this.Invoke((MethodInvoker)delegate
                                                     {
                                                         updateStatusText("Saving Log File");
-                                                        updateWorkStatusText("Saving Log File ...");
+                                                        updateWorkStatusTextNewLine("Saving Log File ...");
                                                     });
                                                 }
-                                                
+
                                                 fileManager.saveTumblrFile(ripper.saveLocation + @"\" + ripper.log.getFileName(), ripper.log);
 
                                                 if (!this.IsDisposed)
@@ -847,7 +851,7 @@ namespace Tumblr_Tool
                                                     this.Invoke((MethodInvoker)delegate
                                                     {
                                                         updateStatusText("Log Saved");
-                                                        updateWorkStatusText("Log file saved");
+                                                        updateWorkStatusText(" done", "Saving Log File ...");
                                                     });
                                                 }
                                             }
@@ -896,31 +900,44 @@ namespace Tumblr_Tool
             {
                 if (!this.IsDisposed)
                 {
-                    this.Invoke((MethodInvoker)delegate
+                    try
                     {
-                        try
+                        if (fileManager.totalToDownload == 0)
                         {
-                            if (fileManager.totalToDownload == 0)
+                            this.Invoke((MethodInvoker)delegate
                             {
                                 img_DisplayImage.Image = Resources.tumblrlogo;
-                            }
-                            else
+                            });
+                        }
+                        else
+                        {
+                            this.Invoke((MethodInvoker)delegate
                             {
                                 img_DisplayImage.ImageLocation = downloadedList[downloadedList.Count - 1];
-                            }
+                            });
                         }
-                        catch
-                        {
-                            //
-                        }
-                        // img_DisplayImage.Image = Image.FromFile(fileManager.downloadedList[fileManager.downloadedList.Count - 1]);
+                    }
+                    catch
+                    {
+                        //
+                    }
+                    // img_DisplayImage.Image = Image.FromFile(fileManager.downloadedList[fileManager.downloadedList.Count - 1]);
+                    this.Invoke((MethodInvoker)delegate
+                    {
                         img_DisplayImage.Update();
                         img_DisplayImage.Refresh();
+                    });
 
-                        if (fileManager.statusCode == downloadStatusCodes.Done && downloadedList.Count > 0)
+                    if (fileManager.statusCode == downloadStatusCodes.Done && downloadedList.Count > 0)
+                    {
+                        this.Invoke((MethodInvoker)delegate
                         {
-                            updateWorkStatusText("Downloaded " + downloadedList.Count.ToString() + " image(s).");
-                        }
+                            updateWorkStatusText(" done", "Downloading images ...");
+                            updateWorkStatusTextNewLine("Downloaded " + downloadedList.Count.ToString() + " image(s).");
+                        });
+                    }
+                    this.Invoke((MethodInvoker)delegate
+                    {
                         updateStatusText("Done");
 
                         lbl_PercentBar.Visible = false;
@@ -939,6 +956,22 @@ namespace Tumblr_Tool
         {
             try
             {
+                if (!this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        updateStatusText("Preparing...");
+
+                        bar_Progress.Step = 1;
+                        bar_Progress.Minimum = 0;
+                        bar_Progress.Maximum = 100;
+                        bar_Progress.Value = 0;
+                        lbl_PercentBar.Text = "0%";
+
+                        lbl_PostCount.Text = "";
+                    });
+                }
+
                 FileManager fileManager = (FileManager)e.Argument;
 
                 if (fileManager.totalToDownload == 0)
@@ -949,7 +982,7 @@ namespace Tumblr_Tool
                         {
                             bar_Progress.Visible = false;
 
-                            updateWorkStatusText("No new images to download");
+                            // updateWorkStatusTextNewLine("No new images to download");
                             lbl_PostCount.Visible = false;
                             updateStatusText("Done"); ;
                         });
@@ -959,6 +992,7 @@ namespace Tumblr_Tool
                 {
                     while (fileManager.statusCode != downloadStatusCodes.Downloading && !isCancelled)
                     {
+                        int percent = (int)fileManager.percentDownloaded;
                         if (fileManager.statusCode == downloadStatusCodes.Preparing)
                         {
                             if (!this.IsDisposed)
@@ -970,9 +1004,10 @@ namespace Tumblr_Tool
                                     bar_Progress.Step = 1;
                                     bar_Progress.Minimum = 0;
                                     bar_Progress.Maximum = 100;
+                                    bar_Progress.Value = 0;
+                                    lbl_PercentBar.Text = "0%";
 
                                     lbl_PostCount.Text = "";
-
                                 });
                             }
                         }
@@ -984,7 +1019,7 @@ namespace Tumblr_Tool
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText("Downloading images ...");
+                                updateWorkStatusTextNewLine("Downloading images ...");
                                 updateStatusText("Downloading..."); ;
                             });
                         }
@@ -1011,7 +1046,9 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         lbl_PostCount.ForeColor = Color.Maroon;
-                                        updateWorkStatusText("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
+                                        bar_Progress.ForeColor = Color.Maroon;
+                                        lbl_PercentBar.ForeColor = Color.Maroon;
+                                        updateWorkStatusTextNewLine("Error: Unable to download " + notDownloadedList[notDownloadedList.Count - 1]);
                                     });
                                 }
                             }
@@ -1022,26 +1059,32 @@ namespace Tumblr_Tool
 
                                 if (!this.IsDisposed)
                                 {
+                                    try
+                                    {
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            if (img_DisplayImage.ImageLocation != downloadedList[c - 1])
+                                            {
+                                                img_DisplayImage.ImageLocation = downloadedList[c - 1];
+                                                img_DisplayImage.Load();
+                                                img_DisplayImage.Update();
+                                                img_DisplayImage.Refresh();
+                                            }
+                                        });
+                                    }
+                                    catch (Exception)
+                                    {
+                                        readyForDownload = true;
+                                    }
+
+                                    int downloaded = fileManager.downloadedList.Count + 1;
+                                    int total = fileManager.totalToDownload;
+
+                                    if (downloaded > total)
+                                        downloaded = total;
+
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        try
-                                        {
-                                            img_DisplayImage.ImageLocation = downloadedList[c - 1];
-                                            img_DisplayImage.Load();
-                                            img_DisplayImage.Update();
-                                            img_DisplayImage.Refresh();
-                                        }
-                                        catch (Exception)
-                                        {
-                                            readyForDownload = true;
-                                        }
-
-                                        int downloaded = fileManager.downloadedList.Count + 1;
-                                        int total = fileManager.totalToDownload;
-
-                                        if (downloaded > total)
-                                            downloaded = total;
-
                                         if (!bar_Progress.Visible)
                                         {
                                             bar_Progress.Visible = true;
@@ -1057,37 +1100,59 @@ namespace Tumblr_Tool
                                             lbl_Size.Visible = true;
 
                                         lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
+                                    });
 
-                                        try
+                                    int percent = total > 0 ? (int)(((double)downloaded / (double)total) * 100.00) : 0;
+                                    this.Invoke((MethodInvoker)delegate
+                                    {
+                                        if (bar_Progress.Value != percent)
                                         {
-                                            totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
-                                            decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
-                                            string suffix = totalLength > 1024 ? "GB" : "MB";
-                                            lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
-                                        }
-                                        catch (Exception)
-                                        {
-                                            //
-                                        }
+                                            bar_Progress.Value = percent;
+                                            lbl_PercentBar.Text = percent.ToString() + "%";
 
-                                        if (bar_Progress.Value != (int)fileManager.percentDownloaded)
-                                        {
-                                            bar_Progress.Value = (int)fileManager.percentDownloaded;
-
-                                            if ((int)fileManager.percentDownloaded <= 0)
-                                            {
-                                                updateStatusText("Getting image ...");
-                                            }
-                                            else
-                                            {
-                                                updateStatusText("Downloading ...");
-                                            }
-
-                                            lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
                                             bar_Progress.Update();
                                             bar_Progress.Refresh();
                                         }
                                     });
+
+                                    try
+                                    {
+                                        totalLength = (downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
+                                        decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
+                                        string suffix = totalLength > 1024 ? "GB" : "MB";
+
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
+                                        });
+                                    }
+                                    catch (Exception)
+                                    {
+                                        //
+                                    }
+
+                                    //if (bar_Progress.Value != (int)fileManager.percentDownloaded)
+                                    //{
+                                    // bar_Progress.Value = (int)fileManager.percentDownloaded;
+
+                                    if ((int)fileManager.percentDownloaded <= 0)
+                                    {
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            updateStatusText("Downloading: Connecting");
+                                        });
+                                    }
+                                    else if (percent != (int)fileManager.percentDownloaded)
+                                    {
+                                        this.Invoke((MethodInvoker)delegate
+                                        {
+                                            updateStatusText("Downloading: " + fileManager.percentDownloaded.ToString() + "%");
+                                        });
+                                    }
+
+                                    // lbl_PercentBar.Text = fileManager.percentDownloaded.ToString() + "%";
+
+                                    //}
                                 }
                             }
                         }
@@ -1237,9 +1302,9 @@ namespace Tumblr_Tool
             try
             {
                 this.Invoke((MethodInvoker)delegate
-                    {
-                        openTumblrFile((string)e.Argument);
-                    });
+                {
+                    openTumblrFile((string)e.Argument);
+                });
             }
             catch
             {
