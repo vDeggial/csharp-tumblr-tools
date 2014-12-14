@@ -65,6 +65,8 @@ namespace Tumblr_Tool
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
             renderer.HighlightForeColor = Color.Maroon;
             renderer.HighlightBackColor = Color.White;
+            renderer.ForeColor = Color.Black;
+            renderer.BackColor = Color.White;
 
             menu_TopMenu.Renderer = renderer;
             txt_WorkStatus.Visible = false;
@@ -97,6 +99,8 @@ namespace Tumblr_Tool
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
             renderer.HighlightForeColor = Color.Maroon;
             renderer.HighlightBackColor = Color.White;
+            renderer.ForeColor = Color.Black;
+            renderer.BackColor = Color.White;
 
             menu_TopMenu.Renderer = renderer;
 
@@ -236,11 +240,9 @@ namespace Tumblr_Tool
 
         public void updateWorkStatusText(string strToReplace, string strToAdd = "")
         {
-
-            if (txt_WorkStatus.Text.Contains(strToReplace) && !txt_WorkStatus.Text.Contains(string.Concat(strToReplace,strToAdd)))
+            if (txt_WorkStatus.Text.Contains(strToReplace) && !txt_WorkStatus.Text.Contains(string.Concat(strToReplace, strToAdd)))
             {
-
-                txt_WorkStatus.Text =  txt_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace,strToAdd));
+                txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace, strToAdd));
 
                 txt_WorkStatus.Update();
                 txt_WorkStatus.Refresh();
@@ -249,10 +251,8 @@ namespace Tumblr_Tool
 
         public void updateWorkStatusText(string str)
         {
-
             if (txt_WorkStatus.Text.EndsWith(str))
             {
-
                 txt_WorkStatus.Text += str;
 
                 txt_WorkStatus.Update();
@@ -441,12 +441,12 @@ namespace Tumblr_Tool
         {
             if (ripper != null)
             {
-                while (ripper.statusCode == processingCodes.Crawling)
-                {
-                    // wait for crawler to catch up
-                }
+                //while (ripper.statusCode != processingCodes.Done)
+                //{
+                //    // wait for crawler to catch up
+                //}
 
-                if (ripper.statusCode == processingCodes.Done)
+                if (ripper.statusCode != processingCodes.Crawling)
                 {
                     if (!this.IsDisposed)
                     {
@@ -621,21 +621,6 @@ namespace Tumblr_Tool
                             }
                         }
 
-                        if (ripper.statusCode == processingCodes.SavingLogFile)
-                        {
-                            lock (ripper)
-                            {
-                                if (!this.IsDisposed)
-                                {
-                                    this.Invoke((MethodInvoker)delegate
-                                    {
-                                        updateStatusText("Saving Log File");
-                                        updateWorkStatusTextNewLine("Saving Log File ...");
-                                    });
-                                }
-                            }
-                        }
-
                         if (ripper.statusCode == processingCodes.Starting)
                         {
                             lock (ripper)
@@ -732,6 +717,13 @@ namespace Tumblr_Tool
             {
                 if (ripper != null)
                 {
+
+                    lock (ripper)
+                    {
+                        ripper.statusCode = processingCodes.Done;
+                    }
+
+
                     if (ripper.statusCode == processingCodes.Done)
                     {
                         saveFile.blog = ripper.blog;
@@ -845,9 +837,9 @@ namespace Tumblr_Tool
 
                                         tumblrBlog = this.ripper.parseBlogPosts(mode);
 
-                                        if (ripper.logUpdated)
+                                        lock (ripper)
                                         {
-                                            lock (ripper)
+                                            if (ripper.logUpdated)
                                             {
                                                 ripper.statusCode = processingCodes.SavingLogFile;
 
@@ -948,7 +940,7 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            updateWorkStatusText(" done", "Downloading images ...");
+                            updateWorkStatusText("Downloading images ...", " done");
                             updateWorkStatusTextNewLine("Downloaded " + downloadedList.Count.ToString() + " image(s).");
                         });
                     }

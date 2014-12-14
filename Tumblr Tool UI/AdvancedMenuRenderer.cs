@@ -21,6 +21,10 @@ namespace Tumblr_Tool
 
         public Color HighlightForeColor { get; set; }
 
+        public Color ForeColor { get; set; }
+
+        public Color BackColor { get; set; }
+
         public AdvancedMenuRenderer()
             : base()
         {
@@ -28,13 +32,14 @@ namespace Tumblr_Tool
 
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
-            Color backColor = e.Item.BackColor;
-            Color foreColor = e.Item.ForeColor;
+            Color backColor = BackColor;
+            Color foreColor = ForeColor;
 
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
-            Color c = e.Item.Selected ? HighlightBackColor : backColor;
+            Color c = e.Item.Selected ? HighlightBackColor : this.BackColor;
             using (SolidBrush brush = new SolidBrush(c))
                 e.Graphics.FillRectangle(brush, rc);
+            e.Item.ForeColor = e.Item.Selected ? HighlightForeColor : this.ForeColor;
         }
 
         public void changeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)
@@ -51,7 +56,7 @@ namespace Tumblr_Tool
             else
             {
                 //TSMI.BackColor = SystemColors.Menu;
-                TSMI.ForeColor = foreColor;
+                TSMI.ForeColor = renderer.ForeColor;
             }
         }
     }
