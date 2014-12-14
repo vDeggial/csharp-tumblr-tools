@@ -18,6 +18,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
@@ -51,7 +52,7 @@ namespace Tumblr_Tool
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan ts;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.13";
+        private string version = "1.0.14";
 
         public mainForm()
         {
@@ -732,6 +733,7 @@ namespace Tumblr_Tool
 
                         if (!optionsForm.parseOnly)
                         {
+                            Thread.Sleep(100);
                             fileManager.totalToDownload = ripper.totalImagesCount;
                             download_Worker.RunWorkerAsync(ripper.imageList);
                             download_UIUpdate_Worker.RunWorkerAsync(fileManager);
@@ -752,6 +754,9 @@ namespace Tumblr_Tool
         {
             try
             {
+                Thread.Sleep(100);
+
+
                 string elapsedTime;
                 lock (ripper)
                 {
@@ -1201,6 +1206,7 @@ namespace Tumblr_Tool
                 fileDownloadDone = false;
                 HashSet<string> imagesList = (HashSet<string>)e.Argument;
 
+                Thread.Sleep(100);
                 lock (fileManager)
                 {
                     fileManager.statusCode = downloadStatusCodes.Preparing;
