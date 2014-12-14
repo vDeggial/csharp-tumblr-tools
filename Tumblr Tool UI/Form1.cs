@@ -234,11 +234,27 @@ namespace Tumblr_Tool
             }
         }
 
-        public void updateWorkStatusText(string text, string text2)
+        public void updateWorkStatusText(string strToReplace, string strToAdd = "")
         {
-            if (!txt_WorkStatus.Text.EndsWith(text) && txt_WorkStatus.Text.EndsWith(text2))
+
+            if (txt_WorkStatus.Text.Contains(strToReplace) && !txt_WorkStatus.Text.Contains(string.Concat(strToReplace,strToAdd)))
             {
-                txt_WorkStatus.Text += text;
+
+                txt_WorkStatus.Text =  txt_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace,strToAdd));
+
+                txt_WorkStatus.Update();
+                txt_WorkStatus.Refresh();
+            }
+        }
+
+        public void updateWorkStatusText(string str)
+        {
+
+            if (txt_WorkStatus.Text.EndsWith(str))
+            {
+
+                txt_WorkStatus.Text += str;
+
                 txt_WorkStatus.Update();
                 txt_WorkStatus.Refresh();
             }
@@ -436,7 +452,7 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                             {
-                                updateWorkStatusText(" done", "Parsing posts ...");
+                                updateWorkStatusText("Parsing posts ...", " done");
 
                                 updateWorkStatusTextNewLine("Found " + (ripper.imageList.Count() == 0 ? "no" : ripper.imageList.Count().ToString()) + " new image(s) to download");
                                 bar_Progress.Visible = false;
@@ -545,7 +561,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText(" found", "Checking for internet connection ...");
+                                        updateWorkStatusText("Checking for internet connection ...", " found");
                                         updateWorkStatusTextNewLine("Starting ...");
                                     });
                                 }
@@ -560,7 +576,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateStatusText("Error");
-                                        updateWorkStatusText(" not found", "Checking for internet connection ...");
+                                        updateWorkStatusText("Checking for internet connection ...", " not found");
                                         btn_Start.Enabled = true;
                                         lbl_PostCount.Visible = false;
                                         bar_Progress.Visible = false;
@@ -594,7 +610,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText(" done", "Getting Blog info ...");
+                                        updateWorkStatusText("Getting Blog info ...", " done");
                                         lbl_PostCount.Text = "0 / 0";
                                         lbl_PostCount.Visible = false;
                                         txt_WorkStatus.Visible = true;
@@ -851,7 +867,7 @@ namespace Tumblr_Tool
                                                     this.Invoke((MethodInvoker)delegate
                                                     {
                                                         updateStatusText("Log Saved");
-                                                        updateWorkStatusText(" done", "Saving Log File ...");
+                                                        updateWorkStatusText("Saving Log File ...", " done");
                                                     });
                                                 }
                                             }
