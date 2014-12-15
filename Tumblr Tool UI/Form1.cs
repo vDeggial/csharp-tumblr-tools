@@ -50,7 +50,6 @@ namespace Tumblr_Tool
         private TumblrStats tumblrStats = new TumblrStats();
         private string version = "1.0.15";
         public string saveLocation;
-        private DialogResult exitPrompt;
 
         public mainForm()
         {
@@ -71,6 +70,7 @@ namespace Tumblr_Tool
             txt_WorkStatus.Visible = false;
             txt_Stats_BlogDescription.Visible = false;
             lbl_Stats_BlogTitle.Text = "";
+            lbl_PercentBar.Text = "";
 
             bar_Progress.Visible = false;
             fileManager = new FileManager();
@@ -104,6 +104,7 @@ namespace Tumblr_Tool
             menu_TopMenu.Renderer = renderer;
 
             lbl_Stats_BlogTitle.Text = "";
+            lbl_PercentBar.Text = "";
 
             txt_WorkStatus.Visible = false;
             txt_Stats_BlogDescription.Visible = false;
@@ -1162,8 +1163,9 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            updateStatusText("Updating Log File");
                             updateWorkStatusTextNewLine("Updating Log File ...");
+                            lbl_PercentBar.Visible = false;
+                            bar_Progress.Visible = false;
                         });
                     }
 
@@ -1173,7 +1175,6 @@ namespace Tumblr_Tool
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
-                            updateStatusText("Log Updated");
                             updateWorkStatusText("Updating Log File ...", " done");
                         });
                     }
@@ -1288,6 +1289,8 @@ namespace Tumblr_Tool
             txt_TumblrURL.Enabled = state;
             txt_SaveLocation.Enabled = state;
             disableOtherTabs = !state;
+            lbl_PercentBar.Visible = !state;
+            bar_Progress.Visible = !state;
         }
 
         private void enableUI_Stats(bool state)
