@@ -41,5 +41,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
 
         public string width { get; set; }
+
+        public bool downloaded { get; set; }
     }
 }

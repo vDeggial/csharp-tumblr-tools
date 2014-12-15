@@ -48,11 +48,10 @@ namespace Tumblr_Tool
         private OptionsForm optionsForm;
         private bool readyForDownload = true;
         private ImageRipper ripper = new ImageRipper();
-        private SaveFile saveFile, logFile;
-        private Stopwatch stopWatch = new Stopwatch();
-        private TimeSpan ts;
+        private SaveFile tumblrSaveFile, tumblrLogFile;
         private TumblrStats tumblrStats = new TumblrStats();
-        private string version = "1.0.14";
+        private string version = "1.0.15";
+        public string saveLocation;
 
         public mainForm()
         {
@@ -115,7 +114,7 @@ namespace Tumblr_Tool
             fileManager = new FileManager();
             txt_SaveLocation.Text = Path.GetDirectoryName(file);
 
-            updateStatusText("Opening savefile ...");
+            updateStatusText("Opening save file ...");
 
             openTumblrFile(file);
 
@@ -198,25 +197,25 @@ namespace Tumblr_Tool
             {
                 if (!this.IsDisposed)
                 {
-                    saveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
+                    tumblrSaveFile = !string.IsNullOrEmpty(file) ? fileManager.readTumblrFile(file) : null;
 
-                    tumblrBlog = saveFile != null ? saveFile.blog : null;
+                    tumblrBlog = tumblrSaveFile != null ? tumblrSaveFile.blog : null;
 
                     txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
 
                     txt_TumblrURL.Text = "File:" + file;
 
-                    if (saveFile != null && saveFile.blog != null && !string.IsNullOrEmpty(saveFile.blog.url))
+                    if (tumblrSaveFile != null && tumblrSaveFile.blog != null && !string.IsNullOrEmpty(tumblrSaveFile.blog.url))
                     {
-                        txt_TumblrURL.Text = saveFile.blog.url;
+                        txt_TumblrURL.Text = tumblrSaveFile.blog.url;
                     }
-                    else if (saveFile != null && saveFile.blog != null && string.IsNullOrEmpty(saveFile.blog.url) && !string.IsNullOrEmpty(saveFile.blog.cname))
+                    else if (tumblrSaveFile != null && tumblrSaveFile.blog != null && string.IsNullOrEmpty(tumblrSaveFile.blog.url) && !string.IsNullOrEmpty(tumblrSaveFile.blog.cname))
                     {
-                        txt_TumblrURL.Text = saveFile.blog.cname;
+                        txt_TumblrURL.Text = tumblrSaveFile.blog.cname;
                     }
                     else
                     {
-                        txt_TumblrURL.Text = "Error parsing savefile...";
+                        txt_TumblrURL.Text = "Error parsing save file...";
                     }
 
                     updateStatusText("Ready");
@@ -291,16 +290,17 @@ namespace Tumblr_Tool
         private void btn_Crawl_Click(object sender, EventArgs e)
         {
             enableUI_Crawl(false);
+            this.saveLocation = txt_SaveLocation.Text;
 
-            if (saveFile != null && options.generateLog)
+            if (tumblrSaveFile != null && options.generateLog)
             {
-                string file = txt_SaveLocation.Text + @"\" + Path.GetFileNameWithoutExtension(saveFile.fileName);
+                string file = txt_SaveLocation.Text + @"\" + Path.GetFileNameWithoutExtension(tumblrSaveFile.fileName);
 
                 if (File.Exists(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log"))
                 {
                     updateStatusText("Reading log file ...");
 
-                    logFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
+                    tumblrLogFile = fileManager.readTumblrFile(Path.GetDirectoryName(file) + @"\" + Path.GetFileNameWithoutExtension(file) + ".log");
                 }
             }
 
@@ -312,14 +312,8 @@ namespace Tumblr_Tool
             lbl_Size.Text = "";
             lbl_Size.Visible = false;
             fileManager = new FileManager();
-            stopWatch.Start();
-            TimeSpan ts = stopWatch.Elapsed;
             ripper = new ImageRipper();
 
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
 
             if (checkFields())
             {
@@ -350,7 +344,7 @@ namespace Tumblr_Tool
         private void btn_GetStats_Click(object sender, EventArgs e)
         {
             lbl_PostCount.Visible = false;
-            updateStatusText("Initiliazing...");
+            updateStatusText("Initializing...");
             if (isValidURL(txt_Stats_TumblrURL.Text))
             {
                 enableUI_Stats(false);
@@ -367,7 +361,7 @@ namespace Tumblr_Tool
 
         private bool checkFields()
         {
-            bool saveLocationEmpty = string.IsNullOrEmpty(txt_SaveLocation.Text);
+            bool saveLocationEmpty = string.IsNullOrEmpty(this.saveLocation);
             bool urlValid = true;
 
             if (saveLocationEmpty)
@@ -538,7 +532,6 @@ namespace Tumblr_Tool
 
                     while (percent < 100 && (ripper.statusCode != processingCodes.invalidURL && ripper.statusCode != processingCodes.Done && ripper.statusCode != processingCodes.connectionError))
                     {
-                        TimeSpan ts = stopWatch.Elapsed;
 
                         if (ripper.statusCode == processingCodes.checkingConnection)
                         {
@@ -548,7 +541,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusTextNewLine("Checking for internet connection ...");
+                                        updateWorkStatusTextNewLine("Checking for Internet connection ...");
                                     });
                                 }
                             }
@@ -562,7 +555,7 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateWorkStatusText("Checking for internet connection ...", " found");
+                                        updateWorkStatusText("Checking for Internet connection ...", " ok");
                                         updateWorkStatusTextNewLine("Starting ...");
                                     });
                                 }
@@ -577,7 +570,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         updateStatusText("Error");
-                                        updateWorkStatusText("Checking for internet connection ...", " not found");
+                                        updateWorkStatusText("Checking for Internet connection ...", " not found");
                                         btn_Start.Enabled = true;
                                         lbl_PostCount.Visible = false;
                                         bar_Progress.Visible = false;
@@ -679,7 +672,7 @@ namespace Tumblr_Tool
                                            lbl_PercentBar.Visible = true;
                                            lbl_PostCount.Visible = true;
                                            lbl_PercentBar.Text = percent.ToString() + "%";
-                                           lbl_PostCount.Text = ripper.parsed.ToString() + "/" + ripper.totalPosts.ToString();
+                                           lbl_PostCount.Text = ripper.parsedPosts.ToString() + "/" + ripper.totalPosts.ToString();
                                            bar_Progress.Value = percent;
                                        });
                                 }
@@ -727,9 +720,9 @@ namespace Tumblr_Tool
 
                     if (ripper.statusCode == processingCodes.Done)
                     {
-                        saveFile.blog = ripper.blog;
-                        logFile = null;
-                        ripper.log = null;
+                        tumblrSaveFile.blog = ripper.blog;
+                        tumblrLogFile = null;
+                        ripper.tumblrPostLog = null;
 
                         if (!optionsForm.parseOnly)
                         {
@@ -737,10 +730,6 @@ namespace Tumblr_Tool
                             fileManager.totalToDownload = ripper.totalImagesCount;
                             download_Worker.RunWorkerAsync(ripper.imageList);
                             download_UIUpdate_Worker.RunWorkerAsync(fileManager);
-                        }
-                        else
-                        {
-                            stopWatch.Stop();
                         }
                     }
                 }
@@ -757,22 +746,15 @@ namespace Tumblr_Tool
                 Thread.Sleep(100);
 
 
-                string elapsedTime;
                 lock (ripper)
                 {
                     Thread.Sleep(100);
                     tumblrBlog = new TumblrBlog();
                     tumblrBlog.url = txt_TumblrURL.Text;
 
-                    this.ripper = new ImageRipper(tumblrBlog, txt_SaveLocation.Text, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
+                    this.ripper = new ImageRipper(tumblrBlog, this.saveLocation, optionsForm.generateLog, optionsForm.parsePhotoSets, optionsForm.parseJPEG, optionsForm.parsePNG, optionsForm.parseGIF, 0);
                     ripper.statusCode = processingCodes.Initializing;
 
-                    ts = stopWatch.Elapsed;
-
-                    // Format and display the TimeSpan value.
-                    elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                       ts.Hours, ts.Minutes, ts.Seconds,
-                       ts.Milliseconds / 10);
                 }
 
                 lock (ripper)
@@ -787,17 +769,12 @@ namespace Tumblr_Tool
                         ripper.statusCode = processingCodes.connectionOK;
                     }
 
-                    this.ts = stopWatch.Elapsed;
 
-                    // Format and display the TimeSpan value.
-                    elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                       ts.Hours, ts.Minutes, ts.Seconds,
-                       ts.Milliseconds / 10);
 
                     if (this.ripper != null)
                     {
                         this.ripper.setAPIMode(options.apiMode);
-                        this.ripper.setLogFile(ref logFile);
+                        this.ripper.setLogFile(ref tumblrLogFile);
 
                         if (ripper.isValidTumblr())
                         {
@@ -857,7 +834,7 @@ namespace Tumblr_Tool
                                                     });
                                                 }
 
-                                                fileManager.saveTumblrFile(ripper.saveLocation + @"\" + ripper.log.getFileName(), ripper.log);
+                                                fileManager.saveTumblrFile(ripper.saveLocation + @"\" + ripper.tumblrPostLog.getFileName(), ripper.tumblrPostLog);
 
                                                 if (!this.IsDisposed)
                                                 {
@@ -1040,12 +1017,7 @@ namespace Tumblr_Tool
                         decimal totalLength = 0;
                         while (!downloadDone && !isCancelled)
                         {
-                            TimeSpan ts = stopWatch.Elapsed;
 
-                            // Format and display the TimeSpan value.
-                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                                ts.Hours, ts.Minutes, ts.Seconds,
-                                ts.Milliseconds / 10);
 
                             int c = 0;
                             int f = 0;
@@ -1080,7 +1052,7 @@ namespace Tumblr_Tool
                                             {
                                                 img_DisplayImage.ImageLocation = downloadedList[c - 1];
                                                 img_DisplayImage.Load();
-                                                img_DisplayImage.Update();
+                                                //img_DisplayImage.Update();
                                                 img_DisplayImage.Refresh();
                                             }
                                         });
@@ -1186,10 +1158,9 @@ namespace Tumblr_Tool
 
             try
             {
-                saveFile.blog.posts = null;
+                tumblrSaveFile.blog.posts = null;
                 saveTumblrFile(ripper.blog.name);
                 downloadDone = true;
-                stopWatch.Stop();
             }
             catch
             {
@@ -1204,9 +1175,11 @@ namespace Tumblr_Tool
                 downloadedSizesList.Clear();
                 downloadDone = false;
                 fileDownloadDone = false;
-                HashSet<string> imagesList = (HashSet<string>)e.Argument;
+                HashSet<PhotoPostImage> imagesList = (HashSet<PhotoPostImage>)e.Argument;
 
                 Thread.Sleep(100);
+
+
                 lock (fileManager)
                 {
                     fileManager.statusCode = downloadStatusCodes.Preparing;
@@ -1223,7 +1196,7 @@ namespace Tumblr_Tool
 
                     readyForDownload = true;
 
-                    foreach (string photoURL in imagesList)
+                    foreach (PhotoPostImage photoImage in imagesList)
                     {
                         if (isCancelled || downloadDone)
                             break;
@@ -1245,9 +1218,9 @@ namespace Tumblr_Tool
 
                         while (!fileDownloadDone && !isCancelled)
                         {
-                            fullPath = FileHelper.getFullFilePath(Path.GetFileName(photoURL), txt_SaveLocation.Text);
+                            fullPath = FileHelper.getFullFilePath(photoImage.filename, this.saveLocation);
 
-                            downloaded = fileManager.downloadFile(photoURL, txt_SaveLocation.Text, string.Empty, 1);
+                            downloaded = fileManager.downloadFile(photoImage.url, this.saveLocation, string.Empty, 1);
 
                             if (downloaded)
                             {
@@ -1258,6 +1231,7 @@ namespace Tumblr_Tool
 
                                 j++;
                                 fileDownloadDone = true;
+                                photoImage.downloaded = true;
                                 fullPath = FileHelper.fixFileName(fullPath);
                                 downloadedList.Add(fullPath);
 
@@ -1265,7 +1239,8 @@ namespace Tumblr_Tool
                             }
                             else if (fileManager.statusCode == downloadStatusCodes.UnableDownload)
                             {
-                                notDownloadedList.Add(photoURL);
+                                notDownloadedList.Add(photoImage.url);
+                                photoImage.downloaded = false;
                                 (new FileInfo(fullPath)).Delete();
                                 fileDownloadDone = true;
                             }
@@ -1507,7 +1482,7 @@ namespace Tumblr_Tool
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
-                        MessageBox.Show("No internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No Internet connection detected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         updateStatusText("Error");
                     });
                 }
@@ -1569,7 +1544,7 @@ namespace Tumblr_Tool
                 ofd.Filter = "Tumblr Tools Files (.tumblr)|*.tumblr|All Files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    updateStatusText("Opening savefile ...");
+                    updateStatusText("Opening save file ...");
 
                     fileBackgroundWorker.RunWorkerAsync(ofd.FileName);
                 }
@@ -1610,9 +1585,9 @@ namespace Tumblr_Tool
             //    saveFile = new SaveFile(name + ".tumblr", ripper.blog);
             //}
 
-            saveFile = new SaveFile(name + ".tumblr", ripper.blog);
+            tumblrSaveFile = new SaveFile(name + ".tumblr", ripper.blog);
 
-            return fileManager.saveTumblrFile(txt_SaveLocation.Text + @"\" + saveFile.getFileName(), saveFile);
+            return fileManager.saveTumblrFile(txt_SaveLocation.Text + @"\" + tumblrSaveFile.getFileName(), tumblrSaveFile);
         }
 
         private void statsTumblrURLUpdate(object sender, EventArgs e)
