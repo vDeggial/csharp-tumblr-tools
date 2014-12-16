@@ -43,10 +43,10 @@ namespace Tumblr_Tool
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
-                e.Graphics.FillRectangle(new SolidBrush(HighlightBackColor),
+                e.Graphics.FillRectangle(new SolidBrush(this.HighlightBackColor),
                                          e.Bounds);
                 e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-                                  new SolidBrush(HighlightForeColor),
+                                  new SolidBrush(this.HighlightForeColor),
                                   new Point(e.Bounds.X, e.Bounds.Y));
             }
             else

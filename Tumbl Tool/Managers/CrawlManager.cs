@@ -13,8 +13,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
@@ -34,88 +32,134 @@ namespace Tumblr_Tool.Managers
 
         public void getDocument(string url)
         {
-            if (this.mode == "XML")
-                getXMLDocument(url);
-            else if (mode == "JSON")
-                getJSONDocument(url);
+            try
+            {
+                if (this.mode == "XML")
+                    getXMLDocument(url);
+                else if (this.mode == "JSON")
+                    getJSONDocument(url);
+            }
+            catch
+            {
+                this.jsonDocument = null;
+                this.xmlDocument = null;
+                return;
+            }
         }
 
         public void getJSONDocument(string url)
         {
-            jsonDocument = JSONHelper.getJSONObject(url);
+            try
+            {
+                this.jsonDocument = JSONHelper.getJSONObject(url);
+            }
+            catch
+            {
+                this.jsonDocument = null;
+                return;
+            }
         }
 
         public HashSet<TumblrPost> getPostList(string type, string mode)
         {
-            HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-
-            if (mode == apiModeEnum.JSON.ToString())
+            try
             {
-                postList = getPostListJSON(type);
-            }
+                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-            return postList;
+                if (mode == apiModeEnum.JSON.ToString())
+                {
+                    postList = getPostListJSON(type);
+                }
+
+                return postList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public HashSet<TumblrPost> getPostListJSON(string type)
         {
-            HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-
-            if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.posts != null)
+            try
             {
-                JArray jPostArray = jsonDocument.response.posts;
-                HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
+                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-                foreach (dynamic jPost in jPostList)
+                if (this.jsonDocument != null && this.jsonDocument.response != null && this.jsonDocument.response.posts != null)
                 {
-                    TumblrPost post = new TumblrPost();
+                    JArray jPostArray = jsonDocument.response.posts;
+                    HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
 
-
-                    if (type == tumblrPostTypes.photo.ToString())
+                    foreach (dynamic jPost in jPostList)
                     {
-                        PostHelper.generatePhotoPost(ref post, jPost);
+                        TumblrPost post = new TumblrPost();
+
+                        if (type == tumblrPostTypes.photo.ToString())
+                        {
+                            PostHelper.generatePhotoPost(ref post, jPost);
+                        }
+
+                        PostHelper.generateBasePost(ref post, jPost);
+
+                        postList.Add(post);
                     }
-
-                    PostHelper.generateBasePost(ref post, jPost);
-
-                    
-
-                    postList.Add(post);
                 }
+
+                return postList;
             }
-
-            // xmlDocument = JSONHelper.jsonToXML(jsonDocument);
-
-            return postList;
+            catch
+            {
+                return null;
+            }
         }
-
-
 
         public void getXMLDocument(string url)
         {
-            xmlDocument = XMLHelper.getXMLDocument(url);
+            try
+            {
+                this.xmlDocument = XMLHelper.getXMLDocument(url);
+            }
+            catch
+            {
+                this.xmlDocument = null;
+                return;
+            }
         }
 
         public bool isValidTumblr(string url)
         {
-            if (mode == apiModeEnum.JSON.ToString())
+            try
             {
-                dynamic jsonObject = JSONHelper.getJSONObject(url);
-                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString());
+                if (this.mode == apiModeEnum.JSON.ToString())
+                {
+                    dynamic jsonObject = JSONHelper.getJSONObject(url);
+                    return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString());
+                }
+                else
+                    return XMLHelper.getXMLDocument(url) != null;
             }
-            else
-                return XMLHelper.getXMLDocument(url) != null;
+            catch
+            {
+                return false;
+            }
         }
 
         public bool setBlogInfo(string url, TumblrBlog blog)
         {
-            if (mode == apiModeEnum.JSON.ToString())
+            try
             {
-                return setBlogInfoJSON(url, blog);
+                if (this.mode == apiModeEnum.JSON.ToString())
+                {
+                    return setBlogInfoJSON(url, blog);
+                }
+                else
+                {
+                    return setBlogInfoXML(url, blog);
+                }
             }
-            else
+            catch
             {
-                return setBlogInfoXML(url, blog);
+                return false;
             }
         }
 
@@ -134,8 +178,7 @@ namespace Tumblr_Tool.Managers
                     blog.isNsfw = Convert.ToBoolean(jsonDocument.response.blog.is_nsfw);
                     blog.isAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask);
                     blog.isAnonAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask_anon);
-                    blog.lastUpdated = CommonHelper.UnixTimeStampToDateTime( Convert.ToDouble(jsonDocument.response.blog.updated));
-
+                    blog.lastUpdated = CommonHelper.UnixTimeStampToDateTime(Convert.ToDouble(jsonDocument.response.blog.updated));
 
                     if (jsonDocument.response.total_posts != null)
                         blog.totalPosts = Convert.ToInt32(jsonDocument.response.total_posts);
@@ -148,10 +191,8 @@ namespace Tumblr_Tool.Managers
                     return true;
                 }
             }
-
             catch
             {
-
                 return false;
             }
 
@@ -160,18 +201,25 @@ namespace Tumblr_Tool.Managers
 
         public bool setBlogInfoXML(string url, TumblrBlog blog)
         {
-            XDocument rDoc = XMLHelper.getXMLDocument(url);
-            if (rDoc != null)
+            try
             {
-                blog.title = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "title");
-                blog.description = XMLHelper.getPostElementValue(rDoc, "tumblelog");
-                blog.timezone = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "timezone");
-                blog.name = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "name");
-                blog.totalPosts = XMLHelper.getPostElementValue(rDoc, "posts") != null ? Convert.ToInt32(XMLHelper.getPostElementAttributeValue(rDoc, "posts", "total")) : 0;
-                return true;
-            }
+                XDocument rDoc = XMLHelper.getXMLDocument(url);
+                if (rDoc != null)
+                {
+                    blog.title = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "title");
+                    blog.description = XMLHelper.getPostElementValue(rDoc, "tumblelog");
+                    blog.timezone = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "timezone");
+                    blog.name = XMLHelper.getPostElementAttributeValue(rDoc, "tumblelog", "name");
+                    blog.totalPosts = XMLHelper.getPostElementValue(rDoc, "posts") != null ? Convert.ToInt32(XMLHelper.getPostElementAttributeValue(rDoc, "posts", "total")) : 0;
+                    return true;
+                }
 
-            return false;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

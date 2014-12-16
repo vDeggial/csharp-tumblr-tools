@@ -37,8 +37,6 @@ namespace Tumblr_Tool.Tumblr_Objects
         [XmlElement("caption")]
         public override string caption { get; set; }
 
-
-
         public override HashSet<PhotoPostImage> photos { get; set; }
 
         public override void addImageToPhotoSet(PhotoPostImage image)
@@ -48,6 +46,5 @@ namespace Tumblr_Tool.Tumblr_Objects
 
             photos.Add(image);
         }
-
     }
 }

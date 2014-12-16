@@ -73,7 +73,6 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string source { get; set; }
 
-
         [XmlArrayItem("tag")]
         public HashSet<string> tags { get; set; }
 
@@ -111,7 +110,7 @@ namespace Tumblr_Tool.Tumblr_Objects
         public void addTag(string tag)
         {
             if (this.tags == null)
-                tags = new HashSet<string>();
+                this.tags = new HashSet<string>();
 
             this.tags.Add(tag);
         }

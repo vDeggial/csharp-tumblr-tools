@@ -36,6 +36,7 @@ namespace Tumblr_Tool.Common_Helpers
 
             return objRegEx.Replace(HTML, "");
         }
+
         public static bool urlExists(string url)
         {
             try

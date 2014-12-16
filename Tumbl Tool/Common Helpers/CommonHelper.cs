@@ -22,12 +22,20 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static string fixURL(string url)
         {
-            if (url.EndsWith("/"))
+            try
             {
-                url = url.Remove(url.Length - 1);
+                if (url.EndsWith("/"))
+                {
+                    url = url.Remove(url.Length - 1);
+                }
+
+                return url;
             }
 
-            return url;
+            catch
+            {
+                return null;
+            }
         }
 
         public static string getDomainName(string url)

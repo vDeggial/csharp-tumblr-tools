@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using Tumblr_Tool.Common_Helpers;
@@ -51,13 +50,11 @@ namespace Tumblr_Tool.Managers
 
             fullPath = FileHelper.getFullFilePath(url, fullPath, prefix);
             fullPath = FileHelper.fixFileName(fullPath);
-            percentDownloaded = 0;
-            statusCode = downloadStatusCodes.OK;
-            Stopwatch _timer = new Stopwatch();
+            this.percentDownloaded = 0;
+            this.statusCode = downloadStatusCodes.OK;
 
             if (WebHelper.urlExists(@url))
             {
-
                 switch (method)
                 {
                     case 1:
@@ -65,27 +62,25 @@ namespace Tumblr_Tool.Managers
                         {
                             try
                             {
-                                _timer.Reset();
-                                _timer.Start();
                                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadCompleted);
                                 webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                                 webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
-                                while (statusCode != downloadStatusCodes.Done && statusCode != downloadStatusCodes.UnableDownload)
+                                while (this.statusCode != downloadStatusCodes.Done && this.statusCode != downloadStatusCodes.UnableDownload)
                                 {
                                 }
 
-                                if (percentDownloaded < 100 && statusCode == downloadStatusCodes.UnableDownload)
+                                if (this.percentDownloaded < 100 && this.statusCode == downloadStatusCodes.UnableDownload)
                                 {
                                     webClient.CancelAsync();
                                     (new FileInfo(fullPath)).Delete(); //  delete partial file
-                                    statusCode = downloadStatusCodes.UnableDownload;
+                                    this.statusCode = downloadStatusCodes.UnableDownload;
                                     return false;
                                 }
 
-                                if (statusCode == downloadStatusCodes.Done)
+                                if (this.statusCode == downloadStatusCodes.Done)
                                 {
-                                    downloadedList.Add(fullPath);
+                                    this.downloadedList.Add(fullPath);
                                     return true;
                                 }
                                 else
@@ -95,7 +90,8 @@ namespace Tumblr_Tool.Managers
                             }
                             catch (Exception)
                             {
-                                statusCode = downloadStatusCodes.UnableDownload;
+                                this.statusCode = downloadStatusCodes.UnableDownload;
+                                (new FileInfo(fullPath)).Delete(); //  delete partial file
                                 return false;
                             }
                         }
@@ -156,7 +152,7 @@ namespace Tumblr_Tool.Managers
                 saveFile = FileHelper.readTumblrFile(location, "XML");
 
             if (saveFile == null)
-                saveFile  = FileHelper.readTumblrFile(location, "JSON");
+                saveFile = FileHelper.readTumblrFile(location, "JSON");
 
             return saveFile;
         }
@@ -168,32 +164,32 @@ namespace Tumblr_Tool.Managers
 
         public void wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
-            percentDownloaded = e.ProgressPercentage;
+            this.percentDownloaded = e.ProgressPercentage;
 
             if (e.ProgressPercentage >= 100)
-                fileSizeRecieved = Convert.ToDouble(e.TotalBytesToReceive);
+                this.fileSizeRecieved = Convert.ToDouble(e.TotalBytesToReceive);
             else
-                fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
+                this.fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
         }
 
         private void wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {
-                statusCode = downloadStatusCodes.UnableDownload;
+                this.statusCode = downloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Error != null)
             {
-                statusCode = downloadStatusCodes.UnableDownload;
+                this.statusCode = downloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Cancelled == false && e.Error == null)
             {
-                statusCode = downloadStatusCodes.Done;
-                totalSize += fileSizeRecieved;
+                this.statusCode = downloadStatusCodes.Done;
+                this.totalSize += fileSizeRecieved;
                 return;
             }
         }

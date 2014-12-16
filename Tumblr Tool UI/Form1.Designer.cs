@@ -266,8 +266,8 @@ namespace Tumblr_Tool
             // 
             this.crawl_UpdateUI_Worker.WorkerReportsProgress = true;
             this.crawl_UpdateUI_Worker.WorkerSupportsCancellation = true;
-            this.crawl_UpdateUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.crawlUIWorker_DoWork);
-            this.crawl_UpdateUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.crawlUIWorker_AfterDone);
+            this.crawl_UpdateUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.crawlWorker_UI__DoWork);
+            this.crawl_UpdateUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.crawlWorker_UI__AfterDone);
             // 
             // status_Strip
             // 
@@ -331,8 +331,8 @@ namespace Tumblr_Tool
             // 
             this.download_UIUpdate_Worker.WorkerReportsProgress = true;
             this.download_UIUpdate_Worker.WorkerSupportsCancellation = true;
-            this.download_UIUpdate_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.downloadUIUpdate_DoWork);
-            this.download_UIUpdate_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.downloadUIUpdate_AfterDone);
+            this.download_UIUpdate_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.downloadWorker_UI__DoWork);
+            this.download_UIUpdate_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.downloadWorker_UI__AfterDone);
             // 
             // getStats_Worker
             // 
@@ -345,8 +345,8 @@ namespace Tumblr_Tool
             // 
             this.getStatsUI_Worker.WorkerReportsProgress = true;
             this.getStatsUI_Worker.WorkerSupportsCancellation = true;
-            this.getStatsUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getStatsUIWorker_DoWork);
-            this.getStatsUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getStatsUIWorker_AfterDone);
+            this.getStatsUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getStatsWorker_UI__DoWork);
+            this.getStatsUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getStatsWorker_UI_AfterDone);
             // 
             // fileBackgroundWorker
             // 
@@ -504,7 +504,6 @@ namespace Tumblr_Tool
             this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img_DisplayImage.TabIndex = 4;
             this.img_DisplayImage.TabStop = false;
-            this.img_DisplayImage.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.imageLoaded);
             // 
             // txt_TumblrURL
             // 

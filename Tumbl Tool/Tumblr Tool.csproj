@@ -54,6 +54,7 @@
     <Compile Include="Common Helpers\XMLHelper.cs" />
     <Compile Include="Enums\apiModeEnum.cs" />
     <Compile Include="Enums\downloadStatusCodes.cs" />
+    <Compile Include="Enums\errorTypes.cs" />
     <Compile Include="Enums\parseModes.cs" />
     <Compile Include="Enums\processingCodes.cs" />
     <Compile Include="Enums\postStepEnum.cs" />

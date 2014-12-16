@@ -24,8 +24,10 @@ namespace Tumblr_Tool.Common_Helpers
         private static string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
         private static string jsonAvatarQuery = "avatar";
         private static string jsonAvatarSize = "128";
+
         // private static string jsonBlogInfoQuery = "info";
         private static string jsonPostQuery = "posts";
+
         private static string jsonURL = "http://api.tumblr.com/v2/blog";
 
         public static string getAvatarQueryString(string tumblrDomain)
@@ -96,15 +98,17 @@ namespace Tumblr_Tool.Common_Helpers
             return query;
         }
 
-
         public static bool saveObjectAsJSON<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
             TextWriter writer = null;
             try
             {
-
-                var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore,
-                    TypeNameHandling = TypeNameHandling.None, DefaultValueHandling = DefaultValueHandling.Ignore });
+                var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.None,
+                    DefaultValueHandling = DefaultValueHandling.Ignore
+                });
                 writer = new StreamWriter(filePath, append);
                 writer.Write(contentsToWriteToFile);
 

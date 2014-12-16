@@ -36,10 +36,10 @@ namespace Tumblr_Tool
             Color foreColor = ForeColor;
 
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
-            Color c = e.Item.Selected ? HighlightBackColor : this.BackColor;
+            Color c = e.Item.Selected ? this.HighlightBackColor : this.BackColor;
             using (SolidBrush brush = new SolidBrush(c))
                 e.Graphics.FillRectangle(brush, rc);
-            e.Item.ForeColor = e.Item.Selected ? HighlightForeColor : this.ForeColor;
+            e.Item.ForeColor = e.Item.Selected ? this.HighlightForeColor : this.ForeColor;
         }
 
         public void changeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)

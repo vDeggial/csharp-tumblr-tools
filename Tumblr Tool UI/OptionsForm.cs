@@ -44,12 +44,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_GenerateLog.Checked;
+                return this.check_GenerateLog.Checked;
             }
 
             set
             {
-                check_GenerateLog.Checked = value;
+                this.check_GenerateLog.Checked = value;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _mainForm;
+                return this._mainForm;
             }
 
             set
@@ -70,7 +70,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _options;
+                return this._options;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_ParseDownload.Checked;
+                return this.check_ParseDownload.Checked;
             }
         }
 
@@ -86,7 +86,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_GIF.Checked;
+                return this.check_GIF.Checked;
             }
         }
 
@@ -94,7 +94,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_JPEG.Checked;
+                return this.check_JPEG.Checked;
             }
         }
 
@@ -102,7 +102,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_ParseOnly.Checked;
+                return this.check_ParseOnly.Checked;
             }
         }
 
@@ -110,7 +110,7 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_PhotoSets.Checked;
+                return this.check_PhotoSets.Checked;
             }
         }
 
@@ -118,19 +118,19 @@ namespace Tumblr_Tool
         {
             get
             {
-                return check_PNG.Checked;
+                return this.check_PNG.Checked;
             }
         }
 
         public void setOptions()
         {
-            _options.parseJPEG = this.parseJPEG;
-            _options.parsePNG = this.parsePNG;
-            _options.parseGIF = this.parseGIF;
-            _options.parsePhotoSets = this.parsePhotoSets;
-            _options.parseOnly = this.parseOnly;
-            _options.apiMode = this.apiMode;
-            _options.generateLog = this.check_GenerateLog.Checked;
+            this._options.parseJPEG = this.parseJPEG;
+            this._options.parsePNG = this.parsePNG;
+            this._options.parseGIF = this.parseGIF;
+            this._options.parsePhotoSets = this.parsePhotoSets;
+            this._options.parseOnly = this.parseOnly;
+            this._options.apiMode = this.apiMode;
+            this._options.generateLog = this.check_GenerateLog.Checked;
         }
 
         private void btn_Accept_Click(object sender, EventArgs e)
@@ -147,34 +147,34 @@ namespace Tumblr_Tool
 
         private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
         {
-            if (check_ParseDownload.Checked)
+            if (this.check_ParseDownload.Checked)
             {
-                check_ParseOnly.Checked = false;
+                this.check_ParseOnly.Checked = false;
             }
         }
 
         private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
         {
-            if (check_ParseOnly.Checked)
+            if (this.check_ParseOnly.Checked)
             {
-                check_ParseDownload.Checked = false;
+                this.check_ParseDownload.Checked = false;
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void mode_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
 
         private void restoreOptions()
         {
-            this.check_GIF.Checked = _options.parseGIF;
-            this.check_JPEG.Checked = _options.parseJPEG;
-            this.check_ParseDownload.Checked = !_options.parseOnly;
-            this.check_ParseOnly.Checked = _options.parseOnly;
-            this.check_PhotoSets.Checked = _options.parsePhotoSets;
-            this.check_PNG.Checked = _options.parsePNG;
-            this.apiMode = _options.apiMode;
-            this.check_GenerateLog.Checked = _options.generateLog;
+            this.check_GIF.Checked = this._options.parseGIF;
+            this.check_JPEG.Checked = this._options.parseJPEG;
+            this.check_ParseDownload.Checked = !this._options.parseOnly;
+            this.check_ParseOnly.Checked = this._options.parseOnly;
+            this.check_PhotoSets.Checked = this._options.parsePhotoSets;
+            this.check_PNG.Checked = this._options.parsePNG;
+            this.apiMode = this._options.apiMode;
+            this.check_GenerateLog.Checked = this._options.generateLog;
         }
 
         private void setOptions(object sender, EventArgs e)

@@ -31,8 +31,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static void generateBasePost(ref TumblrPost post, dynamic jPost)
         {
-
-            post.type = !string.IsNullOrEmpty((string)jPost.type ) ? jPost.type : null;
+            post.type = !string.IsNullOrEmpty((string)jPost.type) ? jPost.type : null;
 
             post.id = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
 
@@ -55,7 +54,6 @@ namespace Tumblr_Tool.Common_Helpers
                     post.tags.Add(tag);
                 }
             }
-
             else
             {
                 post.tags = null;

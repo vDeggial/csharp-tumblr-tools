@@ -121,7 +121,7 @@
             this.select_APIMode.Size = new System.Drawing.Size(140, 22);
             this.select_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.TabIndex = 0;
-            this.select_APIMode.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.select_APIMode.SelectedIndexChanged += new System.EventHandler(this.mode_SelectedIndexChanged);
             // 
             // box_General
             // 
