@@ -44,100 +44,53 @@ namespace Tumblr_Tool.Managers
 
         public string saveFileFormat { get; set; }
 
-        public bool downloadFile(string url, string fullPath, string prefix = "", int method = 1)
+        public bool downloadFile(string url, string fullPath)
         {
             url = FileHelper.fixURL(url);
 
-            fullPath = FileHelper.getFullFilePath(url, fullPath, prefix);
+            fullPath = FileHelper.getFullFilePath(url, fullPath);
             fullPath = FileHelper.fixFileName(fullPath);
             this.percentDownloaded = 0;
             this.statusCode = downloadStatusCodes.OK;
 
             if (WebHelper.urlExists(@url))
             {
-                switch (method)
+                using (WebClient webClient = new WebClient())
                 {
-                    case 1:
-                        using (WebClient webClient = new WebClient())
+                    try
+                    {
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadCompleted);
+                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                        webClient.DownloadFileAsync(new Uri(@url), fullPath);
+
+                        while (this.statusCode != downloadStatusCodes.Done && this.statusCode != downloadStatusCodes.UnableDownload)
                         {
-                            try
-                            {
-                                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadCompleted);
-                                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-                                webClient.DownloadFileAsync(new Uri(@url), fullPath);
-
-                                while (this.statusCode != downloadStatusCodes.Done && this.statusCode != downloadStatusCodes.UnableDownload)
-                                {
-                                }
-
-                                if (this.percentDownloaded < 100 && this.statusCode == downloadStatusCodes.UnableDownload)
-                                {
-                                    webClient.CancelAsync();
-                                    (new FileInfo(fullPath)).Delete(); //  delete partial file
-                                    this.statusCode = downloadStatusCodes.UnableDownload;
-                                    return false;
-                                }
-
-                                if (this.statusCode == downloadStatusCodes.Done)
-                                {
-                                    this.downloadedList.Add(fullPath);
-                                    return true;
-                                }
-                                else
-                                {
-                                    return false;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                this.statusCode = downloadStatusCodes.UnableDownload;
-                                (new FileInfo(fullPath)).Delete(); //  delete partial file
-                                return false;
-                            }
                         }
-                    case 2:
 
-                        int timeoutInSeconds = 10;
-                        HttpWebRequest MyRequest = (HttpWebRequest)WebRequest.Create(url);
-                        MyRequest.Proxy = null;
-                        MyRequest.Timeout = timeoutInSeconds * 1000;
-                        try
+                        if (this.percentDownloaded < 100 && this.statusCode == downloadStatusCodes.UnableDownload)
                         {
-                            // Get the web response
-                            using (HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse())
-                            {
-                                // Make sure the response is valid
-                                if (HttpStatusCode.OK == MyResponse.StatusCode)
-                                {
-                                    // Open the response stream
-                                    using (Stream MyResponseStream = MyResponse.GetResponseStream())
-                                    {
-                                        // Open the destination file
-                                        using (FileStream MyFileStream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.Write))
-                                        {
-                                            // Create a 4K buffer to chunk the file
-                                            byte[] MyBuffer = new byte[4096];
-                                            int BytesRead;
-                                            // Read the chunk of the web response into the buffer
-                                            while (0 < (BytesRead = MyResponseStream.Read(MyBuffer, 0, MyBuffer.Length)))
-                                            {
-                                                // Write the chunk from the buffer to the file
-                                                MyFileStream.Write(MyBuffer, 0, BytesRead);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception err)
-                        {
-                            string e = err.Message;
-                            statusCode = downloadStatusCodes.UnableDownload;
-                            // throw new Exception("Error saving file from URL:" + err.Message, err);
+                            webClient.CancelAsync();
+                            (new FileInfo(fullPath)).Delete(); //  delete partial file
+                            this.statusCode = downloadStatusCodes.UnableDownload;
                             return false;
                         }
-                        downloadedList.Add(fullPath);
-                        return true;
+
+                        if (this.statusCode == downloadStatusCodes.Done)
+                        {
+                            this.downloadedList.Add(fullPath);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        this.statusCode = downloadStatusCodes.UnableDownload;
+                        (new FileInfo(fullPath)).Delete(); //  delete partial file
+                        return false;
+                    }
                 }
             }
 

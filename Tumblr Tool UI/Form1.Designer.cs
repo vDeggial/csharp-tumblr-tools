@@ -421,8 +421,8 @@ namespace Tumblr_Tool
             this.select_Mode.HighlightBackColor = System.Drawing.Color.White;
             this.select_Mode.HighlightForeColor = System.Drawing.Color.Maroon;
             this.select_Mode.Items.AddRange(new object[] {
-            "Full Rescan",
-            "Newest Only"});
+            "Newest Only",
+            "Full Rescan"});
             this.select_Mode.Location = new System.Drawing.Point(305, 39);
             this.select_Mode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.select_Mode.Name = "select_Mode";

@@ -59,7 +59,7 @@ namespace Tumblr_Tool
 
             tumblrStats.blog = null;
 
-            this.select_Mode.SelectedIndex = 1;
+            this.select_Mode.SelectedIndex = 0;
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
             renderer.HighlightForeColor = Color.Maroon;
             renderer.HighlightBackColor = Color.White;
@@ -134,7 +134,7 @@ namespace Tumblr_Tool
             this.aboutForm = new AboutForm();
             this.aboutForm.mainForm = this;
             this.aboutForm.version = "Version: " + version;
-            this.select_Mode.SelectedIndex = 1;
+            this.select_Mode.SelectedIndex = 0;
             this.optionsForm.apiMode = apiModeEnum.JSON.ToString();
             loadOptions();
             this.lbl_Status.Text = "Ready";
@@ -353,6 +353,7 @@ namespace Tumblr_Tool
             this.bar_Progress.ForeColor = Color.Black;
             this.lbl_PercentBar.ForeColor = Color.Black;
             this.lbl_PostCount.ForeColor = Color.Black;
+
             updateStatusText("Initializing...");
             if (isValidURL(this.txt_Stats_TumblrURL.Text))
             {
@@ -793,7 +794,7 @@ namespace Tumblr_Tool
                                         int mode = 0;
                                         this.Invoke((MethodInvoker)delegate
                                         {
-                                            mode = this.select_Mode.SelectedIndex + 1;
+                                            mode = this.select_Mode.SelectedIndex;
                                         });
 
                                         lock (this.ripper)
@@ -966,154 +967,127 @@ namespace Tumblr_Tool
                 }
                 else
                 {
-                    while (this.fileManager.statusCode != downloadStatusCodes.Downloading && !this.isCancelled)
+                    decimal totalLength = 0;
+                    while (!this.downloadDone && !this.isCancelled)
                     {
-                        int percent = (int)this.fileManager.percentDownloaded;
-                        if (this.fileManager.statusCode == downloadStatusCodes.Preparing)
-                        {
-                            if (!this.IsDisposed)
-                            {
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    updateStatusText("Preparing...");
-
-                                    this.bar_Progress.Step = 1;
-                                    this.bar_Progress.Minimum = 0;
-                                    this.bar_Progress.Maximum = 100;
-                                    this.bar_Progress.Value = 0;
-                                    this.lbl_PercentBar.Text = "0%";
-
-                                    this.lbl_PostCount.Text = "";
-                                });
-                            }
-                        }
-                    }
-
-                    if (this.fileManager.statusCode == downloadStatusCodes.Downloading)
-                    {
-                        if (!this.IsDisposed)
+                        if (!this.IsDisposed && downloadedList.Count < 2)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
                                 updateWorkStatusTextNewLine("Downloading images ...");
-                                updateStatusText("Downloading..."); ;
+                                
                             });
                         }
+                        int c = 0;
+                        int f = 0;
 
-                        decimal totalLength = 0;
-                        while (!this.downloadDone && !this.isCancelled)
+                        if (this.notDownloadedList.Count != 0 && f != this.notDownloadedList.Count)
                         {
-                            int c = 0;
-                            int f = 0;
+                            f = this.notDownloadedList.Count;
 
-                            if (this.notDownloadedList.Count != 0 && f != this.notDownloadedList.Count)
+                            if (!this.IsDisposed)
                             {
-                                f = this.notDownloadedList.Count;
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    this.lbl_PostCount.ForeColor = Color.Maroon;
+                                    this.bar_Progress.ForeColor = Color.Maroon;
+                                    this.lbl_PercentBar.ForeColor = Color.Maroon;
+                                    updateWorkStatusTextNewLine("Error: Unable to download " + this.notDownloadedList[notDownloadedList.Count - 1]);
+                                });
+                            }
+                        }
 
-                                if (!this.IsDisposed)
+                        if (this.downloadedList.Count != 0 && c != this.downloadedList.Count)
+                        {
+                            c = this.downloadedList.Count;
+
+                            if (!this.IsDisposed)
+                            {
+                                try
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        this.lbl_PostCount.ForeColor = Color.Maroon;
-                                        this.bar_Progress.ForeColor = Color.Maroon;
-                                        this.lbl_PercentBar.ForeColor = Color.Maroon;
-                                        updateWorkStatusTextNewLine("Error: Unable to download " + this.notDownloadedList[notDownloadedList.Count - 1]);
+                                        if (this.img_DisplayImage.ImageLocation != this.downloadedList[c - 1])
+                                        {
+                                            this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
+                                            this.img_DisplayImage.Load();
+                                            //img_DisplayImage.Update();
+                                            this.img_DisplayImage.Refresh();
+                                        }
                                     });
                                 }
-                            }
-
-                            if (this.downloadedList.Count != 0 && c != this.downloadedList.Count)
-                            {
-                                c = this.downloadedList.Count;
-
-                                if (!this.IsDisposed)
+                                catch (Exception)
                                 {
-                                    try
+                                    break;
+                                }
+
+                                int downloaded = this.downloadedList.Count + 1;
+                                int total = this.fileManager.totalToDownload;
+
+                                if (downloaded > total)
+                                    downloaded = total;
+
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    if (!this.bar_Progress.Visible)
                                     {
-                                        this.Invoke((MethodInvoker)delegate
-                                        {
-                                            if (this.img_DisplayImage.ImageLocation != this.downloadedList[c - 1])
-                                            {
-                                                this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
-                                                this.img_DisplayImage.Load();
-                                                //img_DisplayImage.Update();
-                                                this.img_DisplayImage.Refresh();
-                                            }
-                                        });
-                                    }
-                                    catch (Exception)
-                                    {
-                                        break;
+                                        this.bar_Progress.Visible = true;
                                     }
 
-                                    int downloaded = this.downloadedList.Count + 1;
-                                    int total = this.fileManager.totalToDownload;
+                                    if (!this.lbl_PercentBar.Visible)
+                                        this.lbl_PercentBar.Visible = true;
 
-                                    if (downloaded > total)
-                                        downloaded = total;
+                                    if (!this.lbl_PostCount.Visible)
+                                        this.lbl_PostCount.Visible = true;
+
+                                    if (!this.lbl_Size.Visible)
+                                        this.lbl_Size.Visible = true;
+
+                                    this.lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
+                                });
+
+                                int percent = total > 0 ? (int)(((double)downloaded / (double)total) * 100.00) : 0;
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    if (this.bar_Progress.Value != percent)
+                                    {
+                                        this.bar_Progress.Value = percent;
+                                        this.lbl_PercentBar.Text = percent.ToString() + "%";
+
+                                        //this.bar_Progress.Update();
+                                        this.bar_Progress.Refresh();
+                                    }
+                                });
+
+                                try
+                                {
+                                    totalLength = (this.downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
+                                    decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
+                                    string suffix = totalLength > 1024 ? "GB" : "MB";
 
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        if (!this.bar_Progress.Visible)
-                                        {
-                                            this.bar_Progress.Visible = true;
-                                        }
-
-                                        if (!this.lbl_PercentBar.Visible)
-                                            this.lbl_PercentBar.Visible = true;
-
-                                        if (!this.lbl_PostCount.Visible)
-                                            this.lbl_PostCount.Visible = true;
-
-                                        if (!this.lbl_Size.Visible)
-                                            this.lbl_Size.Visible = true;
-
-                                        this.lbl_PostCount.Text = downloaded.ToString() + " / " + total.ToString();
+                                        this.lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
                                     });
+                                }
+                                catch (Exception)
+                                {
+                                    //
+                                }
 
-                                    int percent = total > 0 ? (int)(((double)downloaded / (double)total) * 100.00) : 0;
+                                if ((int)this.fileManager.percentDownloaded <= 0)
+                                {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        if (this.bar_Progress.Value != percent)
-                                        {
-                                            this.bar_Progress.Value = percent;
-                                            this.lbl_PercentBar.Text = percent.ToString() + "%";
-
-                                            //this.bar_Progress.Update();
-                                            this.bar_Progress.Refresh();
-                                        }
+                                        updateStatusText("Downloading: Connecting");
                                     });
-
-                                    try
+                                }
+                                else if (percent != (int)this.fileManager.percentDownloaded)
+                                {
+                                    this.Invoke((MethodInvoker)delegate
                                     {
-                                        totalLength = (this.downloadedSizesList.Sum(x => Convert.ToInt32(x)) / (decimal)1024 / (decimal)1024);
-                                        decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
-                                        string suffix = totalLength > 1024 ? "GB" : "MB";
-
-                                        this.Invoke((MethodInvoker)delegate
-                                        {
-                                            this.lbl_Size.Text = (totalLengthNum).ToString("0.00") + " " + suffix;
-                                        });
-                                    }
-                                    catch (Exception)
-                                    {
-                                        //
-                                    }
-
-                                    if ((int)this.fileManager.percentDownloaded <= 0)
-                                    {
-                                        this.Invoke((MethodInvoker)delegate
-                                        {
-                                            updateStatusText("Downloading: Connecting");
-                                        });
-                                    }
-                                    else if (percent != (int)this.fileManager.percentDownloaded)
-                                    {
-                                        this.Invoke((MethodInvoker)delegate
-                                        {
-                                            updateStatusText("Downloading: " + fileManager.percentDownloaded.ToString() + "%");
-                                        });
-                                    }
+                                        updateStatusText("Downloading: " + fileManager.percentDownloaded.ToString() + "%");
+                                    });
                                 }
                             }
                         }
@@ -1218,30 +1192,42 @@ namespace Tumblr_Tool
 
                         while (!this.fileDownloadDone && !this.isCancelled)
                         {
-                            fullPath = FileHelper.getFullFilePath(photoImage.filename, this.saveLocation);
-
-                            downloaded = fileManager.downloadFile(photoImage.url, this.saveLocation, string.Empty, 1);
-
-                            if (downloaded)
+                            try
                             {
-                                //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
-                                //{
-                                //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
-                                //}
+                                fullPath = FileHelper.getFullFilePath(photoImage.filename, this.saveLocation);
 
-                                j++;
-                                this.fileDownloadDone = true;
-                                photoImage.downloaded = true;
-                                fullPath = FileHelper.fixFileName(fullPath);
-                                this.downloadedList.Add(fullPath);
+                                downloaded = fileManager.downloadFile(photoImage.url, this.saveLocation);
 
-                                this.downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
+                                if (downloaded)
+                                {
+                                    //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
+                                    //{
+                                    //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
+                                    //}
+
+                                    j++;
+                                    this.fileDownloadDone = true;
+                                    photoImage.downloaded = true;
+                                    fullPath = FileHelper.fixFileName(fullPath);
+                                    this.downloadedList.Add(fullPath);
+
+                                    this.downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
+                                }
+                                else if (this.fileManager.statusCode == downloadStatusCodes.UnableDownload)
+                                {
+                                    this.notDownloadedList.Add(photoImage.url);
+                                    photoImage.downloaded = false;
+                                    (new FileInfo(fullPath)).Delete();
+                                }
                             }
-                            else if (this.fileManager.statusCode == downloadStatusCodes.UnableDownload)
+                            catch
                             {
                                 this.notDownloadedList.Add(photoImage.url);
                                 photoImage.downloaded = false;
                                 (new FileInfo(fullPath)).Delete();
+                            }
+                            finally
+                            {
                                 this.fileDownloadDone = true;
                             }
                         }
@@ -1542,7 +1528,7 @@ namespace Tumblr_Tool
                 {
                     this.Invoke((MethodInvoker)delegate
                             {
-                                this.tumblrStats = new TumblrStats(this.tumblrBlog, this.txt_Stats_TumblrURL.Text, this.options.apiMode);
+                                this.tumblrStats = new TumblrStats(ref this.tumblrBlog, this.txt_Stats_TumblrURL.Text, this.options.apiMode);
                                 this.tumblrStats.statusCode = processingCodes.Initializing;
                             });
 

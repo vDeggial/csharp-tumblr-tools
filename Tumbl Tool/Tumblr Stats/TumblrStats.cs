@@ -38,7 +38,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         private CrawlManager crawlManager;
         private int found = 0;
         private int start;
-        private int step = (int)postStepEnum.XML;
+        private int step = (int)postStepEnum.JSON;
         private string tumblrDomain = "";
         private string url;
 
@@ -46,9 +46,9 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
         }
 
-        public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
+        public TumblrStats(ref TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
         {
-            crawlManager = new CrawlManager();
+            this.crawlManager = new CrawlManager();
             setAPIMode(apiMode);
 
             if (blog == null)
@@ -82,11 +82,11 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 if (this.crawlManager.mode == apiModeEnum.JSON.ToString())
                 {
-                    url = JSONHelper.getQueryString(tumblrDomain, tumblrPostTypes.empty.ToString(), 0);
+                    url = JSONHelper.getQueryString(this.tumblrDomain, tumblrPostTypes.empty.ToString(), 0);
                     this.step = (int)postStepEnum.JSON;
                 }
 
-                if (crawlManager.isValidTumblr(url))
+                if (this.crawlManager.isValidTumblr(url))
                 {
                     //setBlogInfo();
 
@@ -104,8 +104,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                     this.parsed = 0;
 
-                    string prefix = string.Empty;
-
                     while (i < this.totalPosts)
                     {
                         if (this.crawlManager.mode == apiModeEnum.JSON.ToString())
@@ -113,7 +111,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                             url = JSONHelper.getQueryString(this.tumblrDomain, tumblrPostTypes.empty.ToString(), i);
                         }
 
-                        crawlManager.getDocument(url);
+                        this.crawlManager.getDocument(url);
                         this.blog.posts.UnionWith(this.crawlManager.getPostList(tumblrPostTypes.empty.ToString(), this.crawlManager.mode));
 
                         this.photoPosts += (from p in this.blog.posts where p.type == tumblrPostTypes.photo.ToString() select p).ToList().Count;
@@ -162,7 +160,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             {
                 if (this.crawlManager.mode == apiModeEnum.XML.ToString())
                 {
-                    this.crawlManager.setBlogInfo(XMLHelper.getQueryString(url, tumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.crawlManager.setBlogInfo(XMLHelper.getQueryString(this.url, tumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
                 else if (this.crawlManager.mode == apiModeEnum.JSON.ToString())
                 {

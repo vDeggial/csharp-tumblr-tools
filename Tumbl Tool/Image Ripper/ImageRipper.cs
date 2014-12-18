@@ -244,7 +244,7 @@ namespace Tumblr_Tool.Image_Ripper
                         this.blog.posts.UnionWith(posts);
                         generateImageListForDownload(posts);
                         this.parsedPosts += this.blog.posts.Count;
-                        this.percentComplete = totalPosts > 0 ? (int)(((double)parsedPosts / (double)totalPosts) * 100.00) : 0;
+                        this.percentComplete = this.totalPosts > 0 ? (int)(((double)this.parsedPosts / (double)this.totalPosts) * 100.00) : 0;
                         i += step;
 
                         if (this.generateLog)
@@ -260,19 +260,32 @@ namespace Tumblr_Tool.Image_Ripper
                     {
                         HashSet<TumblrPost> posts = getTumblrPostList(i);
 
-                        foreach (TumblrPost post in posts)
+                        HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts where this.existingImageList.Any(s => s.ToLower() == p.photos.First().filename.ToLower()) select p));
+
+                        posts.RemoveWhere(x => existingHash.Any(y => x.id == y.id));
+
+                        this.blog.posts.UnionWith(posts);
+                        this.parsedPosts += posts.Count;
+
+                        if (existingHash.Count > 0 && !finished)
                         {
-                            if (post.photos.Count > 0 && this.existingImageList.Contains(post.photos.First().filename))
-                            {
-                                finished = true;
-                                //percentComplete = 100;
-                            }
-                            else if (!finished)
-                            {
-                                this.blog.posts.Add(post);
-                            }
+                            finished = true;
                         }
-                        this.parsedPosts += this.blog.posts.Count;
+
+                        //foreach (TumblrPost post in posts)
+                        //{
+                        //    if (post.photos.Count > 0 && this.existingImageList.Any(p => p.ToLower() == post.photos.First().filename.ToLower()))
+                        //    {
+                        //        finished = true;
+                        //        //percentComplete = 100;
+                        //    }
+                        //    else if (!finished)
+                        //    {
+                        //        this.blog.posts.Add(post);
+                        //        this.parsedPosts++;
+                        //    }
+                        //}
+                        // this.parsedPosts += this.blog.posts.Count;
                         generateImageListForDownload(this.blog.posts);
                         this.percentComplete = this.totalPosts > 0 ? (int)(((double)this.parsedPosts / (double)this.totalPosts) * 100.00) : 0;
                         i += step;

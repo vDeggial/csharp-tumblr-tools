@@ -28,13 +28,18 @@ namespace Tumblr_Tool.Common_Helpers
         // private static string jsonBlogInfoQuery = "info";
         private static string jsonPostQuery = "posts";
 
-        private static string jsonURL = "http://api.tumblr.com/v2/blog";
+        private static string jsonAPIURL = "https://api.tumblr.com/v2/blog/{0}/{1}?api_key={2}{3}{4}";
+
+        private static string offsetString = "&offset={0}";
+        private static string limitString = "&limit={0}";
 
         public static string getAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = CommonHelper.getDomainName(tumblrDomain);
-            string query = string.Copy(jsonURL);
-            query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
+            string query;
+            // query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
+
+            query = string.Format(jsonAPIURL, tumblrDomain, jsonAvatarQuery + "/" + jsonAvatarSize, apiKey,string.Empty,string.Empty);
             return query;
         }
 
@@ -74,26 +79,18 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static string getQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
         {
-            string query = string.Copy(jsonURL);
+            string query;
 
-            query += "/" + CommonHelper.fixURL(tumblrDomain) + "/" + jsonPostQuery;
 
+            tumblrDomain = CommonHelper.fixURL(tumblrDomain);
+
+            string postQuery = jsonPostQuery;
             if (type != tumblrPostTypes.empty.ToString())
             {
-                query += "/" + type;
+                postQuery += "/" + type;
             }
 
-            query += "?api_key=" + apiKey;
-
-            if (start != 0)
-            {
-                query += "&offset=" + start.ToString();
-            }
-
-            if (maxNumPosts != 0)
-            {
-                query += "&limit=" + maxNumPosts.ToString();
-            }
+            query = string.Format(jsonAPIURL, tumblrDomain, postQuery, apiKey, string.Format(offsetString,start.ToString()), string.Format(limitString,maxNumPosts.ToString()));
 
             return query;
         }
