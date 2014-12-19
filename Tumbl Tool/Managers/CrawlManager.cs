@@ -52,6 +52,16 @@ namespace Tumblr_Tool.Managers
             try
             {
                 this.jsonDocument = JSONHelper.getJSONObject(url);
+
+                 if ((this.jsonDocument != null && this.jsonDocument.meta != null && this.jsonDocument.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString()))
+                 {
+
+                 }
+
+                 else
+                 {
+                     this.jsonDocument = null;
+                 }
             }
             catch
             {

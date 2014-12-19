@@ -143,7 +143,7 @@ namespace Tumblr_Tool.Image_Ripper
                 removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in imageList where p.filename.ToLower().EndsWith(".png") select p)));
             }
 
-            this.imageList.RemoveWhere(x => removeHash.Any(y => x.filename == y.filename));
+            this.imageList.RemoveWhere(x => removeHash.Contains(x));
         }
 
         public HashSet<TumblrPost> getTumblrPostList(int start = 0)
@@ -160,9 +160,10 @@ namespace Tumblr_Tool.Image_Ripper
                     query = JSONHelper.getQueryString(this.tumblrDomain, tumblrPostTypes.photo.ToString(), start);
                 }
 
-                if (this.crawlManager.isValidTumblr(@query))
+                this.crawlManager.getDocument(query);
+
+                if (this.crawlManager.jsonDocument != null)
                 {
-                    this.crawlManager.getDocument(query);
                     HashSet<TumblrPost> posts = crawlManager.getPostList(tumblrPostTypes.photo.ToString(), apiMode);
                     return posts;
                 }
@@ -260,9 +261,9 @@ namespace Tumblr_Tool.Image_Ripper
                     {
                         HashSet<TumblrPost> posts = getTumblrPostList(i);
 
-                        HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts where this.existingImageList.Any(s => s.ToLower() == p.photos.First().filename.ToLower()) select p));
+                        HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts where this.existingImageList.Contains(p.photos.First().filename.ToLower()) select p));
 
-                        posts.RemoveWhere(x => existingHash.Any(y => x.id == y.id));
+                        posts.RemoveWhere(x => existingHash.Contains(x));
 
                         this.blog.posts.UnionWith(posts);
                         this.parsedPosts += posts.Count;
