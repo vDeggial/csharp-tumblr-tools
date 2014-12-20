@@ -34,7 +34,7 @@ namespace Tumblr_Tool
 
         private const string _NEWESTONLY = "Newest Only";
 
-        private const string VERSION = "1.1.1";
+        private const string VERSION = "1.1.2";
 
         public mainForm()
         {
