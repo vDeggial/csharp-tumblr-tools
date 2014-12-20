@@ -22,14 +22,13 @@ namespace Tumblr_Tool.Managers
 {
     public class CrawlManager
     {
-        public dynamic jsonDocument;
-        public string mode;
-        public XDocument xmlDocument;
-
         public CrawlManager()
         {
         }
 
+        public dynamic jsonDocument { get; set; }
+        public string mode { get; set; }
+        public XDocument xmlDocument { get; set; }
         public void getDocument(string url)
         {
             try

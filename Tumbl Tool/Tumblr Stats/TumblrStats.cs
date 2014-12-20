@@ -21,35 +21,15 @@ namespace Tumblr_Tool.Tumblr_Stats
 {
     public class TumblrStats
     {
-        public int answerPosts;
-        public int audioPosts;
-        public TumblrBlog blog;
-        public int chatPosts;
-        public int linkPosts;
-        public int maxNumPosts = 0;
-        public int parsed = 0;
-        public int photoPosts;
-        public int quotePosts;
-        public processingCodes statusCode;
-        public int textPosts;
-        public int totalPosts;
-        public int videoPosts;
-        private string apiMode;
-        private CrawlManager crawlManager;
-        private int found = 0;
-        private int start;
-        private int step = (int)postStepEnum.JSON;
-        private string tumblrDomain = "";
-        private string url;
-
         public TumblrStats()
         {
         }
 
-        public TumblrStats(ref TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
+        public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
         {
             this.crawlManager = new CrawlManager();
             setAPIMode(apiMode);
+            step = (int)postStepEnum.JSON;
 
             if (blog == null)
             {
@@ -73,6 +53,46 @@ namespace Tumblr_Tool.Tumblr_Stats
             this.step = (int)postStepEnum.JSON; //20 for JSON, 50 for XML
         }
 
+        public int answerPosts { get; set; }
+
+        public int audioPosts { get; set; }
+
+        public TumblrBlog blog { get; set; }
+
+        public int chatPosts { get; set; }
+
+        public int linkPosts { get; set; }
+
+        public int maxNumPosts { get; set; }
+
+        public int parsed { get; set; }
+
+        public int photoPosts { get; set; }
+
+        public int quotePosts { get; set; }
+
+        public processingCodes statusCode { get; set; }
+
+        public int textPosts { get; set; }
+
+        public int totalPosts { get; set; }
+
+        public int videoPosts { get; set; }
+
+        private string apiMode { get; set; }
+
+        private CrawlManager crawlManager { get; set; }
+
+        private int found { get; set; }
+
+        private int start { get; set; }
+
+        private int step { get; set; }
+
+        private string tumblrDomain { get; set; }
+
+        private string url { get; set; }
+
         public TumblrBlog parsePosts()
         {
             try
@@ -88,9 +108,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 if (this.crawlManager.isValidTumblr(url))
                 {
-                    //setBlogInfo();
 
-                    // crawlManager.getDocument(url);
                     this.totalPosts = this.blog.totalPosts;
 
                     int endCount;

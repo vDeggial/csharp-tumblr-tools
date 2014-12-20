@@ -47,6 +47,7 @@
     <Compile Include="Common Helpers\FileHelper.cs" />
     <Compile Include="Common Helpers\ImageHelper.cs" />
     <Compile Include="Common Helpers\JSONHelper.cs" />
+    <Compile Include="Common Helpers\MyWebClient.cs" />
     <Compile Include="Common Helpers\ObjectCopier.cs" />
     <Compile Include="Common Helpers\PostHelper.cs" />
     <Compile Include="Common Helpers\SaveFile.cs" />
@@ -55,7 +56,9 @@
     <Compile Include="Enums\apiModeEnum.cs" />
     <Compile Include="Enums\downloadStatusCodes.cs" />
     <Compile Include="Enums\errorTypes.cs" />
+    <Compile Include="Enums\ImageFormat.cs" />
     <Compile Include="Enums\parseModes.cs" />
+    <Compile Include="Enums\postStatusCodes.cs" />
     <Compile Include="Enums\processingCodes.cs" />
     <Compile Include="Enums\postStepEnum.cs" />
     <Compile Include="Enums\tumblrAPIResponseEnum.cs" />

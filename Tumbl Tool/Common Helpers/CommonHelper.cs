@@ -12,6 +12,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -54,7 +58,7 @@ namespace Tumblr_Tool.Common_Helpers
         /// <summary>
         /// Remove HTML from string with compiled Regex.
         /// </summary>
-        public static string StripTags(string source)
+        public static string StripTags(this string source)
         {
             if (source != null)
                 return _htmlRegex.Replace(source, string.Empty);
@@ -73,6 +77,25 @@ namespace Tumblr_Tool.Common_Helpers
             System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
+        }
+
+
+        public static String toSlug(this string text)
+        {
+            String value = text.Normalize(NormalizationForm.FormD).Trim();
+            StringBuilder builder = new StringBuilder();
+
+            foreach (char c in text.ToCharArray())
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    builder.Append(c);
+
+            value = builder.ToString();
+
+            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(text);
+
+            value = Regex.Replace(Regex.Replace(Encoding.ASCII.GetString(bytes), @"\s{2,}|[^\w]", " ", RegexOptions.ECMAScript).Trim(), @"\s+", "_");
+
+            return value.ToLowerInvariant();
         }
     }
 }

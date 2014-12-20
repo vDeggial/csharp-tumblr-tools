@@ -46,6 +46,8 @@ namespace Tumblr_Tool.Managers
 
         public bool downloadFile(string url, string fullPath)
         {
+            FileInfo file;
+
             url = FileHelper.fixURL(url);
 
             fullPath = FileHelper.getFullFilePath(url, fullPath);
@@ -55,7 +57,7 @@ namespace Tumblr_Tool.Managers
 
             if (WebHelper.urlExists(@url))
             {
-                using (WebClient webClient = new WebClient())
+                using (MyWebClient webClient = new MyWebClient())
                 {
                     try
                     {
@@ -67,11 +69,18 @@ namespace Tumblr_Tool.Managers
                         {
                         }
 
-                        if (this.percentDownloaded < 100 && this.statusCode == downloadStatusCodes.UnableDownload)
+                        if (this.statusCode == downloadStatusCodes.UnableDownload)
                         {
                             webClient.CancelAsync();
-                            (new FileInfo(fullPath)).Delete(); //  delete partial file
-                            this.statusCode = downloadStatusCodes.UnableDownload;
+
+                            if (FileHelper.fileExists(fullPath))
+                            {
+                                file = new FileInfo(fullPath);
+
+                                if (!FileHelper.IsFileLocked(file)) file.Delete();
+                            }
+
+
                             return false;
                         }
 
@@ -88,7 +97,12 @@ namespace Tumblr_Tool.Managers
                     catch (Exception)
                     {
                         this.statusCode = downloadStatusCodes.UnableDownload;
-                        (new FileInfo(fullPath)).Delete(); //  delete partial file
+                        if (FileHelper.fileExists(fullPath))
+                        {
+                            file = new FileInfo(fullPath);
+
+                            if (!FileHelper.IsFileLocked(file)) file.Delete();
+                        }
                         return false;
                     }
                 }

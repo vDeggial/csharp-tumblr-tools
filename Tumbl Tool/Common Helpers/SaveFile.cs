@@ -20,13 +20,13 @@ namespace Tumblr_Tool.Common_Helpers
     public class SaveFile
     {
         [XmlElement("blog")]
-        public TumblrBlog blog;
+        public TumblrBlog blog { get; set; }
 
         [XmlElement("date")]
-        public string date;
+        public string date { get; set; }
 
         [XmlElement("filename")]
-        public string fileName;
+        public string fileName { get; set; }
 
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {

@@ -10,25 +10,15 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace Tumblr_Tool
 {
+    [System.ComponentModel.DesignerCategory("Code")]
     public class AdvancedComboBox : ComboBox
     {
-        new public System.Windows.Forms.DrawMode DrawMode { get; set; }
-
-        public Color HighlightBackColor { get; set; }
-
-        public Color HighlightForeColor { get; set; }
-
-        public System.Windows.Forms.ComboBoxStyle Style { get { return this.DropDownStyle; } set { this.DropDownStyle = value; } }
-
         public AdvancedComboBox()
         {
             base.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -38,32 +28,13 @@ namespace Tumblr_Tool
             // this.SetStyle(ControlStyles.UserPaint, true);
         }
 
-        private void AdvancedComboBox_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            if (e.Index < 0)
-                return;
+        new public System.Windows.Forms.DrawMode DrawMode { get; set; }
 
-            ComboBox combo = sender as ComboBox;
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-            {
-                e.Graphics.FillRectangle(new SolidBrush(this.HighlightBackColor),
-                                         e.Bounds);
-                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-                                  new SolidBrush(this.HighlightForeColor),
-                                  new Point(e.Bounds.X, e.Bounds.Y));
-            }
-            else
-            {
-                e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
-                                         e.Bounds);
+        public Color HighlightBackColor { get; set; }
 
-                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-                                      new SolidBrush(combo.ForeColor),
-                                      new Point(e.Bounds.X, e.Bounds.Y));
-            }
+        public Color HighlightForeColor { get; set; }
 
-            e.DrawFocusRectangle();
-        }
+        public System.Windows.Forms.ComboBoxStyle Style { get { return this.DropDownStyle; } set { this.DropDownStyle = value; } }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -100,6 +71,33 @@ namespace Tumblr_Tool
 
             e.Graphics.FillPolygon(arrowBrush, points);
             arrowBrush.Dispose();
+        }
+
+        private void AdvancedComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+                return;
+
+            ComboBox combo = sender as ComboBox;
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                e.Graphics.FillRectangle(new SolidBrush(this.HighlightBackColor),
+                                         e.Bounds);
+                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
+                                  new SolidBrush(this.HighlightForeColor),
+                                  new Point(e.Bounds.X, e.Bounds.Y));
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
+                                         e.Bounds);
+
+                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
+                                      new SolidBrush(combo.ForeColor),
+                                      new Point(e.Bounds.X, e.Bounds.Y));
+            }
+
+            e.DrawFocusRectangle();
         }
     }
 }

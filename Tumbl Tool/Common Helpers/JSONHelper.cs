@@ -21,25 +21,21 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class JSONHelper
     {
-        private static string apiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
-        private static string jsonAvatarQuery = "avatar";
-        private static string jsonAvatarSize = "128";
+        private const string _APIKEY = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
+        private const string _APIURL = "https://api.tumblr.com/v2/blog/{0}/{1}?api_key={2}{3}{4}";
+        private const string _AVATARQUERY = "avatar";
+        private const string _AVATARSIZE = "128";
 
-        // private static string jsonBlogInfoQuery = "info";
-        private static string jsonPostQuery = "posts";
-
-        private static string jsonAPIURL = "https://api.tumblr.com/v2/blog/{0}/{1}?api_key={2}{3}{4}";
-
-        private static string offsetString = "&offset={0}";
-        private static string limitString = "&limit={0}";
-
+        private const string _LIMIT = "&limit={0}";
+        private const string _OFFSET = "&offset={0}";
+        private const string _POSTQUERY = "posts";
         public static string getAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = CommonHelper.getDomainName(tumblrDomain);
             string query;
             // query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
 
-            query = string.Format(jsonAPIURL, tumblrDomain, jsonAvatarQuery + "/" + jsonAvatarSize, apiKey,string.Empty,string.Empty);
+            query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY,string.Empty,string.Empty);
             return query;
         }
 
@@ -84,15 +80,31 @@ namespace Tumblr_Tool.Common_Helpers
 
             tumblrDomain = CommonHelper.fixURL(tumblrDomain);
 
-            string postQuery = jsonPostQuery;
+            string postQuery = _POSTQUERY;
             if (type != tumblrPostTypes.empty.ToString())
             {
                 postQuery += "/" + type;
             }
 
-            query = string.Format(jsonAPIURL, tumblrDomain, postQuery, apiKey, string.Format(offsetString,start.ToString()), string.Format(limitString,maxNumPosts.ToString()));
+            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET,start.ToString()), string.Format(_LIMIT,maxNumPosts.ToString()));
 
             return query;
+        }
+
+        public static T readFromJSON<T>(string filePath) where T : new()
+        {
+            TextReader reader = null;
+            try
+            {
+                reader = new StreamReader(filePath);
+                var fileContents = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
         }
 
         public static bool saveObjectAsJSON<T>(string filePath, T objectToWrite, bool append = false) where T : new()
@@ -115,22 +127,6 @@ namespace Tumblr_Tool.Common_Helpers
             {
                 if (writer != null)
                     writer.Close();
-            }
-        }
-
-        public static T readFromJSON<T>(string filePath) where T : new()
-        {
-            TextReader reader = null;
-            try
-            {
-                reader = new StreamReader(filePath);
-                var fileContents = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
             }
         }
     }

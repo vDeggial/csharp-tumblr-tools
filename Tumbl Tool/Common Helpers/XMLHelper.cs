@@ -23,7 +23,7 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class XMLHelper
     {
-        public static string queryXML = @"/api/read";
+        public const string _QUERY = @"/api/read";
 
         public static XElement getPostElement(XDocument doc, string elementName)
         {
@@ -50,7 +50,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static string getQueryString(string tumblrURL, string type, int start = 0, int maxNumPosts = 0)
         {
-            string query = string.Copy(queryXML);
+            string query = string.Copy(_QUERY);
 
             if (type != tumblrPostTypes.empty.ToString())
             {

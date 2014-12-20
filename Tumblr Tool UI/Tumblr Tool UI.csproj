@@ -85,13 +85,9 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="AdvancedComboBox.cs" />
     <Compile Include="AdvancedMenuRenderer.cs" />
-    <Compile Include="CirclePictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CirclePictureBox.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +108,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ToolOptions.cs" />
+    <Compile Include="UIHelper.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
