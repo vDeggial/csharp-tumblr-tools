@@ -99,6 +99,8 @@ namespace Tumblr_Tool
 
         private TumblrStats tumblrStats { get; set; }
 
+        private string errorMessage { get; set; }
+
         public static void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
         {
             System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
@@ -263,6 +265,17 @@ namespace Tumblr_Tool
             if (!this.txt_WorkStatus.Text.EndsWith(str))
             {
                 this.txt_WorkStatus.Text += str;
+
+                this.txt_WorkStatus.Update();
+                this.txt_WorkStatus.Refresh();
+            }
+        }
+
+        public void updateWorkStatusTextReplace(string str, string replaceStr)
+        {
+            if (this.txt_WorkStatus.Text.Contains(str))
+            {
+                this.txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(str, replaceStr);
 
                 this.txt_WorkStatus.Update();
                 this.txt_WorkStatus.Refresh();
@@ -1171,7 +1184,9 @@ namespace Tumblr_Tool
                                     this.lbl_PostCount.ForeColor = Color.Maroon;
                                     this.bar_Progress.ForeColor = Color.Maroon;
                                     this.lbl_PercentBar.ForeColor = Color.Maroon;
-                                    updateWorkStatusTextNewLine("Error: Unable to download " + this.notDownloadedList[notDownloadedList.Count - 1]);
+
+                                    this.errorMessage = "Error: Unable to download " + this.notDownloadedList[notDownloadedList.Count - 1];
+                                    // updateWorkStatusTextNewLine(this.errorMessage);
                                 });
                             }
                         }
@@ -1263,10 +1278,20 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        updateStatusText("Downloading: " + fileManager.percentDownloaded.ToString() + "%");
+                                        updateStatusText("Downloading: " + this.fileManager.percentDownloaded.ToString() + "%");
                                     });
                                 }
                             }
+                        }
+
+                        bool results = this.downloadedList.Intersect(this.notDownloadedList).Count() != 0;
+                        if (results)
+                        {
+                            this.lbl_PostCount.ForeColor = Color.Black;
+                            this.bar_Progress.ForeColor = Color.Black;
+                            this.lbl_PercentBar.ForeColor = Color.Black;
+
+                            // updateWorkStatusTextReplace(this.errorMessage, string.Empty);
                         }
                     }
                 }
