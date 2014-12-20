@@ -1324,7 +1324,7 @@ namespace Tumblr_Tool
                 if (!exit)
                 {
                     this.exit = true;
-                    DialogResult dialogResult = MessageBox.Show(this, "Are you sure you want to exit?", "Sure?", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show(this, "Are you sure you want to exit Tumblr Tools?", "Exit", MessageBoxButtons.YesNo,MessageBoxIcon.Information);
                     if (dialogResult == DialogResult.Yes)
                     {
                         //do something
@@ -1336,48 +1336,16 @@ namespace Tumblr_Tool
 
                         if (this.tumblrLogFile == null) this.tumblrLogFile = this.ripper.tumblrPostLog;
 
-                        if (this.crawl_Worker.IsBusy)
+                        if (!this.IsDisposed)
                         {
-                            this.crawl_Worker.CancelAsync();
+                            updateStatusText("Exiting...");
+                            updateWorkStatusTextNewLine("Exiting ...");
                         }
 
-                        if (this.crawl_UpdateUI_Worker.IsBusy)
+                        if (this.options.generateLog && this.tumblrLogFile != null && this.ripper.logUpdated)
                         {
-                            this.crawl_UpdateUI_Worker.CancelAsync();
-                        }
-
-                        if (this.download_Worker.IsBusy)
-                        {
-                            this.download_Worker.CancelAsync();
-                        }
-
-                        if (this.download_UIUpdate_Worker.IsBusy)
-                        {
-                            this.download_UIUpdate_Worker.CancelAsync();
-                        }
-
-                        if (this.getStats_Worker.IsBusy)
-                        {
-                            this.getStats_Worker.CancelAsync();
-                        }
-
-                        if (this.getStatsUI_Worker.IsBusy)
-                        {
-                            this.getStatsUI_Worker.CancelAsync();
-                        }
-
-                        if (this.options.generateLog && this.tumblrLogFile != null)
-                        {
-                            if (!this.IsDisposed)
-                            {
-                                updateStatusText("Exiting...");
-                                updateWorkStatusTextNewLine("Exiting ...");
-                            }
-
                             this.fileManager.saveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.getFileName(), this.tumblrLogFile);
                         }
-
-                        Application.Exit();
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -1386,7 +1354,7 @@ namespace Tumblr_Tool
                 }
                 else
                 {
-                    Application.Exit();
+                    //Application.Exit();
                 }
             }
             catch
