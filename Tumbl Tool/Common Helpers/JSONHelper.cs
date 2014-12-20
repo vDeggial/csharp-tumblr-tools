@@ -29,13 +29,14 @@ namespace Tumblr_Tool.Common_Helpers
         private const string _LIMIT = "&limit={0}";
         private const string _OFFSET = "&offset={0}";
         private const string _POSTQUERY = "posts";
+
         public static string getAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = CommonHelper.getDomainName(tumblrDomain);
             string query;
             // query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
 
-            query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY,string.Empty,string.Empty);
+            query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY, string.Empty, string.Empty);
             return query;
         }
 
@@ -77,7 +78,6 @@ namespace Tumblr_Tool.Common_Helpers
         {
             string query;
 
-
             tumblrDomain = CommonHelper.fixURL(tumblrDomain);
 
             string postQuery = _POSTQUERY;
@@ -86,7 +86,7 @@ namespace Tumblr_Tool.Common_Helpers
                 postQuery += "/" + type;
             }
 
-            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET,start.ToString()), string.Format(_LIMIT,maxNumPosts.ToString()));
+            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET, start.ToString()), string.Format(_LIMIT, maxNumPosts.ToString()));
 
             return query;
         }
@@ -121,13 +121,18 @@ namespace Tumblr_Tool.Common_Helpers
                 writer = new StreamWriter(filePath, append);
                 writer.Write(contentsToWriteToFile);
 
+                if (writer != null)
+                    writer.Close();
+
                 return true;
             }
-            finally
+            catch
             {
                 if (writer != null)
                     writer.Close();
+                return false;
             }
+            
         }
     }
 }

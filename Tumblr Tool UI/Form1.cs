@@ -42,9 +42,7 @@ namespace Tumblr_Tool
 
             InitializeComponent();
             this.globalInit();
-            
         }
-
 
         public mainForm(string file)
         {
@@ -57,8 +55,6 @@ namespace Tumblr_Tool
             updateStatusText("Opening save file ...");
 
             openTumblrFile(file);
-
-
         }
 
         public bool exit { get; set; }
@@ -179,6 +175,7 @@ namespace Tumblr_Tool
 
             SetDoubleBuffering(this.bar_Progress, true);
         }
+
         public bool isValidURL(string urlString)
         {
             try
@@ -977,11 +974,6 @@ namespace Tumblr_Tool
                         if (this.isCancelled)
                             break;
 
-                        //while (!this.readyForDownload)
-                        //{
-                        //    //wait till ready for download
-                        //}
-
                         this.fileDownloadDone = false;
 
                         lock (this.fileManager)
@@ -1002,11 +994,6 @@ namespace Tumblr_Tool
 
                                 if (downloaded)
                                 {
-                                    //if (ripper.commentsList.ContainsKey(Path.GetFileName(photoURL)))
-                                    //{
-                                    //    ImageHelper.addImageDescription(fullPath, ripper.commentsList[Path.GetFileName(photoURL)]);
-                                    //}
-
                                     j++;
                                     this.fileDownloadDone = true;
                                     photoImage.downloaded = true;
@@ -1153,7 +1140,6 @@ namespace Tumblr_Tool
                         {
                             this.bar_Progress.Visible = false;
 
-                            // updateWorkStatusTextNewLine("No new images to download");
                             this.lbl_PostCount.Visible = false;
                             updateStatusText("Done"); ;
                         });
@@ -1204,7 +1190,6 @@ namespace Tumblr_Tool
                                         {
                                             this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
                                             this.img_DisplayImage.Load();
-                                            //img_DisplayImage.Update();
                                             this.img_DisplayImage.Refresh();
                                         }
                                     });
@@ -1247,7 +1232,6 @@ namespace Tumblr_Tool
                                         this.bar_Progress.Value = percent;
                                         this.lbl_PercentBar.Text = percent.ToString() + "%";
 
-                                        //this.bar_Progress.Update();
                                         this.bar_Progress.Refresh();
                                     }
                                 });
@@ -1299,7 +1283,6 @@ namespace Tumblr_Tool
             this.select_Mode.Enabled = state;
             this.fileToolStripMenuItem.Enabled = state;
             this.optionsToolStripMenuItem.Enabled = state;
-            //lbl_PostCount.Visible = state;
             this.txt_TumblrURL.Enabled = state;
             this.txt_SaveLocation.Enabled = state;
             this.disableOtherTabs = !state;
@@ -1336,70 +1319,77 @@ namespace Tumblr_Tool
 
         private void form_Closing(object sender, FormClosingEventArgs e)
         {
-            if (!exit)
+            try
             {
-                this.exit = true;
-                DialogResult dialogResult = MessageBox.Show(this, "Are you sure you want to exit?", "Sure?", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (!exit)
                 {
-                    //do something
-
-                    this.ripper.isCancelled = true;
-                    this.isCancelled = true;
-                    this.downloadDone = true;
-                    this.crawlDone = true;
-
-                    if (this.tumblrLogFile == null) this.tumblrLogFile = this.ripper.tumblrPostLog;
-
-                    if (this.crawl_Worker.IsBusy)
+                    this.exit = true;
+                    DialogResult dialogResult = MessageBox.Show(this, "Are you sure you want to exit?", "Sure?", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
                     {
-                        this.crawl_Worker.CancelAsync();
-                    }
+                        //do something
 
-                    if (this.crawl_UpdateUI_Worker.IsBusy)
-                    {
-                        this.crawl_UpdateUI_Worker.CancelAsync();
-                    }
+                        this.ripper.isCancelled = true;
+                        this.isCancelled = true;
+                        this.downloadDone = true;
+                        this.crawlDone = true;
 
-                    if (this.download_Worker.IsBusy)
-                    {
-                        this.download_Worker.CancelAsync();
-                    }
+                        if (this.tumblrLogFile == null) this.tumblrLogFile = this.ripper.tumblrPostLog;
 
-                    if (this.download_UIUpdate_Worker.IsBusy)
-                    {
-                        this.download_UIUpdate_Worker.CancelAsync();
-                    }
-
-                    if (this.getStats_Worker.IsBusy)
-                    {
-                        this.getStats_Worker.CancelAsync();
-                    }
-
-                    if (this.getStatsUI_Worker.IsBusy)
-                    {
-                        this.getStatsUI_Worker.CancelAsync();
-                    }
-
-                    if (this.options.generateLog && this.tumblrLogFile != null)
-                    {
-                        if (!this.IsDisposed)
+                        if (this.crawl_Worker.IsBusy)
                         {
-                            updateStatusText("Exiting...");
-                            updateWorkStatusTextNewLine("Exiting ...");
+                            this.crawl_Worker.CancelAsync();
                         }
 
-                        this.fileManager.saveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.getFileName(), this.tumblrLogFile);
-                    }
+                        if (this.crawl_UpdateUI_Worker.IsBusy)
+                        {
+                            this.crawl_UpdateUI_Worker.CancelAsync();
+                        }
 
+                        if (this.download_Worker.IsBusy)
+                        {
+                            this.download_Worker.CancelAsync();
+                        }
+
+                        if (this.download_UIUpdate_Worker.IsBusy)
+                        {
+                            this.download_UIUpdate_Worker.CancelAsync();
+                        }
+
+                        if (this.getStats_Worker.IsBusy)
+                        {
+                            this.getStats_Worker.CancelAsync();
+                        }
+
+                        if (this.getStatsUI_Worker.IsBusy)
+                        {
+                            this.getStatsUI_Worker.CancelAsync();
+                        }
+
+                        if (this.options.generateLog && this.tumblrLogFile != null)
+                        {
+                            if (!this.IsDisposed)
+                            {
+                                updateStatusText("Exiting...");
+                                updateWorkStatusTextNewLine("Exiting ...");
+                            }
+
+                            this.fileManager.saveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.getFileName(), this.tumblrLogFile);
+                        }
+
+                        Application.Exit();
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else
+                {
                     Application.Exit();
                 }
-                else if (dialogResult == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
             }
-            else
+            catch
             {
                 Application.Exit();
             }
