@@ -80,7 +80,6 @@ namespace Tumblr_Tool.Managers
                                 if (!FileHelper.IsFileLocked(file)) file.Delete();
                             }
 
-
                             return false;
                         }
 

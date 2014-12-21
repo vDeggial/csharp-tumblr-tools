@@ -132,7 +132,6 @@ namespace Tumblr_Tool.Common_Helpers
                     writer.Close();
                 return false;
             }
-            
         }
     }
 }

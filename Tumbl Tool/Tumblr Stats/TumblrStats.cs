@@ -108,7 +108,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                 if (this.crawlManager.isValidTumblr(url))
                 {
-
                     this.totalPosts = this.blog.totalPosts;
 
                     int endCount;

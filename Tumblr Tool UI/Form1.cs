@@ -34,7 +34,7 @@ namespace Tumblr_Tool
 
         public const string _NEWESTONLY = "Newest Only";
 
-        public const string VERSION = "1.1.2";
+        public const string VERSION = "1.1.3";
 
         public mainForm()
         {
@@ -80,6 +80,7 @@ namespace Tumblr_Tool
         public FileManager fileManager { get; set; }
 
         public bool isCancelled { get; set; }
+
         public List<string> notDownloadedList { get; set; }
 
         public ToolOptions options { get; set; }
@@ -138,6 +139,7 @@ namespace Tumblr_Tool
             this.lbl_PostCount.ForeColor = Color.Black;
             this.bar_Progress.BarColor = Color.Black;
             this.lbl_PercentBar.ForeColor = Color.Black;
+            this.lbl_PercentBar.Text = "";
             this.bar_Progress.Visible = false;
             this.txt_WorkStatus.Visible = true;
 
@@ -178,6 +180,7 @@ namespace Tumblr_Tool
             this.bar_Progress.BarColor = Color.Black;
             this.lbl_PercentBar.ForeColor = Color.Black;
             this.lbl_PostCount.ForeColor = Color.Black;
+            this.lbl_PercentBar.Text = "";
 
             updateStatusText("Initializing...");
             if (isValidURL(this.txt_Stats_TumblrURL.Text))
@@ -242,6 +245,7 @@ namespace Tumblr_Tool
             {
                 case 0:
                     this.bar_Progress.BarColor = Color.Gainsboro;
+
                     break;
 
                 case 1:
@@ -249,11 +253,11 @@ namespace Tumblr_Tool
                     break;
 
                 case 2:
-                    this.bar_Progress.BarColor = Color.Gainsboro;
+                    this.bar_Progress.BarColor = Color.Red;
                     break;
 
                 case 3:
-                    this.bar_Progress.BarColor = Color.Silver;
+                    this.bar_Progress.BarColor = Color.Green;
                     break;
 
                 case 4:
@@ -284,6 +288,9 @@ namespace Tumblr_Tool
                     this.bar_Progress.BarColor = Color.YellowGreen;
                     break;
             }
+
+            this.bar_Progress.Update();
+            this.bar_Progress.Refresh();
         }
 
         public void crawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
@@ -667,10 +674,10 @@ namespace Tumblr_Tool
 
                                 if (!this.IsDisposed)
                                 {
-                                    this.Invoke((MethodInvoker)delegate
-                                       {
-                                           //colorizeProgressBar(percent);
-                                       });
+                                    //this.Invoke((MethodInvoker)delegate
+                                    //   {
+                                    //       colorizeProgressBar(percent);
+                                    //   });
 
                                     this.Invoke((MethodInvoker)delegate
                                        {
@@ -868,7 +875,6 @@ namespace Tumblr_Tool
 
                                     lock (this.downloadedSizesList)
                                     {
-
                                         this.downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
                                     }
                                 }
@@ -1043,7 +1049,9 @@ namespace Tumblr_Tool
                                 this.Invoke((MethodInvoker)delegate
                                 {
                                     this.lbl_PostCount.ForeColor = Color.Maroon;
-                                    this.bar_Progress.ForeColor = Color.Maroon;
+                                    this.bar_Progress.BarColor = Color.Maroon;
+                                    this.bar_Progress.Update();
+                                    this.bar_Progress.Refresh();
                                     this.lbl_PercentBar.ForeColor = Color.Maroon;
 
                                     this.errorMessage = "Error: Unable to download " + this.notDownloadedList[notDownloadedList.Count - 1];
@@ -1252,6 +1260,7 @@ namespace Tumblr_Tool
                     else if (dialogResult == DialogResult.No)
                     {
                         e.Cancel = true;
+                        this.exit = false;
                     }
                 }
                 else
@@ -1286,7 +1295,6 @@ namespace Tumblr_Tool
                             });
 
                     this.tumblrStats.parsePosts();
-
                 }
                 else
                 {
@@ -1380,7 +1388,6 @@ namespace Tumblr_Tool
                                     updateStatusText("Getting stats ...");
                                     this.lbl_PercentBar.Visible = true;
                                     this.lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
-
                                     this.lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
                                     this.lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
                                     this.lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
@@ -1613,7 +1620,6 @@ namespace Tumblr_Tool
 
         public bool saveTumblrFile(string name)
         {
-
             this.tumblrSaveFile = new SaveFile(name + ".tumblr", ripper.blog);
 
             return this.fileManager.saveTumblrFile(this.saveLocation + @"\" + this.tumblrSaveFile.getFileName(), this.tumblrSaveFile);
@@ -1625,6 +1631,7 @@ namespace Tumblr_Tool
                 .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             controlProperty.SetValue(control, value, null);
         }
+
         public void statsTumblrURLUpdate(object sender, EventArgs e)
         {
             this.txt_Stats_TumblrURL.Text = txt_TumblrURL.Text;
@@ -1685,6 +1692,7 @@ namespace Tumblr_Tool
                 this.status_Strip.Refresh();
             }
         }
+
         public void updateWorkStatusTextConcat(string strToReplace, string strToAdd = "")
         {
             if (this.txt_WorkStatus.Text.Contains(strToReplace) && !this.txt_WorkStatus.Text.Contains(string.Concat(strToReplace, strToAdd)))
@@ -1695,6 +1703,7 @@ namespace Tumblr_Tool
                 this.txt_WorkStatus.Refresh();
             }
         }
+
         public void updateWorkStatusTextNewLine(string text)
         {
             if (!this.txt_WorkStatus.Text.Contains(text))
@@ -1716,6 +1725,7 @@ namespace Tumblr_Tool
                 this.txt_WorkStatus.Refresh();
             }
         }
+
         public void workStatusAutoScroll(object sender, EventArgs e)
         {
             this.txt_WorkStatus.SelectionStart = this.txt_WorkStatus.TextLength;

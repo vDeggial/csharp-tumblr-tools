@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2013
+ *
+ *  Last Updated: December, 2014
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -287,8 +299,8 @@ namespace Tumblr_Tool
             //
             Rectangle topRect = new Rectangle(0, 0, fillWidth, this.Height / 2);
             Rectangle buttomRect = new Rectangle(0, this.Height / 2, fillWidth, this.Height / 2);
-            Rectangle leftRect = new Rectangle(0, 0, fillWidth , this.Height);
-            Rectangle rightRect = new Rectangle(fillWidth / 2, 0, fillWidth /2 , this.Height);
+            Rectangle leftRect = new Rectangle(0, 0, fillWidth, this.Height);
+            Rectangle rightRect = new Rectangle(fillWidth / 2, 0, fillWidth / 2, this.Height);
 
             //
             // The gradient brush
@@ -308,7 +320,6 @@ namespace Tumblr_Tool
             e.Graphics.FillRectangle(brush, leftRect);
             brush.Dispose();
 
-
             //
             // Paint lower half
             // (this.Height/2 - 1 because there would be a dark line in the middle of the bar)
@@ -322,7 +333,6 @@ namespace Tumblr_Tool
             //    new Point(fillWidth, this.Height), _BarColor, darkColor);
             //e.Graphics.FillRectangle(brush, rightRect);
             //brush.Dispose();
-
 
             //
             // Calculate separator's setting

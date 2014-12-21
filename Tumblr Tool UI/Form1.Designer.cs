@@ -38,18 +38,9 @@ namespace Tumblr_Tool
             this.menuItem_About = new System.Windows.Forms.ToolStripMenuItem();
             this.download_Worker = new System.ComponentModel.BackgroundWorker();
             this.menu_TopMenu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crawl_Worker = new System.ComponentModel.BackgroundWorker();
             this.crawl_UpdateUI_Worker = new System.ComponentModel.BackgroundWorker();
             this.status_Strip = new System.Windows.Forms.StatusStrip();
-            this.lbl_Status = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_PostCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_Size = new System.Windows.Forms.ToolStripStatusLabel();
             this.download_UIUpdate_Worker = new System.ComponentModel.BackgroundWorker();
             this.getStats_Worker = new System.ComponentModel.BackgroundWorker();
             this.getStatsUI_Worker = new System.ComponentModel.BackgroundWorker();
@@ -58,9 +49,6 @@ namespace Tumblr_Tool
             this.tab_ImageRipper = new System.Windows.Forms.TabPage();
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.txt_WorkStatus = new System.Windows.Forms.RichTextBox();
-            this.btn_Start = new System.Windows.Forms.Button();
-            this.btn_Browse = new System.Windows.Forms.Button();
-            this.img_DisplayImage = new System.Windows.Forms.PictureBox();
             this.txt_TumblrURL = new System.Windows.Forms.TextBox();
             this.lbl_TumblrURL = new System.Windows.Forms.Label();
             this.txt_SaveLocation = new System.Windows.Forms.TextBox();
@@ -90,7 +78,19 @@ namespace Tumblr_Tool
             this.lbl_Stats_AnswerCount = new System.Windows.Forms.Label();
             this.lbl_Stats_Chat = new System.Windows.Forms.Label();
             this.lbl_Stats_Total = new System.Windows.Forms.Label();
+            this.lbl_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_PostCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_Size = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btn_Start = new System.Windows.Forms.Button();
+            this.btn_Browse = new System.Windows.Forms.Button();
+            this.img_DisplayImage = new System.Windows.Forms.PictureBox();
             this.btn_GetStats = new System.Windows.Forms.Button();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.img_Stats_Avatar = new Tumblr_Tool.CirclePictureBox();
             this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
@@ -98,10 +98,10 @@ namespace Tumblr_Tool
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
             this.tab_ImageRipper.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).BeginInit();
             this.tab_TumblrStats.SuspendLayout();
             this.box_PostStats.SuspendLayout();
             this.table_Stats_PostStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.img_Stats_Avatar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -175,75 +175,6 @@ namespace Tumblr_Tool
             this.menu_TopMenu.TabIndex = 6;
             this.menu_TopMenu.Text = "topMenu";
             // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem});
-            this.fileToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.menu;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
-            this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
-            this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            this.openToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.BackColor = System.Drawing.SystemColors.Menu;
-            this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Visible = false;
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.optionsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.optionsToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.options;
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(66, 21);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.ToolTipText = "View Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            this.optionsToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.help;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(27, 21);
-            this.helpToolStripMenuItem.Text = "?";
-            this.helpToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.aboutToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.about;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.ToolTipText = "About this product";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            this.aboutToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
-            // 
             // crawl_Worker
             // 
             this.crawl_Worker.WorkerReportsProgress = true;
@@ -280,41 +211,6 @@ namespace Tumblr_Tool
             this.status_Strip.Stretch = false;
             this.status_Strip.TabIndex = 7;
             this.status_Strip.Text = "Status";
-            // 
-            // lbl_Status
-            // 
-            this.lbl_Status.AutoSize = false;
-            this.lbl_Status.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.lbl_Status.Image = global::Tumblr_Tool.Properties.Resources.home;
-            this.lbl_Status.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(208, 24);
-            this.lbl_Status.Text = "[Status]";
-            this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_PostCount
-            // 
-            this.lbl_PostCount.AutoSize = false;
-            this.lbl_PostCount.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.lbl_PostCount.Image = global::Tumblr_Tool.Properties.Resources.image;
-            this.lbl_PostCount.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbl_PostCount.Margin = new System.Windows.Forms.Padding(0);
-            this.lbl_PostCount.Name = "lbl_PostCount";
-            this.lbl_PostCount.Size = new System.Drawing.Size(208, 29);
-            this.lbl_PostCount.Text = "[Post Count]";
-            this.lbl_PostCount.Visible = false;
-            // 
-            // lbl_Size
-            // 
-            this.lbl_Size.AutoSize = false;
-            this.lbl_Size.Font = new System.Drawing.Font("Century Gothic", 9F);
-            this.lbl_Size.Image = global::Tumblr_Tool.Properties.Resources.filesize;
-            this.lbl_Size.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbl_Size.LinkVisited = true;
-            this.lbl_Size.Name = "lbl_Size";
-            this.lbl_Size.Size = new System.Drawing.Size(209, 24);
-            this.lbl_Size.Text = "[Size]";
-            this.lbl_Size.Visible = false;
             // 
             // download_UIUpdate_Worker
             // 
@@ -416,62 +312,6 @@ namespace Tumblr_Tool
             this.txt_WorkStatus.TabStop = false;
             this.txt_WorkStatus.Text = "";
             this.txt_WorkStatus.TextChanged += new System.EventHandler(this.workStatusAutoScroll);
-            // 
-            // btn_Start
-            // 
-            this.btn_Start.FlatAppearance.BorderSize = 0;
-            this.btn_Start.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Start.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.btn_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Start.ImageIndex = 3;
-            this.btn_Start.ImageList = this.iconList;
-            this.btn_Start.Location = new System.Drawing.Point(346, 6);
-            this.btn_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btn_Start.Name = "btn_Start";
-            this.btn_Start.Size = new System.Drawing.Size(87, 28);
-            this.btn_Start.TabIndex = 7;
-            this.btn_Start.Text = "Start";
-            this.btn_Start.UseVisualStyleBackColor = true;
-            this.btn_Start.Click += new System.EventHandler(this.btn_Crawl_Click);
-            this.btn_Start.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_Start.MouseLeave += new System.EventHandler(this.button_MouseLeave);
-            // 
-            // btn_Browse
-            // 
-            this.btn_Browse.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
-            this.btn_Browse.FlatAppearance.BorderSize = 0;
-            this.btn_Browse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_Browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Browse.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.btn_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Browse.ImageIndex = 2;
-            this.btn_Browse.ImageList = this.iconList;
-            this.btn_Browse.Location = new System.Drawing.Point(253, 6);
-            this.btn_Browse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btn_Browse.Name = "btn_Browse";
-            this.btn_Browse.Size = new System.Drawing.Size(87, 28);
-            this.btn_Browse.TabIndex = 6;
-            this.btn_Browse.Text = "Browse";
-            this.btn_Browse.UseVisualStyleBackColor = true;
-            this.btn_Browse.Click += new System.EventHandler(this.btn_Browse_Click);
-            this.btn_Browse.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_Browse.MouseLeave += new System.EventHandler(this.button_MouseLeave);
-            // 
-            // img_DisplayImage
-            // 
-            this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
-            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
-            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
-            this.img_DisplayImage.InitialImage = null;
-            this.img_DisplayImage.Location = new System.Drawing.Point(442, 0);
-            this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.img_DisplayImage.Name = "img_DisplayImage";
-            this.img_DisplayImage.Size = new System.Drawing.Size(183, 235);
-            this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.img_DisplayImage.TabIndex = 4;
-            this.img_DisplayImage.TabStop = false;
             // 
             // txt_TumblrURL
             // 
@@ -848,6 +688,97 @@ namespace Tumblr_Tool
             this.lbl_Stats_Total.TabIndex = 0;
             this.lbl_Stats_Total.Text = "Total Posts:";
             // 
+            // lbl_Status
+            // 
+            this.lbl_Status.AutoSize = false;
+            this.lbl_Status.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.lbl_Status.Image = global::Tumblr_Tool.Properties.Resources.home;
+            this.lbl_Status.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(208, 24);
+            this.lbl_Status.Text = "[Status]";
+            this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbl_PostCount
+            // 
+            this.lbl_PostCount.AutoSize = false;
+            this.lbl_PostCount.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.lbl_PostCount.Image = global::Tumblr_Tool.Properties.Resources.image;
+            this.lbl_PostCount.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_PostCount.Margin = new System.Windows.Forms.Padding(0);
+            this.lbl_PostCount.Name = "lbl_PostCount";
+            this.lbl_PostCount.Size = new System.Drawing.Size(208, 29);
+            this.lbl_PostCount.Text = "[Post Count]";
+            this.lbl_PostCount.Visible = false;
+            // 
+            // lbl_Size
+            // 
+            this.lbl_Size.AutoSize = false;
+            this.lbl_Size.Font = new System.Drawing.Font("Century Gothic", 9F);
+            this.lbl_Size.Image = global::Tumblr_Tool.Properties.Resources.filesize;
+            this.lbl_Size.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbl_Size.LinkVisited = true;
+            this.lbl_Size.Name = "lbl_Size";
+            this.lbl_Size.Size = new System.Drawing.Size(209, 24);
+            this.lbl_Size.Text = "[Size]";
+            this.lbl_Size.Visible = false;
+            // 
+            // btn_Start
+            // 
+            this.btn_Start.FlatAppearance.BorderSize = 0;
+            this.btn_Start.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Start.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.btn_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Start.ImageIndex = 3;
+            this.btn_Start.ImageList = this.iconList;
+            this.btn_Start.Location = new System.Drawing.Point(346, 6);
+            this.btn_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Start.Name = "btn_Start";
+            this.btn_Start.Size = new System.Drawing.Size(87, 28);
+            this.btn_Start.TabIndex = 7;
+            this.btn_Start.Text = "Start";
+            this.btn_Start.UseVisualStyleBackColor = true;
+            this.btn_Start.Click += new System.EventHandler(this.btn_Crawl_Click);
+            this.btn_Start.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btn_Start.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            // 
+            // btn_Browse
+            // 
+            this.btn_Browse.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
+            this.btn_Browse.FlatAppearance.BorderSize = 0;
+            this.btn_Browse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Browse.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.btn_Browse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Browse.ImageIndex = 2;
+            this.btn_Browse.ImageList = this.iconList;
+            this.btn_Browse.Location = new System.Drawing.Point(253, 6);
+            this.btn_Browse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Browse.Name = "btn_Browse";
+            this.btn_Browse.Size = new System.Drawing.Size(87, 28);
+            this.btn_Browse.TabIndex = 6;
+            this.btn_Browse.Text = "Browse";
+            this.btn_Browse.UseVisualStyleBackColor = true;
+            this.btn_Browse.Click += new System.EventHandler(this.btn_Browse_Click);
+            this.btn_Browse.MouseEnter += new System.EventHandler(this.button_MouseEnter);
+            this.btn_Browse.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            // 
+            // img_DisplayImage
+            // 
+            this.img_DisplayImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.img_DisplayImage.Cursor = System.Windows.Forms.Cursors.Default;
+            this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
+            this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
+            this.img_DisplayImage.InitialImage = null;
+            this.img_DisplayImage.Location = new System.Drawing.Point(442, 0);
+            this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.img_DisplayImage.Name = "img_DisplayImage";
+            this.img_DisplayImage.Size = new System.Drawing.Size(183, 235);
+            this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.img_DisplayImage.TabIndex = 4;
+            this.img_DisplayImage.TabStop = false;
+            // 
             // btn_GetStats
             // 
             this.btn_GetStats.FlatAppearance.BorderSize = 0;
@@ -868,6 +799,75 @@ namespace Tumblr_Tool
             this.btn_GetStats.Click += new System.EventHandler(this.btn_GetStats_Click);
             this.btn_GetStats.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.btn_GetStats.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.menu;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
+            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.BackColor = System.Drawing.Color.White;
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.BackColor = System.Drawing.SystemColors.Menu;
+            this.saveToolStripMenuItem.Enabled = false;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Visible = false;
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.BackColor = System.Drawing.Color.White;
+            this.optionsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.optionsToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.options;
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(66, 21);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.ToolTipText = "View Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.help;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(27, 21);
+            this.helpToolStripMenuItem.Text = "?";
+            this.helpToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.White;
+            this.aboutToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.about;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.ToolTipText = "About this product";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
             // 
             // select_Mode
             // 
@@ -913,7 +913,7 @@ namespace Tumblr_Tool
             this.bar_Progress.Size = new System.Drawing.Size(622, 30);
             this.bar_Progress.Step = 11;
             this.bar_Progress.TabIndex = 13;
-            this.bar_Progress.Value = 60;
+            this.bar_Progress.Value = 99;
             // 
             // mainForm
             // 
@@ -947,13 +947,13 @@ namespace Tumblr_Tool
             this.tabControl_Main.ResumeLayout(false);
             this.tab_ImageRipper.ResumeLayout(false);
             this.tab_ImageRipper.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).EndInit();
             this.tab_TumblrStats.ResumeLayout(false);
             this.tab_TumblrStats.PerformLayout();
             this.box_PostStats.ResumeLayout(false);
             this.box_PostStats.PerformLayout();
             this.table_Stats_PostStats.ResumeLayout(false);
             this.table_Stats_PostStats.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.img_DisplayImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.img_Stats_Avatar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

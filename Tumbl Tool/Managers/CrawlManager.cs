@@ -27,8 +27,11 @@ namespace Tumblr_Tool.Managers
         }
 
         public dynamic jsonDocument { get; set; }
+
         public string mode { get; set; }
+
         public XDocument xmlDocument { get; set; }
+
         public void getDocument(string url)
         {
             try
@@ -52,15 +55,13 @@ namespace Tumblr_Tool.Managers
             {
                 this.jsonDocument = JSONHelper.getJSONObject(url);
 
-                 if ((this.jsonDocument != null && this.jsonDocument.meta != null && this.jsonDocument.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString()))
-                 {
-
-                 }
-
-                 else
-                 {
-                     this.jsonDocument = null;
-                 }
+                if ((this.jsonDocument != null && this.jsonDocument.meta != null && this.jsonDocument.meta.status == ((int)tumblrAPIResponseEnum.OK).ToString()))
+                {
+                }
+                else
+                {
+                    this.jsonDocument = null;
+                }
             }
             catch
             {

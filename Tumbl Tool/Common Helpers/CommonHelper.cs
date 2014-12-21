@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -35,7 +33,6 @@ namespace Tumblr_Tool.Common_Helpers
 
                 return url;
             }
-
             catch
             {
                 return null;
@@ -78,7 +75,6 @@ namespace Tumblr_Tool.Common_Helpers
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
-
 
         public static String toSlug(this string text)
         {
