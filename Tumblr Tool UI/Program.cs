@@ -24,7 +24,7 @@ namespace Tumblr_Tool
         [STAThread]
         private static void Main(string[] args)
         {
-            //Application.EnableVisualStyles();
+            // Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             if (args.Count() == 1)

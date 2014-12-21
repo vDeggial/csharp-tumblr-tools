@@ -33,7 +33,6 @@ namespace Tumblr_Tool
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.iconList = new System.Windows.Forms.ImageList(this.components);
             this.lbl_PercentBar = new System.Windows.Forms.Label();
-            this.bar_Progress = new System.Windows.Forms.ProgressBar();
             this.menuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,6 +93,7 @@ namespace Tumblr_Tool
             this.btn_GetStats = new System.Windows.Forms.Button();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.img_Stats_Avatar = new Tumblr_Tool.CirclePictureBox();
+            this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -129,17 +129,6 @@ namespace Tumblr_Tool
             this.lbl_PercentBar.Text = "[Progress %]";
             this.lbl_PercentBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_PercentBar.Visible = false;
-            // 
-            // bar_Progress
-            // 
-            this.bar_Progress.BackColor = System.Drawing.Color.White;
-            this.bar_Progress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.bar_Progress.Location = new System.Drawing.Point(4, 308);
-            this.bar_Progress.Margin = new System.Windows.Forms.Padding(0);
-            this.bar_Progress.Name = "bar_Progress";
-            this.bar_Progress.Size = new System.Drawing.Size(618, 33);
-            this.bar_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.bar_Progress.TabIndex = 13;
             // 
             // menuItem_File
             // 
@@ -369,7 +358,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.Padding = new System.Drawing.Point(5, 0);
             this.tabControl_Main.SelectedIndex = 0;
             this.tabControl_Main.SelectedTabColor = System.Drawing.Color.White;
-            this.tabControl_Main.Size = new System.Drawing.Size(625, 286);
+            this.tabControl_Main.Size = new System.Drawing.Size(625, 275);
             this.tabControl_Main.TabColor = System.Drawing.Color.White;
             this.tabControl_Main.TabIndex = 0;
             this.tabControl_Main.UseBackColorBehindTabs = true;
@@ -392,10 +381,9 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.ForeColor = System.Drawing.Color.Black;
             this.tab_ImageRipper.ImageIndex = 0;
             this.tab_ImageRipper.Location = new System.Drawing.Point(0, 25);
-            this.tab_ImageRipper.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tab_ImageRipper.Margin = new System.Windows.Forms.Padding(0);
             this.tab_ImageRipper.Name = "tab_ImageRipper";
-            this.tab_ImageRipper.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tab_ImageRipper.Size = new System.Drawing.Size(625, 261);
+            this.tab_ImageRipper.Size = new System.Drawing.Size(625, 250);
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Crawler";
             this.tab_ImageRipper.Enter += new System.EventHandler(this.tabPage_Enter);
@@ -404,7 +392,7 @@ namespace Tumblr_Tool
             // 
             this.lbl_Mode.AutoSize = true;
             this.lbl_Mode.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.lbl_Mode.Location = new System.Drawing.Point(255, 42);
+            this.lbl_Mode.Location = new System.Drawing.Point(252, 38);
             this.lbl_Mode.Name = "lbl_Mode";
             this.lbl_Mode.Size = new System.Drawing.Size(44, 16);
             this.lbl_Mode.TabIndex = 17;
@@ -477,7 +465,7 @@ namespace Tumblr_Tool
             this.img_DisplayImage.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
             this.img_DisplayImage.Image = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
             this.img_DisplayImage.InitialImage = null;
-            this.img_DisplayImage.Location = new System.Drawing.Point(439, 4);
+            this.img_DisplayImage.Location = new System.Drawing.Point(442, 0);
             this.img_DisplayImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.img_DisplayImage.Name = "img_DisplayImage";
             this.img_DisplayImage.Size = new System.Drawing.Size(183, 235);
@@ -503,7 +491,7 @@ namespace Tumblr_Tool
             // 
             this.lbl_TumblrURL.AutoSize = true;
             this.lbl_TumblrURL.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.lbl_TumblrURL.Location = new System.Drawing.Point(3, 42);
+            this.lbl_TumblrURL.Location = new System.Drawing.Point(0, 38);
             this.lbl_TumblrURL.Name = "lbl_TumblrURL";
             this.lbl_TumblrURL.Size = new System.Drawing.Size(69, 16);
             this.lbl_TumblrURL.TabIndex = 2;
@@ -530,7 +518,7 @@ namespace Tumblr_Tool
             this.lbl_SaveLocation.AutoSize = true;
             this.lbl_SaveLocation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lbl_SaveLocation.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.lbl_SaveLocation.Location = new System.Drawing.Point(3, 12);
+            this.lbl_SaveLocation.Location = new System.Drawing.Point(0, 8);
             this.lbl_SaveLocation.Name = "lbl_SaveLocation";
             this.lbl_SaveLocation.Size = new System.Drawing.Size(90, 16);
             this.lbl_SaveLocation.TabIndex = 0;
@@ -550,7 +538,7 @@ namespace Tumblr_Tool
             this.tab_TumblrStats.Location = new System.Drawing.Point(0, 25);
             this.tab_TumblrStats.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tab_TumblrStats.Name = "tab_TumblrStats";
-            this.tab_TumblrStats.Size = new System.Drawing.Size(625, 261);
+            this.tab_TumblrStats.Size = new System.Drawing.Size(625, 250);
             this.tab_TumblrStats.TabIndex = 1;
             this.tab_TumblrStats.Text = "Blog Stats";
             this.tab_TumblrStats.Enter += new System.EventHandler(this.tabPage_Enter);
@@ -910,6 +898,23 @@ namespace Tumblr_Tool
             this.img_Stats_Avatar.TabIndex = 19;
             this.img_Stats_Avatar.TabStop = false;
             // 
+            // bar_Progress
+            // 
+            this.bar_Progress.BackColor = System.Drawing.Color.White;
+            this.bar_Progress.BarColor = System.Drawing.Color.Black;
+            this.bar_Progress.BorderColor = System.Drawing.Color.Transparent;
+            this.bar_Progress.FillStyle = Tumblr_Tool.ColorProgressBar.FillStyles.Solid;
+            this.bar_Progress.ForeColor = System.Drawing.Color.LightGray;
+            this.bar_Progress.Location = new System.Drawing.Point(3, 311);
+            this.bar_Progress.Margin = new System.Windows.Forms.Padding(0);
+            this.bar_Progress.Maximum = 100;
+            this.bar_Progress.Minimum = 0;
+            this.bar_Progress.Name = "bar_Progress";
+            this.bar_Progress.Size = new System.Drawing.Size(622, 30);
+            this.bar_Progress.Step = 11;
+            this.bar_Progress.TabIndex = 13;
+            this.bar_Progress.Value = 60;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -972,7 +977,7 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_Start;
         private System.Windows.Forms.RichTextBox txt_WorkStatus;
         private System.ComponentModel.BackgroundWorker download_Worker;
-        private System.Windows.Forms.ProgressBar bar_Progress;
+        private ColorProgressBar bar_Progress;
         private System.Windows.Forms.MenuStrip menu_TopMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
