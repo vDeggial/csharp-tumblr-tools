@@ -567,7 +567,7 @@ namespace Tumblr_Tool
 
                         this.lbl_PostCount.Visible = false;
 
-                        this.lbl_PostCount.Text = string.Empty;
+                        this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.imageList.Count);
                     }
                 });
             }
@@ -1077,17 +1077,20 @@ namespace Tumblr_Tool
                     });
 
                     decimal totalLength = 0;
+
+                    if (!this.IsDisposed && downloadedList.Count < 10)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            updateWorkStatusTextNewLine(_DOWNLOADINGIMAGES);
+                        });
+
+                        this.readyDownload = true;
+                    }
+
                     while (!this.downloadDone && !this.isCancelled)
                     {
-                        if (!this.IsDisposed && downloadedList.Count < 10)
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                updateWorkStatusTextNewLine(_DOWNLOADINGIMAGES);
-                            });
-
-                            this.readyDownload = true;
-                        }
+                        
                         int c = 0;
                         int f = 0;
 
