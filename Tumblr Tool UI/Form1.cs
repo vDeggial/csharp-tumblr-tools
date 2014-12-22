@@ -138,6 +138,8 @@ namespace Tumblr_Tool
 
         public TumblrStats tumblrStats { get; set; }
 
+        public string tumblrURL { get; set; }
+
         public void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.aboutForm.ShowDialog();
@@ -174,6 +176,7 @@ namespace Tumblr_Tool
             this.crawlDone = false;
             this.txt_WorkStatus.Clear();
             this.saveLocation = this.txt_SaveLocation.Text;
+            this.tumblrURL = this.txt_TumblrURL.Text;
 
             this.lbl_PostCount.Visible = false;
             this.lbl_PostCount.ForeColor = Color.Black;
@@ -222,9 +225,10 @@ namespace Tumblr_Tool
             this.lbl_PercentBar.ForeColor = Color.Black;
             this.lbl_PostCount.ForeColor = Color.Black;
             this.lbl_PercentBar.Text = string.Empty;
+            this.tumblrURL = txt_Stats_TumblrURL.Text;
 
             updateStatusText(_INITSTATUS);
-            if (isValidURL(this.txt_Stats_TumblrURL.Text))
+            if (isValidURL(this.tumblrURL))
             {
                 enableUI_Stats(false);
 
@@ -265,14 +269,16 @@ namespace Tumblr_Tool
             if (saveLocationEmpty)
             {
                 MessageBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", _ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                enableUI_Crawl(true);
                 this.btn_Browse.Focus();
             }
             else
             {
-                if (!isValidURL(this.txt_TumblrURL.Text))
+                if (!isValidURL(this.tumblrURL))
                 {
                     MessageBox.Show("Please enter valid url!", _ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.txt_TumblrURL.Focus();
+                    enableUI_Crawl(true);
                     urlValid = false;
                 }
             }
@@ -403,7 +409,7 @@ namespace Tumblr_Tool
                     }
 
                     this.tumblrBlog = new TumblrBlog();
-                    this.tumblrBlog.url = txt_TumblrURL.Text;
+                    this.tumblrBlog.url = this.tumblrURL;
 
                     this.ripper = new ImageRipper(this.tumblrBlog, this.saveLocation, this.optionsForm.generateLog, this.optionsForm.parsePhotoSets,
                         this.optionsForm.parseJPEG, this.optionsForm.parsePNG, this.optionsForm.parseGIF, 0);
@@ -1324,7 +1330,7 @@ namespace Tumblr_Tool
                 {
                     this.Invoke((MethodInvoker)delegate
                             {
-                                this.tumblrStats = new TumblrStats(this.tumblrBlog, this.txt_Stats_TumblrURL.Text, this.options.apiMode);
+                                this.tumblrStats = new TumblrStats(this.tumblrBlog, this.tumblrURL, this.options.apiMode);
                                 this.tumblrStats.statusCode = processingCodes.Initializing;
                             });
 
@@ -1621,17 +1627,16 @@ namespace Tumblr_Tool
 
                     this.tumblrBlog = this.tumblrSaveFile != null ? this.tumblrSaveFile.blog : null;
 
-                    this.txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : "";
+                    this.txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : string.Empty;
 
-                    this.txt_TumblrURL.Text = "File:" + file;
 
                     if (this.tumblrSaveFile != null && this.tumblrSaveFile.blog != null && !string.IsNullOrEmpty(this.tumblrSaveFile.blog.url))
                     {
-                        this.txt_TumblrURL.Text = tumblrSaveFile.blog.url;
+                        this.txt_TumblrURL.Text = this.tumblrSaveFile.blog.url;
                     }
                     else if (this.tumblrSaveFile != null && this.tumblrSaveFile.blog != null && string.IsNullOrEmpty(this.tumblrSaveFile.blog.url) && !string.IsNullOrEmpty(this.tumblrSaveFile.blog.cname))
                     {
-                        this.txt_TumblrURL.Text = tumblrSaveFile.blog.cname;
+                        this.txt_TumblrURL.Text = this.tumblrSaveFile.blog.cname;
                     }
                     else
                     {
@@ -1677,7 +1682,7 @@ namespace Tumblr_Tool
 
         public bool saveTumblrFile(string name)
         {
-            this.tumblrSaveFile = new SaveFile(name + ".tumblr", ripper.blog);
+            this.tumblrSaveFile = new SaveFile(name + ".tumblr", this.ripper.blog);
 
             return this.fileManager.saveTumblrFile(this.saveLocation + @"\" + this.tumblrSaveFile.getFileName(), this.tumblrSaveFile);
         }
@@ -1691,7 +1696,7 @@ namespace Tumblr_Tool
 
         public void statsTumblrURLUpdate(object sender, EventArgs e)
         {
-            this.txt_Stats_TumblrURL.Text = txt_TumblrURL.Text;
+            this.txt_Stats_TumblrURL.Text = this.txt_TumblrURL.Text;
         }
 
         public void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
