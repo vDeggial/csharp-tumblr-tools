@@ -381,8 +381,8 @@ namespace Tumblr_Tool
             {
                 Thread.Sleep(200);
 
-                this.downloadedList.Clear();
-                this.downloadedSizesList.Clear();
+                this.downloadedList = new List<string>();
+                this.downloadedSizesList = new List<int>();
                 this.readyDownload = false;
 
                 lock (this.ripper)
@@ -554,6 +554,7 @@ namespace Tumblr_Tool
                     if (this.optionsForm.parseOnly)
                     {
                         enableUI_Crawl(true);
+                        this.lbl_PostCount.Visible = false;
                     }
                     else if (this.ripper.statusCode != processingCodes.Done)
                     {
@@ -565,7 +566,6 @@ namespace Tumblr_Tool
                         this.bar_Progress.Value = 0;
                         this.lbl_PercentBar.Text = string.Empty;
 
-                        this.lbl_PostCount.Visible = false;
 
                         this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.imageList.Count);
                     }
@@ -857,8 +857,8 @@ namespace Tumblr_Tool
             Thread.Sleep(200);
             try
             {
-                this.downloadedList.Clear();
-                this.downloadedSizesList.Clear();
+                this.downloadedList = new List<string>();
+                this.downloadedSizesList = new List<int>();
                 this.downloadDone = false;
                 this.fileDownloadDone = false;
                 FileInfo file;
@@ -1001,6 +1001,7 @@ namespace Tumblr_Tool
                             this.Invoke((MethodInvoker)delegate
                             {
                                 this.img_DisplayImage.ImageLocation = this.downloadedList[this.downloadedList.Count - 1];
+                                this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.fileManager.totalToDownload);
                             });
                         }
                     }

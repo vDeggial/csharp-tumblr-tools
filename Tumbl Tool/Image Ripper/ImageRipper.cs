@@ -269,7 +269,7 @@ namespace Tumblr_Tool.Image_Ripper
                         {
                             updateLogFile(this.blog.name);
                         }
-                        this.blog.posts.Clear();
+                        this.blog.posts = new HashSet<TumblrPost>();
                     }
                 }
                 else if (parseMode == parseModes.NewestOnly)
@@ -302,14 +302,14 @@ namespace Tumblr_Tool.Image_Ripper
                             updateLogFile(this.blog.name);
                         }
 
-                        this.blog.posts.Clear();
+                        this.blog.posts = new HashSet<TumblrPost>();
                     }
                 }
 
                 this.totalImagesCount = this.imageList.Count;
 
                 if (this.imageList.Count == 0)
-                    this.blog.posts.Clear();
+                    this.blog.posts = new HashSet<TumblrPost>();
 
                 return this.blog;
             }
