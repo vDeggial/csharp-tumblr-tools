@@ -1128,8 +1128,8 @@ namespace Tumblr_Tool
                                     {
                                         this.Invoke((MethodInvoker)delegate
                                         {
-                                            this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
-                                            this.img_DisplayImage.Load();
+                                           // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
+                                            this.img_DisplayImage.Load(this.downloadedList[c - 1]);
                                             // this.img_DisplayImage.Refresh();
                                         });
                                     }
