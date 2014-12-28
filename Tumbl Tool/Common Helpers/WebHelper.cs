@@ -18,18 +18,18 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class WebHelper
     {
-        public static bool checkForInternetConnection()
+        public static bool CheckForInternetConnection()
         {
             return new Ping().Send("www.google.com").Status == IPStatus.Success;
         }
 
-        public static bool isValidUrl(this string source)
+        public static bool IsValidUrl(this string source)
         {
             Uri uriResult;
             return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         }
 
-        public static string stripHTMLTags(string HTML)
+        public static string StripHTMLTags(string HTML)
         {
             // Removes tags from passed HTML
             System.Text.RegularExpressions.Regex objRegEx = new System.Text.RegularExpressions.Regex("<[^>]*>");
@@ -37,7 +37,7 @@ namespace Tumblr_Tool.Common_Helpers
             return objRegEx.Replace(HTML, "");
         }
 
-        public static bool urlExists(string url)
+        public static bool UrlExists(string url)
         {
             try
             {

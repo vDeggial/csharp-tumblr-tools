@@ -31,12 +31,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return Enum.GetName(typeof(apiModeEnum), this.select_APIMode.SelectedIndex);
+                return Enum.GetName(typeof(ApiModeEnum), this.select_APIMode.SelectedIndex);
             }
 
             set
             {
-                this.select_APIMode.SelectedIndex = (int)Enum.Parse(typeof(apiModeEnum), value);
+                this.select_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void setOptions()
+        public void SetOptions()
         {
             this._options.parseJPEG = this.parseJPEG;
             this._options.parsePNG = this.parsePNG;
@@ -135,13 +135,13 @@ namespace Tumblr_Tool
 
         private void btn_Accept_Click(object sender, EventArgs e)
         {
-            this._mainForm.loadOptions();
+            this._mainForm.LoadOptions();
             this.Close();
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
-            restoreOptions();
+            RestoreOptions();
             this.Close();
         }
 
@@ -165,7 +165,7 @@ namespace Tumblr_Tool
         {
         }
 
-        private void restoreOptions()
+        private void RestoreOptions()
         {
             this.check_GIF.Checked = this._options.parseGIF;
             this.check_JPEG.Checked = this._options.parseJPEG;
@@ -177,9 +177,9 @@ namespace Tumblr_Tool
             this.check_GenerateLog.Checked = this._options.generateLog;
         }
 
-        private void setOptions(object sender, EventArgs e)
+        private void SetOptions(object sender, EventArgs e)
         {
-            setOptions();
+            SetOptions();
         }
 
         private void button_MouseEnter(object sender, EventArgs e)

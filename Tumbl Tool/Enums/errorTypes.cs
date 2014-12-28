@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum errorTypes
+    public enum ErrorTypes
     {
         connectionError,
         parsingError,

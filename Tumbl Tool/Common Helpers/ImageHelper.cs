@@ -20,7 +20,7 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class ImageHelper
     {
-        public static void addImageDescription(string path, string desc)
+        public static void AddImageDescription(string path, string desc)
         {
             string _FileDirectory = Path.GetDirectoryName(path);
             string _FileName = Path.GetFileNameWithoutExtension(path);
@@ -41,7 +41,7 @@ namespace Tumblr_Tool.Common_Helpers
 
             if (_FileExt == null || _FileExt == "")
             {
-                filePath = FileHelper.findFile(_FileDirectory, _FileName);
+                filePath = FileHelper.FindFile(_FileDirectory, _FileName);
             }
 
             if (!string.IsNullOrEmpty(filePath))

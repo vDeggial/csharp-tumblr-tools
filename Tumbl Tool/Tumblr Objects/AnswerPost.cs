@@ -28,7 +28,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public AnswerPost()
         {
-            this.type = tumblrPostTypes.answer.ToString();
+            this.type = TumblrPostTypes.answer.ToString();
         }
     }
 }

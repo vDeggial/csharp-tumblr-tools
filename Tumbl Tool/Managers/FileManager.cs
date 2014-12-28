@@ -36,26 +36,25 @@ namespace Tumblr_Tool.Managers
 
         public double percentDownloaded { get; set; }
 
-        public downloadStatusCodes statusCode { get; set; }
+        public string saveFileFormat { get; set; }
+
+        public DownloadStatusCodes statusCode { get; set; }
 
         public double totalSize { get; set; }
 
         public int totalToDownload { get; set; }
-
-        public string saveFileFormat { get; set; }
-
-        public bool downloadFile(string url, string fullPath)
+        public bool DownloadFile(string url, string fullPath)
         {
             FileInfo file;
 
-            url = FileHelper.fixURL(url);
+            url = FileHelper.FixURL(url);
 
-            fullPath = FileHelper.getFullFilePath(url, fullPath);
-            fullPath = FileHelper.fixFileName(fullPath);
+            fullPath = FileHelper.GetFullFilePath(url, fullPath);
+            fullPath = FileHelper.FixFileName(fullPath);
             this.percentDownloaded = 0;
-            this.statusCode = downloadStatusCodes.OK;
+            this.statusCode = DownloadStatusCodes.OK;
 
-            if (WebHelper.urlExists(@url))
+            if (WebHelper.UrlExists(@url))
             {
                 using (MyWebClient webClient = new MyWebClient())
                 {
@@ -65,15 +64,15 @@ namespace Tumblr_Tool.Managers
                         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
                         webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
-                        while (this.statusCode != downloadStatusCodes.Done && this.statusCode != downloadStatusCodes.UnableDownload)
+                        while (this.statusCode != DownloadStatusCodes.Done && this.statusCode != DownloadStatusCodes.UnableDownload)
                         {
                         }
 
-                        if (this.statusCode == downloadStatusCodes.UnableDownload)
+                        if (this.statusCode == DownloadStatusCodes.UnableDownload)
                         {
                             webClient.CancelAsync();
 
-                            if (FileHelper.fileExists(fullPath))
+                            if (FileHelper.FileExists(fullPath))
                             {
                                 file = new FileInfo(fullPath);
 
@@ -83,7 +82,7 @@ namespace Tumblr_Tool.Managers
                             return false;
                         }
 
-                        if (this.statusCode == downloadStatusCodes.Done)
+                        if (this.statusCode == DownloadStatusCodes.Done)
                         {
                             this.downloadedList.Add(fullPath);
                             return true;
@@ -95,8 +94,8 @@ namespace Tumblr_Tool.Managers
                     }
                     catch (Exception)
                     {
-                        this.statusCode = downloadStatusCodes.UnableDownload;
-                        if (FileHelper.fileExists(fullPath))
+                        this.statusCode = DownloadStatusCodes.UnableDownload;
+                        if (FileHelper.FileExists(fullPath))
                         {
                             file = new FileInfo(fullPath);
 
@@ -110,22 +109,22 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
-        public SaveFile readTumblrFile(string location)
+        public SaveFile ReadTumblrFile(string location)
         {
-            SaveFile saveFile = FileHelper.readTumblrFile(location, "BIN");
+            SaveFile saveFile = FileHelper.ReadTumblrFile(location, "BIN");
 
             if (saveFile == null)
-                saveFile = FileHelper.readTumblrFile(location, "XML");
+                saveFile = FileHelper.ReadTumblrFile(location, "XML");
 
             if (saveFile == null)
-                saveFile = FileHelper.readTumblrFile(location, "JSON");
+                saveFile = FileHelper.ReadTumblrFile(location, "JSON");
 
             return saveFile;
         }
 
-        public bool saveTumblrFile(string location, SaveFile saveFile)
+        public bool SaveTumblrFile(string location, SaveFile saveFile)
         {
-            return FileHelper.saveTumblrFile(location, saveFile, saveFileFormat);
+            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
         }
 
         public void wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
@@ -142,19 +141,19 @@ namespace Tumblr_Tool.Managers
         {
             if (e.Cancelled == true)
             {
-                this.statusCode = downloadStatusCodes.UnableDownload;
+                this.statusCode = DownloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Error != null)
             {
-                this.statusCode = downloadStatusCodes.UnableDownload;
+                this.statusCode = DownloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Cancelled == false && e.Error == null)
             {
-                this.statusCode = downloadStatusCodes.Done;
+                this.statusCode = DownloadStatusCodes.Done;
                 this.totalSize += fileSizeRecieved;
                 return;
             }

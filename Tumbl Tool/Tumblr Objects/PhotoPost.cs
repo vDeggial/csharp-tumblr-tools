@@ -23,14 +23,14 @@ namespace Tumblr_Tool.Tumblr_Objects
         public PhotoPost(string url = "", string caption = "")
             : base()
         {
-            this.type = tumblrPostTypes.photo.ToString();
+            this.type = TumblrPostTypes.photo.ToString();
             this.format = "html";
             this.caption = caption;
         }
 
         public PhotoPost()
         {
-            this.type = tumblrPostTypes.photo.ToString();
+            this.type = TumblrPostTypes.photo.ToString();
             this.format = "html";
         }
 
@@ -39,7 +39,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public override HashSet<PhotoPostImage> photos { get; set; }
 
-        public override void addImageToPhotoSet(PhotoPostImage image)
+        public override void AddImageToPhotoSet(PhotoPostImage image)
         {
             if (photos == null)
                 photos = new HashSet<PhotoPostImage>();

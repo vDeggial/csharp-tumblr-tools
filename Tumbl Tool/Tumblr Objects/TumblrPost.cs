@@ -102,12 +102,12 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string year { get; set; }
 
-        public virtual void addImageToPhotoSet(PhotoPostImage image)
+        public virtual void AddImageToPhotoSet(PhotoPostImage image)
         {
             // void
         }
 
-        public void addTag(string tag)
+        public void AddTag(string tag)
         {
             if (this.tags == null)
                 this.tags = new HashSet<string>();

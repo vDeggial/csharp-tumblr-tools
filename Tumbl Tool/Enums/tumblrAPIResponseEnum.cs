@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum tumblrAPIResponseEnum
+    public enum TumblrAPIResponseEnum
     {
         OK = 200,
         NotAuthorized = 401,

@@ -12,7 +12,7 @@
 
 namespace Tumbl_Tool.Enums
 {
-    public enum postStatusCodes
+    public enum PostStatusCodes
     {
         New,
         Downloaded,

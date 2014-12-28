@@ -65,6 +65,9 @@
     <Reference Include="Dotnetrix.TabControl">
       <HintPath>.\Dotnetrix.TabControl.dll</HintPath>
     </Reference>
+    <Reference Include="KRBTabControl">
+      <HintPath>.\KRBTabControl.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -98,6 +101,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MsgBox.cs" />
     <Compile Include="OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>

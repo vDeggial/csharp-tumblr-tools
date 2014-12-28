@@ -24,6 +24,10 @@ namespace Tumblr_Tool.Tumblr_Objects
             // posts = new HashSet<TumblrPost>();
         }
 
+        public int blogTotalPosts { get; set; }
+
+        public string cname { get; set; }
+
         [XmlElement("description")]
         public string description { get; set; }
 
@@ -50,11 +54,7 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public int totalPosts { get; set; }
 
-        public int blogTotalPosts { get; set; }
-
         [XmlElement("url")]
         public string url { get; set; }
-
-        public string cname { get; set; }
     }
 }

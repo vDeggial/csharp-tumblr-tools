@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum processingCodes
+    public enum ProcessingCodes
     {
         OK,
         Initializing,

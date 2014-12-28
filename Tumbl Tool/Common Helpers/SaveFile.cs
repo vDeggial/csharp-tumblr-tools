@@ -26,11 +26,11 @@ namespace Tumblr_Tool.Common_Helpers
         public string date { get; set; }
 
         [XmlElement("filename")]
-        public string fileName { get; set; }
+        public string filename { get; set; }
 
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
-            this.fileName = fileName;
+            this.filename = fileName;
             //this.blog = new Tumblr();
             //this.blog.cname = blog.cname;
             //this.blog.description = blog.description;
@@ -46,18 +46,8 @@ namespace Tumblr_Tool.Common_Helpers
 
         public SaveFile()
         {
-            this.fileName = null; ;
+            this.filename = null; ;
             this.blog = null;
-        }
-
-        public string getBlogURL()
-        {
-            return blog.url;
-        }
-
-        public string getFileName()
-        {
-            return this.fileName;
         }
     }
 }

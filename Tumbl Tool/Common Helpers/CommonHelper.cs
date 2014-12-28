@@ -22,7 +22,7 @@ namespace Tumblr_Tool.Common_Helpers
     {
         private static Regex _htmlRegex = new Regex("<.*?>", RegexOptions.Compiled);
 
-        public static string fixURL(string url)
+        public static string FixURL(string url)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static string getDomainName(string url)
+        public static string GetDomainName(string url)
         {
             return new Uri(url) != null ? new Uri(url).Host : null;
         }
@@ -76,7 +76,7 @@ namespace Tumblr_Tool.Common_Helpers
             return dtDateTime;
         }
 
-        public static String toSlug(this string text)
+        public static String ToSlug(this string text)
         {
             String value = text.Normalize(NormalizationForm.FormD).Trim();
             StringBuilder builder = new StringBuilder();

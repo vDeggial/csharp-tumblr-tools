@@ -104,20 +104,23 @@
             // 
             // select_APIMode
             // 
+            this.select_APIMode.ArrowBackColor = System.Drawing.Color.Empty;
+            this.select_APIMode.ArrowForeColor = System.Drawing.Color.Empty;
             this.select_APIMode.BackColor = System.Drawing.Color.White;
             this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.Enabled = false;
             this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.select_APIMode.ForeColor = System.Drawing.Color.Black;
             this.select_APIMode.FormattingEnabled = true;
-            this.select_APIMode.HighlightBackColor = System.Drawing.Color.White;
-            this.select_APIMode.HighlightForeColor = System.Drawing.Color.Maroon;
+            this.select_APIMode.HighlightBackColor = System.Drawing.Color.Black;
+            this.select_APIMode.HighlightForeColor = System.Drawing.Color.White;
             this.select_APIMode.Items.AddRange(new object[] {
             "API v.1 (XML)",
             "API v.2 (JSON)"});
             this.select_APIMode.Location = new System.Drawing.Point(8, 23);
             this.select_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.select_APIMode.Name = "select_APIMode";
+            this.select_APIMode.ShowArrow = false;
             this.select_APIMode.Size = new System.Drawing.Size(140, 22);
             this.select_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_APIMode.TabIndex = 0;
@@ -285,15 +288,17 @@
             this.Controls.Add(this.btn_Accept);
             this.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "OptionsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.setOptions);
+            this.Load += new System.EventHandler(this.SetOptions);
             this.parseOptionSection.ResumeLayout(false);
             this.box_Log.ResumeLayout(false);
             this.box_Log.PerformLayout();

@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum apiModeEnum
+    public enum ApiModeEnum
     {
         XML = 0,
         JSON = 1

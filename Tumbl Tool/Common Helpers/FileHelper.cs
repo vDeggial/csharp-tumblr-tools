@@ -20,12 +20,17 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class FileHelper
     {
-        public static string findFile(string dir, string name)
+        public static bool FileExists(string file)
+        {
+            return File.Exists(file);
+        }
+
+        public static string FindFile(string dir, string name)
         {
             return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
         }
 
-        public static string fixFileName(string filename)
+        public static string FixFileName(string filename)
         {
             if (!Path.HasExtension(filename))
             {
@@ -35,7 +40,7 @@ namespace Tumblr_Tool.Common_Helpers
             return filename;
         }
 
-        public static string fixURL(string url)
+        public static string FixURL(string url)
         {
             if (url.EndsWith("/"))
             {
@@ -45,17 +50,17 @@ namespace Tumblr_Tool.Common_Helpers
             return url;
         }
 
-        public static string getFullFilePath(string url, string location)
+        public static string GetFullFilePath(string url, string location)
         {
             return @location + @"\" + Path.GetFileName(url);
         }
 
-        public static string getFullFilePath(string url, string location, string prefix)
+        public static string GetFullFilePath(string url, string location, string prefix)
         {
             return @location + @"\" + prefix + Path.GetFileName(url);
         }
 
-        public static HashSet<string> getImageListFromDir(string location)
+        public static HashSet<string> GetImageListFromDir(string location)
         {
             HashSet<string> imagesList = new HashSet<string>();
             string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
@@ -71,95 +76,6 @@ namespace Tumblr_Tool.Common_Helpers
             //}
 
             return imagesList;
-        }
-
-        public static SaveFile readTumblrFile(string location, string format)
-        {
-            switch (format)
-            {
-                case "BIN":
-                    return readTumblrFileFromBin(location);
-
-                case "XML":
-                    return (SaveFile)XMLHelper.readObjectFromXML<SaveFile>(location);
-
-                case "JSON":
-                    return JSONHelper.readFromJSON<SaveFile>(location);
-
-                default:
-                    return null;
-            }
-        }
-
-        public static SaveFile readTumblrFileFromJSON(string location)
-        {
-            return (SaveFile)JSONHelper.readFromJSON<SaveFile>(location);
-        }
-
-        public static SaveFile readTumblrFileFromBin(string location)
-        {
-            try
-            {
-                using (Stream stream = File.Open(location, FileMode.Open))
-                {
-                    stream.Position = 0;
-                    BinaryFormatter bformatter = new BinaryFormatter();
-
-                    SaveFile saveFile = (SaveFile)bformatter.Deserialize(stream);
-                    return saveFile;
-                }
-            }
-            catch (Exception e)
-            {
-                string s = e.Message;
-                return null;
-            }
-        }
-
-        public static SaveFile readTumblrFileFromXML(string location)
-        {
-            return (SaveFile)XMLHelper.readObjectFromXML<SaveFile>(location);
-        }
-
-        public static bool saveFileAsBin(string location, SaveFile file)
-        {
-            try
-            {
-                using (Stream stream = File.Open(location, FileMode.Create))
-                {
-                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-
-                    bformatter.Serialize(stream, file);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public static bool saveTumblrFile(string location, SaveFile file, string format)
-        {
-            switch (format)
-            {
-                case "BIN":
-                    return saveFileAsBin(location, file);
-
-                case "XML":
-                    return XMLHelper.saveObjectAsXML<SaveFile>(location, file);
-
-                case "JSON":
-                    return JSONHelper.saveObjectAsJSON<SaveFile>(location, file);
-
-                default:
-                    return false;
-            }
-        }
-
-        public static bool fileExists(string file)
-        {
-            return File.Exists(file);
         }
 
         public static bool IsFileLocked(FileInfo file)
@@ -186,6 +102,89 @@ namespace Tumblr_Tool.Common_Helpers
 
             //file is not locked
             return false;
+        }
+
+        public static SaveFile ReadTumblrFile(string location, string format)
+        {
+            switch (format)
+            {
+                case "BIN":
+                    return ReadTumblrFileFromBin(location);
+
+                case "XML":
+                    return (SaveFile)XMLHelper.ReadObject<SaveFile>(location);
+
+                case "JSON":
+                    return JSONHelper.ReadObject<SaveFile>(location);
+
+                default:
+                    return null;
+            }
+        }
+
+        public static SaveFile ReadTumblrFileFromBin(string location)
+        {
+            try
+            {
+                using (Stream stream = File.Open(location, FileMode.Open))
+                {
+                    stream.Position = 0;
+                    BinaryFormatter bformatter = new BinaryFormatter();
+
+                    SaveFile saveFile = (SaveFile)bformatter.Deserialize(stream);
+                    return saveFile;
+                }
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+                return null;
+            }
+        }
+
+        public static SaveFile ReadTumblrFileFromJSON(string location)
+        {
+            return (SaveFile)JSONHelper.ReadObject<SaveFile>(location);
+        }
+        public static SaveFile ReadTumblrFileFromXML(string location)
+        {
+            return (SaveFile)XMLHelper.ReadObject<SaveFile>(location);
+        }
+
+        public static bool SaveFileAsBin(string location, SaveFile file)
+        {
+            try
+            {
+                using (Stream stream = File.Open(location, FileMode.Create))
+                {
+                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                    bformatter.Serialize(stream, file);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SaveTumblrFile(string location, SaveFile file, string format)
+        {
+            switch (format)
+            {
+                case "BIN":
+                    return SaveFileAsBin(location, file);
+
+                case "XML":
+                    return XMLHelper.SaveObject<SaveFile>(location, file);
+
+                case "JSON":
+                    return JSONHelper.SaveObject<SaveFile>(location, file);
+
+                default:
+                    return false;
+            }
         }
     }
 }

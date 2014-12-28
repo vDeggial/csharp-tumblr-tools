@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum downloadStatusCodes
+    public enum DownloadStatusCodes
     {
         OK,
         FileExists,

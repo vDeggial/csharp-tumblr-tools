@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace Tumblr_Tool.Enums
 {
-    public enum parseModes
+    public enum ParseModes
     {
         [Description("Full")]
         FullRescan = 1,

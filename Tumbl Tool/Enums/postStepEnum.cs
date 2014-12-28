@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum postStepEnum
+    public enum PostStepEnum
     {
         XML = 50,
         JSON = 20

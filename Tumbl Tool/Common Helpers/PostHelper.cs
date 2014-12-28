@@ -19,17 +19,17 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class PostHelper
     {
-        public static void generateAnswerPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateAnswerPost(ref TumblrPost post, dynamic jPost)
         {
             post = new AnswerPost();
         }
 
-        public static void generateAudioPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateAudioPost(ref TumblrPost post, dynamic jPost)
         {
             post = new AudioPost();
         }
 
-        public static void generateBasePost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateBasePost(ref TumblrPost post, dynamic jPost)
         {
             post.type = !string.IsNullOrEmpty((string)jPost.type) ? jPost.type : null;
 
@@ -60,19 +60,19 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static void generateChatPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)
         {
             post = new ChatPost();
         }
 
-        public static void generateLinkPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateLinkPost(ref TumblrPost post, dynamic jPost)
         {
             post = new LinkPost();
         }
 
-        public static void generatePhotoPost(ref TumblrPost post, dynamic jPost)
+        public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost)
         {
-            if (jPost.type == tumblrPostTypes.photo.ToString())
+            if (jPost.type == TumblrPostTypes.photo.ToString())
             {
                 post = new PhotoPost();
                 post.photos = new HashSet<PhotoPostImage>();
@@ -91,17 +91,17 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static void generateQuotePost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateQuotePost(ref TumblrPost post, dynamic jPost)
         {
             post = new QuotePost();
         }
 
-        public static void generateTextPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateTextPost(ref TumblrPost post, dynamic jPost)
         {
             post = new TextPost();
         }
 
-        public static void generateVideoPost(ref TumblrPost post, dynamic jPost)
+        public static void GenerateVideoPost(ref TumblrPost post, dynamic jPost)
         {
             post = new VideoPost();
         }

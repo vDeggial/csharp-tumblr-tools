@@ -30,9 +30,26 @@ namespace Tumblr_Tool.Common_Helpers
         private const string _OFFSET = "&offset={0}";
         private const string _POSTQUERY = "posts";
 
-        public static string getAvatarQueryString(string tumblrDomain)
+        public static string GenerateQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
         {
-            tumblrDomain = CommonHelper.getDomainName(tumblrDomain);
+            string query;
+
+            tumblrDomain = CommonHelper.FixURL(tumblrDomain);
+
+            string postQuery = _POSTQUERY;
+            if (type != TumblrPostTypes.empty.ToString())
+            {
+                postQuery += "/" + type;
+            }
+
+            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET, start.ToString()), string.Format(_LIMIT, maxNumPosts.ToString()));
+
+            return query;
+        }
+
+        public static string GetAvatarQueryString(string tumblrDomain)
+        {
+            tumblrDomain = CommonHelper.GetDomainName(tumblrDomain);
             string query;
             // query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
 
@@ -40,9 +57,9 @@ namespace Tumblr_Tool.Common_Helpers
             return query;
         }
 
-        public static JObject getJSONObject(string url)
+        public static JObject GetObject(string url)
         {
-            string result = getJSONString(url);
+            string result = GetString(url);
 
             if (result != null)
             {
@@ -54,7 +71,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static string getJSONString(string url)
+        public static string GetString(string url)
         {
             try
             {
@@ -74,24 +91,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static string getQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
-        {
-            string query;
-
-            tumblrDomain = CommonHelper.fixURL(tumblrDomain);
-
-            string postQuery = _POSTQUERY;
-            if (type != tumblrPostTypes.empty.ToString())
-            {
-                postQuery += "/" + type;
-            }
-
-            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET, start.ToString()), string.Format(_LIMIT, maxNumPosts.ToString()));
-
-            return query;
-        }
-
-        public static T readFromJSON<T>(string filePath) where T : new()
+        public static T ReadObject<T>(string filePath) where T : new()
         {
             TextReader reader = null;
             try
@@ -107,7 +107,7 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static bool saveObjectAsJSON<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        public static bool SaveObject<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
             TextWriter writer = null;
             try

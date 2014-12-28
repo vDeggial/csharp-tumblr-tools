@@ -42,7 +42,7 @@ namespace Tumblr_Tool
             e.Item.ForeColor = e.Item.Selected ? this.HighlightForeColor : this.ForeColor;
         }
 
-        public void changeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)
+        public void ChangeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)
         {
             Color foreColor = TSMI.GetCurrentParent().ForeColor;
             Color backColor = TSMI.BackColor;

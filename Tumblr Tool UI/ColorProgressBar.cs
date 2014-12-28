@@ -247,7 +247,7 @@ namespace Tumblr_Tool
         //
         // Draw border
         //
-        protected void drawBorder(Graphics g)
+        protected void DrawBorder(Graphics g)
         {
             Rectangle borderRect = new Rectangle(0, 0,
                 ClientRectangle.Width - 1, ClientRectangle.Height - 1);
@@ -275,7 +275,7 @@ namespace Tumblr_Tool
             if (_Maximum == _Minimum || _Value == 0)
             {
                 // Draw border only and exit;
-                drawBorder(e.Graphics);
+                DrawBorder(e.Graphics);
                 return;
             }
 
@@ -290,7 +290,7 @@ namespace Tumblr_Tool
             if (fillWidth == 0)
             {
                 // Draw border only and exti;
-                drawBorder(e.Graphics);
+                DrawBorder(e.Graphics);
                 return;
             }
 
@@ -366,7 +366,7 @@ namespace Tumblr_Tool
             //
             // Draw border and exit
             //
-            drawBorder(e.Graphics);
+            DrawBorder(e.Graphics);
         }
     }
 }
