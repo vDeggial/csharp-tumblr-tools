@@ -557,7 +557,7 @@ namespace Tumblr_Tool
                     }
                     else
                     {
-                        UpdateStatusText(_STATUS_DONE);
+                        UpdateStatusText(_STATUS_INIT);
                         this.bar_Progress.Value = 0;
 
                         if (this.ripper.imageList.Count != 0)
@@ -1068,6 +1068,7 @@ namespace Tumblr_Tool
                         this.Invoke((MethodInvoker)delegate
                         {
                             UpdateWorkStatusTextNewLine(_WORKTEXT_DOWNLOADINGIMAGES);
+                            UpdateStatusText(string.Format(_STATUS_DOWNLOADING, "Initializing"));
                         });
 
                         this.isReadyForDownload = true;
