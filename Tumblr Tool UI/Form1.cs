@@ -198,6 +198,8 @@ namespace Tumblr_Tool
                     });
                 }
 
+                this.isCrawlingDone = false;
+
                 this.crawl_Worker.RunWorkerAsync(ripper);
 
                 this.crawl_UpdateUI_Worker.RunWorkerAsync(ripper);
@@ -358,6 +360,11 @@ namespace Tumblr_Tool
                         {
                             this.fileManager.totalToDownload = this.ripper.imageList.Count;
 
+                            this.isDownloadDone = false;
+                            this.downloadedList = new List<string>();
+                            this.notDownloadedList = new List<string>();
+                            this.downloadedSizesList = new List<int>();
+
                             this.download_UIUpdate_Worker.RunWorkerAsync();
 
                             this.download_Worker.RunWorkerAsync(ripper.imageList);
@@ -376,8 +383,6 @@ namespace Tumblr_Tool
             {
                 Thread.Sleep(200);
 
-                this.downloadedList = new List<string>();
-                this.downloadedSizesList = new List<int>();
                 this.isReadyForDownload = false;
 
                 lock (this.ripper)
@@ -875,7 +880,7 @@ namespace Tumblr_Tool
                         }
 
                         bool downloaded = false;
-                        string fullPath = "";
+                        string fullPath = string.Empty;
 
                         while (!this.isFileDownloadDone && !this.isCancelled)
                         {
@@ -969,17 +974,17 @@ namespace Tumblr_Tool
                     {
                         if (this.downloadedList.Count == 0)
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                this.img_DisplayImage.Image = Resources.tumblrlogo;
-                            });
+                            //this.Invoke((MethodInvoker)delegate
+                            //{
+                            //    this.img_DisplayImage.Image = Resources.tumblrlogo;
+                            //});
                         }
                         else
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
                                 this.img_DisplayImage.ImageLocation = this.downloadedList[this.downloadedList.Count - 1];
-                                this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.fileManager.totalToDownload);
+                                this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.ripper.imageList.Count);
                             });
                         }
                     }
@@ -993,7 +998,7 @@ namespace Tumblr_Tool
                         this.img_DisplayImage.Refresh();
                     });
 
-                    if (this.fileManager.statusCode == DownloadStatusCodes.Done && this.downloadedList.Count > 0)
+                    if (this.downloadedList.Count > 0)
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
@@ -1019,11 +1024,12 @@ namespace Tumblr_Tool
         {
             this.currentPercent = 0;
             this.currentPostCount = 0;
+            this.currentSize = 0;
             try
             {
                 if (this.fileManager == null) this.fileManager = new FileManager();
 
-                if (this.fileManager.totalToDownload == 0)
+                if (this.ripper.imageList.Count == 0)
                 {
                     if (!this.IsDisposed)
                     {
@@ -1076,6 +1082,7 @@ namespace Tumblr_Tool
 
                     while (!this.isDownloadDone && !this.isCancelled)
                     {
+
                         int c = 0;
                         int f = 0;
 
