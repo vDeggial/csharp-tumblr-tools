@@ -194,6 +194,8 @@
     <None Include="Resources\menu.png" />
     <None Include="Resources\about.png" />
     <None Include="Resources\avatar.png" />
+    <Content Include="Dotnetrix.TabControl.dll" />
+    <Content Include="KRBTabControl.dll" />
     <Content Include="Resources\down.ico" />
     <Content Include="Resources\info.ico" />
     <None Include="Resources\options.png" />
