@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2";
+        public const string _VERSION = "1.2.1";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -265,7 +265,7 @@ namespace Tumblr_Tool
 
             if (saveLocationEmpty)
             {
-                MsgBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", _STATUS_ERROR, MsgBox.Buttons.OK, MsgBox.Icon.Error,MsgBox.AnimateStyle.FadeIn, true);
+                MsgBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", _STATUS_ERROR, MsgBox.Buttons.OK, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
                 EnableUI_Crawl(true);
                 this.btn_Browse.Focus();
             }
@@ -562,7 +562,7 @@ namespace Tumblr_Tool
                     }
                     else
                     {
-                        UpdateStatusText(_STATUS_INIT);
+                        UpdateStatusText(string.Format(_STATUS_DOWNLOADING, "Initializing"));
                         this.bar_Progress.Value = 0;
 
                         if (this.ripper.imageList.Count != 0)
@@ -974,16 +974,16 @@ namespace Tumblr_Tool
                     {
                         if (this.downloadedList.Count == 0)
                         {
-                            //this.Invoke((MethodInvoker)delegate
-                            //{
-                            //    this.img_DisplayImage.Image = Resources.tumblrlogo;
-                            //});
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                this.img_DisplayImage.Image = Resources.tumblrlogo;
+                            });
                         }
                         else
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-                                this.img_DisplayImage.ImageLocation = this.downloadedList[this.downloadedList.Count - 1];
+                                this.img_DisplayImage.Image = GetImage(this.downloadedList[this.downloadedList.Count - 1]);
                                 this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.ripper.imageList.Count);
                             });
                         }
@@ -1074,7 +1074,7 @@ namespace Tumblr_Tool
                         this.Invoke((MethodInvoker)delegate
                         {
                             UpdateWorkStatusTextNewLine(_WORKTEXT_DOWNLOADINGIMAGES);
-                            UpdateStatusText(string.Format(_STATUS_DOWNLOADING, "Initializing"));
+                            
                         });
 
                         this.isReadyForDownload = true;
@@ -1082,7 +1082,6 @@ namespace Tumblr_Tool
 
                     while (!this.isDownloadDone && !this.isCancelled)
                     {
-
                         int c = 0;
                         int f = 0;
 
@@ -1120,8 +1119,8 @@ namespace Tumblr_Tool
                                         this.Invoke((MethodInvoker)delegate
                                         {
                                             // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
-                                            this.img_DisplayImage.Load(this.downloadedList[c - 1]);
-                                            // this.img_DisplayImage.Refresh();
+                                            this.img_DisplayImage.Image = GetImage((this.downloadedList[c - 1]));
+                                            this.img_DisplayImage.Refresh();
                                         });
                                     }
                                     catch (Exception)
@@ -1306,6 +1305,14 @@ namespace Tumblr_Tool
             catch
             {
                 Application.Exit();
+            }
+        }
+
+        public Bitmap GetImage(string file)
+        {
+            using (Bitmap bm = new Bitmap(file))
+            {
+                return new Bitmap(bm);
             }
         }
 
@@ -1719,31 +1726,6 @@ namespace Tumblr_Tool
             }
         }
 
-        private void tabControl_Main_SelectedIndexChanging(object sender, KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs e)
-        {
-            if (this.disableOtherTabs)
-            {
-                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
-
-                int selectedTab = tabWizardControl.SelectedIndex;
-
-                KRBTabControl.TabPageEx tabPage = (KRBTabControl.TabPageEx)tabWizardControl.SelectedTab;
-
-                //Disable the tab selection
-                if (e.TabPage != tabPage)
-                {
-                    //If selected tab is different than the current one, re-select the current tab.
-                    //This disables the navigation using the tab selection.
-
-                    e.Cancel = true;
-                    tabWizardControl.SelectTab(this.currentSelectedTab);
-                }
-            }
-
-            if (e.TabPage.Text == "IsSelectable?")
-                e.Cancel = true;
-        }
-
         public void tabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!e.TabPage.Enabled)
@@ -1823,9 +1805,31 @@ namespace Tumblr_Tool
 
         private void select_Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
-        
+        private void tabControl_Main_SelectedIndexChanging(object sender, KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs e)
+        {
+            if (this.disableOtherTabs)
+            {
+                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
+
+                int selectedTab = tabWizardControl.SelectedIndex;
+
+                KRBTabControl.TabPageEx tabPage = (KRBTabControl.TabPageEx)tabWizardControl.SelectedTab;
+
+                //Disable the tab selection
+                if (e.TabPage != tabPage)
+                {
+                    //If selected tab is different than the current one, re-select the current tab.
+                    //This disables the navigation using the tab selection.
+
+                    e.Cancel = true;
+                    tabWizardControl.SelectTab(this.currentSelectedTab);
+                }
+            }
+
+            if (e.TabPage.Text == "IsSelectable?")
+                e.Cancel = true;
+        }
     }
 }
