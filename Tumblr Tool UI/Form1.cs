@@ -899,15 +899,20 @@ namespace Tumblr_Tool
 
                                     file = new FileInfo(fullPath);
 
+                                    
+
                                     lock (this.downloadedList)
                                     {
+                                        
                                         this.downloadedList.Add(fullPath);
                                     }
 
                                     lock (this.downloadedSizesList)
                                     {
-                                        this.downloadedSizesList.Add((int)new FileInfo(fullPath).Length);
+                                        this.downloadedSizesList.Add((int)file.Length);
                                     }
+
+                                    
                                 }
                                 else if (this.fileManager.statusCode == DownloadStatusCodes.UnableDownload)
                                 {

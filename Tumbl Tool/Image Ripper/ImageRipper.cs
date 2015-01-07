@@ -114,6 +114,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void GenerateImageListForDownload(HashSet<TumblrPost> posts)
         {
+
             foreach (PhotoPost post in posts)
             {
                 if (!this.parsePhotoSets && post.photos.Count > 1)
@@ -250,20 +251,19 @@ namespace Tumblr_Tool.Image_Ripper
 
                 bool finished = false;
 
-                int i = this.offset;
 
                 this.percentComplete = 0;
 
                 if (parseMode == ParseModes.FullRescan)
                 {
-                    while (i < this.totalNumberOfPosts && !this.isCancelled)
+                    while (this.offset < this.totalNumberOfPosts && !this.isCancelled)
                     {
-                        HashSet<TumblrPost> posts = GetTumblrPostList(i);
+                        HashSet<TumblrPost> posts = GetTumblrPostList(this.offset);
                         this.blog.posts.UnionWith(posts);
                         GenerateImageListForDownload(posts);
                         this.numberOfParsedPosts += this.blog.posts.Count;
                         this.percentComplete = this.totalNumberOfPosts > 0 ? (int)(((double)this.numberOfParsedPosts / (double)this.totalNumberOfPosts) * 100.00) : 0;
-                        i += step;
+                        this.offset += step;
 
                         if (this.generateLog)
                         {
@@ -274,9 +274,9 @@ namespace Tumblr_Tool.Image_Ripper
                 }
                 else if (parseMode == ParseModes.NewestOnly)
                 {
-                    while (!finished && i < this.totalNumberOfPosts && !this.isCancelled)
+                    while (!finished && this.offset < this.totalNumberOfPosts && !this.isCancelled)
                     {
-                        HashSet<TumblrPost> posts = GetTumblrPostList(i);
+                        HashSet<TumblrPost> posts = GetTumblrPostList(offset);
 
                         HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
                                                                                     where this.existingImageList.Contains(p.photos.Last().filename,
@@ -295,7 +295,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                         GenerateImageListForDownload(this.blog.posts);
                         this.percentComplete = this.totalNumberOfPosts > 0 ? (int)(((double)this.numberOfParsedPosts / (double)this.totalNumberOfPosts) * 100.00) : 0;
-                        i += step;
+                        this.offset += step;
 
                         if (this.generateLog)
                         {
