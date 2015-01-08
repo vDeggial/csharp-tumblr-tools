@@ -56,13 +56,13 @@ namespace Tumblr_Tool
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl_Main = new KRBTabControl.KRBTabControl();
             this.tab_ImageRipper = new KRBTabControl.TabPageEx();
+            this.txt_TumblrURL = new System.Windows.Forms.TextBox();
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.txt_WorkStatus = new System.Windows.Forms.RichTextBox();
             this.btn_Start = new System.Windows.Forms.Button();
             this.btn_Browse = new System.Windows.Forms.Button();
             this.img_DisplayImage = new System.Windows.Forms.PictureBox();
-            this.txt_TumblrURL = new System.Windows.Forms.TextBox();
             this.lbl_TumblrURL = new System.Windows.Forms.Label();
             this.txt_SaveLocation = new System.Windows.Forms.TextBox();
             this.lbl_SaveLocation = new System.Windows.Forms.Label();
@@ -354,7 +354,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.HeaderStyle = KRBTabControl.KRBTabControl.TabHeaderStyle.Texture;
             this.tabControl_Main.ImageList = this.iconList;
             this.tabControl_Main.IsCaptionVisible = false;
-            this.tabControl_Main.IsDocumentTabStyle = true;
+            this.tabControl_Main.IsUserInteraction = false;
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -375,13 +375,13 @@ namespace Tumblr_Tool
             // 
             this.tab_ImageRipper.BackColor = System.Drawing.Color.White;
             this.tab_ImageRipper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tab_ImageRipper.Controls.Add(this.txt_TumblrURL);
             this.tab_ImageRipper.Controls.Add(this.lbl_Mode);
             this.tab_ImageRipper.Controls.Add(this.select_Mode);
             this.tab_ImageRipper.Controls.Add(this.txt_WorkStatus);
             this.tab_ImageRipper.Controls.Add(this.btn_Start);
             this.tab_ImageRipper.Controls.Add(this.btn_Browse);
             this.tab_ImageRipper.Controls.Add(this.img_DisplayImage);
-            this.tab_ImageRipper.Controls.Add(this.txt_TumblrURL);
             this.tab_ImageRipper.Controls.Add(this.lbl_TumblrURL);
             this.tab_ImageRipper.Controls.Add(this.txt_SaveLocation);
             this.tab_ImageRipper.Controls.Add(this.lbl_SaveLocation);
@@ -396,6 +396,21 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Crawler";
             this.tab_ImageRipper.Enter += new System.EventHandler(this.tabPage_Enter);
+            // 
+            // txt_TumblrURL
+            // 
+            this.txt_TumblrURL.BackColor = System.Drawing.Color.White;
+            this.txt_TumblrURL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_TumblrURL.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.txt_TumblrURL.ForeColor = System.Drawing.Color.Black;
+            this.txt_TumblrURL.Location = new System.Drawing.Point(78, 39);
+            this.txt_TumblrURL.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txt_TumblrURL.Name = "txt_TumblrURL";
+            this.txt_TumblrURL.Size = new System.Drawing.Size(169, 21);
+            this.txt_TumblrURL.TabIndex = 0;
+            this.txt_TumblrURL.TabStop = false;
+            this.txt_TumblrURL.Text = "http://";
+            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.statsTumblrURLUpdate);
             // 
             // lbl_Mode
             // 
@@ -507,20 +522,6 @@ namespace Tumblr_Tool
             this.img_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img_DisplayImage.TabIndex = 4;
             this.img_DisplayImage.TabStop = false;
-            // 
-            // txt_TumblrURL
-            // 
-            this.txt_TumblrURL.BackColor = System.Drawing.Color.White;
-            this.txt_TumblrURL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_TumblrURL.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.txt_TumblrURL.ForeColor = System.Drawing.Color.Black;
-            this.txt_TumblrURL.Location = new System.Drawing.Point(78, 39);
-            this.txt_TumblrURL.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txt_TumblrURL.Name = "txt_TumblrURL";
-            this.txt_TumblrURL.Size = new System.Drawing.Size(169, 21);
-            this.txt_TumblrURL.TabIndex = 3;
-            this.txt_TumblrURL.Text = "http://";
-            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.statsTumblrURLUpdate);
             // 
             // lbl_TumblrURL
             // 
