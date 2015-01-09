@@ -199,6 +199,7 @@ namespace Tumblr_Tool
                 }
 
                 this.isCrawlingDone = false;
+                this.tumblrLogFile = null;
 
                 this.crawl_Worker.RunWorkerAsync(ripper);
 

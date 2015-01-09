@@ -129,9 +129,9 @@ namespace Tumblr_Tool.Image_Ripper
                         {
                             try
                             {
-                                post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>");
-                                post.caption = CommonHelper.NewLineToBreak(post.caption, "<\n\r\n");
-                                post.caption = post.caption.StripTags();
+                                //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
+                                
+                                //post.caption = post.caption.StripTags();
                                 this.imageList.Add(image);
                             }
                             catch

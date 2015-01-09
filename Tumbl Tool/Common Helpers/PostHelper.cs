@@ -39,6 +39,8 @@ namespace Tumblr_Tool.Common_Helpers
 
             post.caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
 
+            post.caption = CommonHelper.NewLineToBreak(post.caption, "\n\r\n", string.Empty);
+
             post.date = !string.IsNullOrEmpty((string)jPost.date) ? jPost.date : null;
 
             post.format = !string.IsNullOrEmpty((string)jPost.format) ? jPost.format : null;
@@ -58,6 +60,8 @@ namespace Tumblr_Tool.Common_Helpers
             {
                 post.tags = null;
             }
+
+            
         }
 
         public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)

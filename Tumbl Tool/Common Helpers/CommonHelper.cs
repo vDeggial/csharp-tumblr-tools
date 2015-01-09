@@ -52,6 +52,14 @@ namespace Tumblr_Tool.Common_Helpers
                 return input;
         }
 
+        public static string NewLineToBreak(string input, string strToReplace, string strWith)
+        {
+            if (input != null)
+                return input.Replace(strToReplace, strWith);
+            else
+                return input;
+        }
+
         /// <summary>
         /// Remove HTML from string with compiled Regex.
         /// </summary>
