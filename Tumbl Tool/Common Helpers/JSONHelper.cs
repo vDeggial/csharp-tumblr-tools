@@ -26,6 +26,7 @@ namespace Tumblr_Tool.Common_Helpers
         private const string _AVATARQUERY = "avatar";
         private const string _AVATARSIZE = "128";
 
+        private const string _INFOQUERY = "info";
         private const string _LIMIT = "&limit={0}";
         private const string _OFFSET = "&offset={0}";
         private const string _POSTQUERY = "posts";
@@ -47,11 +48,21 @@ namespace Tumblr_Tool.Common_Helpers
             return query;
         }
 
+        public static string GenerateInfoQueryString(string tumblrDomain)
+        {
+            string query;
+
+            tumblrDomain = CommonHelper.FixURL(tumblrDomain);
+
+            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY);
+
+            return query;
+        }
+
         public static string GetAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = CommonHelper.GetDomainName(tumblrDomain);
             string query;
-            // query += "/" + tumblrDomain + "/" + jsonAvatarQuery + "/" + jsonAvatarSize + "?api_key=" + apiKey;
 
             query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY, string.Empty, string.Empty);
             return query;

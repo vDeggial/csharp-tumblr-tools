@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.1";
+        public const string _VERSION = "1.2.2";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -1125,6 +1125,7 @@ namespace Tumblr_Tool
                                         this.Invoke((MethodInvoker)delegate
                                         {
                                             // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
+                                            this.img_DisplayImage.Image.Dispose();
                                             this.img_DisplayImage.Image = GetImage((this.downloadedList[c - 1]));
                                             this.img_DisplayImage.Refresh();
                                         });
@@ -1296,6 +1297,7 @@ namespace Tumblr_Tool
                             Thread thread = new Thread(SaveLogFile);
                             thread.Start();
                         }
+
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -1305,12 +1307,12 @@ namespace Tumblr_Tool
                 }
                 else
                 {
-                    //Application.Exit();
+                    //Environment.Exit(0);
                 }
             }
             catch
             {
-                Application.Exit();
+                Environment.Exit(0);
             }
         }
 

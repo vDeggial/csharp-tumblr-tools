@@ -42,12 +42,22 @@ namespace Tumblr_Tool.Common_Helpers
             //this.blog.totalPosts = blog.totalPosts;
 
             this.blog = blog.Clone();
+            AddDate();
         }
 
         public SaveFile()
         {
-            this.filename = null; ;
+            this.filename = null;
             this.blog = null;
+            AddDate();
+        }
+
+
+        public void AddDate()
+        {
+            string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
+
+            this.date = DateTime.Now.ToString(datePatt);
         }
     }
 }

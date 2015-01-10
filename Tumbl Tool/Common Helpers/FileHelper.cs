@@ -171,6 +171,7 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static bool SaveTumblrFile(string location, SaveFile file, string format)
         {
+            file.AddDate();
             switch (format)
             {
                 case "BIN":
