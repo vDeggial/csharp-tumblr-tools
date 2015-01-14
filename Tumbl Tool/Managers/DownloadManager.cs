@@ -1,12 +1,16 @@
 ﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
  *
  *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *  
+ *  Class: DownloadManager
+ *  
+ *  Description: Class provides functionality for downloading file from Internet
  *
  *  Author: Shino Amakusa
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -20,9 +24,9 @@ using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Managers
 {
-    public class FileManager
+    public class DownloadManager
     {
-        public FileManager()
+        public DownloadManager()
         {
             downloadedList = new HashSet<string>();
             totalSize = 0;
@@ -43,6 +47,7 @@ namespace Tumblr_Tool.Managers
         public double totalSize { get; set; }
 
         public int totalToDownload { get; set; }
+
         public bool DownloadFile(string url, string fullPath)
         {
             FileInfo file;
@@ -60,8 +65,8 @@ namespace Tumblr_Tool.Managers
                 {
                     try
                     {
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(wc_DownloadCompleted);
-                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Wc_DownloadCompleted);
+                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(Wc_DownloadProgressChanged);
                         webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
                         while (this.statusCode != DownloadStatusCodes.Done && this.statusCode != DownloadStatusCodes.UnableDownload)
@@ -109,25 +114,7 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
-        public SaveFile ReadTumblrFile(string location)
-        {
-            SaveFile saveFile = FileHelper.ReadTumblrFile(location, "BIN");
-
-            if (saveFile == null)
-                saveFile = FileHelper.ReadTumblrFile(location, "XML");
-
-            if (saveFile == null)
-                saveFile = FileHelper.ReadTumblrFile(location, "JSON");
-
-            return saveFile;
-        }
-
-        public bool SaveTumblrFile(string location, SaveFile saveFile)
-        {
-            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
-        }
-
-        public void wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
             this.percentDownloaded = e.ProgressPercentage;
 
@@ -137,7 +124,7 @@ namespace Tumblr_Tool.Managers
                 this.fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
         }
 
-        private void wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
+        private void Wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {

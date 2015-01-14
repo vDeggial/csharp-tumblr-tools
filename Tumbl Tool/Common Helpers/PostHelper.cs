@@ -65,8 +65,6 @@ namespace Tumblr_Tool.Common_Helpers
             string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
 
             post.lastProcessedDate = DateTime.Now.ToString(datePatt);
-
-            
         }
 
         public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)
@@ -94,7 +92,7 @@ namespace Tumblr_Tool.Common_Helpers
                     postImage.width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
                     postImage.height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
                     postImage.caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
-
+                    postImage.parentPostID = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
                     post.photos.Add(postImage);
                 }
             }

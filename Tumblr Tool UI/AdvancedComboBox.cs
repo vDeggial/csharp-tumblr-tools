@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -27,8 +27,6 @@ namespace Tumblr_Tool
             this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
             this.SetStyle(ControlStyles.UserPaint, true);
             this.Height = 21;
-
-            
         }
 
         new public System.Windows.Forms.DrawMode DrawMode { get; set; }
@@ -63,7 +61,7 @@ namespace Tumblr_Tool
             Rectangle itemRect = new Rectangle(this.Width - buttonWidth, 0, buttonWidth, this.Height);
 
             e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
-                                      new SolidBrush(this.ForeColor),e.ClipRectangle,sf);
+                                      new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
 
             //Create the brushes.
             LinearGradientBrush gradientBrush = new LinearGradientBrush(itemRect, highColor,
@@ -98,10 +96,8 @@ namespace Tumblr_Tool
             if (e.Index < 0)
                 return;
 
-
             StringFormat sf = new StringFormat();
             sf.LineAlignment = StringAlignment.Center;
-            
 
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
@@ -110,7 +106,7 @@ namespace Tumblr_Tool
                                          e.Bounds);
                 e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
                                   new SolidBrush(this.HighlightForeColor),
-                                  e.Bounds,sf);
+                                  e.Bounds, sf);
             }
             else
             {
@@ -119,7 +115,7 @@ namespace Tumblr_Tool
 
                 e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
                                       new SolidBrush(combo.ForeColor),
-                                      e.Bounds,sf);
+                                      e.Bounds, sf);
             }
 
             e.DrawFocusRectangle();

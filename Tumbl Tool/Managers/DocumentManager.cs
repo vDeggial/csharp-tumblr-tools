@@ -1,18 +1,24 @@
 ﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
  *
  *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *  
+ *  Class: DocumentManager
+ *  
+ *  Description: Class provides functionality for acquiring and processing JSON/XML documents from Tumblr API
  *
  *  Author: Shino Amakusa
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
@@ -20,9 +26,9 @@ using Tumblr_Tool.Tumblr_Objects;
 
 namespace Tumblr_Tool.Managers
 {
-    public class CrawlManager
+    public class DocumentManager
     {
-        public CrawlManager()
+        public DocumentManager()
         {
         }
 
@@ -36,10 +42,10 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                if (this.mode == "XML")
-                    GetXMLDocument(url);
-                else if (this.mode == "JSON")
-                    GetJSONDocument(url);
+                if (this.mode == ApiModeEnum.v1XML.ToString())
+                    GetDocumentXML(url);
+                else if (this.mode == ApiModeEnum.v2JSON.ToString())
+                    GetDocumentJSON(url);
             }
             catch
             {
@@ -49,7 +55,7 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public void GetJSONDocument(string url)
+        public void GetDocumentJSON(string url)
         {
             try
             {
@@ -70,15 +76,32 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        public void GetDocumentXML(string url)
+        {
+            try
+            {
+                this.xmlDocument = XMLHelper.GetDocument(url);
+            }
+            catch
+            {
+                this.xmlDocument = null;
+                return;
+            }
+        }
+
         public HashSet<TumblrPost> GetPostList(string type, string mode)
         {
             try
             {
                 HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-                if (mode == ApiModeEnum.JSON.ToString())
+                if (mode == ApiModeEnum.v2JSON.ToString())
                 {
                     postList = GetPostListJSON(type);
+                }
+                else
+                {
+                    postList = GetPostListXML(type);
                 }
 
                 return postList;
@@ -87,6 +110,109 @@ namespace Tumblr_Tool.Managers
             {
                 return null;
             }
+        }
+
+        public HashSet<TumblrPost> GetPostListXML(string type = "")
+        {
+            HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
+            HashSet<XElement> postElementList = XMLHelper.getPostElementList(xmlDocument);
+
+            foreach (XElement element in postElementList)
+            {
+                TumblrPost post = new TumblrPost();
+                if (type == TumblrPostTypes.photo.ToString())
+                {
+                    post = new PhotoPost();
+                }
+
+                if (element.Attribute("id") != null)
+                {
+                    post.id = element.Attribute("id").Value;
+                }
+
+                if (element.Attribute("url") != null)
+                {
+                    post.url = element.Attribute("url").Value;
+                }
+
+                if (element.Element("photo-caption") != null)
+                {
+                    post.caption = element.Element("photo-caption").Value;
+                }
+
+                if (element.Attribute("format") != null)
+                {
+                    post.format = element.Attribute("format").Value;
+                }
+
+                if (element.Attribute("unix-timestamp") != null)
+                {
+                    post.date = element.Attribute("unix-timestamp").Value;
+                }
+
+                if (element.Elements("tag") != null)
+                {
+                    foreach (string tag in element.Elements("tag").ToHashSet())
+                    {
+                        post.AddTag(tag);
+                    }
+                }
+
+                if (element.Attribute("type") != null)
+                {
+                    post.type = element.Attribute("type").Value;
+                }
+
+                if (element.Attribute("reblog-key") != null)
+                {
+                    post.reblogKey = element.Attribute("reblog-key").Value;
+                }
+
+                // If it is PhotoSet
+                XElement photoset = element.Element("photoset");
+
+                if (photoset != null)
+                {
+                    foreach (XElement setElement in photoset.Descendants("photo"))
+                    {
+                        XElement image = setElement.Descendants("photo-url").FirstOrDefault();
+                        if (image != null)
+                        {
+                            PhotoPostImage setImage = new PhotoPostImage();
+                            setImage.url = image.Value;
+                            setImage.filename = !string.IsNullOrEmpty(setImage.url) ? Path.GetFileName(setImage.url) : null;
+
+                            if (setElement.Attribute("photo-caption") != null)
+                            {
+                                setImage.caption = setElement.Attribute("photo-caption").Value;
+                            }
+
+                            if (setElement.Attribute("width") != null)
+                            {
+                                setImage.width = setElement.Attribute("width").Value;
+                            }
+
+                            if (setElement.Attribute("height") != null)
+                            {
+                                setImage.height = setElement.Attribute("height").Value;
+                            }
+
+                            post.photos.Add(setImage);
+                        }
+                    }
+                }
+                else
+                    if (element.Element("photo-url") != null)
+                    {
+                        PhotoPostImage photo = new PhotoPostImage();
+                        photo.url = (element.Element("photo-url").Value);
+                        photo.filename = Path.GetFileName(photo.url);
+                        post.photos.Add(photo);
+                    }
+                postList.Add(post);
+            }
+
+            return postList;
         }
 
         public HashSet<TumblrPost> GetPostListJSON(string type)
@@ -123,42 +249,11 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public void GetXMLDocument(string url)
-        {
-            try
-            {
-                this.xmlDocument = XMLHelper.GetDocument(url);
-            }
-            catch
-            {
-                this.xmlDocument = null;
-                return;
-            }
-        }
-
-        public bool IsValidTumblr(string url)
-        {
-            try
-            {
-                if (this.mode == ApiModeEnum.JSON.ToString())
-                {
-                    dynamic jsonObject = JSONHelper.GetObject(url);
-                    return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString());
-                }
-                else
-                    return XMLHelper.GetDocument(url) != null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public bool SetBlogInfo(string url, TumblrBlog blog)
         {
             try
             {
-                if (this.mode == ApiModeEnum.JSON.ToString())
+                if (this.mode == ApiModeEnum.v2JSON.ToString())
                 {
                     return SetBlogInfoJSON(url, blog);
                 }

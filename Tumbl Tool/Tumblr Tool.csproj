@@ -65,8 +65,8 @@
     <Compile Include="Enums\tumblrAPIResponseEnum.cs" />
     <Compile Include="Enums\tumblrPostTypes.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />
-    <Compile Include="Managers\CrawlManager.cs" />
-    <Compile Include="Managers\FileManager.cs" />
+    <Compile Include="Managers\DocumentManager.cs" />
+    <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tumblr Objects\AnswerPost.cs" />
     <Compile Include="Tumblr Objects\AudioPost.cs" />

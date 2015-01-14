@@ -153,8 +153,8 @@ namespace Tumblr_Tool
             // 
             this.download_Worker.WorkerReportsProgress = true;
             this.download_Worker.WorkerSupportsCancellation = true;
-            this.download_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.downloadWorker_DoWork);
-            this.download_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.downloadWorker_AfterDone);
+            this.download_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_DoWork);
+            this.download_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_AfterDone);
             // 
             // menu_TopMenu
             // 
@@ -184,7 +184,7 @@ namespace Tumblr_Tool
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
             this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.fileToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // openToolStripMenuItem
             // 
@@ -195,8 +195,8 @@ namespace Tumblr_Tool
             this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            this.openToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // saveToolStripMenuItem
             // 
@@ -207,7 +207,7 @@ namespace Tumblr_Tool
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Visible = false;
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // optionsToolStripMenuItem
             // 
@@ -218,8 +218,8 @@ namespace Tumblr_Tool
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(66, 21);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.ToolTipText = "View Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            this.optionsToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // helpToolStripMenuItem
             // 
@@ -230,7 +230,7 @@ namespace Tumblr_Tool
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(27, 21);
             this.helpToolStripMenuItem.Text = "?";
-            this.helpToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.helpToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // aboutToolStripMenuItem
             // 
@@ -240,22 +240,22 @@ namespace Tumblr_Tool
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.ToolTipText = "About this product";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            this.aboutToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.toolStripMenuItem_Paint);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // crawl_Worker
             // 
             this.crawl_Worker.WorkerReportsProgress = true;
             this.crawl_Worker.WorkerSupportsCancellation = true;
-            this.crawl_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.crawlWorker_DoWork);
-            this.crawl_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.crawlWorker_AfterDone);
+            this.crawl_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_DoWork);
+            this.crawl_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_AfterDone);
             // 
             // crawl_UpdateUI_Worker
             // 
             this.crawl_UpdateUI_Worker.WorkerReportsProgress = true;
             this.crawl_UpdateUI_Worker.WorkerSupportsCancellation = true;
-            this.crawl_UpdateUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.crawlWorker_UI__DoWork);
-            this.crawl_UpdateUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.crawlWorker_UI__AfterDone);
+            this.crawl_UpdateUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_UI__DoWork);
+            this.crawl_UpdateUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_UI__AfterDone);
             // 
             // status_Strip
             // 
@@ -319,28 +319,28 @@ namespace Tumblr_Tool
             // 
             this.download_UIUpdate_Worker.WorkerReportsProgress = true;
             this.download_UIUpdate_Worker.WorkerSupportsCancellation = true;
-            this.download_UIUpdate_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.downloadWorker_UI__DoWork);
-            this.download_UIUpdate_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.downloadWorker_UI__AfterDone);
+            this.download_UIUpdate_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_UI__DoWork);
+            this.download_UIUpdate_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_UI__AfterDone);
             // 
             // getStats_Worker
             // 
             this.getStats_Worker.WorkerReportsProgress = true;
             this.getStats_Worker.WorkerSupportsCancellation = true;
-            this.getStats_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getStatsWorker_DoWork);
-            this.getStats_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getStatsWorker_AfterDone);
+            this.getStats_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_DoWork);
+            this.getStats_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_AfterDone);
             // 
             // getStatsUI_Worker
             // 
             this.getStatsUI_Worker.WorkerReportsProgress = true;
             this.getStatsUI_Worker.WorkerSupportsCancellation = true;
-            this.getStatsUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getStatsWorker_UI__DoWork);
-            this.getStatsUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getStatsWorker_UI_AfterDone);
+            this.getStatsUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_UI__DoWork);
+            this.getStatsUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_UI_AfterDone);
             // 
             // fileBackgroundWorker
             // 
             this.fileBackgroundWorker.WorkerSupportsCancellation = true;
-            this.fileBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.fileBW_DoWork);
-            this.fileBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.fileBW_AfterDone);
+            this.fileBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FileBW_DoWork);
+            this.fileBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileBW_AfterDone);
             // 
             // tabControl_Main
             // 
@@ -369,7 +369,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.TabPageCloseIconColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabStyles = KRBTabControl.KRBTabControl.TabStyle.VS2010;
             this.tabControl_Main.UpDownStyle = KRBTabControl.KRBTabControl.UpDown32Style.Default;
-            this.tabControl_Main.SelectedIndexChanging += new System.EventHandler<KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs>(this.tabControl_Main_SelectedIndexChanging);
+            this.tabControl_Main.SelectedIndexChanging += new System.EventHandler<KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs>(this.TabControl_Main_SelectedIndexChanging);
             // 
             // tab_ImageRipper
             // 
@@ -395,7 +395,7 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.Size = new System.Drawing.Size(623, 246);
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Crawler";
-            this.tab_ImageRipper.Enter += new System.EventHandler(this.tabPage_Enter);
+            this.tab_ImageRipper.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
             // txt_TumblrURL
             // 
@@ -410,7 +410,7 @@ namespace Tumblr_Tool
             this.txt_TumblrURL.TabIndex = 0;
             this.txt_TumblrURL.TabStop = false;
             this.txt_TumblrURL.Text = "http://";
-            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.statsTumblrURLUpdate);
+            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.StatsTumblrURLUpdate);
             // 
             // lbl_Mode
             // 
@@ -483,9 +483,9 @@ namespace Tumblr_Tool
             this.btn_Start.TabIndex = 7;
             this.btn_Start.Text = "Start";
             this.btn_Start.UseVisualStyleBackColor = true;
-            this.btn_Start.Click += new System.EventHandler(this.btn_Crawl_Click);
-            this.btn_Start.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_Start.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            this.btn_Start.Click += new System.EventHandler(this.Btn_Crawl_Click);
+            this.btn_Start.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.btn_Start.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
             // btn_Browse
             // 
@@ -504,9 +504,9 @@ namespace Tumblr_Tool
             this.btn_Browse.TabIndex = 6;
             this.btn_Browse.Text = "Browse";
             this.btn_Browse.UseVisualStyleBackColor = true;
-            this.btn_Browse.Click += new System.EventHandler(this.btn_Browse_Click);
-            this.btn_Browse.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_Browse.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            this.btn_Browse.Click += new System.EventHandler(this.Btn_Browse_Click);
+            this.btn_Browse.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.btn_Browse.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
             // img_DisplayImage
             // 
@@ -579,7 +579,7 @@ namespace Tumblr_Tool
             this.tab_TumblrStats.Size = new System.Drawing.Size(623, 246);
             this.tab_TumblrStats.TabIndex = 1;
             this.tab_TumblrStats.Text = "Blog Stats";
-            this.tab_TumblrStats.Enter += new System.EventHandler(this.tabPage_Enter);
+            this.tab_TumblrStats.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
             // img_Stats_Avatar
             // 
@@ -641,7 +641,7 @@ namespace Tumblr_Tool
             this.txt_Stats_TumblrURL.Size = new System.Drawing.Size(178, 21);
             this.txt_Stats_TumblrURL.TabIndex = 0;
             this.txt_Stats_TumblrURL.Text = "http://";
-            this.txt_Stats_TumblrURL.TextChanged += new System.EventHandler(this.txt_StatsTumblrURL_TextChanged);
+            this.txt_Stats_TumblrURL.TextChanged += new System.EventHandler(this.Txt_StatsTumblrURL_TextChanged);
             // 
             // box_PostStats
             // 
@@ -915,9 +915,9 @@ namespace Tumblr_Tool
             this.btn_GetStats.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_GetStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_GetStats.UseVisualStyleBackColor = true;
-            this.btn_GetStats.Click += new System.EventHandler(this.btn_GetStats_Click);
-            this.btn_GetStats.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.btn_GetStats.MouseLeave += new System.EventHandler(this.button_MouseLeave);
+            this.btn_GetStats.Click += new System.EventHandler(this.Btn_GetStats_Click);
+            this.btn_GetStats.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.btn_GetStats.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
             // bar_Progress
             // 

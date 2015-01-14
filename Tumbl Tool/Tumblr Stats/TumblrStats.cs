@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -27,7 +27,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
         {
-            this.crawlManager = new CrawlManager();
+            this.documentManager = new DocumentManager();
             SetAPIMode(apiMode);
             step = (int)PostStepEnum.JSON;
 
@@ -63,7 +63,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public int chatPosts { get; set; }
 
-        public CrawlManager crawlManager { get; set; }
+        public DocumentManager documentManager { get; set; }
 
         public int found { get; set; }
 
@@ -100,13 +100,13 @@ namespace Tumblr_Tool.Tumblr_Stats
                 string url = XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0);
                 this.step = (int)PostStepEnum.XML;
 
-                if (this.crawlManager.mode == ApiModeEnum.JSON.ToString())
+                if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                 {
                     url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0);
                     this.step = (int)PostStepEnum.JSON;
                 }
 
-                if (this.crawlManager.IsValidTumblr(url))
+                if (url.IsValidTumblr(this.documentManager.mode))
                 {
                     this.totalPosts = this.blog.totalPosts;
 
@@ -123,13 +123,13 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                     while (i < this.totalPosts)
                     {
-                        if (this.crawlManager.mode == ApiModeEnum.JSON.ToString())
+                        if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                         {
                             url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), i);
                         }
 
-                        this.crawlManager.GetDocument(url);
-                        this.blog.posts.UnionWith(this.crawlManager.GetPostList(TumblrPostTypes.empty.ToString(), this.crawlManager.mode));
+                        this.documentManager.GetDocument(url);
+                        this.blog.posts.UnionWith(this.documentManager.GetPostList(TumblrPostTypes.empty.ToString(), this.documentManager.mode));
 
                         this.photoPosts += (from p in this.blog.posts where p.type == TumblrPostTypes.photo.ToString() select p).ToList().Count;
                         this.textPosts += (from p in this.blog.posts where p.type == TumblrPostTypes.regular.ToString() || p.type == TumblrPostTypes.text.ToString() select p).ToList().Count;
@@ -163,7 +163,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             try
             {
                 this.apiMode = mode; // XML or JSON
-                this.crawlManager.mode = mode;
+                this.documentManager.mode = mode;
             }
             catch
             {
@@ -175,13 +175,13 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                if (this.crawlManager.mode == ApiModeEnum.XML.ToString())
+                if (this.documentManager.mode == ApiModeEnum.v1XML.ToString())
                 {
-                    this.crawlManager.SetBlogInfo(XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.SetBlogInfo(XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
-                else if (this.crawlManager.mode == ApiModeEnum.JSON.ToString())
+                else if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    this.crawlManager.SetBlogInfo(JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.SetBlogInfo(JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
             }
             catch

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -72,6 +72,11 @@ namespace Tumblr_Tool
             {
                 return this._options;
             }
+
+            set
+            {
+                this._options = value;
+            }
         }
 
         public bool parseDownload
@@ -135,7 +140,8 @@ namespace Tumblr_Tool
 
         private void btn_Accept_Click(object sender, EventArgs e)
         {
-            this._mainForm.LoadOptions();
+            this._mainForm.SetOptions();
+            this.mainForm.SaveOptions(this.mainForm.optionsFileName);
             this.Close();
         }
 
@@ -165,7 +171,7 @@ namespace Tumblr_Tool
         {
         }
 
-        private void RestoreOptions()
+        public void RestoreOptions()
         {
             this.check_GIF.Checked = this._options.parseGIF;
             this.check_JPEG.Checked = this._options.parseJPEG;
@@ -184,12 +190,12 @@ namespace Tumblr_Tool
 
         private void button_MouseEnter(object sender, EventArgs e)
         {
-            this._mainForm.button_MouseEnter(sender, e);
+            this._mainForm.Button_MouseEnter(sender, e);
         }
 
         private void button_MouseLeave(object sender, EventArgs e)
         {
-            this._mainForm.button_MouseLeave(sender, e);
+            this._mainForm.Button_MouseLeave(sender, e);
         }
     }
 }

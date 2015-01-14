@@ -57,7 +57,7 @@ namespace Tumblr_Tool.Image_Ripper
             this.totalNumberOfPosts = 0;
             this.imageList = new HashSet<PhotoPostImage>();
             this.totalNumberOfImages = 0;
-            this.crawlManager = new CrawlManager();
+            this.documentManager = new DocumentManager();
             SetAPIMode(this.apiMode);
             this.commentsList = new Dictionary<string, string>();
         }
@@ -68,7 +68,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public Dictionary<string, string> commentsList { get; set; }
 
-        public CrawlManager crawlManager { get; set; }
+        public DocumentManager documentManager { get; set; }
 
         public HashSet<string> errorList { get; set; }
 
@@ -114,7 +114,6 @@ namespace Tumblr_Tool.Image_Ripper
 
         public void GenerateImageListForDownload(HashSet<TumblrPost> posts)
         {
-
             foreach (PhotoPost post in posts)
             {
                 if (!this.parsePhotoSets && post.photos.Count > 1)
@@ -130,7 +129,7 @@ namespace Tumblr_Tool.Image_Ripper
                             try
                             {
                                 //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
-                                
+
                                 //post.caption = post.caption.StripTags();
                                 this.imageList.Add(image);
                             }
@@ -175,7 +174,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.apiMode == ApiModeEnum.XML.ToString()) //XML
+                if (this.apiMode == ApiModeEnum.v1XML.ToString()) //XML
                 {
                     query = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), start);
                 }
@@ -184,11 +183,11 @@ namespace Tumblr_Tool.Image_Ripper
                     query = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), start);
                 }
 
-                this.crawlManager.GetDocument(query);
+                this.documentManager.GetDocument(query);
 
-                if (this.crawlManager.jsonDocument != null)
+                if (this.documentManager.jsonDocument != null)
                 {
-                    HashSet<TumblrPost> posts = crawlManager.GetPostList(TumblrPostTypes.photo.ToString(), apiMode);
+                    HashSet<TumblrPost> posts = documentManager.GetPostList(TumblrPostTypes.photo.ToString(), apiMode);
                     return posts;
                 }
                 else
@@ -208,14 +207,14 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string url = string.Empty;
-                if (this.apiMode == ApiModeEnum.XML.ToString())
+                if (this.apiMode == ApiModeEnum.v1XML.ToString())
                     url = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
                 else
                 {
                     url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
                 }
 
-                return this.crawlManager.IsValidTumblr(url);
+                return url.IsValidTumblr(this.apiMode);
             }
             catch
             {
@@ -230,7 +229,7 @@ namespace Tumblr_Tool.Image_Ripper
                 this.statusCode = ProcessingCodes.Crawling;
                 this.existingImageList = FileHelper.GetImageListFromDir(this.saveLocation);
                 string url = string.Empty;
-                if (this.apiMode == ApiModeEnum.XML.ToString())
+                if (this.apiMode == ApiModeEnum.v1XML.ToString())
                     url = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
                 else
                 {
@@ -241,7 +240,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 int step;
 
-                if (this.apiMode == ApiModeEnum.JSON.ToString())
+                if (this.apiMode == ApiModeEnum.v2JSON.ToString())
                     step = (int)PostStepEnum.JSON;
                 else
                     step = (int)PostStepEnum.XML;
@@ -250,7 +249,6 @@ namespace Tumblr_Tool.Image_Ripper
                     this.totalNumberOfPosts = this.blog.totalPosts;
 
                 bool finished = false;
-
 
                 this.percentComplete = 0;
 
@@ -324,7 +322,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 this.apiMode = mode; // XML or JSON
-                this.crawlManager.mode = mode;
+                this.documentManager.mode = mode;
             }
             catch
             {
@@ -337,7 +335,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.apiMode == ApiModeEnum.XML.ToString()) //XML
+                if (this.apiMode == ApiModeEnum.v1XML.ToString()) //XML
                 {
                     query = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
@@ -345,7 +343,7 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     query = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
-                return this.crawlManager.SetBlogInfo(query, this.blog);
+                return this.documentManager.SetBlogInfo(query, this.blog);
             }
             catch
             {

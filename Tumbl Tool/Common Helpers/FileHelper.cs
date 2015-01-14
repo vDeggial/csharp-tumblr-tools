@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: December, 2014
+ *  Last Updated: January, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -20,6 +20,9 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class FileHelper
     {
+
+        private static string saveFileFormat = "JSON";
+
         public static bool FileExists(string file)
         {
             return File.Exists(file);
@@ -142,10 +145,30 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
+        public static SaveFile ReadTumblrFile(string location)
+        {
+            SaveFile saveFile = ReadTumblrFile(location, "BIN");
+
+            if (saveFile == null)
+                saveFile = ReadTumblrFile(location, "XML");
+
+            if (saveFile == null)
+                saveFile = ReadTumblrFile(location, "JSON");
+
+            return saveFile;
+        }
+
+        public static bool SaveTumblrFile(string location, SaveFile saveFile)
+        {
+            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
+        }
+
+
         public static SaveFile ReadTumblrFileFromJSON(string location)
         {
             return (SaveFile)JSONHelper.ReadObject<SaveFile>(location);
         }
+
         public static SaveFile ReadTumblrFileFromXML(string location)
         {
             return (SaveFile)XMLHelper.ReadObject<SaveFile>(location);

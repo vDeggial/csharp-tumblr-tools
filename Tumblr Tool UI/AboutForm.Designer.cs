@@ -77,7 +77,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(276, 30);
             this.label1.TabIndex = 3;
-            this.label1.Text = "© 2013 - 2014 Shino Amakusa";
+            this.label1.Text = "© 2013 - 2015 Shino Amakusa";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AboutForm

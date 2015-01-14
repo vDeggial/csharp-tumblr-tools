@@ -33,7 +33,6 @@
             this.box_Log = new System.Windows.Forms.GroupBox();
             this.check_GenerateLog = new System.Windows.Forms.CheckBox();
             this.box_APIOptions = new System.Windows.Forms.GroupBox();
-            this.select_APIMode = new Tumblr_Tool.AdvancedComboBox();
             this.box_General = new System.Windows.Forms.GroupBox();
             this.check_ParseDownload = new System.Windows.Forms.CheckBox();
             this.check_ParseOnly = new System.Windows.Forms.CheckBox();
@@ -44,6 +43,7 @@
             this.check_PhotoSets = new System.Windows.Forms.CheckBox();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Accept = new System.Windows.Forms.Button();
+            this.select_APIMode = new Tumblr_Tool.AdvancedComboBox();
             this.parseOptionSection.SuspendLayout();
             this.box_Log.SuspendLayout();
             this.box_APIOptions.SuspendLayout();
@@ -80,13 +80,16 @@
             // 
             // check_GenerateLog
             // 
-            this.check_GenerateLog.AutoSize = true;
+            this.check_GenerateLog.Checked = true;
+            this.check_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.check_GenerateLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.check_GenerateLog.Location = new System.Drawing.Point(8, 26);
             this.check_GenerateLog.Name = "check_GenerateLog";
-            this.check_GenerateLog.Size = new System.Drawing.Size(124, 20);
+            this.check_GenerateLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.check_GenerateLog.Size = new System.Drawing.Size(125, 18);
             this.check_GenerateLog.TabIndex = 0;
-            this.check_GenerateLog.Text = "Generate Post Log";
+            this.check_GenerateLog.Text = "Generate Log File";
+            this.check_GenerateLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.check_GenerateLog.UseVisualStyleBackColor = true;
             // 
             // box_APIOptions
@@ -100,31 +103,6 @@
             this.box_APIOptions.TabIndex = 5;
             this.box_APIOptions.TabStop = false;
             this.box_APIOptions.Text = "API Options";
-            this.box_APIOptions.Visible = false;
-            // 
-            // select_APIMode
-            // 
-            this.select_APIMode.ArrowBackColor = System.Drawing.Color.Empty;
-            this.select_APIMode.ArrowForeColor = System.Drawing.Color.Empty;
-            this.select_APIMode.BackColor = System.Drawing.Color.White;
-            this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_APIMode.Enabled = false;
-            this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.select_APIMode.ForeColor = System.Drawing.Color.Black;
-            this.select_APIMode.FormattingEnabled = true;
-            this.select_APIMode.HighlightBackColor = System.Drawing.Color.Black;
-            this.select_APIMode.HighlightForeColor = System.Drawing.Color.White;
-            this.select_APIMode.Items.AddRange(new object[] {
-            "API v.1 (XML)",
-            "API v.2 (JSON)"});
-            this.select_APIMode.Location = new System.Drawing.Point(8, 23);
-            this.select_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.select_APIMode.Name = "select_APIMode";
-            this.select_APIMode.ShowArrow = false;
-            this.select_APIMode.Size = new System.Drawing.Size(140, 22);
-            this.select_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_APIMode.TabIndex = 0;
-            this.select_APIMode.SelectedIndexChanged += new System.EventHandler(this.mode_SelectedIndexChanged);
             // 
             // box_General
             // 
@@ -276,6 +254,30 @@
             this.btn_Accept.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.btn_Accept.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             // 
+            // select_APIMode
+            // 
+            this.select_APIMode.ArrowBackColor = System.Drawing.Color.Empty;
+            this.select_APIMode.ArrowForeColor = System.Drawing.Color.Empty;
+            this.select_APIMode.BackColor = System.Drawing.Color.White;
+            this.select_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_APIMode.Enabled = false;
+            this.select_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.select_APIMode.ForeColor = System.Drawing.Color.Black;
+            this.select_APIMode.FormattingEnabled = true;
+            this.select_APIMode.HighlightBackColor = System.Drawing.Color.Black;
+            this.select_APIMode.HighlightForeColor = System.Drawing.Color.White;
+            this.select_APIMode.Items.AddRange(new object[] {
+            "API v.1 (XML)",
+            "API v.2 (JSON)"});
+            this.select_APIMode.Location = new System.Drawing.Point(8, 23);
+            this.select_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.select_APIMode.Name = "select_APIMode";
+            this.select_APIMode.ShowArrow = false;
+            this.select_APIMode.Size = new System.Drawing.Size(140, 22);
+            this.select_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_APIMode.TabIndex = 0;
+            this.select_APIMode.SelectedIndexChanged += new System.EventHandler(this.mode_SelectedIndexChanged);
+            // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -301,7 +303,6 @@
             this.Load += new System.EventHandler(this.SetOptions);
             this.parseOptionSection.ResumeLayout(false);
             this.box_Log.ResumeLayout(false);
-            this.box_Log.PerformLayout();
             this.box_APIOptions.ResumeLayout(false);
             this.box_General.ResumeLayout(false);
             this.box_General.PerformLayout();

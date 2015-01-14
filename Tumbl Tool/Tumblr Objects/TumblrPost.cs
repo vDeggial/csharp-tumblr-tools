@@ -103,6 +103,7 @@ namespace Tumblr_Tool.Tumblr_Objects
         public virtual string videoUrl { get; set; }
 
         public virtual string year { get; set; }
+
         public virtual void AddImageToPhotoSet(PhotoPostImage image)
         {
             // void

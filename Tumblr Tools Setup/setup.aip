@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="11.6.3" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="11.7.1" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="MsiOrgComponent"/>
   </COMPONENT>
@@ -22,21 +22,19 @@
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="DefaultBuild:tumblricon.ico" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>
-    <ROW Property="ProductCode" Value="1033:{2C0EF5EA-C088-404E-8BAF-7171524DED64} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{3914D563-1EC9-4520-ACC4-0BA212F51DB6} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Tumblr Tools"/>
-    <ROW Property="ProductVersion" Value="1.0.8" Type="32"/>
+    <ROW Property="ProductVersion" Value="1.2.3" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{C43D57AB-D004-49BF-871E-513E0F63FC6E}"/>
-    <ROW Property="WIMinVersion" MultiBuildValue="DefaultBuild:4.0" ValueLocId="-"/>
+    <ROW Property="WIMinVersion" MultiBuildValue="DefaultBuild:3.01" ValueLocId="-"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT" MultiBuildValue="DefaultBuild:Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2, Windows XP x86 Service Pack 3, Windows Server 2003 x86, Windows Server 2003 x86 Service Pack 1, Windows Server 2003 x86 Service Pack 2" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT" MultiBuildValue="DefaultBuild:Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT64" MultiBuildValue="DefaultBuild:Windows XP x64, Windows XP x64 Service Pack 1, Windows XP x64 Service Pack 2, Windows Server 2003 x64, Windows Server 2003 x64 Service Pack 1, Windows Server 2003 x64 Service Pack 2" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNT64Display" MultiBuildValue="DefaultBuild:Windows XP x64, Windows Server 2003 x64" ValueLocId="-"/>
-    <ROW Property="WindowsTypeNTDisplay" MultiBuildValue="DefaultBuild:Windows 2000, Windows XP x86, Windows Server 2003 x86" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNTDisplay" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1" DirectoryOptions="3"/>
@@ -51,6 +49,8 @@
     <ROW Component="AI_ExePath" ComponentId="{6E27DFF6-A57F-4D9A-84A3-D63CD7540C93}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="Dotnetrix.TabControl.dll" ComponentId="{D7FF4C63-7032-4E64-91F4-DDE3DDDC2310}" Directory_="APPDIR" Attributes="0" KeyPath="Dotnetrix.TabControl.dll"/>
     <ROW Component="GOTHIC.TTF" ComponentId="{55806518-00AB-49B3-8851-CC476BD82114}" Directory_="FontsFolder" Attributes="16" Type="0"/>
+    <ROW Component="InstallLanguage" ComponentId="{DABBD805-07C3-4ACD-8389-552E5A42252B}" Directory_="APPDIR" Attributes="4" KeyPath="InstallLanguage" Options="1"/>
+    <ROW Component="KRBTabControl.dll" ComponentId="{442B683C-F140-4AE3-AA96-5D0224787DED}" Directory_="APPDIR" Attributes="0" KeyPath="KRBTabControl.dll"/>
     <ROW Component="Newtonsoft.Json.dll" ComponentId="{B96DF6C2-9CB3-4F21-BB9B-7D01AB32BEB9}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
     <ROW Component="ProductInformation" ComponentId="{F6C074C0-413E-4396-8100-5F6EA3C3A078}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{45D35A99-95D8-402F-9455-7B35B0862140}" Directory_="SHORTCUTDIR" Attributes="0"/>
@@ -60,7 +60,7 @@
     <ROW Component="URL" ComponentId="{869F9829-5C7C-40BF-A209-FF134027B4F6}" Directory_="APPDIR" Attributes="4" KeyPath="URL"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath Dotnetrix.TabControl.dll GOTHIC.TTF Newtonsoft.Json.dll ProductInformation SHORTCUTDIR TumblrTool.dll TumblrTools.exe TumblrTools.exe.config URL"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath Dotnetrix.TabControl.dll GOTHIC.TTF InstallLanguage KRBTabControl.dll Newtonsoft.Json.dll ProductInformation SHORTCUTDIR TumblrTool.dll TumblrTools.exe TumblrTools.exe.config URL"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
@@ -68,7 +68,8 @@
     <ROW File="GOTHIC.TTF" Component_="GOTHIC.TTF" FileName="GOTHIC.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHIC.TTF" SelfReg="false" NextFile="GOTHICB.TTF"/>
     <ROW File="GOTHICB.TTF" Component_="GOTHIC.TTF" FileName="GOTHICB.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICB.TTF" SelfReg="false" NextFile="GOTHICBI.TTF"/>
     <ROW File="GOTHICBI.TTF" Component_="GOTHIC.TTF" FileName="GOTHICBI.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICBI.TTF" SelfReg="false" NextFile="GOTHICI.TTF"/>
-    <ROW File="GOTHICI.TTF" Component_="GOTHIC.TTF" FileName="GOTHICI.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICI.TTF" SelfReg="false"/>
+    <ROW File="GOTHICI.TTF" Component_="GOTHIC.TTF" FileName="GOTHICI.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICI.TTF" SelfReg="false" NextFile="KRBTabControl.dll"/>
+    <ROW File="KRBTabControl.dll" Component_="KRBTabControl.dll" FileName="KRBTAB~1.DLL|KRBTabControl.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\KRBTabControl.dll" SelfReg="false"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Newtonsoft.Json.dll" SelfReg="false" NextFile="tumblricon.ico"/>
     <ROW File="TumblrTool.dll" Component_="TumblrTool.dll" FileName="TUMBLR~1.DLL|Tumblr Tool.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Tumblr Tool.dll" SelfReg="false" NextFile="Newtonsoft.Json.dll"/>
     <ROW File="TumblrTools.exe" Component_="TumblrTools.exe" FileName="TUMBLR~1.EXE|Tumblr Tools.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Tumblr Tools.exe" SelfReg="false" NextFile="TumblrTools.exe.config" DigSign="true"/>
@@ -79,7 +80,7 @@
     <ROW BootstrOptKey="GlobalOptions" GeneralOptions="oh" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup" Languages="en" InstallationType="2" CabsLocation="1" CompressCabs="false" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="8" UseLargeSchema="true" ExeName="Tumblr Tools Setup" UACExecutionLevel="2"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup" Languages="en" InstallationType="2" CabsLocation="1" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="8" LangsDialog="true" UseLargeSchema="true" ExeName="Tumblr Tools Setup" UACExecutionLevel="2"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
@@ -134,6 +135,12 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="55" Y="110" Width="372" Height="180" Attributes="3" Property="EulaRead" Text="..\license.rtf" Order="800" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ROW Dialog_="NewSeqDialog" Control="Bitmap" Type="Bitmap" X="0" Y="0" Width="450" Height="360" Attributes="1048577" Text="[Background]" Order="100"/>
+    <ROW Dialog_="NewSeqDialog" Control="Next" Type="PushButton" X="380" Y="330" Width="56" Height="17" Attributes="3" Text="[ButtonText_Next]" Order="200" TextLocId="-" Options="1"/>
+    <ROW Dialog_="NewSeqDialog" Control="Cancel" Type="PushButton" X="450" Y="0" Width="0" Height="0" Attributes="2" Text="[ButtonText_Cancel]" Order="300" TextLocId="-" Options="1"/>
+    <ROW Dialog_="NewSeqDialog" Control="Back" Type="PushButton" X="320" Y="330" Width="56" Height="17" Attributes="1" Text="[ButtonText_Back]" Order="400" TextLocId="-" Options="1"/>
+    <ROW Dialog_="NewSeqDialog" Control="Title" Type="Text" X="33" Y="23" Width="380" Height="40" Attributes="196611" Text="New Dialog" TextStyle="TitleFont" Order="500"/>
+    <ROW Dialog_="NewSeqDialog" Control="Description" Type="Text" X="55" Y="130" Width="360" Height="60" Attributes="196611" Text="New Dialog Description..." Order="600"/>
     <ROW Dialog_="PrepareDlg" Control="Title" Type="Text" X="55" Y="23" Width="378" Height="21" Attributes="196611" Text="Preparing [ProductName] [ProductVersion] [Wizard]" TextStyle="TitleFont" Order="500" TextLocId="Azure.Control.Text.PrepareDlg#Title" MsiKey="PrepareDlg#Title"/>
     <ROW Dialog_="StartMenuShortcutsDlg" Control="ShDirLabel" Type="Text" X="55" Y="151" Width="279" Height="11" Attributes="196611" Text="Start Menu Shortcuts Folder:" Order="700" TextLocId="Control.Text.StartMenuShortcutsDlg#ShDirLabel" MsiKey="StartMenuShortcutsDlg#ShDirLabel"/>
     <ROW Dialog_="WelcomeDlg" Control="Title" Type="Text" X="33" Y="23" Width="380" Height="40" Attributes="196611" Text="Welcome to the [ProductName] [ProductVersion] [Wizard]" TextStyle="TitleFont" Order="600" TextLocId="Control.Text.WelcomeDlg#Title" MsiKey="WelcomeDlg#Title"/>
@@ -167,6 +174,7 @@
     <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="InstallTypeDlg" Condition="AI_INSTALL" Ordering="201"/>
     <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="NewSeqDialog" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
@@ -213,6 +221,7 @@
     <ROW Dialog="FolderDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="39" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Next" Control_Cancel="Cancel" TitleLocId="Dialog.FolderDlg" MsiKey="FolderDlg"/>
     <ROW Dialog="InstallTypeDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="3" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Next" Control_Cancel="Cancel" TitleLocId="Dialog.InstallTypeDlg" MsiKey="InstallTypeDlg"/>
     <ROW Dialog="LicenseAgreementDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="3" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Next" Control_Cancel="Cancel" TitleLocId="Dialog.LicenseAgreementDlg" MsiKey="LicenseAgreementDlg"/>
+    <ROW Dialog="NewSeqDialog" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="3" Title="[ProductName] [Setup]" Control_Default="Next" Control_Cancel="Cancel"/>
     <ROW Dialog="PrepareDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="1" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Cancel" Control_Cancel="Cancel" TitleLocId="Dialog.PrepareDlg" MsiKey="PrepareDlg"/>
     <ROW Dialog="ProgressDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="1" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Cancel" Control_Cancel="Cancel" TitleLocId="Dialog.ProgressDlg" MsiKey="ProgressDlg"/>
     <ROW Dialog="StartMenuShortcutsDlg" HCentering="50" VCentering="50" Width="450" Height="360" Attributes="3" Title="[ProductName] [ProductVersion] [Setup]" Control_Default="Next" Control_Cancel="Cancel" TitleLocId="Dialog.StartMenuShortcutsDlg" MsiKey="StartMenuShortcutsDlg"/>
@@ -258,7 +267,7 @@
     <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="196" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1549" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1548" Builds="DefaultBuild"/>
-    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6598" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6596" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractFiles" Sequence="3998" Builds="DefaultBuild"/>
     <ROW Action="AI_DATA_SETTER" Sequence="3997"/>
     <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
@@ -269,10 +278,10 @@
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
+    <ROW Action="ExecuteAction" Sequence="1297" SeqType="0" MsiKey="ExecuteAction"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
-    <ROW Condition="( Version9X OR ( NOT VersionNT64 ) OR ( VersionNT64 AND ((VersionNT64 &lt;&gt; 502) OR (((VersionNT64 = 502) AND (ServicePackLevel &gt;= 1)) OR (MsiNTProductType &lt;&gt; 1))) AND ((VersionNT64 &lt;&gt; 502) OR (((VersionNT64 = 502) AND (ServicePackLevel &lt;&gt; 1)) OR (MsiNTProductType &lt;&gt; 1))) AND ((VersionNT64 &lt;&gt; 502) OR (((VersionNT64 = 502) AND (ServicePackLevel &lt;&gt; 2)) OR (MsiNTProductType &lt;&gt; 1))) AND ((VersionNT64 &lt;&gt; 502) OR ((VersionNT64 = 502) AND ((MsiNTProductType = 1) OR (ServicePackLevel &gt;= 1)))) AND ((VersionNT64 &lt;&gt; 502) OR ((VersionNT64 = 502) AND ((MsiNTProductType = 1) OR (ServicePackLevel &lt;&gt; 1)))) AND ((VersionNT64 &lt;&gt; 502) OR ((VersionNT64 = 502) AND ((MsiNTProductType = 1) OR (ServicePackLevel &lt;&gt; 2)))) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT64Display]" DescriptionLocId="AI.LaunchCondition.NoSpecificNT64" IsPredefined="true" Builds="DefaultBuild"/>
-    <ROW Condition="( Version9X OR VersionNT64 OR ( VersionNT AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &gt;= 1))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 1))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 2))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 3))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 4))) AND (((VersionNT &lt;&gt; 501) OR ((VersionNT = 501) AND (ServicePackLevel &gt;= 1))) OR VersionNT64) AND (((VersionNT &lt;&gt; 501) OR ((VersionNT = 501) AND (ServicePackLevel &lt;&gt; 1))) OR VersionNT64) AND (((VersionNT &lt;&gt; 501) OR ((VersionNT = 501) AND (ServicePackLevel &lt;&gt; 2))) OR VersionNT64) AND (((VersionNT &lt;&gt; 501) OR ((VersionNT = 501) AND (ServicePackLevel &lt;&gt; 3))) OR VersionNT64) AND (((VersionNT &lt;&gt; 502) OR ((VersionNT = 502) AND (ServicePackLevel &gt;= 1))) OR VersionNT64) AND (((VersionNT &lt;&gt; 502) OR ((VersionNT = 502) AND (ServicePackLevel &lt;&gt; 1))) OR VersionNT64) AND (((VersionNT &lt;&gt; 502) OR ((VersionNT = 502) AND (ServicePackLevel &lt;&gt; 2))) OR VersionNT64) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNTDisplay]" DescriptionLocId="AI.LaunchCondition.NoSpecificNT" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="( Version9X OR VersionNT64 OR ( VersionNT AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &gt;= 1))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 1))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 2))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 3))) AND ((VersionNT &lt;&gt; 500) OR ((VersionNT = 500) AND (ServicePackLevel &lt;&gt; 4))) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNTDisplay]" DescriptionLocId="AI.LaunchCondition.NoSpecificNT" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT40Display]" DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="This package can only be run from a bootstrapper." DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="VersionMsi &gt;= WIMinVersion" Description="[ProductName] cannot be installed on systems with Windows Installer version lower than [WIMinVersion]" DescriptionLocId="AI.LaunchCondition.WI" IsPredefined="true" Builds="DefaultBuild"/>
@@ -295,6 +304,7 @@
     <ROW Registry="EstimatedSize" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="EstimatedSize" Value="#[AI_ARP_SIZE]" Component_="AI_CustomARPName"/>
     <ROW Registry="HelpLink" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpLink" Value="[ARPHELPLINK]" Component_="AI_CustomARPName"/>
     <ROW Registry="HelpTelephone" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpTelephone" Value="[ARPHELPTELEPHONE]" Component_="AI_CustomARPName"/>
+    <ROW Registry="InstallLanguage" Root="-1" Key="Software\Caphyon\Advanced Installer\[ProductCode]" Name="InstallLanguage" Value="[ProductLanguage]" Component_="InstallLanguage"/>
     <ROW Registry="InstallLocation" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="InstallLocation" Value="[APPDIR]" Component_="AI_CustomARPName"/>
     <ROW Registry="ModifyPath" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="ModifyPath" Value="[AI_UNINSTALLER] /I [ProductCode]" Component_="AI_CustomARPName"/>
     <ROW Registry="NoModify" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="NoModify" Value="#1" Component_="AI_DisableModify"/>
@@ -324,15 +334,14 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiVerbComponent">
     <ROW Extension_="tumblr" Component_="TumblrTools.exe" Verb="open" Sequence="0" Command="&amp;Open" Argument="&quot;%1&quot;"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MultipleInstancesComponent">
+    <ATTRIBUTE name="DynamicInstances" value="DefaultBuild:"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
-    <ROW PrereqKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" DisplayName=".NET Framework 4.0 Client Profile" SetupFileUrl="http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe" Location="1" ExactSize="43000680" WinNTVersions="Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows Server 2003 x86, Windows 8 x86, Windows 8.1 x86" WinNT64Versions="Windows XP x64, Windows Server 2003 x64, Windows 8 x64, Windows Server 2012 x64, Windows 8.1 x64, Windows Server 2012 R2 x64" Operator="1" NoUiComLine="/q /norestart" Options="x" MD5="1cf262f35322d6c9c7a27fca513fc269" TargetName=".NET Framework 4.0?dotNetFx40_Client_x86_x64.exe"/>
-    <ROW PrereqKey="D5ACF1DA_E9F5_4D0B_BE2E_BA8866896750" DisplayName="Windows Installer 4.5 for Windows Vista/Server 2008 x86" VersionMin="4.5" SetupFileUrl="http://download.microsoft.com/download/2/6/1/261fca42-22c0-4f91-9451-0e0f2e08356d/Windows6.0-KB942288-v2-x86.msu" Location="1" ExactSize="1768236" WinNTVersions="Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2, Windows XP x86 Service Pack 3, Windows Server 2003 x86, Windows Server 2003 x86 Service Pack 1, Windows Server 2003 x86 Service Pack 2, Windows Vista x86 Service Pack 2, Windows 7 x86, Windows 7 x86 Service Pack 1, Windows 8 x86, Windows 8.1 x86" WinNT64Versions="Windows XP/Vista/Windows 7/Windows 8 x64/Windows 8.1 x64" Operator="1" NoUiComLine="/quiet" MD5="2a6c8620d69880e2cfdcd41f58643620" TargetName="Windows Installer 4.5?Windows6.0-KB942288-v2-x86.msu"/>
-    <ROW PrereqKey="DEA59E_3721_47EC_B210_ECE91E508519" DisplayName="Windows Installer 4.5 for Windows Vista/Server 2008 x64" VersionMin="4.5" SetupFileUrl="http://download.microsoft.com/download/2/6/1/261fca42-22c0-4f91-9451-0e0f2e08356d/Windows6.0-KB942288-v2-x64.msu" Location="1" ExactSize="3086960" WinNTVersions="Windows 9x/ME/NT/2000/XP/Vista/Windows 7/Windows 8 x86/Windows 8.1 x86" WinNT64Versions="Windows XP x64, Windows XP x64 Service Pack 1, Windows XP x64 Service Pack 2, Windows Server 2003 x64, Windows Server 2003 x64 Service Pack 1, Windows Server 2003 x64 Service Pack 2, Windows Vista x64 Service Pack 2, Windows 7 x64, Windows 7 x64 Service Pack 1, Windows Server 2008 R2 x64, Windows Server 2008 R2 x64 Service Pack 1, Windows 8 x64, Windows Server 2012 x64, Windows 8.1 x64, Windows Server 2012 R2 x64" Operator="1" NoUiComLine="/quiet" Options="x" MD5="8a6bbae35c9a95f8b5ad66a620b32b28" TargetName="Windows Installer 4.5?Windows6.0-KB942288-v2-x64.msu"/>
-    <ATTRIBUTE name="PrereqsOrder" value="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF D5ACF1DA_E9F5_4D0B_BE2E_BA8866896750 DEA59E_3721_47EC_B210_ECE91E508519"/>
+    <ROW PrereqKey="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD" DisplayName=".NET Framework 4.0 (web installer)" SetupFileUrl="Prerequisites\.NET Framework 4.0\dotNetFx40_Full_setup.exe" Location="0" ExactSize="889416" WinNTVersions="Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows Server 2003 x86, Windows 8 x86, Windows 8.1 x86" WinNT64Versions="Windows XP x64, Windows Server 2003 x64, Windows 8 x64, Windows Server 2012 x64, Windows 8.1 x64, Windows Server 2012 R2 x64" Operator="1" NoUiComLine="/q /norestart" Options="x" MD5="53406e9988306cbd4537677c5336aba4" TargetName=".NET Framework 4.0\dotNetFx40_Full_setup.exe"/>
+    <ATTRIBUTE name="PrereqsOrder" value="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
-    <ROW SearchKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CFInstall" Prereq="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client\Install" RefContent="M1" Order="1" Property="PreReqSearch_AAFDE9CF_9E01_43FE_869C_F81D4708C0CF"/>
-    <ROW SearchKey="D5ACF1DA_E9F5_4D0B_BE2E_BA8866896750SystemFoldermsi.dll" Prereq="D5ACF1DA_E9F5_4D0B_BE2E_BA8866896750" SearchType="0" SearchString="[SystemFolder]msi.dll" VerMin="4.5.6000.20817" Order="1" Property="PreReqSearch_D5ACF1DA_E9F5_4D0B_BE2E_BA8866896750"/>
-    <ROW SearchKey="DEA59E_3721_47EC_B210_ECE91E508519SystemFoldermsi.dll" Prereq="DEA59E_3721_47EC_B210_ECE91E508519" SearchType="0" SearchString="[SystemFolder]msi.dll" VerMin="4.5.6000.20817" Order="1" Property="PreReqSearch_DEA59E_3721_47EC_B210_ECE91E508519"/>
+    <ROW SearchKey="D62CCA_449F_4EB4_AA2F_C4376D7FBDADInstall" Prereq="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Install" RefContent="M1" Order="1" Property="PreReqSearch_D62CCA_449F_4EB4_AA2F_C4376D7FBDAD"/>
   </COMPONENT>
 </DOCUMENT>

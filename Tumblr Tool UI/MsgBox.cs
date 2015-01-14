@@ -1,16 +1,27 @@
-﻿using System;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2013
+ *
+ *  Last Updated: January, 2015
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Tumblr_Tool
 {
     [System.ComponentModel.DesignerCategory("Code")]
-    class MsgBox : Form
+    internal class MsgBox : Form
     {
         private const int CS_DROPSHADOW = 0x00020000;
         private static MsgBox _msgBox;
@@ -102,7 +113,6 @@ namespace Tumblr_Tool
             }
         }
 
-
         private static void MsgBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -119,11 +129,9 @@ namespace Tumblr_Tool
 
             MsgBox.InitButtons(Buttons.OK);
 
-
             _msgBox.ShowDialog();
             return _buttonResult;
         }
-
 
         public static DialogResult Show(string message, bool beep)
         {
@@ -183,7 +191,7 @@ namespace Tumblr_Tool
             if (beep)
                 MessageBeep(0);
             _msgBox.ShowDialog();
-            
+
             return _buttonResult;
         }
 
@@ -228,11 +236,11 @@ namespace Tumblr_Tool
             if (beep)
                 MessageBeep(0);
             _msgBox.ShowDialog();
-            
+
             return _buttonResult;
         }
 
-        static void timer_Tick(object sender, EventArgs e)
+        private static void timer_Tick(object sender, EventArgs e)
         {
             Timer timer = (Timer)sender;
             AnimateMsgBox animate = (AnimateMsgBox)timer.Tag;
@@ -421,7 +429,6 @@ namespace Tumblr_Tool
             btnCancel.Text = "Cancel";
             btnCancel.Click += ButtonClick;
 
-
             this._buttonCollection.Add(btnOK);
             this._buttonCollection.Add(btnCancel);
         }
@@ -436,7 +443,6 @@ namespace Tumblr_Tool
             btnCancel.Text = "Cancel";
             btnCancel.Click += ButtonClick;
 
-
             this._buttonCollection.Add(btnRetry);
             this._buttonCollection.Add(btnCancel);
         }
@@ -450,7 +456,6 @@ namespace Tumblr_Tool
             Button btnNo = new Button();
             btnNo.Text = "No";
             btnNo.Click += ButtonClick;
-
 
             this._buttonCollection.Add(btnYes);
             this._buttonCollection.Add(btnNo);
@@ -587,10 +592,9 @@ namespace Tumblr_Tool
             FadeIn = 2,
             ZoomIn = 3
         }
-
     }
 
-    class AnimateMsgBox
+    internal class AnimateMsgBox
     {
         public Size FormSize;
         public MsgBox.AnimateStyle Style;

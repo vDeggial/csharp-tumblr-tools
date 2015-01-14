@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.2";
+        public const string _VERSION = "1.2.3";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -59,17 +59,19 @@ namespace Tumblr_Tool
         public const string _WORKTEXT_STARTING = "Starting ...";
         public const string _WORKTEXT_UPDATINGLOG = "Updating Log File ...";
 
+        public string optionsFileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\" + "Tumblr Tools.options";
+
         public mainForm()
         {
             InitializeComponent();
-            this.GlobalInit();
+            this.GlobalInitialize();
         }
 
         public mainForm(string file)
         {
             InitializeComponent();
 
-            this.GlobalInit();
+            this.GlobalInitialize();
 
             this.txt_SaveLocation.Text = Path.GetDirectoryName(file);
 
@@ -98,7 +100,7 @@ namespace Tumblr_Tool
 
         public string errorMessage { get; set; }
 
-        public FileManager fileManager { get; set; }
+        public DownloadManager downloadManager { get; set; }
 
         public bool isCancelled { get; set; }
 
@@ -134,7 +136,7 @@ namespace Tumblr_Tool
 
         public string tumblrURL { get; set; }
 
-        public void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        public void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.aboutForm.ShowDialog();
         }
@@ -150,7 +152,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void btn_Browse_Click(object sender, EventArgs e)
+        public void Btn_Browse_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog ofd = new FolderBrowserDialog())
             {
@@ -161,7 +163,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void btn_Crawl_Click(object sender, EventArgs e)
+        public void Btn_Crawl_Click(object sender, EventArgs e)
         {
             EnableUI_Crawl(false);
             this.bar_Progress.Visible = true;
@@ -184,7 +186,7 @@ namespace Tumblr_Tool
             this.lbl_Size.Text = string.Format(_SIZE, "0.00", _SUFFIX_MB);
             this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "", "");
             this.lbl_Size.Visible = false;
-            this.fileManager = new FileManager();
+            this.downloadManager = new DownloadManager();
             this.ripper = new ImageRipper();
 
             if (CheckFields())
@@ -216,7 +218,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void btn_GetStats_Click(object sender, EventArgs e)
+        public void Btn_GetStats_Click(object sender, EventArgs e)
         {
             this.lbl_PostCount.Visible = false;
             this.bar_Progress.BarColor = Color.Black;
@@ -240,7 +242,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void button_MouseEnter(object sender, EventArgs e)
+        public void Button_MouseEnter(object sender, EventArgs e)
         {
             Button button = sender as Button;
 
@@ -251,7 +253,7 @@ namespace Tumblr_Tool
             button.FlatAppearance.BorderSize = 1;
         }
 
-        public void button_MouseLeave(object sender, EventArgs e)
+        public void Button_MouseLeave(object sender, EventArgs e)
         {
             Button button = sender as Button;
             button.UseVisualStyleBackColor = true;
@@ -338,7 +340,7 @@ namespace Tumblr_Tool
             this.bar_Progress.Refresh();
         }
 
-        public void crawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void CrawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -359,7 +361,7 @@ namespace Tumblr_Tool
 
                         if (this.isCrawlingDone && !this.optionsForm.parseOnly && !this.isCancelled)
                         {
-                            this.fileManager.totalToDownload = this.ripper.imageList.Count;
+                            this.downloadManager.totalToDownload = this.ripper.imageList.Count;
 
                             this.isDownloadDone = false;
                             this.downloadedList = new List<string>();
@@ -378,7 +380,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void crawlWorker_DoWork(object sender, DoWorkEventArgs e)
+        public void CrawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -400,7 +402,7 @@ namespace Tumblr_Tool
                                 UpdateWorkStatusTextNewLine(_WORKTEXT_READINGLOG);
                             });
 
-                            this.tumblrLogFile = fileManager.ReadTumblrFile(file);
+                            this.tumblrLogFile = FileHelper.ReadTumblrFile(file);
 
                             this.Invoke((MethodInvoker)delegate
                             {
@@ -546,7 +548,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void crawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void CrawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             if (!this.IsDisposed)
             {
@@ -577,7 +579,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void crawlWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        public void CrawlWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -792,11 +794,11 @@ namespace Tumblr_Tool
             }
         }
 
-        public void downloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void DownloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            lock (this.fileManager)
+            lock (this.downloadManager)
             {
-                this.fileManager.statusCode = DownloadStatusCodes.Done;
+                this.downloadManager.statusCode = DownloadStatusCodes.Done;
             }
 
             try
@@ -836,7 +838,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void downloadWorker_DoWork(object sender, DoWorkEventArgs e)
+        public void DownloadWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Thread.Sleep(200);
             try
@@ -847,11 +849,11 @@ namespace Tumblr_Tool
                 this.isFileDownloadDone = false;
                 FileInfo file;
                 HashSet<PhotoPostImage> imagesList = (HashSet<PhotoPostImage>)e.Argument;
-                fileManager.totalToDownload = imagesList.Count;
+                downloadManager.totalToDownload = imagesList.Count;
 
-                lock (this.fileManager)
+                lock (this.downloadManager)
                 {
-                    this.fileManager.statusCode = DownloadStatusCodes.Preparing;
+                    this.downloadManager.statusCode = DownloadStatusCodes.Preparing;
                 }
 
                 while (!isReadyForDownload)
@@ -863,9 +865,9 @@ namespace Tumblr_Tool
                 {
                     int j = 0;
 
-                    lock (this.fileManager)
+                    lock (this.downloadManager)
                     {
-                        this.fileManager.statusCode = DownloadStatusCodes.Downloading;
+                        this.downloadManager.statusCode = DownloadStatusCodes.Downloading;
                     }
 
                     foreach (PhotoPostImage photoImage in imagesList)
@@ -875,9 +877,9 @@ namespace Tumblr_Tool
 
                         this.isFileDownloadDone = false;
 
-                        lock (this.fileManager)
+                        lock (this.downloadManager)
                         {
-                            this.fileManager.statusCode = DownloadStatusCodes.Downloading;
+                            this.downloadManager.statusCode = DownloadStatusCodes.Downloading;
                         }
 
                         bool downloaded = false;
@@ -889,7 +891,7 @@ namespace Tumblr_Tool
                             {
                                 fullPath = FileHelper.GetFullFilePath(photoImage.filename, this.saveLocation);
 
-                                downloaded = fileManager.DownloadFile(photoImage.url, this.saveLocation);
+                                downloaded = downloadManager.DownloadFile(photoImage.url, this.saveLocation);
 
                                 if (downloaded)
                                 {
@@ -900,11 +902,8 @@ namespace Tumblr_Tool
 
                                     file = new FileInfo(fullPath);
 
-                                    
-
                                     lock (this.downloadedList)
                                     {
-                                        
                                         this.downloadedList.Add(fullPath);
                                     }
 
@@ -912,10 +911,8 @@ namespace Tumblr_Tool
                                     {
                                         this.downloadedSizesList.Add((int)file.Length);
                                     }
-
-                                    
                                 }
-                                else if (this.fileManager.statusCode == DownloadStatusCodes.UnableDownload)
+                                else if (this.downloadManager.statusCode == DownloadStatusCodes.UnableDownload)
                                 {
                                     lock (this.notDownloadedList)
                                     {
@@ -970,7 +967,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void downloadWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void DownloadWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -1026,14 +1023,14 @@ namespace Tumblr_Tool
             }
         }
 
-        public void downloadWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        public void DownloadWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             this.currentPercent = 0;
             this.currentPostCount = 0;
             this.currentSize = 0;
             try
             {
-                if (this.fileManager == null) this.fileManager = new FileManager();
+                if (this.downloadManager == null) this.downloadManager = new DownloadManager();
 
                 if (this.ripper.imageList.Count == 0)
                 {
@@ -1080,7 +1077,6 @@ namespace Tumblr_Tool
                         this.Invoke((MethodInvoker)delegate
                         {
                             UpdateWorkStatusTextNewLine(_WORKTEXT_DOWNLOADINGIMAGES);
-                            
                         });
 
                         this.isReadyForDownload = true;
@@ -1139,7 +1135,7 @@ namespace Tumblr_Tool
                                 }
 
                                 int downloaded = this.downloadedList.Count;
-                                int total = this.fileManager.totalToDownload;
+                                int total = this.downloadManager.totalToDownload;
 
                                 if (downloaded > total)
                                     downloaded = total;
@@ -1199,18 +1195,18 @@ namespace Tumblr_Tool
                                     //
                                 }
 
-                                if ((int)this.fileManager.percentDownloaded <= 0)
+                                if ((int)this.downloadManager.percentDownloaded <= 0)
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         UpdateStatusText(string.Format(_STATUS_DOWNLOADING, "Connecting"));
                                     });
                                 }
-                                else if (percent != (int)this.fileManager.percentDownloaded)
+                                else if (percent != (int)this.downloadManager.percentDownloaded)
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
-                                        UpdateStatusText(string.Format(_STATUS_DOWNLOADING, this.fileManager.percentDownloaded.ToString() + "%"));
+                                        UpdateStatusText(string.Format(_STATUS_DOWNLOADING, this.downloadManager.percentDownloaded.ToString() + "%"));
                                     });
                                 }
 
@@ -1248,11 +1244,11 @@ namespace Tumblr_Tool
             this.disableOtherTabs = !state;
         }
 
-        public void fileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void FileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
         }
 
-        public void fileBW_DoWork(object sender, DoWorkEventArgs e)
+        public void FileBW_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1297,7 +1293,6 @@ namespace Tumblr_Tool
                             Thread thread = new Thread(SaveLogFile);
                             thread.Start();
                         }
-
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -1324,12 +1319,12 @@ namespace Tumblr_Tool
             }
         }
 
-        public void getStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void GetStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             this.tumblrStats.statusCode = ProcessingCodes.Done;
         }
 
-        public void getStatsWorker_DoWork(object sender, DoWorkEventArgs e)
+        public void GetStatsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             this.tumblrStats.statusCode = ProcessingCodes.Initializing;
             try
@@ -1356,7 +1351,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void getStatsWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        public void GetStatsWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1498,7 +1493,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void getStatsWorker_UI_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        public void GetStatsWorker_UI_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -1519,7 +1514,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void GlobalInit()
+        public void GlobalInitialize()
         {
             this.parseModesDict = new Dictionary<string, ParseModes>();
             this.downloadedList = new List<string>();
@@ -1561,7 +1556,7 @@ namespace Tumblr_Tool
             this.bar_Progress.Step = 1;
             this.bar_Progress.Value = 0;
 
-            this.fileManager = new FileManager();
+            this.downloadManager = new DownloadManager();
             this.Text += " " + _VERSION + "";
             this.optionsForm = new OptionsForm();
             this.optionsForm.mainForm = this;
@@ -1569,9 +1564,20 @@ namespace Tumblr_Tool
             this.aboutForm.mainForm = this;
             this.aboutForm.version = "Version: " + _VERSION;
 
-            this.optionsForm.apiMode = ApiModeEnum.JSON.ToString();
+            this.optionsForm.apiMode = ApiModeEnum.v2JSON.ToString();
 
-            LoadOptions();
+            string file = this.optionsFileName;
+
+            if (File.Exists(file))
+            {
+                this.LoadOptions(file);
+            }
+            else
+            {
+                SetOptions();
+                this.SaveOptions(file);
+            }
+
             this.lbl_Size.Text = string.Empty;
             this.lbl_Size.Visible = false;
             this.lbl_PostCount.Text = string.Empty;
@@ -1600,18 +1606,15 @@ namespace Tumblr_Tool
             }
         }
 
-        public void LoadOptions()
+        public void LoadOptions(string filename)
         {
-            this.optionsForm.SetOptions();
-            LoadOptions(this.optionsForm.options);
+            this.options = JSONHelper.ReadObject<ToolOptions>(filename);
+            this.options.apiMode = ApiModeEnum.v2JSON.ToString();
+            this.optionsForm.options = this.options;
+            this.optionsForm.RestoreOptions();
         }
 
-        public void LoadOptions(ToolOptions _options)
-        {
-            this.options = _options;
-        }
-
-        public void openToolStripMenuItem_Click(object sender, EventArgs e)
+        public void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.btn_Start.Enabled = false;
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -1639,7 +1642,7 @@ namespace Tumblr_Tool
             {
                 if (!this.IsDisposed)
                 {
-                    this.tumblrSaveFile = !string.IsNullOrEmpty(file) ? this.fileManager.ReadTumblrFile(file) : null;
+                    this.tumblrSaveFile = !string.IsNullOrEmpty(file) ? FileHelper.ReadTumblrFile(file) : null;
 
                     this.tumblrBlog = this.tumblrSaveFile != null ? this.tumblrSaveFile.blog : null;
 
@@ -1667,14 +1670,19 @@ namespace Tumblr_Tool
             }
         }
 
-        public void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.optionsForm.ShowDialog();
         }
 
         public void SaveLogFile()
         {
-            this.fileManager.SaveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.filename, this.tumblrLogFile);
+            FileHelper.SaveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.filename, this.tumblrLogFile);
+        }
+
+        public void SaveOptions(string filename)
+        {
+            JSONHelper.SaveObject<ToolOptions>(filename, this.options);
         }
 
         public void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1687,7 +1695,7 @@ namespace Tumblr_Tool
                 sfd.Filter = "Tumblr Tools Files (.tumblr)|*.tumblr";
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    if (this.fileManager.SaveTumblrFile(sfd.FileName, saveFile))
+                    if (FileHelper.SaveTumblrFile(sfd.FileName, saveFile))
                     {
                         MessageBox.Show("Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -1699,7 +1707,7 @@ namespace Tumblr_Tool
         {
             this.tumblrSaveFile = new SaveFile(name + ".tumblr", this.ripper.blog);
 
-            return this.fileManager.SaveTumblrFile(this.saveLocation + @"\" + this.tumblrSaveFile.filename, this.tumblrSaveFile);
+            return FileHelper.SaveTumblrFile(this.saveLocation + @"\" + this.tumblrSaveFile.filename, this.tumblrSaveFile);
         }
 
         public void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
@@ -1709,12 +1717,23 @@ namespace Tumblr_Tool
             controlProperty.SetValue(control, value, null);
         }
 
-        public void statsTumblrURLUpdate(object sender, EventArgs e)
+        public void SetOptions()
+        {
+            this.optionsForm.SetOptions();
+            SetOptions(this.optionsForm.options);
+        }
+
+        public void SetOptions(ToolOptions _options)
+        {
+            this.options = _options;
+        }
+
+        public void StatsTumblrURLUpdate(object sender, EventArgs e)
         {
             this.txt_Stats_TumblrURL.Text = this.txt_TumblrURL.Text;
         }
 
-        public void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        public void TabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (this.disableOtherTabs)
             {
@@ -1734,7 +1753,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void tabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
+        public void TabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (!e.TabPage.Enabled)
             {
@@ -1742,12 +1761,12 @@ namespace Tumblr_Tool
             }
         }
 
-        public void tabPage_Enter(object sender, EventArgs e)
+        public void TabPage_Enter(object sender, EventArgs e)
         {
             this.currentSelectedTab = this.tabControl_Main.SelectedIndex;
         }
 
-        public void toolStripMenuItem_Paint(object sender, PaintEventArgs e)
+        public void ToolStripMenuItem_Paint(object sender, PaintEventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
 
@@ -1756,7 +1775,7 @@ namespace Tumblr_Tool
             renderer.ChangeTextForeColor(TSMI, e);
         }
 
-        public void txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
+        public void Txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
         {
             this.txt_TumblrURL.Text = this.txt_Stats_TumblrURL.Text;
         }
@@ -1815,7 +1834,7 @@ namespace Tumblr_Tool
         {
         }
 
-        private void tabControl_Main_SelectedIndexChanging(object sender, KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs e)
+        private void TabControl_Main_SelectedIndexChanging(object sender, KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs e)
         {
             if (this.disableOtherTabs)
             {
