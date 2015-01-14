@@ -13,6 +13,7 @@
 using System;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Text;
 using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -24,10 +25,46 @@ namespace Tumblr_Tool.Common_Helpers
             return new Ping().Send("www.google.com").Status == IPStatus.Success;
         }
 
-        public static bool IsValidUrl(this string source)
+        public static string FixURL(string url)
         {
-            Uri uriResult;
-            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            try
+            {
+                if (url.EndsWith("/"))
+                {
+                    url = url.Remove(url.Length - 1);
+                }
+
+                return url;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string GetDocumentAsString(string url)
+        {
+            try
+            {
+                string docStr;
+
+                using (var wc = new WebClient())
+                {
+                    wc.Encoding = Encoding.UTF8;
+                    docStr = wc.DownloadString(url);
+                }
+
+                return docStr;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string GetDomainName(string url)
+        {
+            return new Uri(url) != null ? new Uri(url).Host : null;
         }
 
         public static bool IsValidTumblr(this string url, string mode)
@@ -46,6 +83,12 @@ namespace Tumblr_Tool.Common_Helpers
             {
                 return false;
             }
+        }
+
+        public static bool IsValidUrl(this string source)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
         }
 
         public static string StripHTMLTags(string HTML)

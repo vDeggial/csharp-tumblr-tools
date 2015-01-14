@@ -28,8 +28,8 @@ namespace Tumblr_Tool.Image_Ripper
 
         public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "JSON")
         {
-            this.tumblrURL = FileHelper.FixURL(blog.url);
-            this.tumblrDomain = CommonHelper.GetDomainName(blog.url);
+            this.tumblrURL = WebHelper.FixURL(blog.url);
+            this.tumblrDomain = WebHelper.GetDomainName(blog.url);
 
             this.generateLog = generateLog;
 

@@ -13,8 +13,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Net;
-using System.Text;
 using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Common_Helpers
@@ -31,11 +29,22 @@ namespace Tumblr_Tool.Common_Helpers
         private const string _OFFSET = "&offset={0}";
         private const string _POSTQUERY = "posts";
 
+        public static string GenerateInfoQueryString(string tumblrDomain)
+        {
+            string query;
+
+            tumblrDomain = WebHelper.FixURL(tumblrDomain);
+
+            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY);
+
+            return query;
+        }
+
         public static string GenerateQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
         {
             string query;
 
-            tumblrDomain = CommonHelper.FixURL(tumblrDomain);
+            tumblrDomain = WebHelper.FixURL(tumblrDomain);
 
             string postQuery = _POSTQUERY;
             if (type != TumblrPostTypes.empty.ToString())
@@ -48,20 +57,9 @@ namespace Tumblr_Tool.Common_Helpers
             return query;
         }
 
-        public static string GenerateInfoQueryString(string tumblrDomain)
-        {
-            string query;
-
-            tumblrDomain = CommonHelper.FixURL(tumblrDomain);
-
-            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY);
-
-            return query;
-        }
-
         public static string GetAvatarQueryString(string tumblrDomain)
         {
-            tumblrDomain = CommonHelper.GetDomainName(tumblrDomain);
+            tumblrDomain = WebHelper.GetDomainName(tumblrDomain);
             string query;
 
             query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY, string.Empty, string.Empty);
@@ -70,33 +68,13 @@ namespace Tumblr_Tool.Common_Helpers
 
         public static JObject GetObject(string url)
         {
-            string result = GetString(url);
+            string result = WebHelper.GetDocumentAsString(url);
 
             if (result != null)
             {
                 return JObject.Parse(result);
             }
             else
-            {
-                return null;
-            }
-        }
-
-        public static string GetString(string url)
-        {
-            try
-            {
-                string jsonStr;
-
-                using (var wc = new WebClient())
-                {
-                    wc.Encoding = Encoding.UTF8;
-                    jsonStr = wc.DownloadString(url);
-                }
-
-                return jsonStr;
-            }
-            catch
             {
                 return null;
             }

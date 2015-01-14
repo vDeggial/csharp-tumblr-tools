@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Tumblr_Tool.Enums;
@@ -29,12 +27,7 @@ namespace Tumblr_Tool.Common_Helpers
         {
             try
             {
-                string xmlStr;
-                using (var wc = new WebClient())
-                {
-                    wc.Encoding = Encoding.UTF8;
-                    xmlStr = wc.DownloadString(url);
-                }
+                string xmlStr = WebHelper.GetDocumentAsString(url);
                 return XDocument.Parse(xmlStr);
             }
             catch
@@ -43,16 +36,16 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
-        public static HashSet<XElement> getPostElementList(XDocument doc)
-        {
-            return doc.Descendants("post").ToHashSet();
-        }
-
         public static string GetPostElementAttributeValue(XDocument doc, string elementName, string attributeName)
         {
             return doc != null ? doc.Root.Element(elementName) != null ?
                 doc.Root.Element(elementName).Attribute(attributeName) != null ?
                 doc.Root.Element(elementName).Attribute(attributeName).Value : null : null : null;
+        }
+
+        public static HashSet<XElement> getPostElementList(XDocument doc)
+        {
+            return doc.Descendants("post").ToHashSet();
         }
 
         public static string GetPostElementValue(XDocument doc, string elementName)
@@ -103,7 +96,7 @@ namespace Tumblr_Tool.Common_Helpers
                 query += "?num=" + ((int)PostStepEnum.XML).ToString();
             }
 
-            return CommonHelper.FixURL(tumblrURL) + query;
+            return WebHelper.FixURL(tumblrURL) + query;
         }
 
         public static T ReadObject<T>(string filename) where T : new()

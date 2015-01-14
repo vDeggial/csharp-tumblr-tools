@@ -20,7 +20,6 @@ namespace Tumblr_Tool.Common_Helpers
 {
     public static class FileHelper
     {
-
         private static string saveFileFormat = "JSON";
 
         public static bool FileExists(string file)
@@ -41,16 +40,6 @@ namespace Tumblr_Tool.Common_Helpers
             }
 
             return filename;
-        }
-
-        public static string FixURL(string url)
-        {
-            if (url.EndsWith("/"))
-            {
-                url = url.Remove(url.LastIndexOf("/"));
-            }
-
-            return url;
         }
 
         public static string GetFullFilePath(string url, string location)
@@ -162,7 +151,6 @@ namespace Tumblr_Tool.Common_Helpers
         {
             return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
         }
-
 
         public static SaveFile ReadTumblrFileFromJSON(string location)
         {

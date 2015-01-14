@@ -42,8 +42,8 @@ namespace Tumblr_Tool.Tumblr_Stats
 
             this.blog.posts = new HashSet<TumblrPost>();
             SetBlogInfo();
-            this.url = FileHelper.FixURL(this.blog.url);
-            this.tumblrDomain = CommonHelper.GetDomainName(this.url);
+            this.url = WebHelper.FixURL(this.blog.url);
+            this.tumblrDomain = WebHelper.GetDomainName(this.url);
 
             this.maxNumPosts = endNum;
             this.start = startNum;

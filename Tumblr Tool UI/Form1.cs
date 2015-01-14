@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.3";
+        public const string _VERSION = "1.2.4";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -1511,7 +1511,6 @@ namespace Tumblr_Tool
 
         public void GlobalInitialize()
         {
-
             string appFolderLocation = Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             string appFolderName = "Tumblr Tools";
             string fullAppFolderPath = Path.Combine(appFolderLocation, appFolderName);
@@ -1521,9 +1520,7 @@ namespace Tumblr_Tool
                 Directory.CreateDirectory(fullAppFolderPath);
             }
 
-
             this.optionsFileName = Path.Combine(fullAppFolderPath, "Tumblr Tools.options");
-
 
             this.parseModesDict = new Dictionary<string, ParseModes>();
             this.downloadedList = new List<string>();
