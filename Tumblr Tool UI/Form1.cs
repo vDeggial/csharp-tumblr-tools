@@ -59,7 +59,7 @@ namespace Tumblr_Tool
         public const string _WORKTEXT_STARTING = "Starting ...";
         public const string _WORKTEXT_UPDATINGLOG = "Updating Log File ...";
 
-        public string optionsFileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\" + "Tumblr Tools.options";
+        public string optionsFileName;
 
         public mainForm()
         {
@@ -1511,6 +1511,20 @@ namespace Tumblr_Tool
 
         public void GlobalInitialize()
         {
+
+            string appFolderLocation = Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            string appFolderName = "Tumblr Tools";
+            string fullAppFolderPath = Path.Combine(appFolderLocation, appFolderName);
+
+            if (!Directory.Exists(fullAppFolderPath))
+            {
+                Directory.CreateDirectory(fullAppFolderPath);
+            }
+
+
+            this.optionsFileName = Path.Combine(fullAppFolderPath, "Tumblr Tools.options");
+
+
             this.parseModesDict = new Dictionary<string, ParseModes>();
             this.downloadedList = new List<string>();
             this.downloadedSizesList = new List<int>();
