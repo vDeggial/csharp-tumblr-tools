@@ -126,8 +126,6 @@ namespace Tumblr_Tool
 
         public string saveLocation { get; set; }
 
-        public TumblrBlog tumblrBlog { get; set; }
-
         public SaveFile tumblrLogFile { get; set; }
 
         public SaveFile tumblrSaveFile { get; set; }
@@ -411,10 +409,10 @@ namespace Tumblr_Tool
                         }
                     }
 
-                    this.tumblrBlog = new TumblrBlog();
-                    this.tumblrBlog.url = this.tumblrURL;
+                    //this.tumblrBlog = new TumblrBlog();
+                    //this.tumblrBlog.url = this.tumblrURL;
 
-                    this.ripper = new ImageRipper(this.tumblrBlog, this.saveLocation, this.optionsForm.generateLog, this.optionsForm.parsePhotoSets,
+                    this.ripper = new ImageRipper(new TumblrBlog(this.tumblrURL), this.saveLocation, this.optionsForm.generateLog, this.optionsForm.parsePhotoSets,
                         this.optionsForm.parseJPEG, this.optionsForm.parsePNG, this.optionsForm.parseGIF, 0);
                     ripper.tumblrPostLog = this.tumblrLogFile;
                     this.ripper.statusCode = ProcessingCodes.Initializing;
@@ -478,7 +476,7 @@ namespace Tumblr_Tool
                                             this.ripper.statusCode = ProcessingCodes.Crawling;
                                         }
 
-                                        this.tumblrBlog = this.ripper.ParseBlogPosts(mode);
+                                        this.ripper.ParseBlogPosts(mode);
 
                                         lock (this.ripper)
                                         {
@@ -1333,11 +1331,8 @@ namespace Tumblr_Tool
 
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    this.Invoke((MethodInvoker)delegate
-                            {
-                                this.tumblrStats = new TumblrStats(this.tumblrBlog, this.tumblrURL, this.options.apiMode);
-                                this.tumblrStats.statusCode = ProcessingCodes.Initializing;
-                            });
+                    this.tumblrStats = new TumblrStats(new TumblrBlog(this.tumblrURL), this.tumblrURL, this.options.apiMode);
+                    this.tumblrStats.statusCode = ProcessingCodes.Initializing;
 
                     this.tumblrStats.ParsePosts();
                 }
@@ -1644,7 +1639,7 @@ namespace Tumblr_Tool
                 {
                     this.tumblrSaveFile = !string.IsNullOrEmpty(file) ? FileHelper.ReadTumblrFile(file) : null;
 
-                    this.tumblrBlog = this.tumblrSaveFile != null ? this.tumblrSaveFile.blog : null;
+                    //this.tumblrBlog = this.tumblrSaveFile != null ? this.tumblrSaveFile.blog : null;
 
                     this.txt_SaveLocation.Text = !string.IsNullOrEmpty(file) ? Path.GetDirectoryName(file) : string.Empty;
 

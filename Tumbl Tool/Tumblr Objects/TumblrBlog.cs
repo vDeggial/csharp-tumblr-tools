@@ -24,6 +24,11 @@ namespace Tumblr_Tool.Tumblr_Objects
             // posts = new HashSet<TumblrPost>();
         }
 
+        public TumblrBlog(string url)
+        {
+            this.url = url;
+        }
+
         public int blogTotalPosts { get; set; }
 
         public string cname { get; set; }

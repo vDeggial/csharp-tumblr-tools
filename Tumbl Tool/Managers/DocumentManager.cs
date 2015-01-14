@@ -249,17 +249,17 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public bool SetBlogInfo(string url, TumblrBlog blog)
+        public bool GetBlogInfo(string url, TumblrBlog blog)
         {
             try
             {
                 if (this.mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    return SetBlogInfoJSON(url, blog);
+                    return GetBlogInfoJSON(url, blog);
                 }
                 else
                 {
-                    return SetBlogInfoXML(url, blog);
+                    return GetBlogInfoXML(url, blog);
                 }
             }
             catch
@@ -268,7 +268,7 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public bool SetBlogInfoJSON(string url, TumblrBlog blog)
+        public bool GetBlogInfoJSON(string url, TumblrBlog blog)
         {
             try
             {
@@ -304,7 +304,7 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
-        public bool SetBlogInfoXML(string url, TumblrBlog blog)
+        public bool GetBlogInfoXML(string url, TumblrBlog blog)
         {
             try
             {

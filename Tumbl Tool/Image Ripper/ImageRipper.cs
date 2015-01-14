@@ -343,7 +343,7 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     query = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
-                return this.documentManager.SetBlogInfo(query, this.blog);
+                return this.documentManager.GetBlogInfo(query, this.blog);
             }
             catch
             {

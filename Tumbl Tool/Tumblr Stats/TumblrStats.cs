@@ -33,7 +33,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
             if (blog == null)
             {
-                this.blog = new TumblrBlog();
+                this.blog = new TumblrBlog(url);
             }
             else
             {
@@ -41,8 +41,6 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
 
             this.blog.posts = new HashSet<TumblrPost>();
-            this.blog.url = url;
-            this.tumblrDomain = CommonHelper.GetDomainName(url);
             SetBlogInfo();
             this.url = FileHelper.FixURL(this.blog.url);
             this.tumblrDomain = CommonHelper.GetDomainName(this.url);
@@ -177,11 +175,11 @@ namespace Tumblr_Tool.Tumblr_Stats
             {
                 if (this.documentManager.mode == ApiModeEnum.v1XML.ToString())
                 {
-                    this.documentManager.SetBlogInfo(XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.GetBlogInfo(XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
                 else if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    this.documentManager.SetBlogInfo(JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.GetBlogInfo(JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
             }
             catch
