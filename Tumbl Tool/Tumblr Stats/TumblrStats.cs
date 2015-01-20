@@ -41,7 +41,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
 
             this.blog.posts = new HashSet<TumblrPost>();
-            SetBlogInfo();
+            
             this.url = WebHelper.FixURL(this.blog.url);
             this.tumblrDomain = WebHelper.GetDomainName(this.url);
 
@@ -49,6 +49,8 @@ namespace Tumblr_Tool.Tumblr_Stats
             this.start = startNum;
 
             this.step = (int)PostStepEnum.JSON; //20 for JSON, 50 for XML
+
+            SetBlogInfo();
         }
 
         public int answerPosts { get; set; }

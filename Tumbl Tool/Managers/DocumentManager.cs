@@ -272,6 +272,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
+                if (blog == null) blog = new TumblrBlog(url);
                 dynamic jsonDocument = JSONHelper.GetObject(url);
 
                 if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)

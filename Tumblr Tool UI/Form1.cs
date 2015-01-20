@@ -223,7 +223,7 @@ namespace Tumblr_Tool
             this.lbl_PercentBar.ForeColor = Color.Black;
             this.lbl_PostCount.ForeColor = Color.Black;
             this.lbl_PercentBar.Text = string.Empty;
-            this.tumblrURL = txt_Stats_TumblrURL.Text;
+            this.tumblrURL = WebHelper.FixURL(txt_Stats_TumblrURL.Text);
 
             UpdateStatusText(_STATUS_INIT);
             if (IsValidURL(this.tumblrURL))
