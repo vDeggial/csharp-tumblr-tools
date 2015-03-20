@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.4";
+        public const string _VERSION = "1.2.5";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -80,7 +80,6 @@ namespace Tumblr_Tool
             OpenTumblrFile(file);
         }
 
-        public AboutForm aboutForm { get; set; }
 
         public string currentImage { get; set; }
 
@@ -118,8 +117,6 @@ namespace Tumblr_Tool
 
         public ToolOptions options { get; set; }
 
-        public OptionsForm optionsForm { get; set; }
-
         public Dictionary<string, ParseModes> parseModesDict { get; set; }
 
         public ImageRipper ripper { get; set; }
@@ -134,10 +131,19 @@ namespace Tumblr_Tool
 
         public string tumblrURL { get; set; }
 
-        public void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        public string apiMode
         {
-            this.aboutForm.ShowDialog();
+            get
+            {
+                return Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
+            }
+
+            set
+            {
+                this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value);
+            }
         }
+
 
         public void AddWorkStatusText(string str)
         {
@@ -357,7 +363,7 @@ namespace Tumblr_Tool
 
                         this.isCrawlingDone = true;
 
-                        if (this.isCrawlingDone && !this.optionsForm.parseOnly && !this.isCancelled)
+                        if (this.isCrawlingDone && !this.check_Options_ParseOnly.Checked && !this.isCancelled)
                         {
                             this.downloadManager.totalToDownload = this.ripper.imageList.Count;
 
@@ -412,8 +418,8 @@ namespace Tumblr_Tool
                     //this.tumblrBlog = new TumblrBlog();
                     //this.tumblrBlog.url = this.tumblrURL;
 
-                    this.ripper = new ImageRipper(new TumblrBlog(this.tumblrURL), this.saveLocation, this.optionsForm.generateLog, this.optionsForm.parsePhotoSets,
-                        this.optionsForm.parseJPEG, this.optionsForm.parsePNG, this.optionsForm.parseGIF, 0);
+                    this.ripper = new ImageRipper(new TumblrBlog(this.tumblrURL), this.saveLocation, this.check_Options_GenerateLog.Checked, this.check_Options_ParsePhotoSets.Checked,
+                        this.check_Options_ParseJPEG.Checked, this.check_Options_ParsePNG.Checked, this.check_Options_ParseGIF.Checked, 0);
                     ripper.tumblrPostLog = this.tumblrLogFile;
                     this.ripper.statusCode = ProcessingCodes.Initializing;
                 }
@@ -552,7 +558,7 @@ namespace Tumblr_Tool
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    if (this.optionsForm.parseOnly)
+                    if (this.check_Options_ParseOnly.Checked)
                     {
                         EnableUI_Crawl(true);
                         this.lbl_PostCount.Visible = false;
@@ -1227,7 +1233,6 @@ namespace Tumblr_Tool
             this.btn_Start.Enabled = state;
             this.select_Mode.Enabled = state;
             this.fileToolStripMenuItem.Enabled = state;
-            this.optionsToolStripMenuItem.Enabled = state;
             this.txt_TumblrURL.Enabled = state;
             this.txt_SaveLocation.Enabled = state;
             this.disableOtherTabs = !state;
@@ -1237,7 +1242,6 @@ namespace Tumblr_Tool
         {
             this.btn_GetStats.Enabled = state;
             this.fileToolStripMenuItem.Enabled = state;
-            this.optionsToolStripMenuItem.Enabled = state;
             this.txt_Stats_TumblrURL.Enabled = state;
             this.disableOtherTabs = !state;
         }
@@ -1564,13 +1568,8 @@ namespace Tumblr_Tool
 
             this.downloadManager = new DownloadManager();
             this.Text += " " + _VERSION + "";
-            this.optionsForm = new OptionsForm();
-            this.optionsForm.mainForm = this;
-            this.aboutForm = new AboutForm();
-            this.aboutForm.mainForm = this;
-            this.aboutForm.version = "Version: " + _VERSION;
+            this.lbl_About_Version.Text = "Version: " + _VERSION;
 
-            this.optionsForm.apiMode = ApiModeEnum.v2JSON.ToString();
 
             string file = this.optionsFileName;
 
@@ -1612,12 +1611,46 @@ namespace Tumblr_Tool
             }
         }
 
+        private void btn_Accept_Click(object sender, EventArgs e)
+        {
+            this.SetOptions();
+            this.SaveOptions(this.optionsFileName);
+            this.UpdateStatusText("Options saved");
+        }
+
+        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.check_Options_ParseDownload.Checked)
+            {
+                this.check_Options_ParseOnly.Checked = false;
+            }
+        }
+
+        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.check_Options_ParseOnly.Checked)
+            {
+                this.check_Options_ParseDownload.Checked = false;
+            }
+        }
+
         public void LoadOptions(string filename)
         {
             this.options = JSONHelper.ReadObject<ToolOptions>(filename);
             this.options.apiMode = ApiModeEnum.v2JSON.ToString();
-            this.optionsForm.options = this.options;
-            this.optionsForm.RestoreOptions();
+            this.RestoreOptions();
+        }
+
+        public void RestoreOptions()
+        {
+            this.check_Options_ParseGIF.Checked = this.options.parseGIF;
+            this.check_Options_ParseJPEG.Checked = this.options.parseJPEG;
+            this.check_Options_ParseDownload.Checked = !this.options.parseOnly;
+            this.check_Options_ParseOnly.Checked = this.options.parseOnly;
+            this.check_Options_ParsePhotoSets.Checked = this.options.parsePhotoSets;
+            this.check_Options_ParsePNG.Checked = this.options.parsePNG;
+            this.apiMode = this.options.apiMode;
+            this.check_Options_GenerateLog.Checked = this.options.generateLog;
         }
 
         public void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1676,10 +1709,6 @@ namespace Tumblr_Tool
             }
         }
 
-        public void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.optionsForm.ShowDialog();
-        }
 
         public void SaveLogFile()
         {
@@ -1725,13 +1754,16 @@ namespace Tumblr_Tool
 
         public void SetOptions()
         {
-            this.optionsForm.SetOptions();
-            SetOptions(this.optionsForm.options);
-        }
+            this.options.parsePNG = this.check_Options_ParsePNG.Checked;
+            this.options.parseJPEG = this.check_Options_ParseJPEG.Checked;
+            this.options.parseGIF = this.check_Options_ParseGIF.Checked;
+            this.options.parsePhotoSets = this.check_Options_ParsePhotoSets.Checked;
+            this.options.apiMode = Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
+            this.options.parseOnly = this.check_Options_ParseOnly.Checked;
+            this.options.apiMode = this.apiMode;
+            this.options.generateLog = this.check_Options_GenerateLog.Checked;
 
-        public void SetOptions(ToolOptions _options)
-        {
-            this.options = _options;
+
         }
 
         public void StatsTumblrURLUpdate(object sender, EventArgs e)
@@ -1863,6 +1895,16 @@ namespace Tumblr_Tool
 
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
+        }
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+            this.RestoreOptions();
+        }
+
+        private void lbl_About_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

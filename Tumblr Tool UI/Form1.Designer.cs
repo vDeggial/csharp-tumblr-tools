@@ -41,9 +41,6 @@ namespace Tumblr_Tool
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crawl_Worker = new System.ComponentModel.BackgroundWorker();
             this.crawl_UpdateUI_Worker = new System.ComponentModel.BackgroundWorker();
             this.status_Strip = new System.Windows.Forms.StatusStrip();
@@ -93,6 +90,27 @@ namespace Tumblr_Tool
             this.lbl_Stats_Chat = new System.Windows.Forms.Label();
             this.lbl_Stats_Total = new System.Windows.Forms.Label();
             this.btn_GetStats = new System.Windows.Forms.Button();
+            this.tab_Options = new KRBTabControl.TabPageEx();
+            this.section_Options = new System.Windows.Forms.GroupBox();
+            this.section_Options_LogOptions = new System.Windows.Forms.GroupBox();
+            this.check_Options_GenerateLog = new System.Windows.Forms.CheckBox();
+            this.section_Options_MethodOptions = new System.Windows.Forms.GroupBox();
+            this.check_Options_ParseDownload = new System.Windows.Forms.CheckBox();
+            this.check_Options_ParseOnly = new System.Windows.Forms.CheckBox();
+            this.btn_Options_Reset = new System.Windows.Forms.Button();
+            this.section_Options_ImageTypes = new System.Windows.Forms.GroupBox();
+            this.check_Options_ParseGIF = new System.Windows.Forms.CheckBox();
+            this.check_Options_ParsePNG = new System.Windows.Forms.CheckBox();
+            this.check_Options_ParseJPEG = new System.Windows.Forms.CheckBox();
+            this.check_Options_ParsePhotoSets = new System.Windows.Forms.CheckBox();
+            this.section_Options_APIOptions = new System.Windows.Forms.GroupBox();
+            this.select_Options_APIMode = new Tumblr_Tool.AdvancedComboBox();
+            this.btn_Options_Save = new System.Windows.Forms.Button();
+            this.tab_About = new KRBTabControl.TabPageEx();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_About = new System.Windows.Forms.Label();
+            this.lbl_About_Version = new System.Windows.Forms.Label();
+            this.lbl_Title = new System.Windows.Forms.Label();
             this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
@@ -103,6 +121,13 @@ namespace Tumblr_Tool
             ((System.ComponentModel.ISupportInitialize)(this.img_Stats_Avatar)).BeginInit();
             this.box_PostStats.SuspendLayout();
             this.table_Stats_PostStats.SuspendLayout();
+            this.tab_Options.SuspendLayout();
+            this.section_Options.SuspendLayout();
+            this.section_Options_LogOptions.SuspendLayout();
+            this.section_Options_MethodOptions.SuspendLayout();
+            this.section_Options_ImageTypes.SuspendLayout();
+            this.section_Options_APIOptions.SuspendLayout();
+            this.tab_About.SuspendLayout();
             this.SuspendLayout();
             // 
             // iconList
@@ -161,9 +186,7 @@ namespace Tumblr_Tool
             this.menu_TopMenu.BackColor = System.Drawing.Color.White;
             this.menu_TopMenu.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.menu_TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.fileToolStripMenuItem});
             this.menu_TopMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menu_TopMenu.Location = new System.Drawing.Point(0, 0);
             this.menu_TopMenu.Name = "menu_TopMenu";
@@ -192,7 +215,7 @@ namespace Tumblr_Tool
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
@@ -203,45 +226,11 @@ namespace Tumblr_Tool
             this.saveToolStripMenuItem.BackColor = System.Drawing.SystemColors.Menu;
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Visible = false;
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.optionsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.optionsToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.options;
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(66, 21);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.ToolTipText = "View Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
-            this.optionsToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.help;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(27, 21);
-            this.helpToolStripMenuItem.Text = "?";
-            this.helpToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.aboutToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.about;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.ToolTipText = "About this product";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
-            this.aboutToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // crawl_Worker
             // 
@@ -349,6 +338,8 @@ namespace Tumblr_Tool
             this.tabControl_Main.BorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.Controls.Add(this.tab_ImageRipper);
             this.tabControl_Main.Controls.Add(this.tab_TumblrStats);
+            this.tabControl_Main.Controls.Add(this.tab_Options);
+            this.tabControl_Main.Controls.Add(this.tab_About);
             this.tabControl_Main.Font = new System.Drawing.Font("Century Gothic", 8.25F);
             this.tabControl_Main.GradientCaption.ActiveCaptionColorEnd = System.Drawing.SystemColors.ActiveBorder;
             this.tabControl_Main.HeaderStyle = KRBTabControl.KRBTabControl.TabHeaderStyle.Texture;
@@ -358,7 +349,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 0;
+            this.tabControl_Main.SelectedIndex = 2;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -919,6 +910,307 @@ namespace Tumblr_Tool
             this.btn_GetStats.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
             this.btn_GetStats.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
+            // tab_Options
+            // 
+            this.tab_Options.BackColor = System.Drawing.Color.White;
+            this.tab_Options.Controls.Add(this.section_Options);
+            this.tab_Options.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab_Options.ImageIndex = 7;
+            this.tab_Options.Location = new System.Drawing.Point(1, 32);
+            this.tab_Options.Name = "tab_Options";
+            this.tab_Options.Size = new System.Drawing.Size(623, 246);
+            this.tab_Options.TabIndex = 2;
+            this.tab_Options.Text = "Options";
+            // 
+            // section_Options
+            // 
+            this.section_Options.Controls.Add(this.section_Options_LogOptions);
+            this.section_Options.Controls.Add(this.section_Options_MethodOptions);
+            this.section_Options.Controls.Add(this.btn_Options_Reset);
+            this.section_Options.Controls.Add(this.section_Options_ImageTypes);
+            this.section_Options.Controls.Add(this.section_Options_APIOptions);
+            this.section_Options.Controls.Add(this.btn_Options_Save);
+            this.section_Options.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.section_Options.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.section_Options.Location = new System.Drawing.Point(11, 14);
+            this.section_Options.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options.Name = "section_Options";
+            this.section_Options.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options.Size = new System.Drawing.Size(612, 185);
+            this.section_Options.TabIndex = 7;
+            this.section_Options.TabStop = false;
+            this.section_Options.Text = "Options";
+            // 
+            // section_Options_LogOptions
+            // 
+            this.section_Options_LogOptions.Controls.Add(this.check_Options_GenerateLog);
+            this.section_Options_LogOptions.Location = new System.Drawing.Point(450, 28);
+            this.section_Options_LogOptions.Name = "section_Options_LogOptions";
+            this.section_Options_LogOptions.Size = new System.Drawing.Size(133, 72);
+            this.section_Options_LogOptions.TabIndex = 6;
+            this.section_Options_LogOptions.TabStop = false;
+            this.section_Options_LogOptions.Text = "Log Options";
+            // 
+            // check_Options_GenerateLog
+            // 
+            this.check_Options_GenerateLog.Checked = true;
+            this.check_Options_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_GenerateLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_GenerateLog.Location = new System.Drawing.Point(8, 26);
+            this.check_Options_GenerateLog.Name = "check_Options_GenerateLog";
+            this.check_Options_GenerateLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.check_Options_GenerateLog.Size = new System.Drawing.Size(119, 18);
+            this.check_Options_GenerateLog.TabIndex = 0;
+            this.check_Options_GenerateLog.Text = "Generate Log File";
+            this.check_Options_GenerateLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.check_Options_GenerateLog.UseVisualStyleBackColor = true;
+            // 
+            // section_Options_MethodOptions
+            // 
+            this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseDownload);
+            this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseOnly);
+            this.section_Options_MethodOptions.Location = new System.Drawing.Point(147, 23);
+            this.section_Options_MethodOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_MethodOptions.Name = "section_Options_MethodOptions";
+            this.section_Options_MethodOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 98);
+            this.section_Options_MethodOptions.TabIndex = 1;
+            this.section_Options_MethodOptions.TabStop = false;
+            this.section_Options_MethodOptions.Text = "Method Options";
+            // 
+            // check_Options_ParseDownload
+            // 
+            this.check_Options_ParseDownload.AutoSize = true;
+            this.check_Options_ParseDownload.Checked = true;
+            this.check_Options_ParseDownload.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ParseDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParseDownload.Location = new System.Drawing.Point(8, 65);
+            this.check_Options_ParseDownload.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParseDownload.Name = "check_Options_ParseDownload";
+            this.check_Options_ParseDownload.Size = new System.Drawing.Size(124, 20);
+            this.check_Options_ParseDownload.TabIndex = 1;
+            this.check_Options_ParseDownload.Text = "Parse && Download";
+            this.check_Options_ParseDownload.UseVisualStyleBackColor = true;
+            this.check_Options_ParseDownload.CheckedChanged += new System.EventHandler(this.check_ParseDownload_CheckedChanged);
+            // 
+            // check_Options_ParseOnly
+            // 
+            this.check_Options_ParseOnly.AutoSize = true;
+            this.check_Options_ParseOnly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParseOnly.Location = new System.Drawing.Point(8, 36);
+            this.check_Options_ParseOnly.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParseOnly.Name = "check_Options_ParseOnly";
+            this.check_Options_ParseOnly.Size = new System.Drawing.Size(81, 20);
+            this.check_Options_ParseOnly.TabIndex = 0;
+            this.check_Options_ParseOnly.Text = "Parse Only";
+            this.check_Options_ParseOnly.UseVisualStyleBackColor = true;
+            this.check_Options_ParseOnly.CheckedChanged += new System.EventHandler(this.check_ParseOnly_CheckedChanged);
+            // 
+            // btn_Options_Reset
+            // 
+            this.btn_Options_Reset.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Options_Reset.FlatAppearance.BorderSize = 0;
+            this.btn_Options_Reset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Options_Reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Options_Reset.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Options_Reset.Location = new System.Drawing.Point(475, 137);
+            this.btn_Options_Reset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Options_Reset.Name = "btn_Options_Reset";
+            this.btn_Options_Reset.Size = new System.Drawing.Size(87, 29);
+            this.btn_Options_Reset.TabIndex = 9;
+            this.btn_Options_Reset.Text = "Reset";
+            this.btn_Options_Reset.UseVisualStyleBackColor = true;
+            this.btn_Options_Reset.Click += new System.EventHandler(this.btn_Cancel_Click);
+            this.btn_Options_Reset.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.btn_Options_Reset.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            // 
+            // section_Options_ImageTypes
+            // 
+            this.section_Options_ImageTypes.Controls.Add(this.check_Options_ParseGIF);
+            this.section_Options_ImageTypes.Controls.Add(this.check_Options_ParsePNG);
+            this.section_Options_ImageTypes.Controls.Add(this.check_Options_ParseJPEG);
+            this.section_Options_ImageTypes.Controls.Add(this.check_Options_ParsePhotoSets);
+            this.section_Options_ImageTypes.Location = new System.Drawing.Point(7, 23);
+            this.section_Options_ImageTypes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_ImageTypes.Name = "section_Options_ImageTypes";
+            this.section_Options_ImageTypes.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_ImageTypes.Size = new System.Drawing.Size(133, 158);
+            this.section_Options_ImageTypes.TabIndex = 4;
+            this.section_Options_ImageTypes.TabStop = false;
+            this.section_Options_ImageTypes.Text = "Image Types";
+            // 
+            // check_Options_ParseGIF
+            // 
+            this.check_Options_ParseGIF.AutoSize = true;
+            this.check_Options_ParseGIF.Checked = true;
+            this.check_Options_ParseGIF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ParseGIF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParseGIF.Location = new System.Drawing.Point(8, 95);
+            this.check_Options_ParseGIF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParseGIF.Name = "check_Options_ParseGIF";
+            this.check_Options_ParseGIF.Size = new System.Drawing.Size(42, 20);
+            this.check_Options_ParseGIF.TabIndex = 5;
+            this.check_Options_ParseGIF.Text = "GIF";
+            this.check_Options_ParseGIF.UseVisualStyleBackColor = true;
+            // 
+            // check_Options_ParsePNG
+            // 
+            this.check_Options_ParsePNG.AutoSize = true;
+            this.check_Options_ParsePNG.Checked = true;
+            this.check_Options_ParsePNG.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ParsePNG.Enabled = false;
+            this.check_Options_ParsePNG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParsePNG.Location = new System.Drawing.Point(8, 65);
+            this.check_Options_ParsePNG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParsePNG.Name = "check_Options_ParsePNG";
+            this.check_Options_ParsePNG.Size = new System.Drawing.Size(49, 20);
+            this.check_Options_ParsePNG.TabIndex = 4;
+            this.check_Options_ParsePNG.Text = "PNG";
+            this.check_Options_ParsePNG.UseVisualStyleBackColor = true;
+            // 
+            // check_Options_ParseJPEG
+            // 
+            this.check_Options_ParseJPEG.AutoSize = true;
+            this.check_Options_ParseJPEG.Checked = true;
+            this.check_Options_ParseJPEG.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ParseJPEG.Enabled = false;
+            this.check_Options_ParseJPEG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParseJPEG.Location = new System.Drawing.Point(7, 36);
+            this.check_Options_ParseJPEG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParseJPEG.Name = "check_Options_ParseJPEG";
+            this.check_Options_ParseJPEG.Size = new System.Drawing.Size(79, 20);
+            this.check_Options_ParseJPEG.TabIndex = 2;
+            this.check_Options_ParseJPEG.Text = "JPG/JPEG";
+            this.check_Options_ParseJPEG.UseVisualStyleBackColor = true;
+            // 
+            // check_Options_ParsePhotoSets
+            // 
+            this.check_Options_ParsePhotoSets.AutoSize = true;
+            this.check_Options_ParsePhotoSets.Checked = true;
+            this.check_Options_ParsePhotoSets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ParsePhotoSets.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ParsePhotoSets.Location = new System.Drawing.Point(7, 123);
+            this.check_Options_ParsePhotoSets.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ParsePhotoSets.Name = "check_Options_ParsePhotoSets";
+            this.check_Options_ParsePhotoSets.Size = new System.Drawing.Size(77, 20);
+            this.check_Options_ParsePhotoSets.TabIndex = 3;
+            this.check_Options_ParsePhotoSets.Text = "PhotoSets";
+            this.check_Options_ParsePhotoSets.UseVisualStyleBackColor = true;
+            // 
+            // section_Options_APIOptions
+            // 
+            this.section_Options_APIOptions.Controls.Add(this.select_Options_APIMode);
+            this.section_Options_APIOptions.Location = new System.Drawing.Point(311, 28);
+            this.section_Options_APIOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_APIOptions.Name = "section_Options_APIOptions";
+            this.section_Options_APIOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.section_Options_APIOptions.Size = new System.Drawing.Size(133, 51);
+            this.section_Options_APIOptions.TabIndex = 5;
+            this.section_Options_APIOptions.TabStop = false;
+            this.section_Options_APIOptions.Text = "API Options";
+            // 
+            // select_Options_APIMode
+            // 
+            this.select_Options_APIMode.ArrowBackColor = System.Drawing.Color.Empty;
+            this.select_Options_APIMode.ArrowForeColor = System.Drawing.Color.Empty;
+            this.select_Options_APIMode.BackColor = System.Drawing.Color.White;
+            this.select_Options_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_Options_APIMode.Enabled = false;
+            this.select_Options_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.select_Options_APIMode.ForeColor = System.Drawing.Color.Black;
+            this.select_Options_APIMode.FormattingEnabled = true;
+            this.select_Options_APIMode.HighlightBackColor = System.Drawing.Color.Black;
+            this.select_Options_APIMode.HighlightForeColor = System.Drawing.Color.White;
+            this.select_Options_APIMode.Items.AddRange(new object[] {
+            "API v.1 (XML)",
+            "API v.2 (JSON)"});
+            this.select_Options_APIMode.Location = new System.Drawing.Point(8, 23);
+            this.select_Options_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.select_Options_APIMode.Name = "select_Options_APIMode";
+            this.select_Options_APIMode.ShowArrow = false;
+            this.select_Options_APIMode.Size = new System.Drawing.Size(119, 22);
+            this.select_Options_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_Options_APIMode.TabIndex = 0;
+            // 
+            // btn_Options_Save
+            // 
+            this.btn_Options_Save.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Options_Save.FlatAppearance.BorderSize = 0;
+            this.btn_Options_Save.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Options_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Options_Save.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Options_Save.Location = new System.Drawing.Point(328, 137);
+            this.btn_Options_Save.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Options_Save.Name = "btn_Options_Save";
+            this.btn_Options_Save.Size = new System.Drawing.Size(87, 29);
+            this.btn_Options_Save.TabIndex = 8;
+            this.btn_Options_Save.Text = "Save";
+            this.btn_Options_Save.UseVisualStyleBackColor = true;
+            this.btn_Options_Save.Click += new System.EventHandler(this.btn_Accept_Click);
+            this.btn_Options_Save.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.btn_Options_Save.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            // 
+            // tab_About
+            // 
+            this.tab_About.BackColor = System.Drawing.Color.White;
+            this.tab_About.Controls.Add(this.label1);
+            this.tab_About.Controls.Add(this.lbl_About);
+            this.tab_About.Controls.Add(this.lbl_About_Version);
+            this.tab_About.Controls.Add(this.lbl_Title);
+            this.tab_About.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab_About.ImageIndex = 4;
+            this.tab_About.Location = new System.Drawing.Point(1, 32);
+            this.tab_About.Name = "tab_About";
+            this.tab_About.Size = new System.Drawing.Size(623, 246);
+            this.tab_About.TabIndex = 3;
+            this.tab_About.Text = "About";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Location = new System.Drawing.Point(167, 207);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(276, 30);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "© 2013 - 2015 Shino Amakusa";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_About
+            // 
+            this.lbl_About.Location = new System.Drawing.Point(167, 122);
+            this.lbl_About.Name = "lbl_About";
+            this.lbl_About.Size = new System.Drawing.Size(279, 60);
+            this.lbl_About.TabIndex = 6;
+            this.lbl_About.Text = "Tumblr Tools is a simple application for parsing and downloading photo posts from" +
+    " any Tumblr blog as well as getting basic stats for those.";
+            this.lbl_About.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About.Click += new System.EventHandler(this.lbl_About_Click);
+            // 
+            // lbl_About_Version
+            // 
+            this.lbl_About_Version.AutoSize = true;
+            this.lbl_About_Version.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbl_About_Version.Location = new System.Drawing.Point(548, 0);
+            this.lbl_About_Version.Name = "lbl_About_Version";
+            this.lbl_About_Version.Size = new System.Drawing.Size(75, 16);
+            this.lbl_About_Version.TabIndex = 5;
+            this.lbl_About_Version.Text = "Version: 0.0.0";
+            // 
+            // lbl_Title
+            // 
+            this.lbl_Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Title.AutoSize = true;
+            this.lbl_Title.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Title.Location = new System.Drawing.Point(235, 68);
+            this.lbl_Title.Name = "lbl_Title";
+            this.lbl_Title.Size = new System.Drawing.Size(134, 32);
+            this.lbl_Title.TabIndex = 4;
+            this.lbl_Title.Text = "Tumblr Tools";
+            this.lbl_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Title.UseCompatibleTextRendering = true;
+            // 
             // bar_Progress
             // 
             this.bar_Progress.BackColor = System.Drawing.Color.White;
@@ -976,6 +1268,16 @@ namespace Tumblr_Tool
             this.box_PostStats.PerformLayout();
             this.table_Stats_PostStats.ResumeLayout(false);
             this.table_Stats_PostStats.PerformLayout();
+            this.tab_Options.ResumeLayout(false);
+            this.section_Options.ResumeLayout(false);
+            this.section_Options_LogOptions.ResumeLayout(false);
+            this.section_Options_MethodOptions.ResumeLayout(false);
+            this.section_Options_MethodOptions.PerformLayout();
+            this.section_Options_ImageTypes.ResumeLayout(false);
+            this.section_Options_ImageTypes.PerformLayout();
+            this.section_Options_APIOptions.ResumeLayout(false);
+            this.tab_About.ResumeLayout(false);
+            this.tab_About.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1001,8 +1303,6 @@ namespace Tumblr_Tool
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker crawl_Worker;
         private System.ComponentModel.BackgroundWorker crawl_UpdateUI_Worker;
         private System.Windows.Forms.StatusStrip status_Strip;
@@ -1042,10 +1342,30 @@ namespace Tumblr_Tool
         private AdvancedComboBox select_Mode;
         private System.Windows.Forms.ImageList iconList;
         private CirclePictureBox img_Stats_Avatar;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel table_Stats_PostStats;
         private KRBTabControl.TabPageEx tab_ImageRipper;
         private KRBTabControl.TabPageEx tab_TumblrStats;
+        private KRBTabControl.TabPageEx tab_Options;
+        private KRBTabControl.TabPageEx tab_About;
+        private System.Windows.Forms.GroupBox section_Options_LogOptions;
+        private System.Windows.Forms.CheckBox check_Options_GenerateLog;
+        private System.Windows.Forms.Button btn_Options_Reset;
+        private System.Windows.Forms.GroupBox section_Options_APIOptions;
+        private AdvancedComboBox select_Options_APIMode;
+        private System.Windows.Forms.GroupBox section_Options;
+        private System.Windows.Forms.GroupBox section_Options_MethodOptions;
+        private System.Windows.Forms.CheckBox check_Options_ParseDownload;
+        private System.Windows.Forms.CheckBox check_Options_ParseOnly;
+        private System.Windows.Forms.GroupBox section_Options_ImageTypes;
+        private System.Windows.Forms.CheckBox check_Options_ParseGIF;
+        private System.Windows.Forms.CheckBox check_Options_ParsePNG;
+        private System.Windows.Forms.CheckBox check_Options_ParseJPEG;
+        private System.Windows.Forms.CheckBox check_Options_ParsePhotoSets;
+        private System.Windows.Forms.Button btn_Options_Save;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_About;
+        private System.Windows.Forms.Label lbl_About_Version;
+        private System.Windows.Forms.Label lbl_Title;
     }
 }
 
