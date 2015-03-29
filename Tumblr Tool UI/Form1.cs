@@ -350,7 +350,6 @@ namespace Tumblr_Tool
             {
                 if (this.ripper != null)
                 {
-                    this.ripper.statusCode = ProcessingCodes.Done;
                     this.isCrawlingDone = true;
 
                     if (this.ripper.statusCode == ProcessingCodes.Done)
@@ -752,7 +751,7 @@ namespace Tumblr_Tool
 
                     if (this.ripper != null)
                     {
-                        if (!this.IsDisposed)
+                        if (!this.IsDisposed && this.ripper.statusCode == ProcessingCodes.Done)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
@@ -777,7 +776,7 @@ namespace Tumblr_Tool
                                 });
                             }
                         }
-                        else if (this.ripper.statusCode == ProcessingCodes.invalidURL)
+                        if (this.ripper.statusCode == ProcessingCodes.invalidURL)
                         {
                             if (!this.IsDisposed)
                             {
