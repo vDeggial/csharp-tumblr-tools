@@ -59,7 +59,7 @@
     <StartupObject>Tumblr_Tool.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\tumblr icon.ico</ApplicationIcon>
+    <ApplicationIcon>tumblr icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dotnetrix.TabControl">
@@ -166,6 +166,7 @@
     <None Include="Resources\crawling.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="tumblr icon.ico" />
     <None Include="Resources\copyright.png" />
     <None Include="Resources\filesize.png" />
     <None Include="Resources\image.png" />
