@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.5";
+        public const string _VERSION = "1.2.6";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";

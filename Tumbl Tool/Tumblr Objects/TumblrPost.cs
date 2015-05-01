@@ -58,6 +58,8 @@ namespace Tumblr_Tool.Tumblr_Objects
 
         public virtual string linkUrl { get; set; }
 
+        public string noteCount { get; set; }
+
         [XmlArrayItem("photo")]
         public virtual HashSet<PhotoPostImage> photos { get; set; }
 
@@ -74,6 +76,8 @@ namespace Tumblr_Tool.Tumblr_Objects
         public string shortURL { get; set; }
 
         public virtual string source { get; set; }
+
+        public string sourceURL { get; set; }
 
         [XmlArrayItem("tag")]
         public HashSet<string> tags { get; set; }
@@ -103,7 +107,6 @@ namespace Tumblr_Tool.Tumblr_Objects
         public virtual string videoUrl { get; set; }
 
         public virtual string year { get; set; }
-
         public virtual void AddImageToPhotoSet(PhotoPostImage image)
         {
             // void

@@ -50,6 +50,10 @@ namespace Tumblr_Tool.Common_Helpers
 
             post.shortURL = !string.IsNullOrEmpty((string)jPost.short_url) ? jPost.short_url : null;
 
+            post.noteCount = !string.IsNullOrEmpty((string)jPost.note_count) ? jPost.note_count : null;
+
+            post.sourceURL = !string.IsNullOrEmpty((string)jPost.source_url) ? jPost.source_url : null;
+
             if (jPost.tags != null && jPost.tags.Count > 0)
             {
                 foreach (string tag in jPost.tags)
