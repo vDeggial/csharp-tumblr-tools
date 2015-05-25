@@ -10,6 +10,7 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Common_Helpers;
@@ -87,11 +88,105 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public int totalPosts { get; set; }
 
+        public int totalPostsOverall { get; set; }
+
         public string tumblrDomain { get; set; }
 
         public string url { get; set; }
 
         public int videoPosts { get; set; }
+
+        public bool getStats()
+        {
+
+            string url = XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1);
+            if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
+            {
+                url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1);
+            }
+
+            if (url.IsValidTumblr(this.documentManager.mode))
+
+            {
+                this.documentManager.GetDocument(url);
+                this.totalPostsOverall = this.documentManager.GetTotalPostCount();
+            }
+
+
+
+                var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
+
+            foreach (TumblrPostTypes type in values)
+            {
+                this.totalPosts = 0;
+                if (type != TumblrPostTypes.empty && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
+                {
+
+                    url = XMLHelper.GetQueryString(this.url, type.ToString(), 0, 1);
+                    if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
+                    {
+                        url = JSONHelper.GenerateQueryString(this.tumblrDomain, type.ToString(), 0, 1);
+                    }
+
+                    if (url.IsValidTumblr(this.documentManager.mode))
+                    {
+                        this.documentManager.GetDocument(url);
+                        this.totalPosts = this.documentManager.GetTotalPostCount();
+
+
+                        switch (type)
+                        {
+                            case TumblrPostTypes.photo:
+                                this.photoPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.text:
+                                this.textPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.video:
+                                this.videoPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.audio:
+                                this.audioPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.link:
+                                this.linkPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.quote:
+                                this.quotePosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.chat:
+                                this.chatPosts = this.totalPosts;
+                                parsed++;
+                                break;
+
+                            case TumblrPostTypes.answer:
+                                this.answerPosts = this.totalPosts;
+                                parsed++;
+                                break;
+                        }
+                        this.statusCode = ProcessingCodes.OK;
+                    }
+                    else
+                    {
+                        this.statusCode = ProcessingCodes.invalidURL;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         public TumblrBlog ParsePosts()
         {

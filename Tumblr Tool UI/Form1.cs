@@ -49,7 +49,7 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.6";
+        public const string _VERSION = "1.2.7";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -1337,7 +1337,7 @@ namespace Tumblr_Tool
                     this.tumblrStats = new TumblrStats(new TumblrBlog(this.tumblrURL), this.tumblrURL, this.options.apiMode);
                     this.tumblrStats.statusCode = ProcessingCodes.Initializing;
 
-                    this.tumblrStats.ParsePosts();
+                    this.tumblrStats.getStats();
                 }
                 else
                 {
@@ -1353,6 +1353,10 @@ namespace Tumblr_Tool
         {
             try
             {
+                var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
+                int typesCount = values.Count() - 3;
+
+
                 if (!this.IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
@@ -1386,7 +1390,7 @@ namespace Tumblr_Tool
                             {
                                 this.lbl_Stats_TotalCount.Visible = true;
                                 this.lbl_Stats_BlogTitle.Text = tumblrStats.blog.title;
-                                this.lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+                                this.lbl_Stats_TotalCount.Text = tumblrStats.totalPostsOverall.ToString();
 
                                 this.lbl_PostCount.Text = string.Empty;
                                 this.img_Stats_Avatar.LoadAsync(JSONHelper.GetAvatarQueryString(tumblrStats.blog.url));
@@ -1414,7 +1418,7 @@ namespace Tumblr_Tool
                                 });
                             }
 
-                            percent = (int)(((double)this.tumblrStats.parsed / (double)this.tumblrStats.totalPosts) * 100.00);
+                            percent = (int)(((double)this.tumblrStats.parsed / (double)typesCount) * 100.00);
                             if (percent < 0)
                                 percent = 0;
 
@@ -1439,7 +1443,7 @@ namespace Tumblr_Tool
                                     this.Invoke((MethodInvoker)delegate
                                     {
                                         this.lbl_PercentBar.Visible = true;
-                                        this.lbl_Stats_TotalCount.Text = tumblrStats.totalPosts.ToString();
+                                        this.lbl_Stats_TotalCount.Text = tumblrStats.totalPostsOverall.ToString();
                                         this.lbl_Stats_PhotoCount.Text = tumblrStats.photoPosts.ToString();
                                         this.lbl_Stats_TextCount.Text = tumblrStats.textPosts.ToString();
                                         this.lbl_Stats_QuoteStats.Text = tumblrStats.quotePosts.ToString();
@@ -1450,7 +1454,7 @@ namespace Tumblr_Tool
                                         this.lbl_Stats_AnswerCount.Text = tumblrStats.answerPosts.ToString();
                                         this.lbl_PercentBar.Text = string.Format(_PERCENT, percent.ToString());
                                         this.lbl_PostCount.Visible = true;
-                                        this.lbl_PostCount.Text = string.Format(_POSTCOUNT, tumblrStats.parsed.ToString(), tumblrStats.totalPosts.ToString());
+                                        this.lbl_PostCount.Text = string.Format(_POSTCOUNT, tumblrStats.parsed.ToString(), (typesCount).ToString());
                                     });
                                 }
                             }

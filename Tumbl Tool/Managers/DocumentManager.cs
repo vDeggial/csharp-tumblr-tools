@@ -268,6 +268,28 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        public int GetTotalPostCount()
+        {
+            if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
+            {
+
+                if (jsonDocument.response.total_posts != null)
+                    return Convert.ToInt32(jsonDocument.response.total_posts);
+                else if (jsonDocument.response.blog.posts != null)
+                    return Convert.ToInt32(jsonDocument.response.blog.posts);
+            }
+
+            else if (xmlDocument != null)
+            {
+                return XMLHelper.GetPostElementValue(xmlDocument, "posts") != null ? Convert.ToInt32(XMLHelper.GetPostElementAttributeValue(xmlDocument, "posts", "total")) : 0;
+
+            }
+
+
+
+            return 0;
+        }
+
         public bool GetBlogInfoJSON(string url, TumblrBlog blog)
         {
             try
