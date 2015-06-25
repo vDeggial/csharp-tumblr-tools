@@ -10,13 +10,25 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-namespace Tumblr_Tool
+using System;
+using Tumblr_Tool.Enums;
+
+namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    public static class UIHelper
+    [Serializable()]
+    public class AnswerPost : TumblrPost
     {
-        public static void SelectItem(this AdvancedComboBox ddl, string value)
+        public string askingName { get; set; }
+
+        public string askingUrl { get; set; }
+
+        public string question { get; set; }
+
+        public string answer { get; set; }
+
+        public AnswerPost()
         {
-            ddl.SelectedIndex = ddl.FindString(value) != -1 ? ddl.FindString(value) : 0;
+            this.type = TumblrPostTypes.answer.ToString();
         }
     }
 }

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: January, 2015
+ *  Last Updated: June, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -18,13 +18,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Image_Ripper;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects;
+using Tumblr_Tool.Objects.Tumblr_Objects;
 using Tumblr_Tool.Properties;
-using Tumblr_Tool.Tumblr_Objects;
 using Tumblr_Tool.Tumblr_Stats;
 
 namespace Tumblr_Tool
@@ -49,8 +49,9 @@ namespace Tumblr_Tool
         public const string _STATUS_OPENSAVEFILE = "Opening save file ...";
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
+        public const string _SUFFIX_KB = "KB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.8";
+        public const string _VERSION = "1.2.9";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
@@ -81,6 +82,19 @@ namespace Tumblr_Tool
             OpenTumblrFile(file);
         }
 
+        public string apiMode
+        {
+            get
+            {
+                return Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
+            }
+
+            set
+            {
+                this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value);
+            }
+        }
+
         public string currentImage { get; set; }
 
         public int currentPercent { get; set; }
@@ -97,10 +111,9 @@ namespace Tumblr_Tool
 
         public List<int> downloadedSizesList { get; set; }
 
-        public string errorMessage { get; set; }
-
         public DownloadManager downloadManager { get; set; }
 
+        public string errorMessage { get; set; }
         public bool isCancelled { get; set; }
 
         public bool isCrawlingDone { get; set; }
@@ -130,20 +143,6 @@ namespace Tumblr_Tool
         public TumblrStats tumblrStats { get; set; }
 
         public string tumblrURL { get; set; }
-
-        public string apiMode
-        {
-            get
-            {
-                return Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
-            }
-
-            set
-            {
-                this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value);
-            }
-        }
-
         public void AddWorkStatusText(string str)
         {
             if (!this.txt_WorkStatus.Text.EndsWith(str))
@@ -1624,46 +1623,11 @@ namespace Tumblr_Tool
             }
         }
 
-        private void btn_Accept_Click(object sender, EventArgs e)
-        {
-            this.SetOptions();
-            this.SaveOptions(this.optionsFileName);
-            this.UpdateStatusText("Options saved");
-        }
-
-        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.check_Options_ParseDownload.Checked)
-            {
-                this.check_Options_ParseOnly.Checked = false;
-            }
-        }
-
-        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.check_Options_ParseOnly.Checked)
-            {
-                this.check_Options_ParseDownload.Checked = false;
-            }
-        }
-
         public void LoadOptions(string filename)
         {
             this.options = JSONHelper.ReadObject<ToolOptions>(filename);
             this.options.apiMode = ApiModeEnum.v2JSON.ToString();
             this.RestoreOptions();
-        }
-
-        public void RestoreOptions()
-        {
-            this.check_Options_ParseGIF.Checked = this.options.parseGIF;
-            this.check_Options_ParseJPEG.Checked = this.options.parseJPEG;
-            this.check_Options_ParseDownload.Checked = !this.options.parseOnly;
-            this.check_Options_ParseOnly.Checked = this.options.parseOnly;
-            this.check_Options_ParsePhotoSets.Checked = this.options.parsePhotoSets;
-            this.check_Options_ParsePNG.Checked = this.options.parsePNG;
-            this.apiMode = this.options.apiMode;
-            this.check_Options_GenerateLog.Checked = this.options.generateLog;
         }
 
         public void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1720,6 +1684,18 @@ namespace Tumblr_Tool
             catch
             {
             }
+        }
+
+        public void RestoreOptions()
+        {
+            this.check_Options_ParseGIF.Checked = this.options.parseGIF;
+            this.check_Options_ParseJPEG.Checked = this.options.parseJPEG;
+            this.check_Options_ParseDownload.Checked = !this.options.parseOnly;
+            this.check_Options_ParseOnly.Checked = this.options.parseOnly;
+            this.check_Options_ParsePhotoSets.Checked = this.options.parsePhotoSets;
+            this.check_Options_ParsePNG.Checked = this.options.parsePNG;
+            this.apiMode = this.options.apiMode;
+            this.check_Options_GenerateLog.Checked = this.options.generateLog;
         }
 
         public void SaveLogFile()
@@ -1878,6 +1854,37 @@ namespace Tumblr_Tool
             this.txt_WorkStatus.ScrollToCaret();
         }
 
+        private void btn_Accept_Click(object sender, EventArgs e)
+        {
+            this.SetOptions();
+            this.SaveOptions(this.optionsFileName);
+            this.UpdateStatusText("Options saved");
+        }
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+            this.RestoreOptions();
+        }
+
+        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.check_Options_ParseDownload.Checked)
+            {
+                this.check_Options_ParseOnly.Checked = false;
+            }
+        }
+
+        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.check_Options_ParseOnly.Checked)
+            {
+                this.check_Options_ParseDownload.Checked = false;
+            }
+        }
+        private void lbl_About_Click(object sender, EventArgs e)
+        {
+        }
+
         private void select_Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
@@ -1905,15 +1912,6 @@ namespace Tumblr_Tool
 
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
-        }
-
-        private void btn_Cancel_Click(object sender, EventArgs e)
-        {
-            this.RestoreOptions();
-        }
-
-        private void lbl_About_Click(object sender, EventArgs e)
-        {
         }
     }
 }

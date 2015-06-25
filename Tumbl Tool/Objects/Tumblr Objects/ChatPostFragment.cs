@@ -10,20 +10,17 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-namespace Tumblr_Tool.Enums
+using System;
+
+namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    public enum TumblrPostTypes
+    [Serializable()]
+    public class ChatPostFragment
     {
-        text,
-        regular,
-        photo,
-        chat,
-        conversation,
-        link,
-        quote,
-        audio,
-        video,
-        answer,
-        empty
+        public string label { get; set; }
+
+        public string name { get; set; }
+
+        public string phrase { get; set; }
     }
 }

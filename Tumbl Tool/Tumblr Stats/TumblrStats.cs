@@ -6,17 +6,17 @@
  *
  *  Created: 2013
  *
- *  Last Updated: January, 2015
+ *  Last Updated: June, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tumblr_Tool.Common_Helpers;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Managers;
-using Tumblr_Tool.Tumblr_Objects;
+using Tumblr_Tool.Objects.Tumblr_Objects;
 
 namespace Tumblr_Tool.Tumblr_Stats
 {
