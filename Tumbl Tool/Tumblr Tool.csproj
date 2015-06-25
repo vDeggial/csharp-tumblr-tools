@@ -51,7 +51,7 @@
     <Compile Include="Common Helpers\MyWebClient.cs" />
     <Compile Include="Common Helpers\ObjectCopier.cs" />
     <Compile Include="Common Helpers\PostHelper.cs" />
-    <Compile Include="Common Helpers\SaveFile.cs" />
+    <Compile Include="Objects\SaveFile.cs" />
     <Compile Include="Common Helpers\WebHelper.cs" />
     <Compile Include="Common Helpers\XMLHelper.cs" />
     <Compile Include="Enums\apiModeEnum.cs" />

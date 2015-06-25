@@ -574,7 +574,7 @@ namespace Tumblr_Tool
             YesNoCancel = 6
         }
 
-        public enum Icon
+        public new enum Icon
         {
             Application = 1,
             Exclamation = 2,

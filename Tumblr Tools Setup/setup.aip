@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="11.7.1" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="12.2" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="MsiOrgComponent"/>
   </COMPONENT>
@@ -22,10 +22,10 @@
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="DefaultBuild:tumblricon.ico" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>
-    <ROW Property="ProductCode" Value="1033:{3914D563-1EC9-4520-ACC4-0BA212F51DB6} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{0F0FE3D8-40C8-434C-ADA2-3624F5D8467C} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Tumblr Tools"/>
-    <ROW Property="ProductVersion" Value="1.2.3" Type="32"/>
+    <ROW Property="ProductVersion" Value="1.2.8" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{C43D57AB-D004-49BF-871E-513E0F63FC6E}"/>
     <ROW Property="WIMinVersion" MultiBuildValue="DefaultBuild:3.01" ValueLocId="-"/>
@@ -91,7 +91,7 @@
     <ROW TimeStampUrl="http://timestamp.verisign.com/scripts/timstamp.dll" SignerDescription="[|ProductName]" SignOptions="0" SignTool="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FirewallExceptionComponent">
-    <ROW FirewallException="TumblrTools" DisplayName="Tumblr Tools" Enabled="1" Scope="*" Condition="((?TumblrTools.exe=2) AND ($TumblrTools.exe=3))" Profiles="0" AppPath="[#TumblrTools.exe]"/>
+    <ROW FirewallException="TumblrTools" DisplayName="Tumblr Tools" Enabled="1" Scope="*" Condition="((?TumblrTools.exe=2) AND ($TumblrTools.exe=3))" Profiles="0" AppPath="[#TumblrTools.exe]" Protocol="ANY"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
@@ -288,7 +288,7 @@
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiProgIdComponent">
-    <ROW ProgId="[|Manufacturer].[|ProductName].tumblr" Description="Tumblr Tools Savefile" Icon_="tumblricon.exe"/>
+    <ROW ProgId="[|Manufacturer].[|ProductName].tumblr" Description="Tumblr Tools Savefile" Icon_="tumblricon.exe" MacDefaultDocType="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
     <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>

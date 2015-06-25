@@ -16,6 +16,7 @@ using System.Linq;
 using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Managers;
+using Tumblr_Tool.Objects;
 using Tumblr_Tool.Tumblr_Objects;
 
 namespace Tumblr_Tool.Image_Ripper

@@ -22,6 +22,7 @@ using Tumblr_Tool.Common_Helpers;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Image_Ripper;
 using Tumblr_Tool.Managers;
+using Tumblr_Tool.Objects;
 using Tumblr_Tool.Properties;
 using Tumblr_Tool.Tumblr_Objects;
 using Tumblr_Tool.Tumblr_Stats;
@@ -49,8 +50,8 @@ namespace Tumblr_Tool
         public const string _STATUS_READY = "Ready";
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.2.7";
-        public const string _WORKTEXT_CHECKINGCONNX = "Checking for Internet connection ...";
+        public const string _VERSION = "1.2.8";
+        public const string _WORKTEXT_CHECKINGCONNX = "Checking Internet connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading images ...";
         public const string _WORKTEXT_GETTINGBLOGINFO = "Getting Blog info ...";
         public const string _WORKTEXT_INDEXINGPOSTS = "Indexing posts ...";
@@ -79,7 +80,6 @@ namespace Tumblr_Tool
 
             OpenTumblrFile(file);
         }
-
 
         public string currentImage { get; set; }
 
@@ -143,7 +143,6 @@ namespace Tumblr_Tool
                 this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value);
             }
         }
-
 
         public void AddWorkStatusText(string str)
         {
@@ -711,9 +710,13 @@ namespace Tumblr_Tool
                                 {
                                     UpdateWorkStatusTextNewLine(_WORKTEXT_INDEXINGPOSTS);
                                     UpdateStatusText(_STATUS_INDEXING);
-                                    this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.totalNumberOfPosts.ToString());
-                                    this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
-                                    this.lbl_PostCount.Visible = true;
+                                    //this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.totalNumberOfPosts.ToString());
+                                    //this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
+
+                                    //this.lbl_PostCount.Text = string.Empty;
+                                    //this.lbl_PercentBar.Text = string.Empty;
+
+                                    //this.lbl_PostCount.Visible = true;
                                 });
                             }
 
@@ -729,6 +732,11 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                        {
+                                           if (!this.lbl_PercentBar.Visible)
+                                           {
+                                               this.lbl_PercentBar.Visible = true;
+                                           }
+
                                            this.lbl_PercentBar.Text = string.Format(_PERCENT, percent.ToString());
                                            this.bar_Progress.Value = percent;
                                        });
@@ -742,6 +750,10 @@ namespace Tumblr_Tool
                                 {
                                     this.Invoke((MethodInvoker)delegate
                                     {
+                                        if (!this.lbl_PostCount.Visible)
+                                        {
+                                            this.lbl_PostCount.Visible = true;
+                                        }
                                         this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.ripper.numberOfParsedPosts.ToString(), this.ripper.totalNumberOfPosts.ToString());
                                     });
                                 }
@@ -1356,7 +1368,6 @@ namespace Tumblr_Tool
                 var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
                 int typesCount = values.Count() - 3;
 
-
                 if (!this.IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
@@ -1573,7 +1584,6 @@ namespace Tumblr_Tool
             this.Text += " " + _VERSION + "";
             this.lbl_About_Version.Text = "Version: " + _VERSION;
 
-
             string file = this.optionsFileName;
 
             if (File.Exists(file))
@@ -1712,7 +1722,6 @@ namespace Tumblr_Tool
             }
         }
 
-
         public void SaveLogFile()
         {
             FileHelper.SaveTumblrFile(this.saveLocation + @"\" + this.tumblrLogFile.filename, this.tumblrLogFile);
@@ -1765,8 +1774,6 @@ namespace Tumblr_Tool
             this.options.parseOnly = this.check_Options_ParseOnly.Checked;
             this.options.apiMode = this.apiMode;
             this.options.generateLog = this.check_Options_GenerateLog.Checked;
-
-
         }
 
         public void StatsTumblrURLUpdate(object sender, EventArgs e)
@@ -1907,7 +1914,6 @@ namespace Tumblr_Tool
 
         private void lbl_About_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

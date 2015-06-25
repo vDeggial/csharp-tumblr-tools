@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using Tumblr_Tool.Objects;
 
 namespace Tumblr_Tool.Common_Helpers
 {
@@ -114,6 +115,19 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
+        public static SaveFile ReadTumblrFile(string location)
+        {
+            SaveFile saveFile = ReadTumblrFile(location, "BIN");
+
+            if (saveFile == null)
+                saveFile = ReadTumblrFile(location, "XML");
+
+            if (saveFile == null)
+                saveFile = ReadTumblrFile(location, "JSON");
+
+            return saveFile;
+        }
+
         public static SaveFile ReadTumblrFileFromBin(string location)
         {
             try
@@ -133,25 +147,6 @@ namespace Tumblr_Tool.Common_Helpers
                 return null;
             }
         }
-
-        public static SaveFile ReadTumblrFile(string location)
-        {
-            SaveFile saveFile = ReadTumblrFile(location, "BIN");
-
-            if (saveFile == null)
-                saveFile = ReadTumblrFile(location, "XML");
-
-            if (saveFile == null)
-                saveFile = ReadTumblrFile(location, "JSON");
-
-            return saveFile;
-        }
-
-        public static bool SaveTumblrFile(string location, SaveFile saveFile)
-        {
-            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
-        }
-
         public static SaveFile ReadTumblrFileFromJSON(string location)
         {
             return (SaveFile)JSONHelper.ReadObject<SaveFile>(location);
@@ -180,6 +175,10 @@ namespace Tumblr_Tool.Common_Helpers
             }
         }
 
+        public static bool SaveTumblrFile(string location, SaveFile saveFile)
+        {
+            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
+        }
         public static bool SaveTumblrFile(string location, SaveFile file, string format)
         {
             file.AddDate();

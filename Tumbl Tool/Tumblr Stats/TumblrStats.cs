@@ -42,7 +42,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
 
             this.blog.posts = new HashSet<TumblrPost>();
-            
+
             this.url = WebHelper.FixURL(this.blog.url);
             this.tumblrDomain = WebHelper.GetDomainName(this.url);
 
@@ -98,7 +98,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public bool getStats()
         {
-
             string url = XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1);
             if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
             {
@@ -112,16 +111,13 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.totalPostsOverall = this.documentManager.GetTotalPostCount();
             }
 
-
-
-                var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
+            var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
 
             foreach (TumblrPostTypes type in values)
             {
                 this.totalPosts = 0;
                 if (type != TumblrPostTypes.empty && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
                 {
-
                     url = XMLHelper.GetQueryString(this.url, type.ToString(), 0, 1);
                     if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                     {
@@ -132,7 +128,6 @@ namespace Tumblr_Tool.Tumblr_Stats
                     {
                         this.documentManager.GetDocument(url);
                         this.totalPosts = this.documentManager.GetTotalPostCount();
-
 
                         switch (type)
                         {
