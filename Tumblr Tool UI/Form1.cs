@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -1403,7 +1403,7 @@ namespace Tumblr_Tool
                                 this.lbl_Stats_TotalCount.Text = tumblrStats.totalPostsOverall.ToString();
 
                                 this.lbl_PostCount.Text = string.Empty;
-                                this.img_Stats_Avatar.LoadAsync(JSONHelper.GetAvatarQueryString(tumblrStats.blog.url));
+                                this.img_Stats_Avatar.LoadAsync(JsonHelper.GetAvatarQueryString(tumblrStats.blog.url));
                             });
                         }
 
@@ -1625,7 +1625,7 @@ namespace Tumblr_Tool
 
         public void LoadOptions(string filename)
         {
-            this.options = JSONHelper.ReadObject<ToolOptions>(filename);
+            this.options = JsonHelper.ReadObject<ToolOptions>(filename);
             this.options.apiMode = ApiModeEnum.v2JSON.ToString();
             this.RestoreOptions();
         }
@@ -1705,7 +1705,7 @@ namespace Tumblr_Tool
 
         public void SaveOptions(string filename)
         {
-            JSONHelper.SaveObject<ToolOptions>(filename, this.options);
+            JsonHelper.SaveObject<ToolOptions>(filename, this.options);
         }
 
         public void saveToolStripMenuItem_Click(object sender, EventArgs e)

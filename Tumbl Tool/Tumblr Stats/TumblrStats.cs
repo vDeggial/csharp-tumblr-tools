@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -98,10 +98,10 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public bool getStats()
         {
-            string url = XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1);
+            string url = XmlHelper.GenerateQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1);
             if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
             {
-                url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1);
+                url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1);
             }
 
             if (url.IsValidTumblr(this.documentManager.mode))
@@ -118,10 +118,10 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.totalPosts = 0;
                 if (type != TumblrPostTypes.empty && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
                 {
-                    url = XMLHelper.GetQueryString(this.url, type.ToString(), 0, 1);
+                    url = XmlHelper.GenerateQueryString(this.url, type.ToString(), 0, 1);
                     if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                     {
-                        url = JSONHelper.GenerateQueryString(this.tumblrDomain, type.ToString(), 0, 1);
+                        url = JsonHelper.GenerateQueryString(this.tumblrDomain, type.ToString(), 0, 1);
                     }
 
                     if (url.IsValidTumblr(this.documentManager.mode))
@@ -187,12 +187,12 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                string url = XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0);
+                string url = XmlHelper.GenerateQueryString(this.url, TumblrPostTypes.empty.ToString(), 0);
                 this.step = (int)PostStepEnum.XML;
 
                 if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0);
+                    url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0);
                     this.step = (int)PostStepEnum.JSON;
                 }
 
@@ -215,7 +215,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                     {
                         if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                         {
-                            url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), i);
+                            url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), i);
                         }
 
                         this.documentManager.GetDocument(url);
@@ -267,11 +267,11 @@ namespace Tumblr_Tool.Tumblr_Stats
             {
                 if (this.documentManager.mode == ApiModeEnum.v1XML.ToString())
                 {
-                    this.documentManager.GetBlogInfo(XMLHelper.GetQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.GetBlogInfo(XmlHelper.GenerateQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
                 else if (this.documentManager.mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    this.documentManager.GetBlogInfo(JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
+                    this.documentManager.GetBlogInfo(JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1), this.blog);
                 }
             }
             catch

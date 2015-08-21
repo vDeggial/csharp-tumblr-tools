@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -73,11 +73,11 @@ namespace Tumblr_Tool.Helpers
             {
                 if (mode == ApiModeEnum.v2JSON.ToString())
                 {
-                    dynamic jsonObject = JSONHelper.GetObject(url);
+                    dynamic jsonObject = JsonHelper.GetObject(url);
                     return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString());
                 }
                 else
-                    return XMLHelper.GetDocument(url) != null;
+                    return XmlHelper.GetDocument(url) != null;
             }
             catch
             {

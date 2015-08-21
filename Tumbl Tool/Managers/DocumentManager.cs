@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -59,7 +59,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                this.jsonDocument = JSONHelper.GetObject(url);
+                this.jsonDocument = JsonHelper.GetObject(url);
 
                 if ((this.jsonDocument != null && this.jsonDocument.meta != null && this.jsonDocument.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString()))
                 {
@@ -80,7 +80,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                this.xmlDocument = XMLHelper.GetDocument(url);
+                this.xmlDocument = XmlHelper.GetDocument(url);
             }
             catch
             {
@@ -115,7 +115,7 @@ namespace Tumblr_Tool.Managers
         public HashSet<TumblrPost> GetPostListXML(string type = "")
         {
             HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-            HashSet<XElement> postElementList = XMLHelper.getPostElementList(xmlDocument);
+            HashSet<XElement> postElementList = XmlHelper.getPostElementList(xmlDocument);
 
             foreach (XElement element in postElementList)
             {
@@ -279,7 +279,7 @@ namespace Tumblr_Tool.Managers
             }
             else if (xmlDocument != null)
             {
-                return XMLHelper.GetPostElementValue(xmlDocument, "posts") != null ? Convert.ToInt32(XMLHelper.GetPostElementAttributeValue(xmlDocument, "posts", "total")) : 0;
+                return XmlHelper.GetPostElementValue(xmlDocument, "posts") != null ? Convert.ToInt32(XmlHelper.GetPostElementAttributeValue(xmlDocument, "posts", "total")) : 0;
             }
 
             return 0;
@@ -290,7 +290,7 @@ namespace Tumblr_Tool.Managers
             try
             {
                 if (blog == null) blog = new TumblrBlog(url);
-                dynamic jsonDocument = JSONHelper.GetObject(url);
+                dynamic jsonDocument = JsonHelper.GetObject(url);
 
                 if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
                 {
@@ -326,14 +326,14 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                XDocument rDoc = XMLHelper.GetDocument(url);
+                XDocument rDoc = XmlHelper.GetDocument(url);
                 if (rDoc != null)
                 {
-                    blog.title = XMLHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "title");
-                    blog.description = XMLHelper.GetPostElementValue(rDoc, "tumblelog");
-                    blog.timezone = XMLHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "timezone");
-                    blog.name = XMLHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "name");
-                    blog.totalPosts = XMLHelper.GetPostElementValue(rDoc, "posts") != null ? Convert.ToInt32(XMLHelper.GetPostElementAttributeValue(rDoc, "posts", "total")) : 0;
+                    blog.title = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "title");
+                    blog.description = XmlHelper.GetPostElementValue(rDoc, "tumblelog");
+                    blog.timezone = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "timezone");
+                    blog.name = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "name");
+                    blog.totalPosts = XmlHelper.GetPostElementValue(rDoc, "posts") != null ? Convert.ToInt32(XmlHelper.GetPostElementAttributeValue(rDoc, "posts", "total")) : 0;
                     return true;
                 }
 

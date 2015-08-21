@@ -44,16 +44,18 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\saveFileFormats.cs" />
+    <Compile Include="Helpers\BinaryHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\JSONHelper.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\MyWebClient.cs" />
     <Compile Include="Helpers\ObjectCopier.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Objects\SaveFile.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
-    <Compile Include="Helpers\XMLHelper.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Enums\apiModeEnum.cs" />
     <Compile Include="Enums\downloadStatusCodes.cs" />
     <Compile Include="Enums\errorTypes.cs" />

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -177,11 +177,11 @@ namespace Tumblr_Tool.Image_Ripper
                 string query;
                 if (this.apiMode == ApiModeEnum.v1XML.ToString()) //XML
                 {
-                    query = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), start);
+                    query = XmlHelper.GenerateQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), start);
                 }
                 else //JSON
                 {
-                    query = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), start);
+                    query = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), start);
                 }
 
                 this.documentManager.GetDocument(query);
@@ -209,10 +209,10 @@ namespace Tumblr_Tool.Image_Ripper
             {
                 string url = string.Empty;
                 if (this.apiMode == ApiModeEnum.v1XML.ToString())
-                    url = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
+                    url = XmlHelper.GenerateQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
                 else
                 {
-                    url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
+                    url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
                 }
 
                 return url.IsValidTumblr(this.apiMode);
@@ -231,10 +231,10 @@ namespace Tumblr_Tool.Image_Ripper
                 this.existingImageList = FileHelper.GetImageListFromDir(this.saveLocation);
                 string url = string.Empty;
                 if (this.apiMode == ApiModeEnum.v1XML.ToString())
-                    url = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
+                    url = XmlHelper.GenerateQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
                 else
                 {
-                    url = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
+                    url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
                 }
 
                 this.blog.posts = this.blog.posts != null ? this.blog.posts : new HashSet<TumblrPost>();
@@ -338,11 +338,11 @@ namespace Tumblr_Tool.Image_Ripper
                 string query;
                 if (this.apiMode == ApiModeEnum.v1XML.ToString()) //XML
                 {
-                    query = XMLHelper.GetQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), 0, 1);
+                    query = XmlHelper.GenerateQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
                 else //JSON
                 {
-                    query = JSONHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
+                    query = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
                 return this.documentManager.GetBlogInfo(query, this.blog);
             }

@@ -12,9 +12,10 @@
 
 namespace Tumblr_Tool.Enums
 {
-    public enum ApiModeEnum
+    public enum saveFileFormats
     {
-        v1XML = 0,
-        v2JSON = 1
+        XML,
+        JSON,
+        BIN
     }
 }

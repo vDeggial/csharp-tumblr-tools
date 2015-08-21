@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: June, 2015
+ *  Last Updated: August, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -14,14 +14,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using Tumblr_Tool.Enums;
 using Tumblr_Tool.Objects;
 
 namespace Tumblr_Tool.Helpers
 {
     public static class FileHelper
     {
-        private static string saveFileFormat = "JSON";
+        private static string saveFileFormat = saveFileFormats.JSON.ToString();
 
         public static bool FileExists(string file)
         {
@@ -102,13 +102,13 @@ namespace Tumblr_Tool.Helpers
             switch (format)
             {
                 case "BIN":
-                    return ReadTumblrFileFromBin(location);
+                    return BinaryHelper.ReadObject<SaveFile>(location);
 
                 case "XML":
-                    return (SaveFile)XMLHelper.ReadObject<SaveFile>(location);
+                    return XmlHelper.ReadObject<SaveFile>(location);
 
                 case "JSON":
-                    return JSONHelper.ReadObject<SaveFile>(location);
+                    return JsonHelper.ReadObject<SaveFile>(location);
 
                 default:
                     return null;
@@ -117,63 +117,27 @@ namespace Tumblr_Tool.Helpers
 
         public static SaveFile ReadTumblrFile(string location)
         {
-            SaveFile saveFile = ReadTumblrFile(location, "BIN");
+            SaveFile saveFile = ReadTumblrFile(location, saveFileFormats.BIN.ToString());
 
             if (saveFile == null)
-                saveFile = ReadTumblrFile(location, "XML");
+                saveFile = ReadTumblrFile(location, saveFileFormats.XML.ToString());
 
             if (saveFile == null)
-                saveFile = ReadTumblrFile(location, "JSON");
+                saveFile = ReadTumblrFile(location, saveFileFormats.JSON.ToString());
 
             return saveFile;
         }
 
-        public static SaveFile ReadTumblrFileFromBin(string location)
-        {
-            try
-            {
-                using (Stream stream = File.Open(location, FileMode.Open))
-                {
-                    stream.Position = 0;
-                    BinaryFormatter bformatter = new BinaryFormatter();
-
-                    SaveFile saveFile = (SaveFile)bformatter.Deserialize(stream);
-                    return saveFile;
-                }
-            }
-            catch (Exception e)
-            {
-                string s = e.Message;
-                return null;
-            }
-        }
         public static SaveFile ReadTumblrFileFromJSON(string location)
         {
-            return (SaveFile)JSONHelper.ReadObject<SaveFile>(location);
+            return JsonHelper.ReadObject<SaveFile>(location);
         }
 
         public static SaveFile ReadTumblrFileFromXML(string location)
         {
-            return (SaveFile)XMLHelper.ReadObject<SaveFile>(location);
+            return XmlHelper.ReadObject<SaveFile>(location);
         }
 
-        public static bool SaveFileAsBin(string location, SaveFile file)
-        {
-            try
-            {
-                using (Stream stream = File.Open(location, FileMode.Create))
-                {
-                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-
-                    bformatter.Serialize(stream, file);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
         public static bool SaveTumblrFile(string location, SaveFile saveFile)
         {
@@ -185,13 +149,13 @@ namespace Tumblr_Tool.Helpers
             switch (format)
             {
                 case "BIN":
-                    return SaveFileAsBin(location, file);
+                    return BinaryHelper.SaveObject(location, file);
 
                 case "XML":
-                    return XMLHelper.SaveObject<SaveFile>(location, file);
+                    return XmlHelper.SaveObject(location, file);
 
                 case "JSON":
-                    return JSONHelper.SaveObject<SaveFile>(location, file);
+                    return JsonHelper.SaveObject(location, file);
 
                 default:
                     return false;
