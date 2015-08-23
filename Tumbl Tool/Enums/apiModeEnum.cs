@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Enum for different Tumblr API versioning - API v1 XML or API v2 JSON
+    /// </summary>
     public enum ApiModeEnum
     {
         v1XML = 0,

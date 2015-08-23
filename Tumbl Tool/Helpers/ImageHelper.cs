@@ -20,6 +20,11 @@ namespace Tumblr_Tool.Helpers
 {
     public static class ImageHelper
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="desc"></param>
         public static void AddImageDescription(string path, string desc)
         {
             string _FileDirectory = Path.GetDirectoryName(path);
@@ -219,6 +224,11 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
         public static ImageFormat GetImageFormat(this Image img)
         {
             if (img.RawFormat.Equals(ImageFormat.Jpeg))

@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Tumblr API Response Codes
+    /// </summary>
     public enum TumblrAPIResponseEnum
     {
         OK = 200,

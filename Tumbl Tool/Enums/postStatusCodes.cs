@@ -12,6 +12,9 @@
 
 namespace Tumbl_Tool.Enums
 {
+    /// <summary>
+    /// POst Download Status Codes
+    /// </summary>
     public enum PostStatusCodes
     {
         New,

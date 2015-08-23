@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Processing codes
+    /// </summary>
     public enum ProcessingCodes
     {
         OK,

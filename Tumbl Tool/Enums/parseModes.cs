@@ -14,6 +14,9 @@ using System.ComponentModel;
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Parse Modes: Full Rescan / New Posts Only
+    /// </summary>
     public enum ParseModes
     {
         [Description("Full")]

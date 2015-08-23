@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Enum for different image file extensions
+    /// </summary>
     public enum ImageFormat
     {
         bmp,

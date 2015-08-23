@@ -29,22 +29,35 @@ namespace Tumblr_Tool.Helpers
         private const string _OFFSET = "&offset={0}";
         private const string _POSTQUERY = "posts";
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tumblrDomain"></param>
+        /// <returns></returns>
         public static string GenerateInfoQueryString(string tumblrDomain)
         {
             string query;
 
-            tumblrDomain = WebHelper.FixURL(tumblrDomain);
+            tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
             query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY);
 
             return query;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tumblrDomain"></param>
+        /// <param name="type"></param>
+        /// <param name="start"></param>
+        /// <param name="maxNumPosts"></param>
+        /// <returns></returns>
         public static string GenerateQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
         {
             string query;
 
-            tumblrDomain = WebHelper.FixURL(tumblrDomain);
+            tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
             string postQuery = _POSTQUERY;
             if (type != TumblrPostTypes.empty.ToString())
@@ -57,6 +70,11 @@ namespace Tumblr_Tool.Helpers
             return query;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tumblrDomain"></param>
+        /// <returns></returns>
         public static string GetAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = WebHelper.GetDomainName(tumblrDomain);
@@ -68,7 +86,7 @@ namespace Tumblr_Tool.Helpers
 
         public static JObject GetObject(string url)
         {
-            string result = WebHelper.GetDocumentAsString(url);
+            string result = WebHelper.GetRemoteDocumentAsString(url);
 
             if (result != null)
             {
@@ -80,6 +98,12 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static T ReadObject<T>(string filePath) where T : new()
         {
             TextReader reader = null;
@@ -96,6 +120,14 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <param name="objectToWrite"></param>
+        /// <param name="append"></param>
+        /// <returns></returns>
         public static bool SaveObject<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
             TextWriter writer = null;

@@ -30,6 +30,10 @@ namespace Tumblr_Tool
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
             Color backColor = BackColor;
@@ -42,6 +46,11 @@ namespace Tumblr_Tool
             e.Item.ForeColor = e.Item.Selected ? this.HighlightForeColor : this.ForeColor;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="TSMI"></param>
+        /// <param name="e"></param>
         public void ChangeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)
         {
             Color foreColor = TSMI.GetCurrentParent().ForeColor;

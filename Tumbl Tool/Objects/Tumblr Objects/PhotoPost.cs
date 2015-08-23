@@ -20,6 +20,11 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class PhotoPost : TumblrPost
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="caption"></param>
         public PhotoPost(string url = "", string caption = "")
             : base()
         {
@@ -28,6 +33,9 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
             this.caption = caption;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public PhotoPost()
         {
             this.type = TumblrPostTypes.photo.ToString();
@@ -39,6 +47,10 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public override HashSet<PhotoPostImage> photos { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="image"></param>
         public override void AddImageToPhotoSet(PhotoPostImage image)
         {
             if (photos == null)

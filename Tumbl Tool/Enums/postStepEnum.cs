@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Post API Crawl Step
+    /// </summary>
     public enum PostStepEnum
     {
         XML = 50,

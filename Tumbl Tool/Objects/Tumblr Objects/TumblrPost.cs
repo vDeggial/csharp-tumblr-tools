@@ -67,6 +67,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual string playsCount { get; set; }
 
+        public string postAuthor { get; set; }
+
         [XmlElement("postText")]
         public string postText { get; set; }
 
@@ -75,9 +77,13 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public string shortURL { get; set; }
 
+        public string slug { get; set; }
+
         public virtual string source { get; set; }
 
         public string sourceURL { get; set; }
+
+        public string state { get; set; }
 
         [XmlArrayItem("tag")]
         public HashSet<string> tags { get; set; }
@@ -85,6 +91,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public virtual string text { get; set; }
 
         public virtual string thumbnailHeight { get; set; }
+
+        public string timestamp { get; set; }
 
         public virtual string thumbnailUrl { get; set; }
 
@@ -95,7 +103,6 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public virtual string trackName { get; set; }
 
         public virtual string trackNumber { get; set; }
-
         [XmlElement("type")]
         public string type { get; set; }
 
@@ -108,11 +115,19 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual string year { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="image"></param>
         public virtual void AddImageToPhotoSet(PhotoPostImage image)
         {
             // void
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tag"></param>
         public void AddTag(string tag)
         {
             if (this.tags == null)

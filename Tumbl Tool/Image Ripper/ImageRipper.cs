@@ -13,8 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Enums;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects;
 using Tumblr_Tool.Objects.Tumblr_Objects;
@@ -23,13 +23,29 @@ namespace Tumblr_Tool.Image_Ripper
 {
     public class ImageRipper
     {
+        /// <summary>
+        /// Constructor for the class
+        /// </summary>
         public ImageRipper()
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="blog"></param>
+        /// <param name="saveLocation"></param>
+        /// <param name="generateLog"></param>
+        /// <param name="parseSets"></param>
+        /// <param name="parseJPEG"></param>
+        /// <param name="parsePNG"></param>
+        /// <param name="parseGIF"></param>
+        /// <param name="startNum"></param>
+        /// <param name="endNum"></param>
+        /// <param name="apiMode"></param>
         public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "JSON")
         {
-            this.tumblrURL = WebHelper.FixURL(blog.url);
+            this.tumblrURL = WebHelper.RemoveTrailingBackslash(blog.url);
             this.tumblrDomain = WebHelper.GetDomainName(blog.url);
 
             this.generateLog = generateLog;
@@ -113,6 +129,10 @@ namespace Tumblr_Tool.Image_Ripper
 
         public string tumblrURL { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="posts"></param>
         public void GenerateImageListForDownload(HashSet<TumblrPost> posts)
         {
             foreach (PhotoPost post in posts)
@@ -170,6 +190,11 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public HashSet<TumblrPost> GetTumblrPostList(int start = 0)
         {
             try
@@ -203,7 +228,11 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
-        public bool IsValidTumblr()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public bool TumblrExists()
         {
             try
             {
@@ -215,7 +244,7 @@ namespace Tumblr_Tool.Image_Ripper
                     url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.photo.ToString());
                 }
 
-                return url.IsValidTumblr(this.apiMode);
+                return url.TumblrExists(this.apiMode);
             }
             catch
             {
@@ -223,12 +252,17 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="parseMode"></param>
+        /// <returns></returns>
         public TumblrBlog ParseBlogPosts(ParseModes parseMode)
         {
             try
             {
                 this.statusCode = ProcessingCodes.Crawling;
-                this.existingImageList = FileHelper.GetImageListFromDir(this.saveLocation);
+                this.existingImageList = FileHelper.GenerateFolderImageList(this.saveLocation);
                 string url = string.Empty;
                 if (this.apiMode == ApiModeEnum.v1XML.ToString())
                     url = XmlHelper.GenerateQueryString(this.tumblrURL, TumblrPostTypes.photo.ToString());
@@ -318,6 +352,10 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="mode"></param>
         public void SetAPIMode(string mode)
         {
             try
@@ -331,6 +369,10 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public bool SetBlogInfo()
         {
             try
@@ -352,11 +394,19 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="log"></param>
         public void SetLogFile(SaveFile log)
         {
             this.tumblrPostLog = log;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="name"></param>
         public void UpdateLogFile(string name)
         {
             try
@@ -374,6 +424,10 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="log"></param>
         public void UpdateLogFile(SaveFile log)
         {
             try

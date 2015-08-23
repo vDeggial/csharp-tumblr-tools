@@ -21,19 +21,17 @@ namespace Tumblr_Tool.Helpers
 {
     public static class FileHelper
     {
+        /// <summary>
+        /// Save file format
+        /// </summary>
         private static string saveFileFormat = saveFileFormats.JSON.ToString();
 
-        public static bool FileExists(string file)
-        {
-            return File.Exists(file);
-        }
-
-        public static string FindFile(string dir, string name)
-        {
-            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
-        }
-
-        public static string FixFileName(string filename)
+        /// <summary>
+        /// Add .jpg extension to file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string AddJpgExt(string filename)
         {
             if (!Path.HasExtension(filename))
             {
@@ -43,17 +41,56 @@ namespace Tumblr_Tool.Helpers
             return filename;
         }
 
-        public static string GetFullFilePath(string url, string location)
+        /// <summary>
+        /// Checks if file exists
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static bool FileExists(string file)
+        {
+            return File.Exists(file);
+        }
+
+        /// <summary>
+        /// Find file
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string FindFile(string dir, string name)
+        {
+            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Generate full local path from url and lovalc path
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public static string GenerateLocalPathToFile(string url, string location)
         {
             return @location + @"\" + Path.GetFileName(url);
         }
 
-        public static string GetFullFilePath(string url, string location, string prefix)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="location"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public static string GenerateLocalPathToFile(string url, string location, string prefix)
         {
             return @location + @"\" + prefix + Path.GetFileName(url);
         }
 
-        public static HashSet<string> GetImageListFromDir(string location)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public static HashSet<string> GenerateFolderImageList(string location)
         {
             HashSet<string> imagesList = new HashSet<string>();
             string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
@@ -71,6 +108,11 @@ namespace Tumblr_Tool.Helpers
             return imagesList;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;
@@ -97,6 +139,12 @@ namespace Tumblr_Tool.Helpers
             return false;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public static SaveFile ReadTumblrFile(string location, string format)
         {
             switch (format)
@@ -115,6 +163,11 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
         public static SaveFile ReadTumblrFile(string location)
         {
             SaveFile saveFile = ReadTumblrFile(location, saveFileFormats.BIN.ToString());
@@ -128,21 +181,44 @@ namespace Tumblr_Tool.Helpers
             return saveFile;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
         public static SaveFile ReadTumblrFileFromJSON(string location)
         {
             return JsonHelper.ReadObject<SaveFile>(location);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
         public static SaveFile ReadTumblrFileFromXML(string location)
         {
             return XmlHelper.ReadObject<SaveFile>(location);
         }
 
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="saveFile"></param>
+        /// <returns></returns>
         public static bool SaveTumblrFile(string location, SaveFile saveFile)
         {
             return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="file"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public static bool SaveTumblrFile(string location, SaveFile file, string format)
         {
             file.AddDate();

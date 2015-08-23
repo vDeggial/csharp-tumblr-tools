@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Tumblr Post Types
+    /// </summary>
     public enum TumblrPostTypes
     {
         text,

@@ -23,11 +23,16 @@ namespace Tumblr_Tool.Helpers
     {
         public const string _QUERY = @"/api/read";
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static XDocument GetDocument(string url)
         {
             try
             {
-                string xmlStr = WebHelper.GetDocumentAsString(url);
+                string xmlStr = WebHelper.GetRemoteDocumentAsString(url);
                 return XDocument.Parse(xmlStr);
             }
             catch
@@ -36,6 +41,13 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="elementName"></param>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
         public static string GetPostElementAttributeValue(XDocument doc, string elementName, string attributeName)
         {
             return doc != null ? doc.Root.Element(elementName) != null ?
@@ -43,17 +55,36 @@ namespace Tumblr_Tool.Helpers
                 doc.Root.Element(elementName).Attribute(attributeName).Value : null : null : null;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public static HashSet<XElement> getPostElementList(XDocument doc)
         {
             return doc.Descendants("post").ToHashSet();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="elementName"></param>
+        /// <returns></returns>
         public static string GetPostElementValue(XDocument doc, string elementName)
         {
             return doc != null ? doc.Root.Element(elementName) != null ?
                 doc.Root.Element(elementName).Value : null : null;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tumblrURL"></param>
+        /// <param name="type"></param>
+        /// <param name="start"></param>
+        /// <param name="maxNumPosts"></param>
+        /// <returns></returns>
         public static string GenerateQueryString(string tumblrURL, string type, int start = 0, int maxNumPosts = 0)
         {
             string query = string.Copy(_QUERY);
@@ -96,9 +127,15 @@ namespace Tumblr_Tool.Helpers
                 query += "?num=" + ((int)PostStepEnum.XML).ToString();
             }
 
-            return WebHelper.FixURL(tumblrURL) + query;
+            return WebHelper.RemoveTrailingBackslash(tumblrURL) + query;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static T ReadObject<T>(string filename) where T : new()
         {
             try
@@ -117,6 +154,13 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filename"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static bool SaveObject<T>(string filename, T obj) where T : new()
         {
             try

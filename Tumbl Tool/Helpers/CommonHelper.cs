@@ -20,6 +20,12 @@ namespace Tumblr_Tool.Helpers
 {
     public static class CommonHelper
     {
+        /// <summary>
+        /// Replace part of string with "\r\n"
+        /// </summary>
+        /// <param name="input">Original string</param>
+        /// <param name="strToReplace">String to replace</param>
+        /// <returns></returns>
         public static string NewLineToBreak(string input, string strToReplace)
         {
             if (input != null)
@@ -28,7 +34,14 @@ namespace Tumblr_Tool.Helpers
                 return input;
         }
 
-        public static string NewLineToBreak(string input, string strToReplace, string strWith)
+        /// <summary>
+        /// Replace part of the string with other
+        /// </summary>
+        /// <param name="input"><Original string/param>
+        /// <param name="strToReplace"> String to replace</param>
+        /// <param name="strWith">String to replace with</param>
+        /// <returns></returns>
+        public static string ReplaceInString(string input, string strToReplace, string strWith)
         {
             if (input != null)
                 return input.Replace(strToReplace, strWith);
@@ -36,20 +49,36 @@ namespace Tumblr_Tool.Helpers
                 return input;
         }
 
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
+        /// <summary>
+        /// Convert to Hashset
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> obj)
         {
-            return new HashSet<T>(source);
+            return new HashSet<T>(obj);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="unixTimeStamp"></param>
+        /// <returns></returns>
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
 
-        public static String ToSlug(this string text)
+        /// <summary>
+        /// Generate slug from a string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string ToSlug(this string text)
         {
             String value = text.Normalize(NormalizationForm.FormD).Trim();
             StringBuilder builder = new StringBuilder();

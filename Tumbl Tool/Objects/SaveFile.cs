@@ -28,6 +28,11 @@ namespace Tumblr_Tool.Objects
         [XmlElement("filename")]
         public string filename { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="blog"></param>
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
             this.filename = fileName;
@@ -45,6 +50,9 @@ namespace Tumblr_Tool.Objects
             AddDate();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public SaveFile()
         {
             this.filename = null;
@@ -52,6 +60,9 @@ namespace Tumblr_Tool.Objects
             AddDate();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public void AddDate()
         {
             string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";

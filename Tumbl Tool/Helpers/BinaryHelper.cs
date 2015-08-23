@@ -18,6 +18,12 @@ namespace Tumblr_Tool.Helpers
 {
     public static class BinaryHelper
     {
+        /// <summary>
+        /// Read in object from a file
+        /// </summary>
+        /// <typeparam name="T">Object Type</typeparam>
+        /// <param name="location"> File location</param>
+        /// <returns></returns>
         public static T ReadObject<T>(string location) where T : new()
         {
             try
@@ -38,15 +44,22 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
-        public static bool SaveObject<T>(string location, T file) where T : new()
+        /// <summary>
+        /// Save Object to file
+        /// </summary>
+        /// <typeparam name="T"> Object type</typeparam>
+        /// <param name="location">Save location</param>
+        /// <param name="obj">Object</param>
+        /// <returns></returns>
+        public static bool SaveObject<T>(string location, T obj) where T : new()
         {
             try
             {
                 using (Stream stream = File.Open(location, FileMode.Create))
                 {
-                    var bformatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    var bformatter = new BinaryFormatter();
 
-                    bformatter.Serialize(stream, file);
+                    bformatter.Serialize(stream, obj);
                 }
                 return true;
             }

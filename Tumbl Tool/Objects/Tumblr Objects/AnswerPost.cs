@@ -26,6 +26,9 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public string answer { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public AnswerPost()
         {
             this.type = TumblrPostTypes.answer.ToString();

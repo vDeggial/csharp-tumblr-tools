@@ -14,6 +14,11 @@ namespace Tumblr_Tool
 {
     public static class UIHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ddl"></param>
+        /// <param name="value"></param>
         public static void SelectItem(this AdvancedComboBox ddl, string value)
         {
             ddl.SelectedIndex = ddl.FindString(value) != -1 ? ddl.FindString(value) : 0;

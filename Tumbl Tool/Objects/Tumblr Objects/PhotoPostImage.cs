@@ -18,10 +18,20 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class PhotoPostImage
     {
+        /// <summary>
+        ///
+        /// </summary>
         public PhotoPostImage()
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="caption"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public PhotoPostImage(string url, string caption, string width, string height)
         {
             this.caption = caption;

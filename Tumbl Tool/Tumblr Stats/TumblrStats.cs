@@ -13,8 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Enums;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
@@ -22,10 +22,21 @@ namespace Tumblr_Tool.Tumblr_Stats
 {
     public class TumblrStats
     {
+        /// <summary>
+        ///
+        /// </summary>
         public TumblrStats()
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="blog"></param>
+        /// <param name="url"></param>
+        /// <param name="apiMode"></param>
+        /// <param name="startNum"></param>
+        /// <param name="endNum"></param>
         public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
         {
             this.documentManager = new DocumentManager();
@@ -43,7 +54,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
             this.blog.posts = new HashSet<TumblrPost>();
 
-            this.url = WebHelper.FixURL(this.blog.url);
+            this.url = WebHelper.RemoveTrailingBackslash(this.blog.url);
             this.tumblrDomain = WebHelper.GetDomainName(this.url);
 
             this.maxNumPosts = endNum;
@@ -96,6 +107,10 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public int videoPosts { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public bool getStats()
         {
             string url = XmlHelper.GenerateQueryString(this.url, TumblrPostTypes.empty.ToString(), 0, 1);
@@ -104,7 +119,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 url = JsonHelper.GenerateQueryString(this.tumblrDomain, TumblrPostTypes.empty.ToString(), 0, 1);
             }
 
-            if (url.IsValidTumblr(this.documentManager.mode))
+            if (url.TumblrExists(this.documentManager.mode))
 
             {
                 this.documentManager.GetDocument(url);
@@ -124,7 +139,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                         url = JsonHelper.GenerateQueryString(this.tumblrDomain, type.ToString(), 0, 1);
                     }
 
-                    if (url.IsValidTumblr(this.documentManager.mode))
+                    if (url.TumblrExists(this.documentManager.mode))
                     {
                         this.documentManager.GetDocument(url);
                         this.totalPosts = this.documentManager.GetTotalPostCount();
@@ -183,6 +198,10 @@ namespace Tumblr_Tool.Tumblr_Stats
             return true;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public TumblrBlog ParsePosts()
         {
             try
@@ -196,7 +215,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                     this.step = (int)PostStepEnum.JSON;
                 }
 
-                if (url.IsValidTumblr(this.documentManager.mode))
+                if (url.TumblrExists(this.documentManager.mode))
                 {
                     this.totalPosts = this.blog.totalPosts;
 
@@ -248,6 +267,10 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="mode"></param>
         public void SetAPIMode(string mode)
         {
             try
@@ -261,6 +284,9 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public void SetBlogInfo()
         {
             try

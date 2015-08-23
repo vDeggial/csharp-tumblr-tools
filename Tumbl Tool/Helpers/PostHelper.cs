@@ -20,16 +20,31 @@ namespace Tumblr_Tool.Helpers
 {
     public static class PostHelper
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateAnswerPost(ref TumblrPost post, dynamic jPost)
         {
             post = new AnswerPost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateAudioPost(ref TumblrPost post, dynamic jPost)
         {
             post = new AudioPost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateBasePost(ref TumblrPost post, dynamic jPost)
         {
             post.type = !string.IsNullOrEmpty((string)jPost.type) ? jPost.type : null;
@@ -40,7 +55,7 @@ namespace Tumblr_Tool.Helpers
 
             post.caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
 
-            post.caption = CommonHelper.NewLineToBreak(post.caption, "\n\r\n", string.Empty);
+            // post.caption = CommonHelper.NewLineToBreak(post.caption, "\n\r\n", string.Empty);
 
             post.date = !string.IsNullOrEmpty((string)jPost.date) ? jPost.date : null;
 
@@ -53,6 +68,14 @@ namespace Tumblr_Tool.Helpers
             post.noteCount = !string.IsNullOrEmpty((string)jPost.note_count) ? jPost.note_count : null;
 
             post.sourceURL = !string.IsNullOrEmpty((string)jPost.source_url) ? jPost.source_url : null;
+
+            post.slug = !string.IsNullOrEmpty((string)jPost.slug) ? jPost.slug : null;
+
+            post.postAuthor = !string.IsNullOrEmpty((string)jPost.post_author) ? jPost.post_author : null;
+
+            post.state = !string.IsNullOrEmpty((string)jPost.state) ? jPost.state : null;
+
+            post.timestamp = !string.IsNullOrEmpty((string)jPost.timestamp) ? jPost.timestamp : null;
 
             if (jPost.tags != null && jPost.tags.Count > 0)
             {
@@ -71,16 +94,31 @@ namespace Tumblr_Tool.Helpers
             post.lastProcessedDate = DateTime.Now.ToString(datePatt);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)
         {
             post = new ChatPost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateLinkPost(ref TumblrPost post, dynamic jPost)
         {
             post = new LinkPost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost)
         {
             if (jPost.type == TumblrPostTypes.photo.ToString())
@@ -102,16 +140,31 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateQuotePost(ref TumblrPost post, dynamic jPost)
         {
             post = new QuotePost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateTextPost(ref TumblrPost post, dynamic jPost)
         {
             post = new TextPost();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="post"></param>
+        /// <param name="jPost"></param>
         public static void GenerateVideoPost(ref TumblrPost post, dynamic jPost)
         {
             post = new VideoPost();

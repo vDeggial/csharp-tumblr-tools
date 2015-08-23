@@ -18,15 +18,23 @@ namespace Tumblr_Tool.Helpers
     [System.ComponentModel.DesignerCategory("Code")]
     public class MyWebClient : WebClient
     {
+        /// <summary>
+        ///
+        /// </summary>
         public MyWebClient()
             : base()
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         protected override WebRequest GetWebRequest(Uri uri)
         {
             WebRequest w = base.GetWebRequest(uri);
-            w.Timeout = 20 * 60 * 1000;
+            w.Timeout = 1 * 60 * 1000;
             return w;
         }
     }

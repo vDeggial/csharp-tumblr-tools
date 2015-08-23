@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Error types
+    /// </summary>
     public enum ErrorTypes
     {
         connectionError,

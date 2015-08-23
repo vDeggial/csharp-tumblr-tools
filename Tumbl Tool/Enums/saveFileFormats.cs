@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Formats for Save files
+    /// </summary>
     public enum saveFileFormats
     {
         XML,

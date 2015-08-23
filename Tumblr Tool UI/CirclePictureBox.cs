@@ -24,6 +24,10 @@ namespace Tumblr_Tool
         {
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             System.Drawing.Brush brushImege;

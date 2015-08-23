@@ -12,6 +12,9 @@
 
 namespace Tumblr_Tool.Enums
 {
+    /// <summary>
+    /// Download Status Codes
+    /// </summary>
     public enum DownloadStatusCodes
     {
         OK,

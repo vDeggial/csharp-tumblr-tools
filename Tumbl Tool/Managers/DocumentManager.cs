@@ -20,14 +20,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Enums;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
 namespace Tumblr_Tool.Managers
 {
     public class DocumentManager
     {
+        /// <summary>
+        ///
+        /// </summary>
         public DocumentManager()
         {
         }
@@ -38,6 +41,10 @@ namespace Tumblr_Tool.Managers
 
         public XDocument xmlDocument { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
         public void GetDocument(string url)
         {
             try
@@ -55,6 +62,10 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
         public void GetDocumentJSON(string url)
         {
             try
@@ -76,6 +87,10 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
         public void GetDocumentXML(string url)
         {
             try
@@ -89,6 +104,12 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
         public HashSet<TumblrPost> GetPostList(string type, string mode)
         {
             try
@@ -112,6 +133,11 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public HashSet<TumblrPost> GetPostListXML(string type = "")
         {
             HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
@@ -215,6 +241,11 @@ namespace Tumblr_Tool.Managers
             return postList;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public HashSet<TumblrPost> GetPostListJSON(string type)
         {
             try
@@ -249,6 +280,12 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="blog"></param>
+        /// <returns></returns>
         public bool GetBlogInfo(string url, TumblrBlog blog)
         {
             try
@@ -268,6 +305,10 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public int GetTotalPostCount()
         {
             if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
@@ -285,6 +326,12 @@ namespace Tumblr_Tool.Managers
             return 0;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="blog"></param>
+        /// <returns></returns>
         public bool GetBlogInfoJSON(string url, TumblrBlog blog)
         {
             try
@@ -322,6 +369,12 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="blog"></param>
+        /// <returns></returns>
         public bool GetBlogInfoXML(string url, TumblrBlog blog)
         {
             try

@@ -19,9 +19,12 @@ namespace Tumblr_Tool
     [System.ComponentModel.DesignerCategory("Code")]
     public class AdvancedComboBox : ComboBox
     {
+        /// <summary>
+        ///
+        /// </summary>
         public AdvancedComboBox()
         {
-            base.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            base.DrawMode = DrawMode.OwnerDrawVariable;
             this.HighlightBackColor = Color.Black;
             this.HighlightForeColor = Color.White;
             this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
@@ -29,7 +32,7 @@ namespace Tumblr_Tool
             this.Height = 21;
         }
 
-        new public System.Windows.Forms.DrawMode DrawMode { get; set; }
+        new public DrawMode DrawMode { get; set; }
 
         public Color HighlightBackColor { get; set; }
 
@@ -41,8 +44,12 @@ namespace Tumblr_Tool
 
         public bool ShowArrow { get; set; }
 
-        public System.Windows.Forms.ComboBoxStyle Style { get { return this.DropDownStyle; } set { this.DropDownStyle = value; } }
+        public ComboBoxStyle Style { get { return this.DropDownStyle; } set { this.DropDownStyle = value; } }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -54,6 +61,8 @@ namespace Tumblr_Tool
 
             StringFormat sf = new StringFormat();
             sf.LineAlignment = StringAlignment.Center;
+            //sf.LineAlignment = StringAlignment.Center;
+            //sf.Alignment = StringAlignment.Center;
 
             int buttonWidth = SystemInformation.VerticalScrollBarWidth;
             Color highColor = this.ArrowBackColor;
@@ -91,6 +100,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AdvancedComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
@@ -98,6 +112,8 @@ namespace Tumblr_Tool
 
             StringFormat sf = new StringFormat();
             sf.LineAlignment = StringAlignment.Center;
+            //sf.LineAlignment = StringAlignment.Center;
+            //sf.Alignment = StringAlignment.Center;
 
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
@@ -118,7 +134,7 @@ namespace Tumblr_Tool
                                       e.Bounds, sf);
             }
 
-            e.DrawFocusRectangle();
+            //e.DrawFocusRectangle();
         }
     }
 }

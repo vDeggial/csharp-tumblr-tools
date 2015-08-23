@@ -14,13 +14,15 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using RestSharp;
+using RestSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Enums;
+using Tumblr_Tool.Helpers;
 
 namespace Tumblr_Tool.Managers
 {
@@ -48,14 +50,20 @@ namespace Tumblr_Tool.Managers
 
         public int totalToDownload { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
         public bool DownloadFile(string url, string fullPath)
         {
             FileInfo file;
 
-            url = WebHelper.FixURL(url);
+            url = WebHelper.RemoveTrailingBackslash(url);
 
-            fullPath = FileHelper.GetFullFilePath(url, fullPath);
-            fullPath = FileHelper.FixFileName(fullPath);
+            fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
+            fullPath = FileHelper.AddJpgExt(fullPath);
             this.percentDownloaded = 0;
             this.statusCode = DownloadStatusCodes.OK;
 
@@ -114,6 +122,33 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
+        public bool DownloadFilePostSharp(string url, string fullPath)
+        {
+            url = WebHelper.RemoveTrailingBackslash(url);
+
+            fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
+            fullPath = FileHelper.AddJpgExt(fullPath);
+            this.percentDownloaded = 0;
+            this.statusCode = DownloadStatusCodes.OK;
+
+            Uri uri = new Uri(url);
+            string domain = uri.Host;
+            string protocol = uri.Scheme + Uri.SchemeDelimiter;
+            string path = uri.PathAndQuery;
+
+            var client = new RestClient(string.Concat(protocol, domain));
+            var request = new RestRequest(path, Method.GET);
+
+            client.DownloadData(request).SaveAs(fullPath);
+            this.percentDownloaded = 100;
+            return true;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
             this.percentDownloaded = e.ProgressPercentage;
@@ -124,6 +159,11 @@ namespace Tumblr_Tool.Managers
                 this.fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled == true)
