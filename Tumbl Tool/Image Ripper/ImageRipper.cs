@@ -28,6 +28,12 @@ namespace Tumblr_Tool.Image_Ripper
         /// </summary>
         public ImageRipper()
         {
+            imageList = new HashSet<PhotoPostImage>();
+            errorList = new HashSet<string>();
+            documentManager = new DocumentManager();
+            blog = new TumblrBlog();
+            commentsList = new Dictionary<string, string>();
+
         }
 
         /// <summary>
@@ -43,7 +49,8 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="startNum"></param>
         /// <param name="endNum"></param>
         /// <param name="apiMode"></param>
-        public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true, bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, int startNum = 0, int endNum = 0, string apiMode = "JSON")
+        public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true,
+            bool parseJPEG = true, bool parsePNG = true, bool parseGIF = true, imageSizes imageSize = imageSizes.Original, int startNum = 0, int endNum = 0, string apiMode = "JSON")
         {
             this.tumblrURL = WebHelper.RemoveTrailingBackslash(blog.url);
             this.tumblrDomain = WebHelper.GetDomainName(blog.url);
@@ -63,6 +70,7 @@ namespace Tumblr_Tool.Image_Ripper
             this.parseJPEG = parseJPEG;
             this.parsePNG = parsePNG;
             this.parseGIF = parseGIF;
+            this.imageSize = imageSize;
 
             if (this.blog != null)
             {
@@ -80,6 +88,8 @@ namespace Tumblr_Tool.Image_Ripper
         }
 
         public string apiMode { get; set; }
+
+        public imageSizes imageSize { get; set; }
 
         public TumblrBlog blog { get; set; }
 
@@ -211,9 +221,11 @@ namespace Tumblr_Tool.Image_Ripper
 
                 this.documentManager.GetDocument(query);
 
-                if (this.documentManager.jsonDocument != null)
+                if ((this.apiMode == ApiModeEnum.v2JSON.ToString() &&  this.documentManager.jsonDocument != null)
+                    || (this.apiMode == ApiModeEnum.v1XML.ToString() && this.documentManager.xmlDocument != null))
                 {
-                    HashSet<TumblrPost> posts = documentManager.GetPostList(TumblrPostTypes.photo.ToString(), apiMode);
+                    documentManager.imageSize = this.imageSize;
+                    HashSet<TumblrPost> posts = documentManager.GetPostListFromDoc(TumblrPostTypes.photo.ToString(), apiMode);
                     return posts;
                 }
                 else

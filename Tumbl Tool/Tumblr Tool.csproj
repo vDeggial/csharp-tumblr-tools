@@ -44,6 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\imageSizes.cs" />
     <Compile Include="Enums\saveFileFormats.cs" />
     <Compile Include="Helpers\BinaryHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />

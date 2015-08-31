@@ -16,6 +16,8 @@ namespace Tumblr_Tool
     {
         public string apiMode { get; set; }
 
+        public string imageSize { get; set; }
+
         public bool parseGIF { get; set; }
 
         public bool parseJPEG { get; set; }

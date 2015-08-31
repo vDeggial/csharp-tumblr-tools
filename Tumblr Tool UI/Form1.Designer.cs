@@ -53,6 +53,8 @@ namespace Tumblr_Tool
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl_Main = new KRBTabControl.KRBTabControl();
             this.tab_ImageRipper = new KRBTabControl.TabPageEx();
+            this.lbl_ImageSize = new System.Windows.Forms.Label();
+            this.select_ImagesSize = new Tumblr_Tool.AdvancedComboBox();
             this.txt_TumblrURL = new System.Windows.Forms.TextBox();
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.select_Mode = new Tumblr_Tool.AdvancedComboBox();
@@ -351,7 +353,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 0;
+            this.tabControl_Main.SelectedIndex = 2;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -368,6 +370,8 @@ namespace Tumblr_Tool
             // 
             this.tab_ImageRipper.BackColor = System.Drawing.Color.White;
             this.tab_ImageRipper.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tab_ImageRipper.Controls.Add(this.lbl_ImageSize);
+            this.tab_ImageRipper.Controls.Add(this.select_ImagesSize);
             this.tab_ImageRipper.Controls.Add(this.txt_TumblrURL);
             this.tab_ImageRipper.Controls.Add(this.lbl_Mode);
             this.tab_ImageRipper.Controls.Add(this.select_Mode);
@@ -389,6 +393,45 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.TabIndex = 0;
             this.tab_ImageRipper.Text = "Image Download";
             this.tab_ImageRipper.Enter += new System.EventHandler(this.TabPage_Enter);
+            // 
+            // lbl_ImageSize
+            // 
+            this.lbl_ImageSize.AutoSize = true;
+            this.lbl_ImageSize.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.lbl_ImageSize.Location = new System.Drawing.Point(432, 174);
+            this.lbl_ImageSize.Name = "lbl_ImageSize";
+            this.lbl_ImageSize.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lbl_ImageSize.Size = new System.Drawing.Size(69, 16);
+            this.lbl_ImageSize.TabIndex = 19;
+            this.lbl_ImageSize.Text = "Image Size:";
+            this.lbl_ImageSize.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbl_ImageSize.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // select_ImagesSize
+            // 
+            this.select_ImagesSize.ArrowBackColor = System.Drawing.Color.White;
+            this.select_ImagesSize.ArrowForeColor = System.Drawing.Color.White;
+            this.select_ImagesSize.BackColor = System.Drawing.Color.White;
+            this.select_ImagesSize.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.select_ImagesSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_ImagesSize.DropDownWidth = 98;
+            this.select_ImagesSize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.select_ImagesSize.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.select_ImagesSize.ForeColor = System.Drawing.Color.Black;
+            this.select_ImagesSize.HighlightBackColor = System.Drawing.Color.White;
+            this.select_ImagesSize.HighlightForeColor = System.Drawing.Color.Maroon;
+            this.select_ImagesSize.ItemHeight = 21;
+            this.select_ImagesSize.Items.AddRange(new object[] {
+            "[Image Size]"});
+            this.select_ImagesSize.Location = new System.Drawing.Point(504, 168);
+            this.select_ImagesSize.Margin = new System.Windows.Forms.Padding(0);
+            this.select_ImagesSize.Name = "select_ImagesSize";
+            this.select_ImagesSize.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.select_ImagesSize.ShowArrow = true;
+            this.select_ImagesSize.Size = new System.Drawing.Size(98, 27);
+            this.select_ImagesSize.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_ImagesSize.TabIndex = 18;
+            this.select_ImagesSize.TabStop = false;
             // 
             // txt_TumblrURL
             // 
@@ -418,7 +461,7 @@ namespace Tumblr_Tool
             // select_Mode
             // 
             this.select_Mode.ArrowBackColor = System.Drawing.Color.White;
-            this.select_Mode.ArrowForeColor = System.Drawing.Color.Black;
+            this.select_Mode.ArrowForeColor = System.Drawing.Color.White;
             this.select_Mode.BackColor = System.Drawing.Color.White;
             this.select_Mode.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.select_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -435,7 +478,7 @@ namespace Tumblr_Tool
             this.select_Mode.Margin = new System.Windows.Forms.Padding(0);
             this.select_Mode.Name = "select_Mode";
             this.select_Mode.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.select_Mode.ShowArrow = false;
+            this.select_Mode.ShowArrow = true;
             this.select_Mode.Size = new System.Drawing.Size(125, 27);
             this.select_Mode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_Mode.TabIndex = 16;
@@ -470,7 +513,7 @@ namespace Tumblr_Tool
             this.btn_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_Start.ImageIndex = 3;
             this.btn_Start.ImageList = this.iconList;
-            this.btn_Start.Location = new System.Drawing.Point(474, 194);
+            this.btn_Start.Location = new System.Drawing.Point(476, 218);
             this.btn_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Start.Name = "btn_Start";
             this.btn_Start.Size = new System.Drawing.Size(87, 28);
@@ -947,7 +990,7 @@ namespace Tumblr_Tool
             // section_Options_LogOptions
             // 
             this.section_Options_LogOptions.Controls.Add(this.check_Options_GenerateLog);
-            this.section_Options_LogOptions.Location = new System.Drawing.Point(450, 28);
+            this.section_Options_LogOptions.Location = new System.Drawing.Point(311, 23);
             this.section_Options_LogOptions.Name = "section_Options_LogOptions";
             this.section_Options_LogOptions.Size = new System.Drawing.Size(133, 72);
             this.section_Options_LogOptions.TabIndex = 6;
@@ -959,7 +1002,7 @@ namespace Tumblr_Tool
             this.check_Options_GenerateLog.Checked = true;
             this.check_Options_GenerateLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.check_Options_GenerateLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.check_Options_GenerateLog.Location = new System.Drawing.Point(8, 26);
+            this.check_Options_GenerateLog.Location = new System.Drawing.Point(8, 36);
             this.check_Options_GenerateLog.Name = "check_Options_GenerateLog";
             this.check_Options_GenerateLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.check_Options_GenerateLog.Size = new System.Drawing.Size(119, 18);
@@ -976,7 +1019,7 @@ namespace Tumblr_Tool
             this.section_Options_MethodOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.section_Options_MethodOptions.Name = "section_Options_MethodOptions";
             this.section_Options_MethodOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 98);
+            this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 99);
             this.section_Options_MethodOptions.TabIndex = 1;
             this.section_Options_MethodOptions.TabStop = false;
             this.section_Options_MethodOptions.Text = "Method Options";
@@ -1103,34 +1146,35 @@ namespace Tumblr_Tool
             // section_Options_APIOptions
             // 
             this.section_Options_APIOptions.Controls.Add(this.select_Options_APIMode);
-            this.section_Options_APIOptions.Location = new System.Drawing.Point(311, 28);
+            this.section_Options_APIOptions.Location = new System.Drawing.Point(444, 28);
             this.section_Options_APIOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.section_Options_APIOptions.Name = "section_Options_APIOptions";
             this.section_Options_APIOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_APIOptions.Size = new System.Drawing.Size(133, 51);
+            this.section_Options_APIOptions.Size = new System.Drawing.Size(133, 67);
             this.section_Options_APIOptions.TabIndex = 5;
             this.section_Options_APIOptions.TabStop = false;
             this.section_Options_APIOptions.Text = "API Options";
+            this.section_Options_APIOptions.Visible = false;
             // 
             // select_Options_APIMode
             // 
-            this.select_Options_APIMode.ArrowBackColor = System.Drawing.Color.Empty;
-            this.select_Options_APIMode.ArrowForeColor = System.Drawing.Color.Empty;
+            this.select_Options_APIMode.ArrowBackColor = System.Drawing.Color.White;
+            this.select_Options_APIMode.ArrowForeColor = System.Drawing.Color.White;
             this.select_Options_APIMode.BackColor = System.Drawing.Color.White;
             this.select_Options_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_Options_APIMode.Enabled = false;
             this.select_Options_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.select_Options_APIMode.ForeColor = System.Drawing.Color.Black;
             this.select_Options_APIMode.FormattingEnabled = true;
-            this.select_Options_APIMode.HighlightBackColor = System.Drawing.Color.Black;
-            this.select_Options_APIMode.HighlightForeColor = System.Drawing.Color.White;
+            this.select_Options_APIMode.HighlightBackColor = System.Drawing.Color.White;
+            this.select_Options_APIMode.HighlightForeColor = System.Drawing.Color.Maroon;
             this.select_Options_APIMode.Items.AddRange(new object[] {
             "API v.1 (XML)",
             "API v.2 (JSON)"});
-            this.select_Options_APIMode.Location = new System.Drawing.Point(8, 23);
+            this.select_Options_APIMode.Location = new System.Drawing.Point(8, 27);
             this.select_Options_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.select_Options_APIMode.Name = "select_Options_APIMode";
-            this.select_Options_APIMode.ShowArrow = false;
+            this.select_Options_APIMode.ShowArrow = true;
             this.select_Options_APIMode.Size = new System.Drawing.Size(119, 22);
             this.select_Options_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_Options_APIMode.TabIndex = 0;
@@ -1369,6 +1413,8 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Label lbl_About;
         private System.Windows.Forms.Label lbl_About_Version;
         private System.Windows.Forms.Label lbl_Title;
+        private AdvancedComboBox select_ImagesSize;
+        private System.Windows.Forms.Label lbl_ImageSize;
     }
 }
 

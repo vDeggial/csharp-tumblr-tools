@@ -238,7 +238,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                         }
 
                         this.documentManager.GetDocument(url);
-                        this.blog.posts.UnionWith(this.documentManager.GetPostList(TumblrPostTypes.empty.ToString(), this.documentManager.mode));
+                        this.blog.posts.UnionWith(this.documentManager.GetPostListFromDoc(TumblrPostTypes.empty.ToString(), this.documentManager.mode));
 
                         this.photoPosts += (from p in this.blog.posts where p.type == TumblrPostTypes.photo.ToString() select p).ToList().Count;
                         this.textPosts += (from p in this.blog.posts where p.type == TumblrPostTypes.regular.ToString() || p.type == TumblrPostTypes.text.ToString() select p).ToList().Count;

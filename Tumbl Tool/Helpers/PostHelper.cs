@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Objects.Tumblr_Objects;
+using System.Linq;
 
 namespace Tumblr_Tool.Helpers
 {
@@ -119,7 +120,7 @@ namespace Tumblr_Tool.Helpers
         /// </summary>
         /// <param name="post"></param>
         /// <param name="jPost"></param>
-        public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost)
+        public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost, imageSizes imageSize)
         {
             if (jPost.type == TumblrPostTypes.photo.ToString())
             {
@@ -129,10 +130,35 @@ namespace Tumblr_Tool.Helpers
                 foreach (dynamic jPhoto in jPost.photos)
                 {
                     PhotoPostImage postImage = new PhotoPostImage();
-                    postImage.url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
-                    postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
-                    postImage.width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
-                    postImage.height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
+
+                    if (imageSize == imageSizes.Original)
+                    {
+
+                        postImage.url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
+                        postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
+                        postImage.width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
+                        postImage.height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
+                    }
+
+                    else
+                    {
+                        dynamic jPhotoAlt;
+                        if (jPhoto.alt_sizes != null)
+                        {
+                            var jAltPhotos = new HashSet<dynamic>(jPhoto.alt_sizes);
+                            jPhotoAlt = (from p in jAltPhotos where p.width == ((int)imageSize).ToString() select p).FirstOrDefault();
+                            if (jPhotoAlt != null)
+                            {
+                                postImage.url = jPhotoAlt.url;
+                                postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
+                                postImage.width = jPhotoAlt.width;
+                                postImage.height = jPhotoAlt.height;
+
+                            }
+                        }
+                    }
+
+
                     postImage.caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
                     postImage.parentPostID = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
                     post.photos.Add(postImage);

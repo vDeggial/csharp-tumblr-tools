@@ -134,7 +134,7 @@ namespace Tumblr_Tool
                                       e.Bounds, sf);
             }
 
-            //e.DrawFocusRectangle();
+            e.DrawFocusRectangle();
         }
     }
 }

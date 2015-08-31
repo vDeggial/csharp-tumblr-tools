@@ -113,6 +113,10 @@ namespace Tumblr_Tool.Helpers
                 var fileContents = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
             }
+            catch
+            {
+                return default(T);
+            }
             finally
             {
                 if (reader != null)

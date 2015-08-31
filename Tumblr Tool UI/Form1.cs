@@ -33,6 +33,15 @@ namespace Tumblr_Tool
     {
         public const string _MODE_FULLRESCAN = "Full Rescan";
         public const string _MODE_NEWESTONLY = "Newest Only";
+
+        public const string _IMAGESIZE_ORIGINAL = "Original";
+        public const string _IMAGESIZE_LARGE = "Large";
+        public const string _IMAGESIZE_MEDIUM = "Medium";
+        public const string _IMAGESIZE_SMALL = "Small";
+        public const string _IMAGESIZE_XSMALL = "xSmall";
+        public const string _IMAGESIZE_SQUARE = "Square";
+
+
         public const string _PERCENT = "{0}%";
         public const string _POSTCOUNT = "{0}/{1}";
         public const string _RESULT_DONE = " done";
@@ -52,7 +61,7 @@ namespace Tumblr_Tool
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_KB = "KB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.3.0";
+        public const string _VERSION = "1.3.1";
         public const string _WELCOME_MSG = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + _VERSION + "\r\n© 2013 - 2015 Shino Amakusa";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading ...";
@@ -96,6 +105,8 @@ namespace Tumblr_Tool
             }
         }
 
+        
+
         public string currentImage { get; set; }
 
         public int currentPercent { get; set; }
@@ -132,6 +143,8 @@ namespace Tumblr_Tool
         public ToolOptions options { get; set; }
 
         public Dictionary<string, ParseModes> parseModesDict { get; set; }
+
+        public Dictionary<int,imageSizes> imageSizesIndexDict { get; set; }
 
         public ImageRipper ripper { get; set; }
 
@@ -282,7 +295,8 @@ namespace Tumblr_Tool
             Button button = sender as Button;
             button.UseVisualStyleBackColor = true;
             button.ForeColor = Color.Black;
-            button.FlatAppearance.BorderSize = 0;
+            button.FlatAppearance.BorderSize = 1;
+            button.FlatAppearance.BorderColor = Color.White;
         }
 
         /// <summary>
@@ -458,6 +472,11 @@ namespace Tumblr_Tool
                     this.ripper = new ImageRipper(new TumblrBlog(this.tumblrURL), this.saveLocation, this.check_Options_GenerateLog.Checked, this.check_Options_ParsePhotoSets.Checked,
                         this.check_Options_ParseJPEG.Checked, this.check_Options_ParsePNG.Checked, this.check_Options_ParseGIF.Checked, 0);
                     ripper.tumblrPostLog = this.tumblrLogFile;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                            this.ripper.imageSize = imageSizesIndexDict[select_ImagesSize.SelectedIndex];
+
+                    });
                     this.ripper.statusCode = ProcessingCodes.Initializing;
                 }
 
@@ -1700,6 +1719,26 @@ namespace Tumblr_Tool
             this.select_Mode.SelectItem(_MODE_NEWESTONLY);
             this.select_Mode.DropDownStyle = ComboBoxStyle.DropDownList;
 
+            this.imageSizesIndexDict = new Dictionary<int, imageSizes>();
+
+            this.select_ImagesSize.Items.Clear();
+            this.select_ImagesSize.Height = 21;
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_ORIGINAL);
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_LARGE);
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_MEDIUM);
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_SMALL);
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_XSMALL);
+            this.select_ImagesSize.Items.Add(_IMAGESIZE_SQUARE);
+
+            this.imageSizesIndexDict.Add(0, imageSizes.Original);
+            this.imageSizesIndexDict.Add(1, imageSizes.Large);
+            this.imageSizesIndexDict.Add(2, imageSizes.Medium);
+            this.imageSizesIndexDict.Add(3, imageSizes.Small);
+            this.imageSizesIndexDict.Add(4, imageSizes.xSmall);
+            this.imageSizesIndexDict.Add(5, imageSizes.Square);
+            this.select_ImagesSize.SelectItem(_IMAGESIZE_ORIGINAL);
+            this.select_ImagesSize.DropDownStyle = ComboBoxStyle.DropDownList;
+
             this.tumblrStats.blog = null;
 
             AdvancedMenuRenderer renderer = new AdvancedMenuRenderer();
@@ -1858,6 +1897,7 @@ namespace Tumblr_Tool
             this.check_Options_ParsePhotoSets.Checked = this.options.parsePhotoSets;
             this.check_Options_ParsePNG.Checked = this.options.parsePNG;
             this.apiMode = this.options.apiMode;
+
             this.check_Options_GenerateLog.Checked = this.options.generateLog;
         }
 
@@ -2179,6 +2219,11 @@ namespace Tumblr_Tool
 
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
