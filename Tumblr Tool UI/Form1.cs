@@ -144,7 +144,7 @@ namespace Tumblr_Tool
 
         public Dictionary<string, ParseModes> parseModesDict { get; set; }
 
-        public Dictionary<int,imageSizes> imageSizesIndexDict { get; set; }
+        public Dictionary<string,imageSizes> imageSizesIndexDict { get; set; }
 
         public ImageRipper ripper { get; set; }
 
@@ -474,7 +474,7 @@ namespace Tumblr_Tool
                     ripper.tumblrPostLog = this.tumblrLogFile;
                     this.Invoke((MethodInvoker)delegate
                     {
-                            this.ripper.imageSize = imageSizesIndexDict[select_ImagesSize.SelectedIndex];
+                            this.ripper.imageSize = imageSizesIndexDict[select_ImagesSize.Items[select_ImagesSize.SelectedIndex].ToString()];
 
                     });
                     this.ripper.statusCode = ProcessingCodes.Initializing;
@@ -1719,7 +1719,7 @@ namespace Tumblr_Tool
             this.select_Mode.SelectItem(_MODE_NEWESTONLY);
             this.select_Mode.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            this.imageSizesIndexDict = new Dictionary<int, imageSizes>();
+            this.imageSizesIndexDict = new Dictionary<string, imageSizes>();
 
             this.select_ImagesSize.Items.Clear();
             this.select_ImagesSize.Height = 21;
@@ -1730,12 +1730,12 @@ namespace Tumblr_Tool
             this.select_ImagesSize.Items.Add(_IMAGESIZE_XSMALL);
             this.select_ImagesSize.Items.Add(_IMAGESIZE_SQUARE);
 
-            this.imageSizesIndexDict.Add(0, imageSizes.Original);
-            this.imageSizesIndexDict.Add(1, imageSizes.Large);
-            this.imageSizesIndexDict.Add(2, imageSizes.Medium);
-            this.imageSizesIndexDict.Add(3, imageSizes.Small);
-            this.imageSizesIndexDict.Add(4, imageSizes.xSmall);
-            this.imageSizesIndexDict.Add(5, imageSizes.Square);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_ORIGINAL, imageSizes.Original);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_LARGE, imageSizes.Large);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_MEDIUM, imageSizes.Medium);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_SMALL, imageSizes.Small);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_XSMALL, imageSizes.xSmall);
+            this.imageSizesIndexDict.Add(_IMAGESIZE_SQUARE, imageSizes.Square);
             this.select_ImagesSize.SelectItem(_IMAGESIZE_ORIGINAL);
             this.select_ImagesSize.DropDownStyle = ComboBoxStyle.DropDownList;
 
