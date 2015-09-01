@@ -33,7 +33,6 @@ namespace Tumblr_Tool.Image_Ripper
             documentManager = new DocumentManager();
             blog = new TumblrBlog();
             commentsList = new Dictionary<string, string>();
-
         }
 
         /// <summary>
@@ -221,7 +220,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 this.documentManager.GetDocument(query);
 
-                if ((this.apiMode == ApiModeEnum.v2JSON.ToString() &&  this.documentManager.jsonDocument != null)
+                if ((this.apiMode == ApiModeEnum.v2JSON.ToString() && this.documentManager.jsonDocument != null)
                     || (this.apiMode == ApiModeEnum.v1XML.ToString() && this.documentManager.xmlDocument != null))
                 {
                     documentManager.imageSize = this.imageSize;

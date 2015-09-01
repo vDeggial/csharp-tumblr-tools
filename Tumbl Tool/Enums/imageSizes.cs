@@ -13,7 +13,7 @@
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public enum imageSizes
     {

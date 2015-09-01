@@ -13,9 +13,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Objects.Tumblr_Objects;
-using System.Linq;
 
 namespace Tumblr_Tool.Helpers
 {
@@ -133,13 +133,11 @@ namespace Tumblr_Tool.Helpers
 
                     if (imageSize == imageSizes.Original)
                     {
-
                         postImage.url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
                         postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
                         postImage.width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
                         postImage.height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
                     }
-
                     else
                     {
                         dynamic jPhotoAlt;
@@ -153,11 +151,9 @@ namespace Tumblr_Tool.Helpers
                                 postImage.filename = !string.IsNullOrEmpty(postImage.url) ? Path.GetFileName(postImage.url) : null;
                                 postImage.width = jPhotoAlt.width;
                                 postImage.height = jPhotoAlt.height;
-
                             }
                         }
                     }
-
 
                     postImage.caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
                     postImage.parentPostID = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;

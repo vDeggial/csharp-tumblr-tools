@@ -15,7 +15,7 @@ namespace Tumblr_Tool
     public static class UIHelper
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="ddl"></param>
         /// <param name="value"></param>
