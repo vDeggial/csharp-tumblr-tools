@@ -63,7 +63,7 @@ namespace Tumblr_Tool
         {
             base.OnPaint(e);
 
-            if (this.SelectedIndex < 0)
+            if (this.SelectedIndex < 0 && this.Items.Count != 0)
                 this.SelectedIndex = 0;
 
             this.DoubleBuffered = true;
@@ -83,11 +83,7 @@ namespace Tumblr_Tool
                 e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
                                           new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
             }
-            else
-            {
-                e.Graphics.DrawString("", this.Font,
-                                          new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
-            }
+
 
             //Create the brushes.
             LinearGradientBrush gradientBrush = new LinearGradientBrush(itemRect, highColor,

@@ -102,8 +102,6 @@ namespace Tumblr_Tool
             }
         }
 
-        
-
         public string currentImage { get; set; }
 
         public int currentPercent { get; set; }
@@ -353,7 +351,6 @@ namespace Tumblr_Tool
                     this.Invoke((MethodInvoker)delegate
                     {
                         this.ripper.imageSize = imageSizesIndexDict[select_ImagesSize.Items[select_ImagesSize.SelectedIndex].ToString()];
-
                     });
                     this.ripper.statusCode = ProcessingCodes.Initializing;
                 }
@@ -494,7 +491,8 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         public void CrawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            try {
+            try
+            {
                 if (!this.IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
@@ -506,7 +504,6 @@ namespace Tumblr_Tool
                         else if (this.ripper.statusCode != ProcessingCodes.Done)
                         {
                             EnableUI_Crawl(true);
-
                         }
                         else
                         {
@@ -515,9 +512,7 @@ namespace Tumblr_Tool
                                 UpdateStatusText(string.Format(_STATUS_DOWNLOADING, "Initializing"));
                                 this.bar_Progress.Value = 0;
 
-
                                 this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
-
 
                                 this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.imageList.Count);
                             }
@@ -526,13 +521,11 @@ namespace Tumblr_Tool
                                 UpdateStatusText(_STATUS_READY);
                                 this.img_DisplayImage.Image = Resources.tumblrlogo;
                                 EnableUI_Crawl(true);
-
                             }
                         }
                     });
                 }
             }
-
             catch (Exception exception)
             {
                 MsgBox.Show(exception.Message);
@@ -673,7 +666,6 @@ namespace Tumblr_Tool
                                     UpdateStatusText(_STATUS_INDEXING);
 
                                     this.lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-
 
                                     //this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.totalNumberOfPosts.ToString());
                                     //this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
@@ -982,17 +974,20 @@ namespace Tumblr_Tool
                         }
                         else
                         {
-                            this.Invoke((MethodInvoker)delegate
+                            if (!isCancelled)
                             {
-                                Bitmap img = GetImageFromFile(this.downloadedList[this.downloadedList.Count - 1]);
-
-                                if (img != null)
+                                this.Invoke((MethodInvoker)delegate
                                 {
-                                    this.img_DisplayImage.Image = GetImageFromFile(this.downloadedList[this.downloadedList.Count - 1]);
-                                }
-                            
-                                this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.ripper.imageList.Count);
-                            });
+                                    Bitmap img = GetImageFromFile(this.downloadedList[this.downloadedList.Count - 1]);
+
+                                    if (img != null)
+                                    {
+                                        this.img_DisplayImage.Image = GetImageFromFile(this.downloadedList[this.downloadedList.Count - 1]);
+                                    }
+
+                                    this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.downloadedList.Count, this.ripper.imageList.Count);
+                                });
+                            }
                         }
                     }
                     catch
@@ -1271,6 +1266,7 @@ namespace Tumblr_Tool
 
             this.bar_Progress.Visible = !state;
             this.lbl_PercentBar.Visible = !state;
+
             this.lbl_PostCount.Visible = !state;
             this.lbl_Size.Visible = !state;
         }
@@ -1376,13 +1372,13 @@ namespace Tumblr_Tool
         /// <returns></returns>
         public Bitmap GetImageFromFile(string file)
         {
-            try {
+            try
+            {
                 using (Bitmap bm = new Bitmap(file))
                 {
                     return new Bitmap(bm);
                 }
             }
-
             catch
             {
                 return null;
@@ -1982,6 +1978,7 @@ namespace Tumblr_Tool
                 this.tab_TumblrStats.Enabled = true;
             }
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -2154,6 +2151,7 @@ namespace Tumblr_Tool
 
             return (!saveLocationEmpty && urlValid);
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -2166,7 +2164,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2182,6 +2180,7 @@ namespace Tumblr_Tool
             EnableUI_Crawl(true);
 
             UpdateWorkStatusTextNewLine("Operation cancelled ...");
+            this.img_DisplayImage.Image = Resources.tumblrlogo;
             MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
             UpdateStatusText(_STATUS_READY);
         }
@@ -2233,6 +2232,7 @@ namespace Tumblr_Tool
         {
             this.RestoreOptions();
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -2271,7 +2271,5 @@ namespace Tumblr_Tool
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
         }
-
-        
     }
 }
