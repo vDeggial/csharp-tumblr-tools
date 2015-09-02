@@ -24,10 +24,19 @@ namespace Tumblr_Tool
         /// </summary>
         public AdvancedComboBox()
         {
+
             base.DrawMode = DrawMode.OwnerDrawVariable;
             this.HighlightBackColor = Color.Black;
             this.HighlightForeColor = Color.White;
+            this.ArrowBackColor = Color.White;
+            this.ArrowForeColor = Color.Black;
+            this.FlatStyle = FlatStyle.Flat;
+            this.ShowArrow = true;
+            this.Style = ComboBoxStyle.DropDownList;
+            this.DropDownStyle = ComboBoxStyle.DropDownList;
+
             this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
+            this.DropDown += new System.EventHandler(AdjustWidthComboBox_DropDown);
             this.SetStyle(ControlStyles.UserPaint, true);
             this.Height = 21;
         }
@@ -69,8 +78,16 @@ namespace Tumblr_Tool
             Color lowColor = this.ArrowBackColor;
             Rectangle itemRect = new Rectangle(this.Width - buttonWidth, 0, buttonWidth, this.Height);
 
-            e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
-                                      new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
+            if (this.Items.Count > 0)
+            {
+                e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
+                                          new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
+            }
+            else
+            {
+                e.Graphics.DrawString("", this.Font,
+                                          new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
+            }
 
             //Create the brushes.
             LinearGradientBrush gradientBrush = new LinearGradientBrush(itemRect, highColor,
@@ -88,15 +105,26 @@ namespace Tumblr_Tool
 
             if (this.ShowArrow)
             {
-                //Draw the arrow.
-                SolidBrush arrowBrush = new SolidBrush(this.ArrowForeColor);
-                Point[] points = new Point[3];
-                points[0] = new Point(this.Width - (int)((double)itemRect.Width * .125) - 2, (int)((double)itemRect.Height * .4));
-                points[1] = new Point(this.Width - (int)((double)itemRect.Width * .875) - 2, (int)((double)itemRect.Height * .4));
-                points[2] = new Point(this.Width - (int)((double)itemRect.Width * .5) - 2, (int)((double)itemRect.Height * .666));
+                Rectangle rectGlimph = itemRect;
+                itemRect.Width -= 4;
+                e.Graphics.TranslateTransform(rectGlimph.Left +
+                    rectGlimph.Width / 2.0f,
+                    rectGlimph.Top + rectGlimph.Height / 2.0f);
+                GraphicsPath path = new GraphicsPath();
+                PointF[] points = new PointF[3];
+                points[0] = new PointF(-6 / 2.0f, -3 / 2.0f);
+                points[1] = new PointF(6 / 2.0f, -3 / 2.0f);
+                points[2] = new PointF(0, 6 / 2.0f);
+                path.AddLine(points[0], points[1]);
+                path.AddLine(points[1], points[2]);
+                path.CloseFigure();
+                e.Graphics.RotateTransform(0);
 
-                e.Graphics.FillPolygon(arrowBrush, points);
-                arrowBrush.Dispose();
+                SolidBrush br = new SolidBrush(Enabled ? Color.Gray : Color.Gainsboro);
+                e.Graphics.FillPath(br, path);
+                e.Graphics.ResetTransform();
+                br.Dispose();
+                path.Dispose();
             }
         }
 
@@ -134,7 +162,31 @@ namespace Tumblr_Tool
                                       e.Bounds, sf);
             }
 
-            e.DrawFocusRectangle();
+            //e.DrawFocusRectangle();
         }
+
+        private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
+        {
+            ComboBox senderComboBox = (ComboBox)sender;
+            int width = senderComboBox.DropDownWidth;
+            Graphics g = senderComboBox.CreateGraphics();
+            Font font = senderComboBox.Font;
+            int vertScrollBarWidth =
+                (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                ? SystemInformation.VerticalScrollBarWidth : 0;
+
+            int newWidth;
+            foreach (string s in ((ComboBox)sender).Items)
+            {
+                newWidth = (int)g.MeasureString(s, font).Width
+                    + vertScrollBarWidth;
+                if (width < newWidth)
+                {
+                    width = newWidth;
+                }
+            }
+            senderComboBox.DropDownWidth = width;
+        }
+
     }
 }

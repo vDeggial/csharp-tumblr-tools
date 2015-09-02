@@ -79,6 +79,7 @@ namespace Tumblr_Tool.Managers
 
                         while (this.statusCode != DownloadStatusCodes.Done && this.statusCode != DownloadStatusCodes.UnableDownload)
                         {
+                            this.percentDownloaded = this.percentDownloaded;
                         }
 
                         if (this.statusCode == DownloadStatusCodes.UnableDownload)
@@ -105,8 +106,9 @@ namespace Tumblr_Tool.Managers
                             return false;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception exception)
                     {
+                        
                         this.statusCode = DownloadStatusCodes.UnableDownload;
                         if (FileHelper.FileExists(fullPath))
                         {
