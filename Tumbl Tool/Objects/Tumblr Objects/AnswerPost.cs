@@ -18,13 +18,13 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class AnswerPost : TumblrPost
     {
-        public string askingName { get; set; }
+        public override string askingName { get; set; }
 
-        public string askingUrl { get; set; }
+        public override string askingUrl { get; set; }
 
-        public string question { get; set; }
+        public override string question { get; set; }
 
-        public string answer { get; set; }
+        public override string answer { get; set; }
 
         /// <summary>
         ///
