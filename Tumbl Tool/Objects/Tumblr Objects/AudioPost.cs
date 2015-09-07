@@ -23,8 +23,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public override string artist { get; set; }
 
+        public override string audioType { get; set; }
         public override string audioUrl { get; set; }
-
         public override string caption { get; set; }
 
         public override string player { get; set; }

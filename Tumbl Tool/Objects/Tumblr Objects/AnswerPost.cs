@@ -18,14 +18,6 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class AnswerPost : TumblrPost
     {
-        public override string askingName { get; set; }
-
-        public override string askingUrl { get; set; }
-
-        public override string question { get; set; }
-
-        public override string answer { get; set; }
-
         /// <summary>
         ///
         /// </summary>
@@ -33,5 +25,12 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         {
             this.type = TumblrPostTypes.answer.ToString();
         }
+
+        public override string answer { get; set; }
+        public override string asker { get; set; }
+
+        public override string askerUrl { get; set; }
+
+        public override string question { get; set; }
     }
 }

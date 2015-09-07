@@ -30,6 +30,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public override HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
 
+        public override string videoType { get; set; }
         public override string videoUrl { get; set; }
     }
 }

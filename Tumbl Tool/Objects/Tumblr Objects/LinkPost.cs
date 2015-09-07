@@ -19,8 +19,12 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     {
         public override string description { get; set; }
 
+        public override string excerpt { get; set; }
+        public override string linkAuthor { get; set; }
+        public override string linkImage { get; set; }
         public override string linkUrl { get; set; }
 
+        public override string publisher { get; set; }
         public override string title { get; set; }
     }
 }

@@ -29,30 +29,24 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual string albumArt { get; set; }
 
+        public virtual string answer { get; set; }
         public virtual string artist { get; set; }
 
-        public virtual string askingName { get; set; }
+        public virtual string asker { get; set; }
 
-        public virtual string askingUrl { get; set; }
-
-        public virtual string answer { get; set; }
-
-        public virtual string question { get; set; }
-
+        public virtual string askerUrl { get; set; }
+        public virtual string audioType { get; set; }
         public virtual string audioUrl { get; set; }
-
         public virtual string body { get; set; }
-
         public virtual string caption { get; set; }
 
         [XmlElement("date")]
         public string date { get; set; }
 
         public virtual string description { get; set; }
-
         public virtual HashSet<ChatPostFragment> dialogue { get; set; }
-
         public virtual string duration { get; set; }
+        public virtual string excerpt { get; set; }
 
         [XmlElement("format")]
         public string format { get; set; }
@@ -61,24 +55,24 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public string id { get; set; }
 
         public virtual string isHtml5Capable { get; set; }
-
         public string lastProcessedDate { get; set; }
-
+        public virtual string linkAuthor { get; set; }
+        public virtual string linkImage { get; set; }
         public virtual string linkUrl { get; set; }
-
         public string noteCount { get; set; }
 
         [XmlArrayItem("photo")]
         public virtual HashSet<PhotoPostImage> photos { get; set; }
 
         public virtual string player { get; set; }
-
         public virtual string playsCount { get; set; }
-
         public string postAuthor { get; set; }
 
         [XmlElement("postText")]
         public string postText { get; set; }
+
+        public virtual string publisher { get; set; }
+        public virtual string question { get; set; }
 
         [XmlElement("reblogKey")]
         public string reblogKey { get; set; }
@@ -100,17 +94,15 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual string thumbnailHeight { get; set; }
 
-        public string timestamp { get; set; }
-
         public virtual string thumbnailUrl { get; set; }
-
         public virtual string thumbnailWidth { get; set; }
-
+        public string timestamp { get; set; }
         public virtual string title { get; set; }
 
         public virtual string trackName { get; set; }
 
         public virtual string trackNumber { get; set; }
+
         [XmlElement("type")]
         public string type { get; set; }
 
@@ -119,6 +111,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
 
+        public virtual string videoType { get; set; }
         public virtual string videoUrl { get; set; }
 
         public virtual string year { get; set; }

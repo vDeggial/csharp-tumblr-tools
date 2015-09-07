@@ -214,7 +214,7 @@ namespace Tumblr_Tool.Managers
                             PostHelper.GeneratePhotoPost(ref post, jPost, imageSize);
                         }
 
-                        PostHelper.GenerateBasePost(ref post, jPost);
+                        PostHelper.IncludeCommonPostFields(ref post, jPost);
 
                         postList.Add(post);
                     }

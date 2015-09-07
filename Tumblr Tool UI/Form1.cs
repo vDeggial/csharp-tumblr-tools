@@ -665,8 +665,6 @@ namespace Tumblr_Tool
                                     UpdateWorkStatusTextNewLine(_WORKTEXT_INDEXINGPOSTS);
                                     UpdateStatusText(_STATUS_INDEXING);
 
-                                    
-
                                     //this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.totalNumberOfPosts.ToString());
                                     //this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
 
