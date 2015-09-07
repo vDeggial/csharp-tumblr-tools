@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2015
+ *  Last Updated: September, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -58,7 +58,7 @@ namespace Tumblr_Tool
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_KB = "KB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.3.1";
+        public const string _VERSION = "1.3.2";
         public const string _WELCOME_MSG = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + _VERSION + "\r\n© 2013 - 2015 Shino Amakusa";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading ...";
@@ -665,7 +665,7 @@ namespace Tumblr_Tool
                                     UpdateWorkStatusTextNewLine(_WORKTEXT_INDEXINGPOSTS);
                                     UpdateStatusText(_STATUS_INDEXING);
 
-                                    this.lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                                    
 
                                     //this.lbl_PostCount.Text = string.Format(_POSTCOUNT, "0", this.ripper.totalNumberOfPosts.ToString());
                                     //this.lbl_PercentBar.Text = string.Format(_PERCENT, "0");
@@ -711,6 +711,10 @@ namespace Tumblr_Tool
                                         //{
                                         //    this.lbl_PostCount.Visible = true;
                                         //}
+                                        if (this.lbl_PostCount.DisplayStyle != ToolStripItemDisplayStyle.ImageAndText)
+                                        {
+                                            this.lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                                        }
                                         this.lbl_PostCount.Text = string.Format(_POSTCOUNT, this.ripper.numberOfParsedPosts.ToString(), this.ripper.totalNumberOfPosts.ToString());
                                     });
                                 }
@@ -1360,8 +1364,9 @@ namespace Tumblr_Tool
                     OpenTumblrFile((string)e.Argument);
                 });
             }
-            catch
+            catch (Exception exception)
             {
+                MsgBox.Show(exception.Message);
             }
         }
 
@@ -1419,8 +1424,9 @@ namespace Tumblr_Tool
                     this.tumblrStats.statusCode = ProcessingCodes.connectionError;
                 }
             }
-            catch
+            catch (Exception exception)
             {
+                MsgBox.Show(exception.Message);
             }
         }
 
@@ -1568,9 +1574,9 @@ namespace Tumblr_Tool
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // throw ex;
+                MsgBox.Show(exception.Message);
             }
         }
 
@@ -1595,8 +1601,9 @@ namespace Tumblr_Tool
                     });
                 }
             }
-            catch
+            catch (Exception exception)
             {
+                MsgBox.Show(exception.Message);
             }
         }
 
@@ -1797,8 +1804,9 @@ namespace Tumblr_Tool
                     this.btn_ImageCrawler_Start.Enabled = true;
                 }
             }
-            catch
+            catch (Exception exception)
             {
+                MsgBox.Show(exception.Message);
             }
         }
 

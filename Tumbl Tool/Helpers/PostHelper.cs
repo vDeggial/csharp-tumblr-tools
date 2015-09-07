@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2015
+ *  Last Updated: September, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -29,6 +29,11 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateAnswerPost(ref TumblrPost post, dynamic jPost)
         {
             post = new AnswerPost();
+            post.askingName = !string.IsNullOrEmpty((string)jPost.asking_name) ? jPost.asking_name : null;
+            post.askingUrl = !string.IsNullOrEmpty((string)jPost.asking_url) ? jPost.asking_url : null;
+            post.question = !string.IsNullOrEmpty((string)jPost.question) ? jPost.question : null;
+            post.answer = !string.IsNullOrEmpty((string)jPost.answer) ? jPost.answer : null;
+
         }
 
         /// <summary>
@@ -170,6 +175,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateQuotePost(ref TumblrPost post, dynamic jPost)
         {
             post = new QuotePost();
+            post.text = !string.IsNullOrEmpty((string)jPost.text) ? jPost.text : null;
+            post.source = !string.IsNullOrEmpty((string)jPost.source) ? jPost.source : null;
         }
 
         /// <summary>
@@ -180,6 +187,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateTextPost(ref TumblrPost post, dynamic jPost)
         {
             post = new TextPost();
+            post.title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null;
+            post.body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null;
         }
 
         /// <summary>
