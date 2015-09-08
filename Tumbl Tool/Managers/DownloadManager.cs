@@ -108,6 +108,7 @@ namespace Tumblr_Tool.Managers
                     }
                     catch (Exception exception)
                     {
+                        string s = exception.Message;
                         this.StatusCode = DownloadStatusCodes.UnableDownload;
                         if (FileHelper.FileExists(fullPath))
                         {

@@ -192,7 +192,7 @@ namespace Tumblr_Tool.Helpers
                                     {
                                         try
                                         {
-                                            fileStreamOut.Close();
+                                            //fileStreamOut.Close();
                                             tempImage.CopyTo(path, true);
 
                                             added = true;

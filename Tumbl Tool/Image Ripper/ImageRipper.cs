@@ -30,7 +30,7 @@ namespace Tumblr_Tool.Image_Ripper
         {
             ImageList = new HashSet<PhotoPostImage>();
             ErrorList = new HashSet<string>();
-            DocManager = new DocumentManager();
+            DocumentManager = new DocumentManager();
             Blog = new TumblrBlog();
             CommentsList = new Dictionary<string, string>();
         }
@@ -81,7 +81,7 @@ namespace Tumblr_Tool.Image_Ripper
             this.TotalNumberOfPosts = 0;
             this.ImageList = new HashSet<PhotoPostImage>();
             this.TotalNumberOfImages = 0;
-            this.DocManager = new DocumentManager();
+            this.DocumentManager = new DocumentManager();
             SetAPIMode(this.ApiMode);
             this.CommentsList = new Dictionary<string, string>();
         }
@@ -94,7 +94,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public Dictionary<string, string> CommentsList { get; set; }
 
-        public DocumentManager DocManager { get; set; }
+        public DocumentManager DocumentManager { get; set; }
 
         public HashSet<string> ErrorList { get; set; }
 
@@ -218,13 +218,13 @@ namespace Tumblr_Tool.Image_Ripper
                     query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), start);
                 }
 
-                this.DocManager.GetDocument(query);
+                this.DocumentManager.GetDocument(query);
 
-                if ((this.ApiMode == ApiModeEnum.v2JSON.ToString() && this.DocManager.JsonDocument != null)
-                    || (this.ApiMode == ApiModeEnum.v1XML.ToString() && this.DocManager.XmlDocument != null))
+                if ((this.ApiMode == ApiModeEnum.v2JSON.ToString() && this.DocumentManager.JsonDocument != null)
+                    || (this.ApiMode == ApiModeEnum.v1XML.ToString() && this.DocumentManager.XmlDocument != null))
                 {
-                    DocManager.ImageSize = this.ImageSize;
-                    HashSet<TumblrPost> posts = DocManager.GetPostListFromDoc(TumblrPostTypes.photo.ToString(), ApiMode);
+                    DocumentManager.ImageSize = this.ImageSize;
+                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostTypes.photo.ToString(), ApiMode);
                     return posts;
                 }
                 else
@@ -372,7 +372,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 this.ApiMode = mode; // XML or JSON
-                this.DocManager.ApiMode = mode;
+                this.DocumentManager.ApiMode = mode;
             }
             catch
             {
@@ -397,7 +397,7 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
                 }
-                return this.DocManager.GetBlogInfo(query, this.Blog);
+                return this.DocumentManager.GetBlogInfo(query, this.Blog);
             }
             catch
             {

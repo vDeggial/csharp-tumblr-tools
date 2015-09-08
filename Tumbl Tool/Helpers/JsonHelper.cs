@@ -40,7 +40,7 @@ namespace Tumblr_Tool.Helpers
 
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
-            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY);
+            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY,null,null);
 
             return query;
         }

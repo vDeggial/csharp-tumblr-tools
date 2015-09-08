@@ -20,18 +20,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class PhotoPost : TumblrPost
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="caption"></param>
-        public PhotoPost(string url = "", string caption = "")
-            : base()
-        {
-            this.Type = TumblrPostTypes.photo.ToString();
-            this.Format = "html";
-            this.Caption = caption;
-        }
+
 
         /// <summary>
         ///
