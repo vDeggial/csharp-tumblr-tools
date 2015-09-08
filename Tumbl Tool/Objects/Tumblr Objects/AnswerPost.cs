@@ -23,14 +23,14 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// </summary>
         public AnswerPost()
         {
-            this.type = TumblrPostTypes.answer.ToString();
+            this.Type = TumblrPostTypes.answer.ToString();
         }
 
-        public override string answer { get; set; }
-        public override string asker { get; set; }
+        public override string Answer { get; set; }
+        public override string Asker { get; set; }
 
-        public override string askerUrl { get; set; }
+        public override string AskerUrl { get; set; }
 
-        public override string question { get; set; }
+        public override string Question { get; set; }
     }
 }

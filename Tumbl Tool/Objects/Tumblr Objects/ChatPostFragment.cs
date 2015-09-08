@@ -17,10 +17,10 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class ChatPostFragment
     {
-        public string label { get; set; }
+        public string Label { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string phrase { get; set; }
+        public string Phrase { get; set; }
     }
 }

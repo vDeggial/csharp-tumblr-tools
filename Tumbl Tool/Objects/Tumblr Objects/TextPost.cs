@@ -17,8 +17,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class TextPost : TumblrPost
     {
-        public override string body { get; set; }
+        public override string Body { get; set; }
 
-        public override string title { get; set; }
+        public override string Title { get; set; }
     }
 }

@@ -20,13 +20,13 @@ namespace Tumblr_Tool.Objects
     public class SaveFile
     {
         [XmlElement("blog")]
-        public TumblrBlog blog { get; set; }
+        public TumblrBlog Blog { get; set; }
 
         [XmlElement("date")]
-        public string date { get; set; }
+        public string Date { get; set; }
 
         [XmlElement("filename")]
-        public string filename { get; set; }
+        public string Filename { get; set; }
 
         /// <summary>
         ///
@@ -35,7 +35,7 @@ namespace Tumblr_Tool.Objects
         /// <param name="blog"></param>
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
-            this.filename = fileName;
+            this.Filename = fileName;
             //this.blog = new Tumblr();
             //this.blog.cname = blog.cname;
             //this.blog.description = blog.description;
@@ -46,7 +46,7 @@ namespace Tumblr_Tool.Objects
             //this.blog.title = blog.title;
             //this.blog.totalPosts = blog.totalPosts;
 
-            this.blog = blog.Clone();
+            this.Blog = blog.Clone();
             AddDate();
         }
 
@@ -55,8 +55,8 @@ namespace Tumblr_Tool.Objects
         /// </summary>
         public SaveFile()
         {
-            this.filename = null;
-            this.blog = null;
+            this.Filename = null;
+            this.Blog = null;
             AddDate();
         }
 
@@ -67,7 +67,7 @@ namespace Tumblr_Tool.Objects
         {
             string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
 
-            this.date = DateTime.Now.ToString(datePatt);
+            this.Date = DateTime.Now.ToString(datePatt);
         }
     }
 }

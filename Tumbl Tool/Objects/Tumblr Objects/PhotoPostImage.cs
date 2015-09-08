@@ -34,25 +34,23 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="height"></param>
         public PhotoPostImage(string url, string caption, string width, string height)
         {
-            this.caption = caption;
-            this.url = url;
-            this.width = width;
-            this.height = height;
-            this.filename = !string.IsNullOrEmpty(this.url) ? Path.GetFileName(this.url) : null;
+            this.Caption = caption;
+            this.Url = url;
+            this.Width = width;
+            this.Height = height;
+            this.Filename = !string.IsNullOrEmpty(this.Url) ? Path.GetFileName(this.Url) : null;
         }
 
-        public string caption { get; set; }
+        public string Caption { get; set; }
 
-        public string filename { get; set; }
+        public bool Downloaded { get; set; }
+        public string Filename { get; set; }
 
-        public string height { get; set; }
+        public string Height { get; set; }
 
-        public string url { get; set; }
+        public string ParentPostID { get; set; }
+        public string Url { get; set; }
 
-        public string width { get; set; }
-
-        public bool downloaded { get; set; }
-
-        public string parentPostID { get; set; }
+        public string Width { get; set; }
     }
 }

@@ -17,14 +17,14 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class LinkPost : TumblrPost
     {
-        public override string description { get; set; }
+        public override string Description { get; set; }
 
-        public override string excerpt { get; set; }
-        public override string linkAuthor { get; set; }
-        public override string linkImage { get; set; }
-        public override string linkUrl { get; set; }
+        public override string Excerpt { get; set; }
+        public override string LinkAuthor { get; set; }
+        public override string LinkImage { get; set; }
+        public override string LinkUrl { get; set; }
 
-        public override string publisher { get; set; }
-        public override string title { get; set; }
+        public override string Publisher { get; set; }
+        public override string Title { get; set; }
     }
 }

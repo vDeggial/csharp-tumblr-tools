@@ -44,8 +44,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Enums\imageSizes.cs" />
-    <Compile Include="Enums\saveFileFormats.cs" />
+    <Compile Include="Enums\ImageSizes.cs" />
+    <Compile Include="Enums\SaveFileFormats.cs" />
     <Compile Include="Helpers\BinaryHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
@@ -57,16 +57,16 @@
     <Compile Include="Objects\SaveFile.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
-    <Compile Include="Enums\apiModeEnum.cs" />
-    <Compile Include="Enums\downloadStatusCodes.cs" />
-    <Compile Include="Enums\errorTypes.cs" />
+    <Compile Include="Enums\ApiModeEnum.cs" />
+    <Compile Include="Enums\DownloadStatusCodes.cs" />
+    <Compile Include="Enums\ErrorTypes.cs" />
     <Compile Include="Enums\ImageFormat.cs" />
-    <Compile Include="Enums\parseModes.cs" />
-    <Compile Include="Enums\postStatusCodes.cs" />
-    <Compile Include="Enums\processingCodes.cs" />
-    <Compile Include="Enums\postStepEnum.cs" />
-    <Compile Include="Enums\tumblrAPIResponseEnum.cs" />
-    <Compile Include="Enums\tumblrPostTypes.cs" />
+    <Compile Include="Enums\ParseModes.cs" />
+    <Compile Include="Enums\PostStatusCodes.cs" />
+    <Compile Include="Enums\ProcessingCodes.cs" />
+    <Compile Include="Enums\PostStepEnum.cs" />
+    <Compile Include="Enums\TumblrAPIResponseEnum.cs" />
+    <Compile Include="Enums\TumblrPostTypes.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\DownloadManager.cs" />

@@ -5,8 +5,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class VideoPostEmbedPlayer
     {
-        public string embedCode { get; set; }
+        public string EmbedCode { get; set; }
 
-        public string width { get; set; }
+        public string Width { get; set; }
     }
 }

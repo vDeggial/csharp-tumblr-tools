@@ -28,9 +28,9 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public PhotoPost(string url = "", string caption = "")
             : base()
         {
-            this.type = TumblrPostTypes.photo.ToString();
-            this.format = "html";
-            this.caption = caption;
+            this.Type = TumblrPostTypes.photo.ToString();
+            this.Format = "html";
+            this.Caption = caption;
         }
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// </summary>
         public PhotoPost()
         {
-            this.type = TumblrPostTypes.photo.ToString();
-            this.format = "html";
+            this.Type = TumblrPostTypes.photo.ToString();
+            this.Format = "html";
         }
 
         [XmlElement("caption")]
-        public override string caption { get; set; }
+        public override string Caption { get; set; }
 
-        public override HashSet<PhotoPostImage> photos { get; set; }
+        public override HashSet<PhotoPostImage> Photos { get; set; }
 
         /// <summary>
         ///
@@ -53,10 +53,10 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="image"></param>
         public override void AddImageToPhotoSet(PhotoPostImage image)
         {
-            if (photos == null)
-                photos = new HashSet<PhotoPostImage>();
+            if (Photos == null)
+                Photos = new HashSet<PhotoPostImage>();
 
-            photos.Add(image);
+            Photos.Add(image);
         }
     }
 }

@@ -17,8 +17,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class QuotePost : TumblrPost
     {
-        public override string source { get; set; }
+        public override string Source { get; set; }
 
-        public override string text { get; set; }
+        public override string Text { get; set; }
     }
 }

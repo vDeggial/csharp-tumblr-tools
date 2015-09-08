@@ -16,21 +16,21 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
     public class VideoPost : TumblrPost
     {
-        public override string caption { get; set; }
+        public override string Caption { get; set; }
 
-        public override string duration { get; set; }
+        public override string Duration { get; set; }
 
-        public override string isHtml5Capable { get; set; }
+        public override string IsHtml5Capable { get; set; }
 
-        public override string thumbnailHeight { get; set; }
+        public override string ThumbnailHeight { get; set; }
 
-        public override string thumbnailUrl { get; set; }
+        public override string ThumbnailUrl { get; set; }
 
-        public override string thumbnailWidth { get; set; }
+        public override string ThumbnailWidth { get; set; }
 
-        public override HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
+        public override HashSet<VideoPostEmbedPlayer> VideoPlayers { get; set; }
 
-        public override string videoType { get; set; }
-        public override string videoUrl { get; set; }
+        public override string VideoType { get; set; }
+        public override string VideoUrl { get; set; }
     }
 }

@@ -22,99 +22,99 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     {
         public TumblrPost()
         {
-            this.tags = new HashSet<string>();
+            this.Tags = new HashSet<string>();
         }
 
-        public virtual string album { get; set; }
+        public virtual string Album { get; set; }
 
-        public virtual string albumArt { get; set; }
+        public virtual string AlbumArt { get; set; }
 
-        public virtual string answer { get; set; }
-        public virtual string artist { get; set; }
+        public virtual string Answer { get; set; }
+        public virtual string Artist { get; set; }
 
-        public virtual string asker { get; set; }
+        public virtual string Asker { get; set; }
 
-        public virtual string askerUrl { get; set; }
-        public virtual string audioType { get; set; }
-        public virtual string audioUrl { get; set; }
-        public virtual string body { get; set; }
-        public virtual string caption { get; set; }
+        public virtual string AskerUrl { get; set; }
+        public virtual string AudioType { get; set; }
+        public virtual string AudioUrl { get; set; }
+        public virtual string Body { get; set; }
+        public virtual string Caption { get; set; }
 
         [XmlElement("date")]
-        public string date { get; set; }
+        public string Date { get; set; }
 
-        public virtual string description { get; set; }
-        public virtual HashSet<ChatPostFragment> dialogue { get; set; }
-        public virtual string duration { get; set; }
-        public virtual string excerpt { get; set; }
+        public virtual string Description { get; set; }
+        public virtual HashSet<ChatPostFragment> Dialogue { get; set; }
+        public virtual string Duration { get; set; }
+        public virtual string Excerpt { get; set; }
 
         [XmlElement("format")]
-        public string format { get; set; }
+        public string Format { get; set; }
 
         [XmlElement("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
 
-        public virtual string isHtml5Capable { get; set; }
-        public string lastProcessedDate { get; set; }
-        public virtual string linkAuthor { get; set; }
-        public virtual string linkImage { get; set; }
-        public virtual string linkUrl { get; set; }
-        public string noteCount { get; set; }
+        public virtual string IsHtml5Capable { get; set; }
+        public string LastProcessedDate { get; set; }
+        public virtual string LinkAuthor { get; set; }
+        public virtual string LinkImage { get; set; }
+        public virtual string LinkUrl { get; set; }
+        public string NoteCount { get; set; }
 
         [XmlArrayItem("photo")]
-        public virtual HashSet<PhotoPostImage> photos { get; set; }
+        public virtual HashSet<PhotoPostImage> Photos { get; set; }
 
-        public virtual string player { get; set; }
-        public virtual string playsCount { get; set; }
-        public string postAuthor { get; set; }
+        public virtual string Player { get; set; }
+        public virtual string PlaysCount { get; set; }
+        public string PostAuthor { get; set; }
 
         [XmlElement("postText")]
-        public string postText { get; set; }
+        public string PostText { get; set; }
 
-        public virtual string publisher { get; set; }
-        public virtual string question { get; set; }
+        public virtual string Publisher { get; set; }
+        public virtual string Question { get; set; }
 
         [XmlElement("reblogKey")]
-        public string reblogKey { get; set; }
+        public string ReblogKey { get; set; }
 
-        public string shortURL { get; set; }
+        public string ShortURL { get; set; }
 
-        public string slug { get; set; }
+        public string Slug { get; set; }
 
-        public virtual string source { get; set; }
+        public virtual string Source { get; set; }
 
-        public string sourceURL { get; set; }
+        public string SourceURL { get; set; }
 
-        public string state { get; set; }
+        public string State { get; set; }
 
         [XmlArrayItem("tag")]
-        public HashSet<string> tags { get; set; }
+        public HashSet<string> Tags { get; set; }
 
-        public virtual string text { get; set; }
+        public virtual string Text { get; set; }
 
-        public virtual string thumbnailHeight { get; set; }
+        public virtual string ThumbnailHeight { get; set; }
 
-        public virtual string thumbnailUrl { get; set; }
-        public virtual string thumbnailWidth { get; set; }
-        public string timestamp { get; set; }
-        public virtual string title { get; set; }
+        public virtual string ThumbnailUrl { get; set; }
+        public virtual string ThumbnailWidth { get; set; }
+        public string Timestamp { get; set; }
+        public virtual string Title { get; set; }
 
-        public virtual string trackName { get; set; }
+        public virtual string TrackName { get; set; }
 
-        public virtual string trackNumber { get; set; }
+        public virtual string TrackNumber { get; set; }
 
         [XmlElement("type")]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         [XmlElement("url")]
-        public string url { get; set; }
+        public string Url { get; set; }
 
-        public virtual HashSet<VideoPostEmbedPlayer> videoPlayers { get; set; }
+        public virtual HashSet<VideoPostEmbedPlayer> VideoPlayers { get; set; }
 
-        public virtual string videoType { get; set; }
-        public virtual string videoUrl { get; set; }
+        public virtual string VideoType { get; set; }
+        public virtual string VideoUrl { get; set; }
 
-        public virtual string year { get; set; }
+        public virtual string Year { get; set; }
 
         /// <summary>
         ///
@@ -131,10 +131,10 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="tag"></param>
         public void AddTag(string tag)
         {
-            if (this.tags == null)
-                this.tags = new HashSet<string>();
+            if (this.Tags == null)
+                this.Tags = new HashSet<string>();
 
-            this.tags.Add(tag);
+            this.Tags.Add(tag);
         }
     }
 }

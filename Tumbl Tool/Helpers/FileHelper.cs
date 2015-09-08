@@ -24,7 +24,7 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Save file format
         /// </summary>
-        private static string saveFileFormat = saveFileFormats.JSON.ToString();
+        private static string SaveFileFormat = SaveFileFormats.JSON.ToString();
 
         /// <summary>
         /// Add .jpg extension to file
@@ -170,13 +170,13 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static SaveFile ReadTumblrFile(string location)
         {
-            SaveFile saveFile = ReadTumblrFile(location, saveFileFormats.BIN.ToString());
+            SaveFile saveFile = ReadTumblrFile(location, SaveFileFormats.BIN.ToString());
 
             if (saveFile == null)
-                saveFile = ReadTumblrFile(location, saveFileFormats.XML.ToString());
+                saveFile = ReadTumblrFile(location, SaveFileFormats.XML.ToString());
 
             if (saveFile == null)
-                saveFile = ReadTumblrFile(location, saveFileFormats.JSON.ToString());
+                saveFile = ReadTumblrFile(location, SaveFileFormats.JSON.ToString());
 
             return saveFile;
         }
@@ -209,7 +209,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static bool SaveTumblrFile(string location, SaveFile saveFile)
         {
-            return FileHelper.SaveTumblrFile(location, saveFile, saveFileFormat);
+            return FileHelper.SaveTumblrFile(location, saveFile, SaveFileFormat);
         }
 
         /// <summary>

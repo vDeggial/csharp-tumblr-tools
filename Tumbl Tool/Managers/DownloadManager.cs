@@ -30,25 +30,25 @@ namespace Tumblr_Tool.Managers
     {
         public DownloadManager()
         {
-            downloadedList = new HashSet<string>();
-            totalSize = 0;
-            fileSizeRecieved = 0;
-            saveFileFormat = saveFileFormats.JSON.ToString();
+            DownloadedList = new HashSet<string>();
+            TotalFileSize = 0;
+            FileSizeRecieved = 0;
+            SaveFileFormat = SaveFileFormats.JSON.ToString();
         }
 
-        public HashSet<string> downloadedList { get; set; }
+        public HashSet<string> DownloadedList { get; set; }
 
-        public double fileSizeRecieved { get; set; }
+        public double FileSizeRecieved { get; set; }
 
-        public double percentDownloaded { get; set; }
+        public double PercentDownloaded { get; set; }
 
-        public string saveFileFormat { get; set; }
+        public string SaveFileFormat { get; set; }
 
-        public DownloadStatusCodes statusCode { get; set; }
+        public DownloadStatusCodes StatusCode { get; set; }
 
-        public double totalSize { get; set; }
+        public double TotalFileSize { get; set; }
 
-        public int totalToDownload { get; set; }
+        public int TotalFilesToDownload { get; set; }
 
         /// <summary>
         ///
@@ -64,8 +64,8 @@ namespace Tumblr_Tool.Managers
 
             fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
             fullPath = FileHelper.AddJpgExt(fullPath);
-            this.percentDownloaded = 0;
-            this.statusCode = DownloadStatusCodes.OK;
+            this.PercentDownloaded = 0;
+            this.StatusCode = DownloadStatusCodes.OK;
 
             if (WebHelper.UrlExists(@url))
             {
@@ -77,12 +77,12 @@ namespace Tumblr_Tool.Managers
                         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(Wc_DownloadProgressChanged);
                         webClient.DownloadFileAsync(new Uri(@url), fullPath);
 
-                        while (this.statusCode != DownloadStatusCodes.Done && this.statusCode != DownloadStatusCodes.UnableDownload)
+                        while (this.StatusCode != DownloadStatusCodes.Done && this.StatusCode != DownloadStatusCodes.UnableDownload)
                         {
-                            this.percentDownloaded = this.percentDownloaded;
+                            this.PercentDownloaded = this.PercentDownloaded;
                         }
 
-                        if (this.statusCode == DownloadStatusCodes.UnableDownload)
+                        if (this.StatusCode == DownloadStatusCodes.UnableDownload)
                         {
                             webClient.CancelAsync();
 
@@ -96,9 +96,9 @@ namespace Tumblr_Tool.Managers
                             return false;
                         }
 
-                        if (this.statusCode == DownloadStatusCodes.Done)
+                        if (this.StatusCode == DownloadStatusCodes.Done)
                         {
-                            this.downloadedList.Add(fullPath);
+                            this.DownloadedList.Add(fullPath);
                             return true;
                         }
                         else
@@ -108,7 +108,7 @@ namespace Tumblr_Tool.Managers
                     }
                     catch (Exception exception)
                     {
-                        this.statusCode = DownloadStatusCodes.UnableDownload;
+                        this.StatusCode = DownloadStatusCodes.UnableDownload;
                         if (FileHelper.FileExists(fullPath))
                         {
                             file = new FileInfo(fullPath);
@@ -129,8 +129,8 @@ namespace Tumblr_Tool.Managers
 
             fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
             fullPath = FileHelper.AddJpgExt(fullPath);
-            this.percentDownloaded = 0;
-            this.statusCode = DownloadStatusCodes.OK;
+            this.PercentDownloaded = 0;
+            this.StatusCode = DownloadStatusCodes.OK;
 
             Uri uri = new Uri(url);
             string domain = uri.Host;
@@ -141,7 +141,7 @@ namespace Tumblr_Tool.Managers
             var request = new RestRequest(path, Method.GET);
 
             client.DownloadData(request).SaveAs(fullPath);
-            this.percentDownloaded = 100;
+            this.PercentDownloaded = 100;
             return true;
         }
 
@@ -152,12 +152,12 @@ namespace Tumblr_Tool.Managers
         /// <param name="e"></param>
         public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
-            this.percentDownloaded = e.ProgressPercentage;
+            this.PercentDownloaded = e.ProgressPercentage;
 
             if (e.ProgressPercentage >= 100)
-                this.fileSizeRecieved = Convert.ToDouble(e.TotalBytesToReceive);
+                this.FileSizeRecieved = Convert.ToDouble(e.TotalBytesToReceive);
             else
-                this.fileSizeRecieved = Convert.ToDouble(e.BytesReceived);
+                this.FileSizeRecieved = Convert.ToDouble(e.BytesReceived);
         }
 
         /// <summary>
@@ -169,20 +169,20 @@ namespace Tumblr_Tool.Managers
         {
             if (e.Cancelled == true)
             {
-                this.statusCode = DownloadStatusCodes.UnableDownload;
+                this.StatusCode = DownloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Error != null)
             {
-                this.statusCode = DownloadStatusCodes.UnableDownload;
+                this.StatusCode = DownloadStatusCodes.UnableDownload;
                 return;
             }
 
             if (e.Cancelled == false && e.Error == null)
             {
-                this.statusCode = DownloadStatusCodes.Done;
-                this.totalSize += fileSizeRecieved;
+                this.StatusCode = DownloadStatusCodes.Done;
+                this.TotalFileSize += FileSizeRecieved;
                 return;
             }
         }

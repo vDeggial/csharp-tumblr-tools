@@ -26,40 +26,35 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public TumblrBlog(string url)
         {
-            this.url = url;
+            this.Url = url;
         }
 
-        public int blogTotalPosts { get; set; }
+        public bool AnonAskEnabled { get; set; }
+        public bool AskEnabled { get; set; }
+        public int BlogTotalPosts { get; set; }
 
-        public string cname { get; set; }
+        public string Cname { get; set; }
 
-        [XmlElement("description")]
-        public string description { get; set; }
+        [XmlElement("Description")]
+        public string Description { get; set; }
+        public DateTime LastUpdated { get; set; }
+        [XmlElement("Name")]
+        public string Name { get; set; }
 
-        public bool isAnonAskEnabled { get; set; }
-
-        public bool isAskEnabled { get; set; }
-
-        public bool isNsfw { get; set; }
-
-        public DateTime lastUpdated { get; set; }
-
-        [XmlElement("name")]
-        public string name { get; set; }
-
+        public bool Nsfw { get; set; }
         //[XmlIgnoreAttribute]
-        [XmlArrayItem("post")]
-        public HashSet<TumblrPost> posts { get; set; }
+        [XmlArrayItem("Post")]
+        public HashSet<TumblrPost> Posts { get; set; }
 
-        [XmlElement("timezone")]
-        public string timezone { get; set; }
+        [XmlElement("Timezone")]
+        public string Timezone { get; set; }
 
-        [XmlElement("title")]
-        public string title { get; set; }
+        [XmlElement("Title")]
+        public string Title { get; set; }
 
-        public int totalPosts { get; set; }
+        public int TotalPosts { get; set; }
 
-        [XmlElement("url")]
-        public string url { get; set; }
+        [XmlElement("Url")]
+        public string Url { get; set; }
     }
 }

@@ -17,24 +17,24 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
     [Serializable()]
     public class AudioPost : TumblrPost
     {
-        public override string album { get; set; }
+        public override string Album { get; set; }
 
-        public override string albumArt { get; set; }
+        public override string AlbumArt { get; set; }
 
-        public override string artist { get; set; }
+        public override string Artist { get; set; }
 
-        public override string audioType { get; set; }
-        public override string audioUrl { get; set; }
-        public override string caption { get; set; }
+        public override string AudioType { get; set; }
+        public override string AudioUrl { get; set; }
+        public override string Caption { get; set; }
 
-        public override string player { get; set; }
+        public override string Player { get; set; }
 
-        public override string playsCount { get; set; }
+        public override string PlaysCount { get; set; }
 
-        public override string trackName { get; set; }
+        public override string TrackName { get; set; }
 
-        public override string trackNumber { get; set; }
+        public override string TrackNumber { get; set; }
 
-        public override string year { get; set; }
+        public override string Year { get; set; }
     }
 }
