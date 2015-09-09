@@ -221,6 +221,12 @@ namespace Tumblr_Tool.Managers
             catch
             {
                 this.StatusCode = DownloadStatusCodes.UnableDownload;
+                if (FileHelper.FileExists(fullPath))
+                {
+                    FileInfo file = new FileInfo(fullPath);
+
+                    if (!FileHelper.IsFileLocked(file)) file.Delete();
+                }
                 return false;
             }
         }
