@@ -19,8 +19,10 @@ using RestSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Text;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
 
@@ -50,13 +52,56 @@ namespace Tumblr_Tool.Managers
 
         public int TotalFilesToDownload { get; set; }
 
+        private HttpWebRequest _request { get; set; }
+        private IAsyncResult _responseAsyncResult { get; set; }
+
+        public bool DownloadFile(DownloadMethods method, string url, string fullPath)
+        {
+            switch (method)
+            {
+                case DownloadMethods.WebClient:
+                    return DownloadFileWebClient(url, fullPath);
+
+                case DownloadMethods.PostSharp:
+                    return DownloadFilePostSharp(url, fullPath);
+
+                case DownloadMethods.WebClient2:
+                    return DownloadFileWebClient2(url, fullPath);
+
+                default:
+                    return false;
+            }
+        }
+
+        public bool DownloadFilePostSharp(string url, string fullPath)
+        {
+            url = WebHelper.RemoveTrailingBackslash(url);
+
+            fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
+            fullPath = FileHelper.AddJpgExt(fullPath);
+            this.PercentDownloaded = 0;
+            this.StatusCode = DownloadStatusCodes.OK;
+
+            Uri uri = new Uri(url);
+            string domain = uri.Host;
+            string protocol = uri.Scheme + Uri.SchemeDelimiter;
+            string path = uri.PathAndQuery;
+
+            var client = new RestClient(string.Concat(protocol, domain));
+            var request = new RestRequest(path, Method.GET);
+
+            client.DownloadData(request).SaveAs(fullPath);
+            this.PercentDownloaded = 100;
+            return true;
+        }
+
         /// <summary>
         ///
         /// </summary>
         /// <param name="url"></param>
         /// <param name="fullPath"></param>
         /// <returns></returns>
-        public bool DownloadFile(string url, string fullPath)
+        public bool DownloadFileWebClient(string url, string fullPath)
         {
             FileInfo file;
 
@@ -73,6 +118,7 @@ namespace Tumblr_Tool.Managers
                 {
                     try
                     {
+                        webClient.Proxy = null;
                         webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Wc_DownloadCompleted);
                         webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(Wc_DownloadProgressChanged);
                         webClient.DownloadFileAsync(new Uri(@url), fullPath);
@@ -124,26 +170,59 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
-        public bool DownloadFilePostSharp(string url, string fullPath)
+        public bool DownloadFileWebClient2(string url, string fullPath)
         {
-            url = WebHelper.RemoveTrailingBackslash(url);
+            try
+            {
+                this.PercentDownloaded = 0;
+                fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
+                fullPath = FileHelper.AddJpgExt(fullPath);
 
-            fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
-            fullPath = FileHelper.AddJpgExt(fullPath);
-            this.PercentDownloaded = 0;
-            this.StatusCode = DownloadStatusCodes.OK;
+                string outputFolder = Path.GetDirectoryName(fullPath);
+                if (!Directory.Exists(outputFolder))
+                    Directory.CreateDirectory(outputFolder);
 
-            Uri uri = new Uri(url);
-            string domain = uri.Host;
-            string protocol = uri.Scheme + Uri.SchemeDelimiter;
-            string path = uri.PathAndQuery;
+                MyWebClient webClient = new MyWebClient();
+                webClient.Proxy = null;
 
-            var client = new RestClient(string.Concat(protocol, domain));
-            var request = new RestRequest(path, Method.GET);
+                using (Stream webStream = webClient.OpenRead(url))
+                using (FileStream fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+                    var buffer = new byte[32768];
+                    int bytesRead;
+                    Int64 bytesReadComplete = 0;  // Use Int64 for files larger than 2 gb
 
-            client.DownloadData(request).SaveAs(fullPath);
-            this.PercentDownloaded = 100;
-            return true;
+                    // Get the size of the file to download
+                    Int64 bytesTotal = Convert.ToInt64(webClient.ResponseHeaders["Content-Length"]);
+
+                    // Start a new StartWatch for measuring download time
+                    Stopwatch sw = Stopwatch.StartNew();
+
+                    // Download file in chunks
+                    while ((bytesRead = webStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        bytesReadComplete += bytesRead;
+                        fileStream.Write(buffer, 0, bytesRead);
+
+                        // Output current progress to the "Output" editor
+                        StringBuilder sb = new StringBuilder();
+                        this.PercentDownloaded = bytesReadComplete * 100 / bytesTotal;
+                        this.FileSizeRecieved = bytesReadComplete;
+                        sb.AppendLine(String.Format("Time Elapsed: {0:0,.00}s", sw.ElapsedMilliseconds));
+                        sb.AppendLine(String.Format("Average Speed: {0:0,0} KB/s", sw.ElapsedMilliseconds > 0 ? bytesReadComplete / sw.ElapsedMilliseconds / 1.024 : 0));
+                    }
+
+                    sw.Stop();
+                    this.TotalFileSize += this.FileSizeRecieved;
+                    this.StatusCode = DownloadStatusCodes.Done;
+                    return true;
+                }
+            }
+            catch
+            {
+                this.StatusCode = DownloadStatusCodes.UnableDownload;
+                return false;
+            }
         }
 
         /// <summary>

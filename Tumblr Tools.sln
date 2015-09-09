@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTest", "UniTest\UniTest.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11B5566A-8F40-4290-AE2A-BAB7E67BE596}"
 	ProjectSection(SolutionItems) = preProject
+		DeadCodeDetectionRules.ruleset = DeadCodeDetectionRules.ruleset
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		Tumblr Tool.vsmdi = Tumblr Tool.vsmdi

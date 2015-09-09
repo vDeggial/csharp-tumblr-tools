@@ -46,6 +46,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\DownloadMethods.cs" />
     <Compile Include="Enums\ImageSizes.cs" />
     <Compile Include="Enums\SaveFileFormats.cs" />
     <Compile Include="Helpers\BinaryHelper.cs" />

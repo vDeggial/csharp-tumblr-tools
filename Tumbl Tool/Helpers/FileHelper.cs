@@ -63,7 +63,7 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Generate full local path from url and lovalc path
+        /// Generate full local file path from url and local directory path
         /// </summary>
         /// <param name="url"></param>
         /// <param name="location"></param>

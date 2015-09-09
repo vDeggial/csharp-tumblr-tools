@@ -878,7 +878,7 @@ namespace Tumblr_Tool
                             {
                                 fullPath = FileHelper.GenerateLocalPathToFile(photoImage.Filename, this.SaveLocation);
 
-                                downloaded = DownloadManager.DownloadFile(photoImage.Url, this.SaveLocation);
+                                downloaded = DownloadManager.DownloadFile(DownloadMethods.WebClient2, photoImage.Url, this.SaveLocation);
 
                                 if (downloaded)
                                 {
@@ -2188,7 +2188,7 @@ namespace Tumblr_Tool
 
             UpdateWorkStatusTextNewLine("Operation cancelled ...");
             this.img_DisplayImage.Image = Resources.tumblrlogo;
-            MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
+            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
             UpdateStatusText(_STATUS_READY);
         }
 
