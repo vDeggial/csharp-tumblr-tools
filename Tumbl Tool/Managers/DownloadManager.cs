@@ -52,9 +52,6 @@ namespace Tumblr_Tool.Managers
 
         public int TotalFilesToDownload { get; set; }
 
-        private HttpWebRequest _request { get; set; }
-        private IAsyncResult _responseAsyncResult { get; set; }
-
         public bool DownloadFile(DownloadMethods method, string url, string fullPath)
         {
             switch (method)
@@ -175,47 +172,57 @@ namespace Tumblr_Tool.Managers
             try
             {
                 this.PercentDownloaded = 0;
+                this.StatusCode = DownloadStatusCodes.OK;
                 fullPath = FileHelper.GenerateLocalPathToFile(url, fullPath);
                 fullPath = FileHelper.AddJpgExt(fullPath);
 
-                string outputFolder = Path.GetDirectoryName(fullPath);
-                if (!Directory.Exists(outputFolder))
-                    Directory.CreateDirectory(outputFolder);
-
-                MyWebClient webClient = new MyWebClient();
-                webClient.Proxy = null;
-
-                using (Stream webStream = webClient.OpenRead(url))
-                using (FileStream fileStream = new FileStream(fullPath, FileMode.Create))
+                if (WebHelper.UrlExists(@url))
                 {
-                    var buffer = new byte[32768];
-                    int bytesRead;
-                    Int64 bytesReadComplete = 0;  // Use Int64 for files larger than 2 gb
 
-                    // Get the size of the file to download
-                    Int64 bytesTotal = Convert.ToInt64(webClient.ResponseHeaders["Content-Length"]);
+                    string outputFolder = Path.GetDirectoryName(fullPath);
+                    if (!Directory.Exists(outputFolder))
+                        Directory.CreateDirectory(outputFolder);
 
-                    // Start a new StartWatch for measuring download time
-                    Stopwatch sw = Stopwatch.StartNew();
+                    MyWebClient webClient = new MyWebClient();
+                    webClient.Proxy = null;
 
-                    // Download file in chunks
-                    while ((bytesRead = webStream.Read(buffer, 0, buffer.Length)) > 0)
+                    using (Stream webStream = webClient.OpenRead(url))
+                    using (FileStream fileStream = new FileStream(fullPath, FileMode.Create))
                     {
-                        bytesReadComplete += bytesRead;
-                        fileStream.Write(buffer, 0, bytesRead);
+                        var buffer = new byte[32768];
+                        int bytesRead;
+                        Int64 bytesReadComplete = 0;  // Use Int64 for files larger than 2 gb
 
-                        // Output current progress to the "Output" editor
-                        StringBuilder sb = new StringBuilder();
-                        this.PercentDownloaded = bytesReadComplete * 100 / bytesTotal;
-                        this.FileSizeRecieved = bytesReadComplete;
-                        sb.AppendLine(String.Format("Time Elapsed: {0:0,.00}s", sw.ElapsedMilliseconds));
-                        sb.AppendLine(String.Format("Average Speed: {0:0,0} KB/s", sw.ElapsedMilliseconds > 0 ? bytesReadComplete / sw.ElapsedMilliseconds / 1.024 : 0));
+                        // Get the size of the file to download
+                        Int64 bytesTotal = Convert.ToInt64(webClient.ResponseHeaders["Content-Length"]);
+
+                        // Start a new StartWatch for measuring download time
+                        Stopwatch sw = Stopwatch.StartNew();
+
+                        // Download file in chunks
+                        while ((bytesRead = webStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            bytesReadComplete += bytesRead;
+                            fileStream.Write(buffer, 0, bytesRead);
+
+                            // Output current progress to the "Output" editor
+                            StringBuilder sb = new StringBuilder();
+                            this.PercentDownloaded = bytesReadComplete * 100 / bytesTotal;
+                            this.FileSizeRecieved = bytesReadComplete;
+                            sb.AppendLine(String.Format("Time Elapsed: {0:0,.00}s", sw.ElapsedMilliseconds));
+                            sb.AppendLine(String.Format("Average Speed: {0:0,0} KB/s", sw.ElapsedMilliseconds > 0 ? bytesReadComplete / sw.ElapsedMilliseconds / 1.024 : 0));
+                        }
+
+                        sw.Stop();
+                        this.TotalFileSize += this.FileSizeRecieved;
+                        this.StatusCode = DownloadStatusCodes.Done;
+                        return true;
                     }
-
-                    sw.Stop();
-                    this.TotalFileSize += this.FileSizeRecieved;
-                    this.StatusCode = DownloadStatusCodes.Done;
-                    return true;
+                }
+                else
+                {
+                    this.StatusCode = DownloadStatusCodes.UnableDownload;
+                    return false;
                 }
             }
             catch
