@@ -60,7 +60,7 @@ namespace Tumblr_Tool.Helpers
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
             string postQuery = _POSTQUERY;
-            if (type != TumblrPostTypes.empty.ToString())
+            if (type != TumblrPostTypes.all.ToString())
             {
                 postQuery += "/" + type;
             }

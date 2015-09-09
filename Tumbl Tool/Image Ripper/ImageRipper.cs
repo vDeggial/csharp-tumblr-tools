@@ -249,10 +249,10 @@ namespace Tumblr_Tool.Image_Ripper
             {
                 string url = string.Empty;
                 if (this.ApiMode == ApiModeEnum.v1XML.ToString())
-                    url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.empty.ToString(),0,1);
+                    url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.all.ToString(),0,1);
                 else
                 {
-                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.empty.ToString(),0,1);
+                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(),0,1);
                 }
 
                 return url.TumblrExists(this.ApiMode);

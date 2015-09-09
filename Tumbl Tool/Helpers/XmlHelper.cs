@@ -89,7 +89,7 @@ namespace Tumblr_Tool.Helpers
         {
             string query = string.Copy(_QUERY);
 
-            if (type != TumblrPostTypes.empty.ToString())
+            if (type != TumblrPostTypes.all.ToString())
             {
                 query += "?type=" + type;
 

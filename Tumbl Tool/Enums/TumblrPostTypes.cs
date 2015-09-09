@@ -27,6 +27,6 @@ namespace Tumblr_Tool.Enums
         audio,
         video,
         answer,
-        empty
+        all
     }
 }
