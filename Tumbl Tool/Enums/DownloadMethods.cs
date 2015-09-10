@@ -2,8 +2,8 @@
 {
     public enum DownloadMethods
     {
-        WebClient,
+        WebClientAsync,
         PostSharp,
-        WebClient2
+        WebClient
     }
 }

@@ -878,7 +878,7 @@ namespace Tumblr_Tool
                             {
                                 fullPath = FileHelper.GenerateLocalPathToFile(photoImage.Filename, this.SaveLocation);
 
-                                downloaded = DownloadManager.DownloadFile(DownloadMethods.WebClient2, photoImage.Url, this.SaveLocation);
+                                downloaded = DownloadManager.DownloadFile(DownloadMethods.WebClientAsync, photoImage.Url, this.SaveLocation);
 
                                 if (downloaded)
                                 {
