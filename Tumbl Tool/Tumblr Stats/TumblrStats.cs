@@ -37,7 +37,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="apiMode"></param>
         /// <param name="startNum"></param>
         /// <param name="endNum"></param>
-        public TumblrStats(TumblrBlog blog, string url, string apiMode, int startNum = 0, int endNum = 0)
+        public TumblrStats(TumblrBlog blog, string url, ApiModeEnum apiMode, int startNum = 0, int endNum = 0)
         {
             this.DocManager = new DocumentManager();
             SetAPIMode(apiMode);
@@ -67,7 +67,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
         public int AnswerPosts { get; set; }
 
-        public string ApiMode { get; set; }
+        public ApiModeEnum ApiMode { get; set; }
 
         public int AudioPosts { get; set; }
 
@@ -114,7 +114,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         public bool getStats()
         {
             string url = XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0, 1);
-            if (this.DocManager.ApiMode == ApiModeEnum.v2JSON.ToString())
+            if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
             {
                 url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1);
             }
@@ -134,7 +134,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 if (type != TumblrPostTypes.all && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
                 {
                     url = XmlHelper.GenerateQueryString(this.Url, type.ToString(), 0, 1);
-                    if (this.DocManager.ApiMode == ApiModeEnum.v2JSON.ToString())
+                    if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
                     {
                         url = JsonHelper.GenerateQueryString(this.TumblrDomain, type.ToString(), 0, 1);
                     }
@@ -209,7 +209,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 string url = XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0);
                 this.Step = (int)PostStepEnum.XML;
 
-                if (this.DocManager.ApiMode == ApiModeEnum.v2JSON.ToString())
+                if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
                 {
                     url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0);
                     this.Step = (int)PostStepEnum.JSON;
@@ -232,7 +232,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                     while (i < this.TotalPosts)
                     {
-                        if (this.DocManager.ApiMode == ApiModeEnum.v2JSON.ToString())
+                        if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
                         {
                             url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), i);
                         }
@@ -271,7 +271,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetAPIMode(string mode)
+        public void SetAPIMode(ApiModeEnum mode)
         {
             try
             {
@@ -291,11 +291,11 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                if (this.DocManager.ApiMode == ApiModeEnum.v1XML.ToString())
+                if (this.DocManager.ApiMode == ApiModeEnum.v1XML)
                 {
                     this.DocManager.GetBlogInfo(XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
                 }
-                else if (this.DocManager.ApiMode == ApiModeEnum.v2JSON.ToString())
+                else if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
                 {
                     this.DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
                 }

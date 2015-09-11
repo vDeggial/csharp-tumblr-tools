@@ -86,7 +86,7 @@ namespace Tumblr_Tool.Image_Ripper
             this.CommentsList = new Dictionary<string, string>();
         }
 
-        public string ApiMode { get; set; }
+        public ApiModeEnum ApiMode { get; set; }
 
         public ImageSizes ImageSize { get; set; }
 
@@ -209,7 +209,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.ApiMode == ApiModeEnum.v1XML.ToString()) //XML
+                if (this.ApiMode == ApiModeEnum.v1XML) //XML
                 {
                     query = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString(), start);
                 }
@@ -220,8 +220,8 @@ namespace Tumblr_Tool.Image_Ripper
 
                 this.DocumentManager.GetDocument(query);
 
-                if ((this.ApiMode == ApiModeEnum.v2JSON.ToString() && this.DocumentManager.JsonDocument != null)
-                    || (this.ApiMode == ApiModeEnum.v1XML.ToString() && this.DocumentManager.XmlDocument != null))
+                if ((this.ApiMode == ApiModeEnum.v2JSON && this.DocumentManager.JsonDocument != null)
+                    || (this.ApiMode == ApiModeEnum.v1XML && this.DocumentManager.XmlDocument != null))
                 {
                     DocumentManager.ImageSize = this.ImageSize;
                     HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostTypes.photo.ToString(), ApiMode);
@@ -248,7 +248,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string url = string.Empty;
-                if (this.ApiMode == ApiModeEnum.v1XML.ToString())
+                if (this.ApiMode == ApiModeEnum.v1XML)
                     url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.all.ToString(),0,1);
                 else
                 {
@@ -275,7 +275,7 @@ namespace Tumblr_Tool.Image_Ripper
                 this.StatusCode = ProcessingCodes.Crawling;
                 this.ExistingImageList = FileHelper.GenerateFolderImageList(this.SaveLocation);
                 string url = string.Empty;
-                if (this.ApiMode == ApiModeEnum.v1XML.ToString())
+                if (this.ApiMode == ApiModeEnum.v1XML)
                     url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString());
                 else
                 {
@@ -286,7 +286,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 int step;
 
-                if (this.ApiMode == ApiModeEnum.v2JSON.ToString())
+                if (this.ApiMode == ApiModeEnum.v2JSON)
                     step = (int)PostStepEnum.JSON;
                 else
                     step = (int)PostStepEnum.XML;
@@ -367,7 +367,7 @@ namespace Tumblr_Tool.Image_Ripper
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetAPIMode(string mode)
+        public void SetAPIMode(ApiModeEnum mode)
         {
             try
             {
@@ -389,7 +389,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.ApiMode == ApiModeEnum.v1XML.ToString()) //XML
+                if (this.ApiMode == ApiModeEnum.v1XML) //XML
                 {
                     query = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString(), 0, 1);
                 }

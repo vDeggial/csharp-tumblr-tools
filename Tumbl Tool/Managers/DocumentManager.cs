@@ -37,7 +37,7 @@ namespace Tumblr_Tool.Managers
 
         public dynamic JsonDocument { get; set; }
 
-        public string ApiMode { get; set; }
+        public ApiModeEnum ApiMode { get; set; }
 
         public XDocument XmlDocument { get; set; }
 
@@ -53,7 +53,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                if (ApiMode == ApiModeEnum.v2JSON.ToString())
+                if (ApiMode == ApiModeEnum.v2JSON)
                 {
                     return GetJsonBlogInfo(url, blog);
                 }
@@ -76,9 +76,9 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                if (ApiMode == ApiModeEnum.v1XML.ToString())
+                if (ApiMode == ApiModeEnum.v1XML)
                     GetXmlDocument(url);
-                else if (ApiMode == ApiModeEnum.v2JSON.ToString())
+                else if (ApiMode == ApiModeEnum.v2JSON)
                     GetJsonDocument(url);
             }
             catch
@@ -166,13 +166,13 @@ namespace Tumblr_Tool.Managers
         /// <param name="type"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string type, string mode)
+        public HashSet<TumblrPost> GetPostListFromDoc(string type, ApiModeEnum mode)
         {
             try
             {
                 HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-                if (mode == ApiModeEnum.v2JSON.ToString())
+                if (mode == ApiModeEnum.v2JSON)
                 {
                     postList = GetPostListFromJsonDoc(type);
                 }
@@ -183,8 +183,9 @@ namespace Tumblr_Tool.Managers
 
                 return postList;
             }
-            catch
+            catch (Exception ex)
             {
+                string s = ex.Message;
                 return null;
             }
         }
@@ -296,6 +297,7 @@ namespace Tumblr_Tool.Managers
 
                     if (photoset != null)
                     {
+                        post.Photos = new HashSet<PhotoPostImage>();
                         foreach (XElement setElement in photoset.Descendants("photo"))
                         {
                             XElement image = setElement.Descendants("photo-url").FirstOrDefault();
@@ -330,6 +332,7 @@ namespace Tumblr_Tool.Managers
                         PhotoPostImage photo = new PhotoPostImage();
                         photo.Url = (element.Element("photo-url").Value);
                         photo.Filename = Path.GetFileName(photo.Url);
+                        post.Photos = new HashSet<PhotoPostImage>();
                         post.Photos.Add(photo);
                     }
                     postList.Add(post);
@@ -338,7 +341,10 @@ namespace Tumblr_Tool.Managers
                 return postList;
             }
 
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
