@@ -106,8 +106,6 @@ namespace Tumblr_Tool
             this.check_Options_ParsePNG = new System.Windows.Forms.CheckBox();
             this.check_Options_ParseJPEG = new System.Windows.Forms.CheckBox();
             this.check_Options_ParsePhotoSets = new System.Windows.Forms.CheckBox();
-            this.section_Options_APIOptions = new System.Windows.Forms.GroupBox();
-            this.select_Options_APIMode = new Tumblr_Tool.AdvancedComboBox();
             this.btn_Options_Save = new System.Windows.Forms.Button();
             this.tab_About = new KRBTabControl.TabPageEx();
             this.label1 = new System.Windows.Forms.Label();
@@ -129,7 +127,6 @@ namespace Tumblr_Tool
             this.section_Options_LogOptions.SuspendLayout();
             this.section_Options_MethodOptions.SuspendLayout();
             this.section_Options_ImageTypes.SuspendLayout();
-            this.section_Options_APIOptions.SuspendLayout();
             this.tab_About.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -993,7 +990,6 @@ namespace Tumblr_Tool
             this.section_Options.Controls.Add(this.section_Options_MethodOptions);
             this.section_Options.Controls.Add(this.btn_Options_Reset);
             this.section_Options.Controls.Add(this.section_Options_ImageTypes);
-            this.section_Options.Controls.Add(this.section_Options_APIOptions);
             this.section_Options.Controls.Add(this.btn_Options_Save);
             this.section_Options.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.section_Options.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1162,41 +1158,6 @@ namespace Tumblr_Tool
             this.check_Options_ParsePhotoSets.Text = "PhotoSets";
             this.check_Options_ParsePhotoSets.UseVisualStyleBackColor = true;
             // 
-            // section_Options_APIOptions
-            // 
-            this.section_Options_APIOptions.Controls.Add(this.select_Options_APIMode);
-            this.section_Options_APIOptions.Location = new System.Drawing.Point(444, 28);
-            this.section_Options_APIOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_APIOptions.Name = "section_Options_APIOptions";
-            this.section_Options_APIOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_APIOptions.Size = new System.Drawing.Size(133, 67);
-            this.section_Options_APIOptions.TabIndex = 5;
-            this.section_Options_APIOptions.TabStop = false;
-            this.section_Options_APIOptions.Text = "API Options";
-            this.section_Options_APIOptions.Visible = false;
-            // 
-            // select_Options_APIMode
-            // 
-            this.select_Options_APIMode.ArrowBackColor = System.Drawing.Color.White;
-            this.select_Options_APIMode.ArrowForeColor = System.Drawing.Color.Black;
-            this.select_Options_APIMode.BackColor = System.Drawing.Color.White;
-            this.select_Options_APIMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_Options_APIMode.Enabled = false;
-            this.select_Options_APIMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.select_Options_APIMode.ForeColor = System.Drawing.Color.Black;
-            this.select_Options_APIMode.FormattingEnabled = true;
-            this.select_Options_APIMode.HighlightBackColor = System.Drawing.Color.White;
-            this.select_Options_APIMode.HighlightForeColor = System.Drawing.Color.Maroon;
-            this.select_Options_APIMode.Items.AddRange(new object[] {
-            "[Api Mode]"});
-            this.select_Options_APIMode.Location = new System.Drawing.Point(8, 27);
-            this.select_Options_APIMode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.select_Options_APIMode.Name = "select_Options_APIMode";
-            this.select_Options_APIMode.ShowArrow = true;
-            this.select_Options_APIMode.Size = new System.Drawing.Size(119, 22);
-            this.select_Options_APIMode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.select_Options_APIMode.TabIndex = 0;
-            // 
             // btn_Options_Save
             // 
             this.btn_Options_Save.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -1339,7 +1300,6 @@ namespace Tumblr_Tool
             this.section_Options_MethodOptions.PerformLayout();
             this.section_Options_ImageTypes.ResumeLayout(false);
             this.section_Options_ImageTypes.PerformLayout();
-            this.section_Options_APIOptions.ResumeLayout(false);
             this.tab_About.ResumeLayout(false);
             this.tab_About.PerformLayout();
             this.ResumeLayout(false);
@@ -1413,8 +1373,6 @@ namespace Tumblr_Tool
         private System.Windows.Forms.GroupBox section_Options_LogOptions;
         private System.Windows.Forms.CheckBox check_Options_GenerateLog;
         private System.Windows.Forms.Button btn_Options_Reset;
-        private System.Windows.Forms.GroupBox section_Options_APIOptions;
-        private AdvancedComboBox select_Options_APIMode;
         private System.Windows.Forms.GroupBox section_Options;
         private System.Windows.Forms.GroupBox section_Options_MethodOptions;
         private System.Windows.Forms.CheckBox check_Options_ParseDownload;

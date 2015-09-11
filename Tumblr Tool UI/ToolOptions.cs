@@ -14,7 +14,7 @@ namespace Tumblr_Tool
 {
     public class ToolOptions
     {
-        public string ApiMode { get; set; }
+        //public string ApiMode { get; set; }
 
         public bool ParseGIF { get; set; }
 

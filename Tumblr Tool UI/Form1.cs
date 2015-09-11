@@ -58,7 +58,7 @@ namespace Tumblr_Tool
         public const string _SUFFIX_GB = "GB";
         public const string _SUFFIX_KB = "KB";
         public const string _SUFFIX_MB = "MB";
-        public const string _VERSION = "1.3.2";
+        public const string _VERSION = "1.3.3";
         public const string _WELCOME_MSG = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + _VERSION + "\r\n© 2013 - 2015 Shino Amakusa";
         public const string _WORKTEXT_CHECKINGCONNX = "Checking connection ...";
         public const string _WORKTEXT_DOWNLOADINGIMAGES = "Downloading ...";
@@ -89,18 +89,18 @@ namespace Tumblr_Tool
             OpenTumblrFile(file);
         }
 
-        public ApiModeEnum apiMode
-        {
-            get
-            {
-                return (ApiModeEnum)Enum.Parse(typeof(ApiModeEnum), Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex)) ;
-            }
+        //public ApiModeEnum apiMode
+        //{
+        //    get
+        //    {
+        //        return (ApiModeEnum)Enum.Parse(typeof(ApiModeEnum), Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex)) ;
+        //    }
 
-            set
-            {
-                this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value.ToString());
-            }
-        }
+        //    set
+        //    {
+        //        this.select_Options_APIMode.SelectedIndex = (int)Enum.Parse(typeof(ApiModeEnum), value.ToString());
+        //    }
+        //}
 
         public string CurrentImage { get; set; }
 
@@ -369,8 +369,8 @@ namespace Tumblr_Tool
 
                     if (this.ImageRipper != null)
                     {
-                        this.ImageRipper.SetAPIMode((ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), Options.ApiMode));
-                        //this.ImageRipper.SetAPIMode(ApiModeEnum.v2JSON);
+                        //this.ImageRipper.SetAPIMode((ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), Options.ApiMode));
+                        this.ImageRipper.SetAPIMode(ApiModeEnum.v2JSON);
                         this.ImageRipper.SetLogFile(TumblrLogFile);
 
                         if (this.ImageRipper.TumblrExists())
@@ -1413,7 +1413,7 @@ namespace Tumblr_Tool
 
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    this.TumblrStats = new TumblrStats(new TumblrBlog(this.TumblrURL), this.TumblrURL, (ApiModeEnum) Enum.Parse(typeof(ApiModeEnum),this.Options.ApiMode));
+                    this.TumblrStats = new TumblrStats(new TumblrBlog(this.TumblrURL), this.TumblrURL, ApiModeEnum.v2JSON);
                     this.TumblrStats.StatusCode = ProcessingCodes.Initializing;
 
                     this.TumblrStats.getStats();
@@ -1660,7 +1660,7 @@ namespace Tumblr_Tool
             this.select_ImagesSize.DropDownWidth = 48;
 
             string[] apiSource = { "API v.1 (XML)", "API v.2 (JSON)" };
-            this.select_Options_APIMode.DataSource = apiSource;
+            //this.select_Options_APIMode.DataSource = apiSource;
 
             this.TumblrStats.Blog = null;
 
@@ -1820,7 +1820,7 @@ namespace Tumblr_Tool
             this.check_Options_ParseOnly.Checked = this.Options.ParseOnly;
             this.check_Options_ParsePhotoSets.Checked = this.Options.ParsePhotoSets;
             this.check_Options_ParsePNG.Checked = this.Options.ParsePNG;
-            this.apiMode = (ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), this.Options.ApiMode);
+            //this.apiMode = (ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), this.Options.ApiMode);
 
             this.check_Options_GenerateLog.Checked = this.Options.GenerateLog;
         }
@@ -1888,10 +1888,10 @@ namespace Tumblr_Tool
             this.Options.ParseJPEG = this.check_Options_ParseJPEG.Checked;
             this.Options.ParseGIF = this.check_Options_ParseGIF.Checked;
             this.Options.ParsePhotoSets = this.check_Options_ParsePhotoSets.Checked;
-            this.select_Options_APIMode.SelectedIndex = 1;
-            this.Options.ApiMode = Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
+            //this.select_Options_APIMode.SelectedIndex = 1;
+            //this.Options.ApiMode = Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
             this.Options.ParseOnly = this.check_Options_ParseOnly.Checked;
-            this.Options.ApiMode = this.apiMode.ToString();
+            //this.Options.ApiMode = this.apiMode.ToString();
             this.Options.GenerateLog = this.check_Options_GenerateLog.Checked;
         }
 
