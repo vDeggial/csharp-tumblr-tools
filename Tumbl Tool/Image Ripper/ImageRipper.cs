@@ -209,19 +209,13 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.ApiMode == ApiModeEnum.v1XML) //XML
-                {
-                    query = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString(), start);
-                }
-                else //JSON
-                {
-                    query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), start);
-                }
+
+                query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), start);
+
 
                 this.DocumentManager.GetDocument(query);
 
-                if ((this.ApiMode == ApiModeEnum.v2JSON && this.DocumentManager.JsonDocument != null)
-                    || (this.ApiMode == ApiModeEnum.v1XML && this.DocumentManager.XmlDocument != null))
+                if ((this.ApiMode == ApiModeEnum.ApiV2Json && this.DocumentManager.JsonDocument != null))
                 {
                     DocumentManager.ImageSize = this.ImageSize;
                     HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostTypes.photo.ToString(), ApiMode);
@@ -248,12 +242,8 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string url = string.Empty;
-                if (this.ApiMode == ApiModeEnum.v1XML)
-                    url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.all.ToString(),0,1);
-                else
-                {
-                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(),0,1);
-                }
+
+                url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(),0,1);
 
                 return url.TumblrExists(this.ApiMode);
             }
@@ -275,18 +265,14 @@ namespace Tumblr_Tool.Image_Ripper
                 this.StatusCode = ProcessingCodes.Crawling;
                 this.ExistingImageList = FileHelper.GenerateFolderImageList(this.SaveLocation);
                 string url = string.Empty;
-                if (this.ApiMode == ApiModeEnum.v1XML)
-                    url = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString());
-                else
-                {
-                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString());
-                }
+
+                url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString());
 
                 this.Blog.Posts = this.Blog.Posts != null ? this.Blog.Posts : new HashSet<TumblrPost>();
 
                 int step;
 
-                if (this.ApiMode == ApiModeEnum.v2JSON)
+                if (this.ApiMode == ApiModeEnum.ApiV2Json)
                     step = (int)PostStepEnum.JSON;
                 else
                     step = (int)PostStepEnum.XML;
@@ -389,14 +375,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 string query;
-                if (this.ApiMode == ApiModeEnum.v1XML) //XML
-                {
-                    query = XmlHelper.GenerateQueryString(this.TumblrURL, TumblrPostTypes.photo.ToString(), 0, 1);
-                }
-                else //JSON
-                {
-                    query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
-                }
+                query = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.photo.ToString(), 0, 1);
                 return this.DocumentManager.GetBlogInfo(query, this.Blog);
             }
             catch

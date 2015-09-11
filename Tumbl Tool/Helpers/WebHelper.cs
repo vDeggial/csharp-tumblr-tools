@@ -177,13 +177,8 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                if (mode == ApiModeEnum.v2JSON)
-                {
                     dynamic jsonObject = JsonHelper.GetObject(url);
                     return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString());
-                }
-                else
-                    return XmlHelper.GetDocument(url) != null;
             }
             catch
             {

@@ -113,11 +113,8 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <returns></returns>
         public bool getStats()
         {
-            string url = XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0, 1);
-            if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
-            {
-                url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1);
-            }
+            string url;
+            url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1);
 
             if (url.TumblrExists(this.DocManager.ApiMode))
 
@@ -133,11 +130,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 this.TotalPosts = 0;
                 if (type != TumblrPostTypes.all && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
                 {
-                    url = XmlHelper.GenerateQueryString(this.Url, type.ToString(), 0, 1);
-                    if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
-                    {
-                        url = JsonHelper.GenerateQueryString(this.TumblrDomain, type.ToString(), 0, 1);
-                    }
+                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, type.ToString(), 0, 1);
 
                     if (url.TumblrExists(this.DocManager.ApiMode))
                     {
@@ -206,14 +199,10 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                string url = XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0);
-                this.Step = (int)PostStepEnum.XML;
+                string url;
+                this.Step = (int)PostStepEnum.JSON;
 
-                if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
-                {
-                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0);
-                    this.Step = (int)PostStepEnum.JSON;
-                }
+                url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0);
 
                 if (url.TumblrExists(this.DocManager.ApiMode))
                 {
@@ -232,7 +221,7 @@ namespace Tumblr_Tool.Tumblr_Stats
 
                     while (i < this.TotalPosts)
                     {
-                        if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
+                        if (this.DocManager.ApiMode == ApiModeEnum.ApiV2Json)
                         {
                             url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), i);
                         }
@@ -291,14 +280,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                if (this.DocManager.ApiMode == ApiModeEnum.v1XML)
-                {
-                    this.DocManager.GetBlogInfo(XmlHelper.GenerateQueryString(this.Url, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
-                }
-                else if (this.DocManager.ApiMode == ApiModeEnum.v2JSON)
-                {
-                    this.DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
-                }
+                this.DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
             }
             catch
             {

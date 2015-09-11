@@ -370,7 +370,7 @@ namespace Tumblr_Tool
                     if (this.ImageRipper != null)
                     {
                         //this.ImageRipper.SetAPIMode((ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), Options.ApiMode));
-                        this.ImageRipper.SetAPIMode(ApiModeEnum.v2JSON);
+                        this.ImageRipper.SetAPIMode(ApiModeEnum.ApiV2Json);
                         this.ImageRipper.SetLogFile(TumblrLogFile);
 
                         if (this.ImageRipper.TumblrExists())
@@ -1413,7 +1413,7 @@ namespace Tumblr_Tool
 
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    this.TumblrStats = new TumblrStats(new TumblrBlog(this.TumblrURL), this.TumblrURL, ApiModeEnum.v2JSON);
+                    this.TumblrStats = new TumblrStats(new TumblrBlog(this.TumblrURL), this.TumblrURL, ApiModeEnum.ApiV2Json);
                     this.TumblrStats.StatusCode = ProcessingCodes.Initializing;
 
                     this.TumblrStats.getStats();

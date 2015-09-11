@@ -17,8 +17,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
@@ -35,13 +33,9 @@ namespace Tumblr_Tool.Managers
         {
         }
 
-        public dynamic JsonDocument { get; set; }
-
         public ApiModeEnum ApiMode { get; set; }
-
-        public XDocument XmlDocument { get; set; }
-
         public ImageSizes ImageSize { get; set; }
+        public dynamic JsonDocument { get; set; }
 
         /// <summary>
         ///
@@ -53,14 +47,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                if (ApiMode == ApiModeEnum.v2JSON)
-                {
-                    return GetJsonBlogInfo(url, blog);
-                }
-                else
-                {
-                    return GetXmlBlogInfo(url, blog);
-                }
+                return GetJsonBlogInfo(url, blog);
             }
             catch
             {
@@ -76,15 +63,11 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                if (ApiMode == ApiModeEnum.v1XML)
-                    GetXmlDocument(url);
-                else if (ApiMode == ApiModeEnum.v2JSON)
-                    GetJsonDocument(url);
+                GetJsonDocument(url);
             }
             catch
             {
                 JsonDocument = null;
-                XmlDocument = null;
                 return;
             }
         }
@@ -172,14 +155,7 @@ namespace Tumblr_Tool.Managers
             {
                 HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-                if (mode == ApiModeEnum.v2JSON)
-                {
-                    postList = GetPostListFromJsonDoc(type);
-                }
-                else
-                {
-                    postList = GetPostListFromXmlDoc(type);
-                }
+                postList = GetPostListFromJsonDoc(type);
 
                 return postList;
             }
@@ -232,124 +208,6 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromXmlDoc(string type = "")
-        {
-            if (XmlDocument != null)
-            {
-                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-                HashSet<XElement> postElementList = XmlHelper.getPostElementList(XmlDocument);
-
-                foreach (XElement element in postElementList)
-                {
-                    TumblrPost post = new TumblrPost();
-                    if (type == TumblrPostTypes.photo.ToString())
-                    {
-                        post = new PhotoPost();
-                    }
-
-                    if (element.Attribute("id") != null)
-                    {
-                        post.Id = element.Attribute("id").Value;
-                    }
-
-                    if (element.Attribute("url") != null)
-                    {
-                        post.Url = element.Attribute("url").Value;
-                    }
-
-                    if (element.Element("photo-caption") != null)
-                    {
-                        post.Caption = element.Element("photo-caption").Value;
-                    }
-
-                    if (element.Attribute("format") != null)
-                    {
-                        post.Format = element.Attribute("format").Value;
-                    }
-
-                    if (element.Attribute("unix-timestamp") != null)
-                    {
-                        post.Date = element.Attribute("unix-timestamp").Value;
-                    }
-
-                    if (element.Elements("tag") != null)
-                    {
-                        foreach (string tag in element.Elements("tag").ToHashSet())
-                        {
-                            post.AddTag(tag);
-                        }
-                    }
-
-                    if (element.Attribute("type") != null)
-                    {
-                        post.Type = element.Attribute("type").Value;
-                    }
-
-                    if (element.Attribute("reblog-key") != null)
-                    {
-                        post.ReblogKey = element.Attribute("reblog-key").Value;
-                    }
-
-                    // If it is PhotoSet
-                    XElement photoset = element.Element("photoset");
-
-                    if (photoset != null)
-                    {
-                        post.Photos = new HashSet<PhotoPostImage>();
-                        foreach (XElement setElement in photoset.Descendants("photo"))
-                        {
-                            XElement image = setElement.Descendants("photo-url").FirstOrDefault();
-                            if (image != null)
-                            {
-                                PhotoPostImage setImage = new PhotoPostImage();
-                                setImage.Url = image.Value;
-                                setImage.Filename = !string.IsNullOrEmpty(setImage.Url) ? Path.GetFileName(setImage.Url) : null;
-
-                                if (setElement.Attribute("photo-caption") != null)
-                                {
-                                    setImage.Caption = setElement.Attribute("photo-caption").Value;
-                                }
-
-                                if (setElement.Attribute("width") != null)
-                                {
-                                    setImage.Width = setElement.Attribute("width").Value;
-                                }
-
-                                if (setElement.Attribute("height") != null)
-                                {
-                                    setImage.Height = setElement.Attribute("height").Value;
-                                }
-
-                                post.Photos.Add(setImage);
-                            }
-                        }
-                    }
-                    else
-                        if (element.Element("photo-url") != null)
-                    {
-                        PhotoPostImage photo = new PhotoPostImage();
-                        photo.Url = (element.Element("photo-url").Value);
-                        photo.Filename = Path.GetFileName(photo.Url);
-                        post.Photos = new HashSet<PhotoPostImage>();
-                        post.Photos.Add(photo);
-                    }
-                    postList.Add(post);
-                }
-
-                return postList;
-            }
-
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
         /// <returns></returns>
         public int GetTotalPostCount()
         {
@@ -360,64 +218,8 @@ namespace Tumblr_Tool.Managers
                 else if (JsonDocument.response.blog.posts != null)
                     return Convert.ToInt32(JsonDocument.response.blog.posts);
             }
-            else if (XmlDocument != null)
-            {
-                return XmlHelper.GetPostElementValue(XmlDocument, "posts") != null ? Convert.ToInt32(XmlHelper.GetPostElementAttributeValue(XmlDocument, "posts", "total")) : 0;
-            }
 
             return 0;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="blog"></param>
-        /// <returns></returns>
-        public bool GetXmlBlogInfo(string url, TumblrBlog blog)
-        {
-            if (!string.IsNullOrEmpty(url))
-            {
-                try
-                {
-                    if (blog == null) blog = new TumblrBlog(url);
-                    XDocument rDoc = XmlHelper.GetDocument(url);
-                    if (rDoc != null)
-                    {
-                        blog.Title = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "title");
-                        blog.Description = XmlHelper.GetPostElementValue(rDoc, "tumblelog");
-                        blog.Timezone = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "timezone");
-                        blog.Name = XmlHelper.GetPostElementAttributeValue(rDoc, "tumblelog", "name");
-                        blog.TotalPosts = XmlHelper.GetPostElementValue(rDoc, "posts") != null ? Convert.ToInt32(XmlHelper.GetPostElementAttributeValue(rDoc, "posts", "total")) : 0;
-                        return true;
-                    }
-
-                    return false;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="url"></param>
-        public void GetXmlDocument(string url)
-        {
-            try
-            {
-                XmlDocument = XmlHelper.GetDocument(url);
-            }
-            catch
-            {
-                XmlDocument = null;
-                return;
-            }
         }
     }
 }
