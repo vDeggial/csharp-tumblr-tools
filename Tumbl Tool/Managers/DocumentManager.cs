@@ -17,7 +17,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
@@ -31,6 +30,32 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         public DocumentManager()
         {
+            ApiMode = ApiModeEnum.ApiV2Json;
+            ImageSize = ImageSizes.Original;
+            JsonDocument = null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="apiMode"></param>
+        public DocumentManager(ApiModeEnum apiMode)
+        {
+            this.ApiMode = apiMode;
+            this.ImageSize = ImageSizes.Original;
+            JsonDocument = null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="apiMode"></param>
+        /// <param name="imageSize"></param>
+        public DocumentManager(ApiModeEnum apiMode, ImageSizes imageSize)
+        {
+            this.ApiMode = apiMode;
+            this.ImageSize = ImageSize;
+            JsonDocument = null;
         }
 
         public ApiModeEnum ApiMode { get; set; }
