@@ -21,29 +21,29 @@ namespace Tumblr_Tool
     [Description("Color Progress Bar")]
     [ToolboxBitmap(typeof(ProgressBar))]
     [Designer(typeof(ColorProgressBarDesigner))]
-    [System.ComponentModel.DesignerCategory("Code")]
-    public class ColorProgressBar : System.Windows.Forms.Control
+    [DesignerCategory(@"Code")]
+    public class ColorProgressBar : Control
     {
-        private Color _BarColor = Color.FromArgb(255, 128, 128);
+        private Color _barColor = Color.FromArgb(255, 128, 128);
 
-        private Color _BorderColor = Color.Black;
+        private Color _borderColor = Color.Black;
 
-        private FillStyles _FillStyle = FillStyles.Solid;
+        private FillStyles _fillStyle = FillStyles.Solid;
 
-        private int _Maximum = 100;
+        private int _maximum = 100;
 
-        private int _Minimum = 0;
+        private int _minimum;
 
-        private int _Step = 10;
+        private int _step = 10;
 
         //
         // set default values
         //
-        private int _Value = 0;
+        private int _value;
 
         public ColorProgressBar()
         {
-            base.Size = new Size(150, 15);
+            Size = new Size(150, 15);
             SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.ResizeRedraw |
@@ -64,12 +64,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _BarColor;
+                return _barColor;
             }
             set
             {
-                _BarColor = value;
-                this.Invalidate();
+                _barColor = value;
+                Invalidate();
             }
         }
 
@@ -79,12 +79,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _BorderColor;
+                return _borderColor;
             }
             set
             {
-                _BorderColor = value;
-                this.Invalidate();
+                _borderColor = value;
+                Invalidate();
             }
         }
 
@@ -94,12 +94,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _FillStyle;
+                return _fillStyle;
             }
             set
             {
-                _FillStyle = value;
-                this.Invalidate();
+                _fillStyle = value;
+                Invalidate();
             }
         }
 
@@ -110,18 +110,18 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _Maximum;
+                return _maximum;
             }
             set
             {
-                _Maximum = value;
+                _maximum = value;
 
-                if (_Maximum < _Value)
-                    _Value = _Maximum;
-                if (_Maximum < _Minimum)
-                    _Minimum = _Maximum;
+                if (_maximum < _value)
+                    _value = _maximum;
+                if (_maximum < _minimum)
+                    _minimum = _maximum;
 
-                this.Invalidate();
+                Invalidate();
             }
         }
 
@@ -132,18 +132,18 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _Minimum;
+                return _minimum;
             }
             set
             {
-                _Minimum = value;
+                _minimum = value;
 
-                if (_Minimum > _Maximum)
-                    _Maximum = _Minimum;
-                if (_Minimum > _Value)
-                    _Value = _Minimum;
+                if (_minimum > _maximum)
+                    _maximum = _minimum;
+                if (_minimum > _value)
+                    _value = _minimum;
 
-                this.Invalidate();
+                Invalidate();
             }
         }
 
@@ -153,12 +153,12 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _Step;
+                return _step;
             }
             set
             {
-                _Step = value;
-                this.Invalidate();
+                _step = value;
+                Invalidate();
             }
         }
 
@@ -171,24 +171,24 @@ namespace Tumblr_Tool
         {
             get
             {
-                return _Value;
+                return _value;
             }
             set
             {
-                if (value < _Minimum)
+                if (value < _minimum)
                 {
                     throw new ArgumentException("'" + value + "' is not a valid value for 'Value'.\n" +
                         "'Value' must be between 'Minimum' and 'Maximum'.");
                 }
 
-                if (value > _Maximum)
+                if (value > _maximum)
                 {
                     throw new ArgumentException("'" + value + "' is not a valid value for 'Value'.\n" +
                         "'Value' must be between 'Minimum' and 'Maximum'.");
                 }
 
-                _Value = value;
-                this.Invalidate();
+                _value = value;
+                Invalidate();
             }
         }
 
@@ -197,12 +197,12 @@ namespace Tumblr_Tool
         //
         public void Decrement(int value)
         {
-            if (_Value > _Minimum)
-                _Value -= value;
+            if (_value > _minimum)
+                _value -= value;
             else
-                _Value = _Minimum;
+                _value = _minimum;
 
-            this.Invalidate();
+            Invalidate();
         }
 
         //
@@ -210,12 +210,12 @@ namespace Tumblr_Tool
         //
         public void Increment(int value)
         {
-            if (_Value < _Maximum)
-                _Value += value;
+            if (_value < _maximum)
+                _value += value;
             else
-                _Value = _Maximum;
+                _value = _maximum;
 
-            this.Invalidate();
+            Invalidate();
         }
 
         //
@@ -223,12 +223,12 @@ namespace Tumblr_Tool
         //
         public void PerformStep()
         {
-            if (_Value < _Maximum)
-                _Value += _Step;
+            if (_value < _maximum)
+                _value += _step;
             else
-                _Value = _Maximum;
+                _value = _maximum;
 
-            this.Invalidate();
+            Invalidate();
         }
 
         //
@@ -236,12 +236,12 @@ namespace Tumblr_Tool
         //
         public void PerformStepBack()
         {
-            if (_Value > _Minimum)
-                _Value -= _Step;
+            if (_value > _minimum)
+                _value -= _step;
             else
-                _Value = _Minimum;
+                _value = _minimum;
 
-            this.Invalidate();
+            Invalidate();
         }
 
         //
@@ -251,10 +251,10 @@ namespace Tumblr_Tool
         {
             Rectangle borderRect = new Rectangle(0, 0,
                 ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-            g.DrawRectangle(new Pen(_BorderColor, 1), borderRect);
+            g.DrawRectangle(new Pen(_borderColor, 1), borderRect);
         }
 
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
             //
             // Calculate matching colors
@@ -266,13 +266,13 @@ namespace Tumblr_Tool
             // Fill background
             //
             SolidBrush bgBrush = new SolidBrush(bgColor);
-            e.Graphics.FillRectangle(bgBrush, this.ClientRectangle);
+            e.Graphics.FillRectangle(bgBrush, ClientRectangle);
             bgBrush.Dispose();
 
             //
             // Check for value
             //
-            if (_Maximum == _Minimum || _Value == 0)
+            if (_maximum == _minimum || _value == 0)
             {
                 // Draw border only and exit;
                 DrawBorder(e.Graphics);
@@ -282,7 +282,7 @@ namespace Tumblr_Tool
             //
             // The following is the width of the bar. This will vary with each value.
             //
-            int fillWidth = (this.Width * _Value) / (_Maximum - _Minimum);
+            int fillWidth = (Width * _value) / (_maximum - _minimum);
 
             //
             // GDI+ doesn't like rectangles 0px wide or high
@@ -297,15 +297,11 @@ namespace Tumblr_Tool
             //
             // Rectangles for upper and lower half of bar
             //
-            Rectangle topRect = new Rectangle(0, 0, fillWidth, this.Height / 2);
-            Rectangle buttomRect = new Rectangle(0, this.Height / 2, fillWidth, this.Height / 2);
-            Rectangle leftRect = new Rectangle(0, 0, fillWidth, this.Height);
-            Rectangle rightRect = new Rectangle(fillWidth / 2, 0, fillWidth / 2, this.Height);
+            Rectangle leftRect = new Rectangle(0, 0, fillWidth, Height);
 
             //
             // The gradient brush
             //
-            LinearGradientBrush brush;
 
             //
             // Paint upper half
@@ -315,8 +311,8 @@ namespace Tumblr_Tool
             //e.Graphics.FillRectangle(brush, topRect);
             //brush.Dispose();
 
-            brush = new LinearGradientBrush(new Point(0, 0),
-                new Point(this.Width, this.Height), darkColor, _BarColor);
+            var brush = new LinearGradientBrush(new Point(0, 0),
+                new Point(Width, Height), darkColor, _barColor);
             e.Graphics.FillRectangle(brush, leftRect);
             brush.Dispose();
 
@@ -337,29 +333,26 @@ namespace Tumblr_Tool
             //
             // Calculate separator's setting
             //
-            int sepWidth = (int)(this.Height * .67);
-            int sepCount = (int)(fillWidth / sepWidth);
-            Color sepColor = ControlPaint.DarkDark(_BarColor);
+            int sepWidth = (int)(Height * .67);
+            int sepCount = fillWidth / sepWidth;
+            Color sepColor = ControlPaint.DarkDark(_barColor);
 
             //
             // Paint separators
             //
-            switch (_FillStyle)
+            switch (_fillStyle)
             {
                 case FillStyles.Dashed:
                     // Draw each separator line
                     for (int i = 1; i <= sepCount; i++)
                     {
                         e.Graphics.DrawLine(new Pen(sepColor, 1),
-                            sepWidth * i, 0, sepWidth * i, this.Height);
+                            sepWidth * i, 0, sepWidth * i, Height);
                     }
                     break;
 
                 case FillStyles.Solid:
                     // Draw nothing
-                    break;
-
-                default:
                     break;
             }
 

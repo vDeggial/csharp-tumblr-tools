@@ -21,32 +21,24 @@ namespace Tumblr_Tool.Helpers
     public static class ImageHelper
     {
         /// <summary>
-        ///
+        /// Add text comment to image file
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="desc"></param>
+        /// <param name="path">Image file path</param>
+        /// <param name="desc">Text to add as comment</param>
         public static void AddImageDescription(string path, string desc)
         {
-            string _FileDirectory = Path.GetDirectoryName(path);
-            string _FileName = Path.GetFileNameWithoutExtension(path);
-            string _FileExt = Path.GetExtension(path);
+            string fileDirectory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileNameWithoutExtension(path);
+            string fileExt = Path.GetExtension(path);
 
-            BitmapMetadata _metadata = null;
-            BitmapDecoder _decoder = null;
-            BitmapEncoder _encoder = null;
-            FileInfo originalImage;
-            string tempLocation = _FileDirectory + @"\" + "temp.jpg";
-            FileInfo tempImage;
-            BitmapFrame _fileFrame;
-            Image newImage;
+            BitmapEncoder encoder = null;
+            string tempLocation = fileDirectory + @"\" + "temp.jpg";
             bool added = false;
-            ImageFormat imageFormat = ImageFormat.Jpeg;
-            string _mimeType = "";
             string filePath = path;
 
-            if (_FileExt == null || _FileExt == "")
+            if (string.IsNullOrEmpty(fileExt))
             {
-                filePath = FileHelper.FindFile(_FileDirectory, _FileName);
+                filePath = FileHelper.FindFile(fileDirectory, fileName);
             }
 
             if (!string.IsNullOrEmpty(filePath))
@@ -54,63 +46,61 @@ namespace Tumblr_Tool.Helpers
                 if (File.Exists(filePath))
                 {
                     path = filePath;
-                    _FileName = Path.GetFileNameWithoutExtension(filePath);
-                    _FileExt = Path.GetExtension(filePath);
-                    imageFormat = GetImageFormat(Image.FromFile(path));
+                    var imageFormat = GetImageFormat(Image.FromFile(path));
 
-                    _mimeType = imageFormat.ToString();
+                    var mimeType = imageFormat.ToString();
 
                     while (!added)
                     {
                         try
                         {
-                            using (Stream fileStream = new System.IO.FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                            BitmapDecoder decoder;
+                            FileInfo tempImage;
+                            using (Stream fileStream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                             {
-                                originalImage = File.Exists(path) ? new FileInfo(path) : null;
+                                var originalImage = File.Exists(path) ? new FileInfo(path) : null;
                                 if (File.Exists(tempLocation))
                                     File.Delete(tempLocation);
 
                                 originalImage.CopyTo(tempLocation, true);
                                 tempImage = new FileInfo(tempLocation);
-                                newImage = Image.FromStream(fileStream);
                                 fileStream.Seek(0, SeekOrigin.Begin);
 
-                                switch (_mimeType) //find mime type of image based on extension
+                                switch (mimeType) //find mime type of image based on extension
                                 {
                                     case "Jpeg":
                                         try
                                         {
-                                            _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                                            _encoder = new JpegBitmapEncoder();
+                                            decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                            encoder = new JpegBitmapEncoder();
                                         }
                                         catch
                                         {
                                             try
                                             {
                                                 fileStream.Seek(0, SeekOrigin.Begin);
-                                                _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
-                                                _encoder = new JpegBitmapEncoder();
+                                                decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+                                                encoder = new JpegBitmapEncoder();
                                             }
                                             catch
                                             {
                                                 try
                                                 {
                                                     fileStream.Seek(0, SeekOrigin.Begin);
-                                                    _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                                                    _encoder = new PngBitmapEncoder();
+                                                    decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                                    encoder = new PngBitmapEncoder();
                                                 }
                                                 catch
                                                 {
                                                     try
                                                     {
                                                         fileStream.Seek(0, SeekOrigin.Begin);
-                                                        _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
-                                                        _encoder = new PngBitmapEncoder();
+                                                        decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+                                                        encoder = new PngBitmapEncoder();
                                                     }
                                                     catch
                                                     {
-                                                        _decoder = null;
-                                                        added = true;
+                                                        decoder = null;
                                                     }
                                                 }
                                             }
@@ -120,37 +110,36 @@ namespace Tumblr_Tool.Helpers
                                     case "Png":
                                         try
                                         {
-                                            _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                                            _encoder = new PngBitmapEncoder();
+                                            decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                            encoder = new PngBitmapEncoder();
                                         }
                                         catch
                                         {
                                             try
                                             {
                                                 fileStream.Seek(0, SeekOrigin.Begin);
-                                                _decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
-                                                _encoder = new PngBitmapEncoder();
+                                                decoder = new PngBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+                                                encoder = new PngBitmapEncoder();
                                             }
                                             catch
                                             {
                                                 try
                                                 {
                                                     fileStream.Seek(0, SeekOrigin.Begin);
-                                                    _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                                                    _encoder = new JpegBitmapEncoder();
+                                                    decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                                    encoder = new JpegBitmapEncoder();
                                                 }
                                                 catch
                                                 {
                                                     try
                                                     {
                                                         fileStream.Seek(0, SeekOrigin.Begin);
-                                                        _decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
-                                                        _encoder = new JpegBitmapEncoder();
+                                                        decoder = new JpegBitmapDecoder(fileStream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+                                                        encoder = new JpegBitmapEncoder();
                                                     }
                                                     catch
                                                     {
-                                                        _decoder = null;
-                                                        added = true;
+                                                        decoder = null;
                                                     }
                                                 }
                                             }
@@ -158,35 +147,33 @@ namespace Tumblr_Tool.Helpers
                                         break;
 
                                     default: // Not jpeg or png file - dont add the comments
-                                        _decoder = null;
-                                        added = true;
+                                        decoder = null;
                                         break;
                                 }
                             }
 
-                            if (_decoder != null && desc != null)
+                            if (decoder != null && desc != null)
                             {
-                                _metadata = (BitmapMetadata)_decoder.Frames[0].Metadata.Clone();
+                                var metadata = (BitmapMetadata)decoder.Frames[0].Metadata.Clone();
 
-                                if (_mimeType == "Jpeg")
+                                if (mimeType == "Jpeg")
                                 {
-                                    _metadata.Comment = desc;
-                                    _metadata.SetQuery("/xmp/dc:description", desc);
+                                    metadata.Comment = desc;
+                                    metadata.SetQuery("/xmp/dc:description", desc);
                                 }
-                                else if (_mimeType == "Png")
+                                else if (mimeType == "Png")
                                 {
-                                    _metadata.SetQuery("/xmp/dc:description", desc);
+                                    metadata.SetQuery("/xmp/dc:description", desc);
                                 }
 
-                                _fileFrame = BitmapFrame.Create(_decoder.Frames[0], _decoder.Frames[0].Thumbnail, _metadata, _decoder.Frames[0].ColorContexts);
-                                _encoder.Frames.Add(_fileFrame);
+                                var fileFrame = BitmapFrame.Create(decoder.Frames[0], decoder.Frames[0].Thumbnail, metadata, decoder.Frames[0].ColorContexts);
+                                encoder.Frames.Add(fileFrame);
 
                                 using (Stream fileStreamOut = new FileStream(path, FileMode.Create))
                                 {
                                     try
                                     {
-                                        if (_encoder != null)
-                                            _encoder.Save(fileStreamOut);
+                                        encoder?.Save(fileStreamOut);
                                     }
                                     catch
                                     {
@@ -194,15 +181,13 @@ namespace Tumblr_Tool.Helpers
                                         {
                                             //fileStreamOut.Close();
                                             tempImage.CopyTo(path, true);
-
-                                            added = true;
                                         }
                                         catch
                                         {
+                                            // ignored
                                         }
                                     }
                                 }
-                                added = true;
                             }
                             added = true;
                             File.Delete(tempLocation);
@@ -225,10 +210,10 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Get image format
         /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
+        /// <param name="img">Image object</param>
+        /// <returns>Image format</returns>
         public static ImageFormat GetImageFormat(this Image img)
         {
             if (img.RawFormat.Equals(ImageFormat.Jpeg))
@@ -276,11 +261,8 @@ namespace Tumblr_Tool.Helpers
                 img.Dispose();
                 return ImageFormat.Tiff;
             }
-            else
-            {
-                img.Dispose();
-                return ImageFormat.Wmf;
-            }
+            img.Dispose();
+            return ImageFormat.Wmf;
         }
     }
 }

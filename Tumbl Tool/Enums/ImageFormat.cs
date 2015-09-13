@@ -17,11 +17,34 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum ImageFormat
     {
-        bmp,
-        jpeg,
-        gif,
-        tiff,
-        png,
-        unknown
+        /// <summary>
+        /// Bitmap
+        /// </summary>
+        Bmp,
+
+        /// <summary>
+        /// Jpeg
+        /// </summary>
+        Jpeg,
+
+        /// <summary>
+        /// Gif
+        /// </summary>
+        Gif,
+
+        /// <summary>
+        /// Tiff
+        /// </summary>
+        Tiff,
+
+        /// <summary>
+        /// Png
+        /// </summary>
+        Png,
+
+        /// <summary>
+        /// Unknown
+        /// </summary>
+        Unknown
     }
 }

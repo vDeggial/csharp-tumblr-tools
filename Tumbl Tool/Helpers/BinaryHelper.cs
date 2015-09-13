@@ -16,6 +16,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Tumblr_Tool.Helpers
 {
+    /// <summary>
+    /// Helper for Binary operations
+    /// </summary>
     public static class BinaryHelper
     {
         /// <summary>
@@ -37,9 +40,8 @@ namespace Tumblr_Tool.Helpers
                     return saveFile;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                string s = e.Message;
                 return default(T);
             }
         }

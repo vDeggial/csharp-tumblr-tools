@@ -21,8 +21,7 @@ namespace Tumblr_Tool.Helpers
 {
     public static class WebHelper
     {
-
-        private const string unreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~.-_";
+        private const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~.-_";
 
         /// <summary>
         ///
@@ -30,7 +29,8 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static bool CheckForInternetConnection()
         {
-            return new Ping().Send("www.google.com").Status == IPStatus.Success;
+            var pingReply = new Ping().Send("www.google.com");
+            return pingReply != null && pingReply.Status == IPStatus.Success;
         }
 
         public static string DecodeUrl(string value)
@@ -69,14 +69,15 @@ namespace Tumblr_Tool.Helpers
             foreach (byte b in bytes)
             {
                 char c = (char)b;
-                if (unreservedChars.IndexOf(c) >= 0)
+                if (UnreservedChars.IndexOf(c) >= 0)
                     sb.Append(c);
                 else
-                    sb.Append(String.Format("%{0:X2}", b));
+                    sb.Append($"%{b:X2}");
             }
 
             return sb.ToString();
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -84,7 +85,9 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GetDomainName(string url)
         {
-            return new Uri(url) != null ? new Uri(url).Host : null;
+            Uri uriResult;
+            bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            return result ? uriResult.Host : null;
         }
 
         /// <summary>
@@ -96,7 +99,6 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                string docStr;
                 Uri uri = new Uri(url);
                 string domain = uri.Host;
                 string protocol = uri.Scheme + Uri.SchemeDelimiter;
@@ -105,7 +107,7 @@ namespace Tumblr_Tool.Helpers
                 var client = new RestClient(string.Concat(protocol, domain));
                 var request = new RestRequest(path, Method.GET);
                 IRestResponse response = client.Execute(request);
-                docStr = response.Content; // raw content as string
+                var docStr = response.Content;
 
                 //using (var wc = new RestClient(url))
                 //{
@@ -157,14 +159,15 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="HTML"></param>
+        /// <param name="html"></param>
         /// <returns></returns>
-        public static string StripHTMLTags(string HTML)
+        public static string StripHtmlTags(string html)
         {
+            if (html == null) throw new ArgumentNullException(nameof(html));
             // Removes tags from passed HTML
             System.Text.RegularExpressions.Regex objRegEx = new System.Text.RegularExpressions.Regex("<[^>]*>");
 
-            return objRegEx.Replace(HTML, "");
+            return objRegEx.Replace(html, "");
         }
 
         /// <summary>
@@ -177,8 +180,8 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                    dynamic jsonObject = JsonHelper.GetObject(url);
-                    return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString());
+                dynamic jsonObject = JsonHelper.GetObject(url);
+                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponseEnum.Ok).ToString());
             }
             catch
             {

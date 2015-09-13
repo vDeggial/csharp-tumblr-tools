@@ -17,12 +17,12 @@ using System.Xml.Serialization;
 namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
     [XmlInclude(typeof(PhotoPost)), XmlInclude(typeof(AnswerPost)), XmlInclude(typeof(AudioPost)), XmlInclude(typeof(ChatPost)), XmlInclude(typeof(LinkPost)), XmlInclude(typeof(QuotePost)), XmlInclude(typeof(TextPost)), XmlInclude(typeof(VideoPost))]
-    [Serializable()]
+    [Serializable]
     public class TumblrPost
     {
         public TumblrPost()
         {
-            this.Tags = new HashSet<string>();
+            Tags = new HashSet<string>();
         }
 
         public virtual string Album { get; set; }
@@ -77,13 +77,13 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         [XmlElement("reblogKey")]
         public string ReblogKey { get; set; }
 
-        public string ShortURL { get; set; }
+        public string ShortUrl { get; set; }
 
         public string Slug { get; set; }
 
         public virtual string Source { get; set; }
 
-        public string SourceURL { get; set; }
+        public string SourceUrl { get; set; }
 
         public string State { get; set; }
 
@@ -131,10 +131,10 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="tag"></param>
         public void AddTag(string tag)
         {
-            if (this.Tags == null)
-                this.Tags = new HashSet<string>();
+            if (Tags == null)
+                Tags = new HashSet<string>();
 
-            this.Tags.Add(tag);
+            Tags.Add(tag);
         }
     }
 }

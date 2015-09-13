@@ -17,16 +17,59 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum TumblrPostTypes
     {
-        text,
-        regular,
-        photo,
-        chat,
-        conversation,
-        link,
-        quote,
-        audio,
-        video,
-        answer,
-        all
+        /// <summary>
+        /// Tumblr text post
+        /// </summary>
+        Text,
+
+        /// <summary>
+        /// Tumblr text post
+        /// </summary>
+        Regular,
+
+        /// <summary>
+        /// Tumblr photo post
+        /// </summary>
+        Photo,
+
+        /// <summary>
+        /// Tumblr chat post
+        /// </summary>
+        Chat,
+
+        /// <summary>
+        /// Tumblr chat post
+        /// </summary>
+        Conversation,
+
+        /// <summary>
+        /// Tumblr link post
+        /// </summary>
+        Link,
+
+        /// <summary>
+        /// Tumblr quote post
+        /// </summary>
+        Quote,
+
+        /// <summary>
+        /// Tumblr audio post
+        /// </summary>
+        Audio,
+
+        /// <summary>
+        /// Tumblr video post
+        /// </summary>
+        Video,
+
+        /// <summary>
+        /// Tumblr ask answer post
+        /// </summary>
+        Answer,
+
+        /// <summary>
+        /// All posts
+        /// </summary>
+        All
     }
 }

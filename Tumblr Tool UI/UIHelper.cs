@@ -12,7 +12,7 @@
 
 namespace Tumblr_Tool
 {
-    public static class UIHelper
+    public static class UiHelper
     {
         /// <summary>
         ///

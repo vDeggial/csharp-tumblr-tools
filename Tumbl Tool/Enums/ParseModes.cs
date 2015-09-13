@@ -19,9 +19,15 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum ParseModes
     {
+        /// <summary>
+        /// Full blog rescan
+        /// </summary>
         [Description("Full")]
         FullRescan = 1,
 
+        /// <summary>
+        /// Scan new posts only
+        /// </summary>
         [Description("New")]
         NewestOnly = 0
     }

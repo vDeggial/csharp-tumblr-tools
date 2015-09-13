@@ -17,24 +17,99 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum ProcessingCodes
     {
-        OK,
+        /// <summary>
+        /// Ok state
+        /// </summary>
+        Ok,
+
+        /// <summary>
+        /// Initializing the process
+        /// </summary>
         Initializing,
-        checkingConnection,
-        connectionOK,
-        connectionError,
-        gettingBlogInfo,
-        blogInfoOK,
-        blogInfoError,
-        invalidURL,
+
+        /// <summary>
+        /// Checking the connection to internet
+        /// </summary>
+        CheckingConnection,
+
+        /// <summary>
+        /// Internet connection found
+        /// </summary>
+        ConnectionOk,
+
+        /// <summary>
+        /// No Internet connection found
+        /// </summary>
+        ConnectionError,
+
+        /// <summary>
+        /// Getting initial blog info
+        /// </summary>
+        GettingBlogInfo,
+
+        /// <summary>
+        /// Got blog information ok
+        /// </summary>
+        BlogInfoOk,
+
+        /// <summary>
+        /// Error getting blog info
+        /// </summary>
+        BlogInfoError,
+
+        /// <summary>
+        /// Invalid Url
+        /// </summary>
+        InvalidUrl,
+
+        /// <summary>
+        /// Unable to download document
+        /// </summary>
         UnableDownload,
+
+        /// <summary>
+        /// Starting the process
+        /// </summary>
         Starting,
+
+        /// <summary>
+        /// Crawling the blog posts
+        /// </summary>
         Crawling,
+
+        /// <summary>
+        /// Parsing the blog posts
+        /// </summary>
         Parsing,
-        errorProcessing,
-        saveFileOK,
-        saveFileError,
+
+        /// <summary>
+        /// Error processing the document
+        /// </summary>
+        ErrorProcessing,
+
+        /// <summary>
+        /// Saved tumblr tools savefile ok
+        /// </summary>
+        SaveFileOk,
+
+        /// <summary>
+        /// Error saving tumblr tools savefile
+        /// </summary>
+        SaveFileError,
+
+        /// <summary>
+        /// Operation complete
+        /// </summary>
         Done,
+
+        /// <summary>
+        /// Error during operations
+        /// </summary>
         Error,
+
+        /// <summary>
+        /// Saving log file
+        /// </summary>
         SavingLogFile
     }
 }

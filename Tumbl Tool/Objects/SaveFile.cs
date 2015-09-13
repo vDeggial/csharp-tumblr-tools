@@ -12,11 +12,12 @@
 
 using System;
 using System.Xml.Serialization;
+using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
 namespace Tumblr_Tool.Objects
 {
-    [Serializable()]
+    [Serializable]
     public class SaveFile
     {
         [XmlElement("blog")]
@@ -35,7 +36,7 @@ namespace Tumblr_Tool.Objects
         /// <param name="blog"></param>
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
-            this.Filename = fileName;
+            Filename = fileName;
             //this.blog = new Tumblr();
             //this.blog.cname = blog.cname;
             //this.blog.description = blog.description;
@@ -46,7 +47,7 @@ namespace Tumblr_Tool.Objects
             //this.blog.title = blog.title;
             //this.blog.totalPosts = blog.totalPosts;
 
-            this.Blog = blog.Clone();
+            Blog = blog.Clone();
             AddDate();
         }
 
@@ -55,8 +56,8 @@ namespace Tumblr_Tool.Objects
         /// </summary>
         public SaveFile()
         {
-            this.Filename = null;
-            this.Blog = null;
+            Filename = null;
+            Blog = null;
             AddDate();
         }
 
@@ -67,7 +68,7 @@ namespace Tumblr_Tool.Objects
         {
             string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
 
-            this.Date = DateTime.Now.ToString(datePatt);
+            Date = DateTime.Now.ToString(datePatt);
         }
     }
 }

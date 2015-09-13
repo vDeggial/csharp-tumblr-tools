@@ -16,16 +16,34 @@ namespace Tumblr_Tool
     {
         //public string ApiMode { get; set; }
 
-        public bool ParseGIF { get; set; }
+        /// <summary>
+        /// Option to generate posts log file
+        /// </summary>
+        public bool GenerateLog { get; set; }
 
-        public bool ParseJPEG { get; set; }
+        /// <summary>
+        /// Option to parse .gif files
+        /// </summary>
+        public bool ParseGif { get; set; }
 
+        /// <summary>
+        /// Option to parse .jpg files
+        /// </summary>
+        public bool ParseJpeg { get; set; }
+
+        /// <summary>
+        /// Option to parse posts without image files download
+        /// </summary>
         public bool ParseOnly { get; set; }
 
+        /// <summary>
+        /// Option to parse image photosets
+        /// </summary>
         public bool ParsePhotoSets { get; set; }
 
-        public bool ParsePNG { get; set; }
-
-        public bool GenerateLog { get; set; }
+        /// <summary>
+        /// Option to parse .png files
+        /// </summary>
+        public bool ParsePng { get; set; }
     }
 }

@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 
 namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    [Serializable()]
+    [Serializable]
     public class TumblrBlog
     {
         public TumblrBlog()
@@ -26,7 +26,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public TumblrBlog(string url)
         {
-            this.Url = url;
+            Url = url;
         }
 
         public bool AnonAskEnabled { get; set; }
@@ -37,11 +37,14 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         [XmlElement("Description")]
         public string Description { get; set; }
+
         public DateTime LastUpdated { get; set; }
+
         [XmlElement("Name")]
         public string Name { get; set; }
 
         public bool Nsfw { get; set; }
+
         //[XmlIgnoreAttribute]
         [XmlArrayItem("Post")]
         public HashSet<TumblrPost> Posts { get; set; }

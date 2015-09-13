@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 namespace Tumblr_Tool
 {
-    partial class mainForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace Tumblr_Tool
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.lbl_PercentBar = new System.Windows.Forms.Label();
             this.menuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
@@ -461,7 +461,7 @@ namespace Tumblr_Tool
             this.txt_TumblrURL.TabIndex = 0;
             this.txt_TumblrURL.TabStop = false;
             this.txt_TumblrURL.Text = "http://";
-            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.StatsTumblrURLUpdate);
+            this.txt_TumblrURL.TextChanged += new System.EventHandler(this.StatsTumblrUrlUpdate);
             // 
             // lbl_Mode
             // 
@@ -1081,7 +1081,7 @@ namespace Tumblr_Tool
             this.btn_Options_Reset.TabIndex = 9;
             this.btn_Options_Reset.Text = "Reset";
             this.btn_Options_Reset.UseVisualStyleBackColor = true;
-            this.btn_Options_Reset.Click += new System.EventHandler(this.OptionsUIRestore);
+            this.btn_Options_Reset.Click += new System.EventHandler(this.OptionsUiRestore);
             this.btn_Options_Reset.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
             this.btn_Options_Reset.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
             // 
@@ -1274,7 +1274,7 @@ namespace Tumblr_Tool
             this.MainMenuStrip = this.menu_TopMenu;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
-            this.Name = "mainForm";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tumblr Tools";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExitApplication);

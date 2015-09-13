@@ -17,6 +17,9 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum ApiModeEnum
     {
+        /// <summary>
+        /// Tumblr API v2
+        /// </summary>
         ApiV2Json
     }
 }

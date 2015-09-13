@@ -18,96 +18,100 @@ using System.Text.RegularExpressions;
 
 namespace Tumblr_Tool.Helpers
 {
+    /// <summary>
+    /// Common helper
+    /// </summary>
     public static class CommonHelper
     {
+        /// <summary>
+        /// Get array of bytes from string
+        /// </summary>
+        /// <param name="str">String text</param>
+        /// <returns>Array of bytes representing original string</returns>
+        public static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+
+        /// <summary>
+        /// Convert array of bytes to string
+        /// </summary>
+        /// <param name="bytes">Array of bytes</param>
+        /// <returns>String representation of array of bytes</returns>
+        public static string GetString(byte[] bytes)
+        {
+            char[] chars = new char[bytes.Length / sizeof(char)];
+            Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            return new string(chars);
+        }
+
         /// <summary>
         /// Replace part of string with "\r\n"
         /// </summary>
         /// <param name="input">Original string</param>
         /// <param name="strToReplace">String to replace</param>
-        /// <returns></returns>
+        /// <returns>String with replaced newline break chars</returns>
         public static string NewLineToBreak(string input, string strToReplace)
         {
-            if (input != null)
-                return input.Replace(strToReplace, "\n\r");
-            else
-                return input;
+            return input?.Replace(strToReplace, "\n\r");
         }
 
         /// <summary>
         /// Replace part of the string with other
         /// </summary>
-        /// <param name="input"><Original string/param>
+        /// <param name="input">Original string</param>
         /// <param name="strToReplace"> String to replace</param>
         /// <param name="strWith">String to replace with</param>
-        /// <returns></returns>
+        /// <returns>String with replaced value</returns>
         public static string ReplaceInString(string input, string strToReplace, string strWith)
         {
-            if (input != null)
-                return input.Replace(strToReplace, strWith);
-            else
-                return input;
+            return input?.Replace(strToReplace, strWith);
         }
 
         /// <summary>
         /// Convert to Hashset
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type for hashset items</typeparam>
+        /// <param name="obj">Object to convert to hashset</param>
+        /// <returns>Hasheset of objects of the type T</returns>
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> obj)
         {
             return new HashSet<T>(obj);
         }
 
         /// <summary>
-        ///
+        /// Generate slug from a string
         /// </summary>
-        /// <param name="unixTimeStamp"></param>
+        /// <param name="text">Text to generate slug from</param>
         /// <returns></returns>
+        public static string ToSlug(this string text)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            foreach (char c in text)
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    builder.Append(c);
+
+            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(text);
+
+            var value = Regex.Replace(Regex.Replace(Encoding.ASCII.GetString(bytes), @"\s{2,}|[^\w]", " ", RegexOptions.ECMAScript).Trim(), @"\s+", "_");
+
+            return value.ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Convert Unix timestamp to date/time
+        /// </summary>
+        /// <param name="unixTimeStamp">Unix timestamp</param>
+        /// <returns>DateTime representation of Unix timestamp</returns>
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
-        }
-
-        /// <summary>
-        /// Generate slug from a string
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static string ToSlug(this string text)
-        {
-            String value = text.Normalize(NormalizationForm.FormD).Trim();
-            StringBuilder builder = new StringBuilder();
-
-            foreach (char c in text.ToCharArray())
-                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                    builder.Append(c);
-
-            value = builder.ToString();
-
-            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(text);
-
-            value = Regex.Replace(Regex.Replace(Encoding.ASCII.GetString(bytes), @"\s{2,}|[^\w]", " ", RegexOptions.ECMAScript).Trim(), @"\s+", "_");
-
-            return value.ToLowerInvariant();
-        }
-
-        public static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        public static string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
         }
     }
 }

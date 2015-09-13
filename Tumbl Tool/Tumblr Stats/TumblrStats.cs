@@ -39,28 +39,21 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="endNum"></param>
         public TumblrStats(TumblrBlog blog, string url, ApiModeEnum apiMode, int startNum = 0, int endNum = 0)
         {
-            this.DocManager = new DocumentManager();
-            SetAPIMode(apiMode);
-            Step = (int)PostStepEnum.JSON;
+            DocManager = new DocumentManager();
+            SetApiMode(apiMode);
+            Step = (int)PostStepEnum.Json;
 
-            if (blog == null)
-            {
-                this.Blog = new TumblrBlog(url);
-            }
-            else
-            {
-                this.Blog = blog;
-            }
+            Blog = blog ?? new TumblrBlog(url);
 
-            this.Blog.Posts = new HashSet<TumblrPost>();
+            Blog.Posts = new HashSet<TumblrPost>();
 
-            this.Url = WebHelper.RemoveTrailingBackslash(this.Blog.Url);
-            this.TumblrDomain = WebHelper.GetDomainName(this.Url);
+            Url = WebHelper.RemoveTrailingBackslash(Blog.Url);
+            TumblrDomain = WebHelper.GetDomainName(Url);
 
-            this.MaxNumPosts = endNum;
-            this.Start = startNum;
+            MaxNumPosts = endNum;
+            Start = startNum;
 
-            this.Step = (int)PostStepEnum.JSON; //20 for JSON, 50 for XML
+            Step = (int)PostStepEnum.Json; //20 for JSON, 50 for XML
 
             SetBlogInfo();
         }
@@ -111,79 +104,78 @@ namespace Tumblr_Tool.Tumblr_Stats
         ///
         /// </summary>
         /// <returns></returns>
-        public bool getStats()
+        public bool GetStats()
         {
-            string url;
-            url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1);
+            var url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
 
-            if (url.TumblrExists(this.DocManager.ApiMode))
+            if (url.TumblrExists(DocManager.ApiMode))
 
             {
-                this.DocManager.GetDocument(url);
-                this.TotalPostsOverall = this.DocManager.GetTotalPostCount();
+                DocManager.GetDocument(url);
+                TotalPostsOverall = DocManager.GetTotalPostCount();
             }
 
             var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
 
             foreach (TumblrPostTypes type in values)
             {
-                this.TotalPosts = 0;
-                if (type != TumblrPostTypes.all && type != TumblrPostTypes.conversation && type != TumblrPostTypes.regular)
+                TotalPosts = 0;
+                if (type != TumblrPostTypes.All && type != TumblrPostTypes.Conversation && type != TumblrPostTypes.Regular)
                 {
-                    url = JsonHelper.GenerateQueryString(this.TumblrDomain, type.ToString(), 0, 1);
+                    url = JsonHelper.GenerateQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
 
-                    if (url.TumblrExists(this.DocManager.ApiMode))
+                    if (url.TumblrExists(DocManager.ApiMode))
                     {
-                        this.DocManager.GetDocument(url);
-                        this.TotalPosts = this.DocManager.GetTotalPostCount();
+                        DocManager.GetDocument(url);
+                        TotalPosts = DocManager.GetTotalPostCount();
 
                         switch (type)
                         {
-                            case TumblrPostTypes.photo:
-                                this.PhotoPosts = this.TotalPosts;
+                            case TumblrPostTypes.Photo:
+                                PhotoPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.text:
-                                this.TextPosts = this.TotalPosts;
+                            case TumblrPostTypes.Text:
+                                TextPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.video:
-                                this.VideoPosts = this.TotalPosts;
+                            case TumblrPostTypes.Video:
+                                VideoPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.audio:
-                                this.AudioPosts = this.TotalPosts;
+                            case TumblrPostTypes.Audio:
+                                AudioPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.link:
-                                this.LinkPosts = this.TotalPosts;
+                            case TumblrPostTypes.Link:
+                                LinkPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.quote:
-                                this.QuotePosts = this.TotalPosts;
+                            case TumblrPostTypes.Quote:
+                                QuotePosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.chat:
-                                this.ChatPosts = this.TotalPosts;
+                            case TumblrPostTypes.Chat:
+                                ChatPosts = TotalPosts;
                                 Parsed++;
                                 break;
 
-                            case TumblrPostTypes.answer:
-                                this.AnswerPosts = this.TotalPosts;
+                            case TumblrPostTypes.Answer:
+                                AnswerPosts = TotalPosts;
                                 Parsed++;
                                 break;
                         }
-                        this.StatusCode = ProcessingCodes.OK;
+                        StatusCode = ProcessingCodes.Ok;
                     }
                     else
                     {
-                        this.StatusCode = ProcessingCodes.invalidURL;
+                        StatusCode = ProcessingCodes.InvalidUrl;
                     }
                 }
             }
@@ -199,60 +191,52 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                string url;
-                this.Step = (int)PostStepEnum.JSON;
+                Step = (int)PostStepEnum.Json;
 
-                url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0);
+                var url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower());
 
-                if (url.TumblrExists(this.DocManager.ApiMode))
+                if (url.TumblrExists(DocManager.ApiMode))
                 {
-                    this.TotalPosts = this.Blog.TotalPosts;
-
-                    int endCount;
-
-                    if (MaxNumPosts != 0)
-                        endCount = MaxNumPosts;
-                    else
-                        endCount = TotalPosts;
+                    TotalPosts = Blog.TotalPosts;
 
                     int i = Start;
 
-                    this.Parsed = 0;
+                    Parsed = 0;
 
-                    while (i < this.TotalPosts)
+                    while (i < TotalPosts)
                     {
-                        if (this.DocManager.ApiMode == ApiModeEnum.ApiV2Json)
+                        if (DocManager.ApiMode == ApiModeEnum.ApiV2Json)
                         {
-                            url = JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), i);
+                            url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), i);
                         }
 
-                        this.DocManager.GetDocument(url);
-                        this.Blog.Posts.UnionWith(this.DocManager.GetPostListFromDoc(TumblrPostTypes.all.ToString(), this.DocManager.ApiMode));
+                        DocManager.GetDocument(url);
+                        Blog.Posts.UnionWith(DocManager.GetPostListFromDoc(TumblrPostTypes.All.ToString().ToLower(), DocManager.ApiMode));
 
-                        this.PhotoPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.photo.ToString() select p).ToList().Count;
-                        this.TextPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.regular.ToString() || p.Type == TumblrPostTypes.text.ToString() select p).ToList().Count;
-                        this.VideoPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.video.ToString() select p).ToList().Count;
-                        this.LinkPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.link.ToString() select p).ToList().Count;
-                        this.AudioPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.audio.ToString() select p).ToList().Count;
-                        this.QuotePosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.quote.ToString() select p).ToList().Count;
-                        this.ChatPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.chat.ToString() || p.Type == TumblrPostTypes.conversation.ToString() select p).ToList().Count;
-                        this.AnswerPosts += (from p in this.Blog.Posts where p.Type == TumblrPostTypes.answer.ToString() select p).ToList().Count;
-                        this.Parsed += this.Blog.Posts.Count;
-                        this.Blog.Posts.Clear();
+                        PhotoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Photo.ToString().ToLower() select p).ToList().Count;
+                        TextPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Regular.ToString().ToLower() || p.Type == TumblrPostTypes.Text.ToString().ToLower() select p).ToList().Count;
+                        VideoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Video.ToString().ToLower() select p).ToList().Count;
+                        LinkPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Link.ToString().ToLower() select p).ToList().Count;
+                        AudioPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Audio.ToString().ToLower() select p).ToList().Count;
+                        QuotePosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Quote.ToString().ToLower() select p).ToList().Count;
+                        ChatPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Chat.ToString().ToLower() || p.Type == TumblrPostTypes.Conversation.ToString().ToLower() select p).ToList().Count;
+                        AnswerPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Answer.ToString().ToLower() select p).ToList().Count;
+                        Parsed += Blog.Posts.Count;
+                        Blog.Posts.Clear();
                         i += Step;
                     }
 
-                    this.Found = Blog.Posts.Count;
+                    Found = Blog.Posts.Count;
                 }
                 else
                 {
-                    this.StatusCode = ProcessingCodes.invalidURL;
+                    StatusCode = ProcessingCodes.InvalidUrl;
                 }
-                return this.Blog;
+                return Blog;
             }
             catch
             {
-                return this.Blog;
+                return Blog;
             }
         }
 
@@ -260,16 +244,16 @@ namespace Tumblr_Tool.Tumblr_Stats
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetAPIMode(ApiModeEnum mode)
+        public void SetApiMode(ApiModeEnum mode)
         {
             try
             {
-                this.ApiMode = mode; // XML or JSON
-                this.DocManager.ApiMode = mode;
+                ApiMode = mode; // XML or JSON
+                DocManager.ApiMode = mode;
             }
             catch
             {
-                return;
+                // ignored
             }
         }
 
@@ -280,11 +264,11 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                this.DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(this.TumblrDomain, TumblrPostTypes.all.ToString(), 0, 1), this.Blog);
+                DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1), Blog);
             }
             catch
             {
-                return;
+                // ignored
             }
         }
     }

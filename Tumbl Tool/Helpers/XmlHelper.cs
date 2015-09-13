@@ -11,18 +11,13 @@
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Helpers
 {
     public static class XmlHelper
     {
-
-
         /// <summary>
         ///
         /// </summary>
@@ -33,12 +28,11 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                System.Xml.Serialization.XmlSerializer reader =
-            new System.Xml.Serialization.XmlSerializer(typeof(T));
-                System.IO.StreamReader file = new System.IO.StreamReader(
+                XmlSerializer reader =
+            new XmlSerializer(typeof(T));
+                StreamReader file = new StreamReader(
                     @filename);
-                T obj;
-                obj = (T)reader.Deserialize(file.BaseStream);
+                var obj = (T)reader.Deserialize(file.BaseStream);
                 return obj;
             }
             catch (Exception)

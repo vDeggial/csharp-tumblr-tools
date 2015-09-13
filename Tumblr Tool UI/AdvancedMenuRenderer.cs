@@ -25,47 +25,36 @@ namespace Tumblr_Tool
 
         public Color BackColor { get; set; }
 
-        public AdvancedMenuRenderer()
-            : base()
-        {
-        }
-
         /// <summary>
         ///
         /// </summary>
         /// <param name="e"></param>
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
-            Color backColor = BackColor;
-            Color foreColor = ForeColor;
-
             Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
-            Color c = e.Item.Selected ? this.HighlightBackColor : this.BackColor;
+            Color c = e.Item.Selected ? HighlightBackColor : BackColor;
             using (SolidBrush brush = new SolidBrush(c))
                 e.Graphics.FillRectangle(brush, rc);
-            e.Item.ForeColor = e.Item.Selected ? this.HighlightForeColor : this.ForeColor;
+            e.Item.ForeColor = e.Item.Selected ? HighlightForeColor : ForeColor;
         }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="TSMI"></param>
+        /// <param name="tsmi"></param>
         /// <param name="e"></param>
-        public void ChangeTextForeColor(ToolStripMenuItem TSMI, PaintEventArgs e)
+        public void ChangeTextForeColor(ToolStripMenuItem tsmi, PaintEventArgs e)
         {
-            Color foreColor = TSMI.GetCurrentParent().ForeColor;
-            Color backColor = TSMI.BackColor;
-
-            AdvancedMenuRenderer renderer = TSMI.GetCurrentParent().Renderer as AdvancedMenuRenderer;
-            if (TSMI.Selected)
+            AdvancedMenuRenderer renderer = tsmi.GetCurrentParent().Renderer as AdvancedMenuRenderer;
+            if (tsmi.Selected)
             {
                 //TSMI.BackColor = Color.LightGray;
-                TSMI.ForeColor = renderer.HighlightForeColor;
+                if (renderer != null) tsmi.ForeColor = renderer.HighlightForeColor;
             }
             else
             {
                 //TSMI.BackColor = SystemColors.Menu;
-                TSMI.ForeColor = renderer.ForeColor;
+                if (renderer != null) tsmi.ForeColor = renderer.ForeColor;
             }
         }
     }

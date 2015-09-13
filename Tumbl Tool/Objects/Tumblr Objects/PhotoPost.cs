@@ -17,18 +17,16 @@ using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    [Serializable()]
+    [Serializable]
     public class PhotoPost : TumblrPost
     {
-
-
         /// <summary>
         ///
         /// </summary>
         public PhotoPost()
         {
-            this.Type = TumblrPostTypes.photo.ToString();
-            this.Format = "html";
+            Type = TumblrPostTypes.Photo.ToString().ToLower();
+            Format = "html";
         }
 
         [XmlElement("caption")]

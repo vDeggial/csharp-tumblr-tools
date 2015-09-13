@@ -124,13 +124,7 @@
     </Compile>
     <Compile Include="ToolOptions.cs" />
     <Compile Include="UIHelper.cs" />
-    <EmbeddedResource Include="Form1.en.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.ru.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

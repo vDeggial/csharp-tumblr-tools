@@ -36,25 +36,25 @@ namespace Tumblr_Tool.Managers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiMode"></param>
         public DocumentManager(ApiModeEnum apiMode)
         {
-            this.ApiMode = apiMode;
-            this.ImageSize = ImageSizes.Original;
+            ApiMode = apiMode;
+            ImageSize = ImageSizes.Original;
             JsonDocument = null;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiMode"></param>
         /// <param name="imageSize"></param>
         public DocumentManager(ApiModeEnum apiMode, ImageSizes imageSize)
         {
-            this.ApiMode = apiMode;
-            this.ImageSize = ImageSize;
+            ApiMode = apiMode;
+            ImageSize = imageSize;
             JsonDocument = null;
         }
 
@@ -93,7 +93,6 @@ namespace Tumblr_Tool.Managers
             catch
             {
                 JsonDocument = null;
-                return;
             }
         }
 
@@ -151,9 +150,9 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                this.JsonDocument = JsonHelper.GetObject(url);
+                JsonDocument = JsonHelper.GetObject(url);
 
-                if ((JsonDocument != null && this.JsonDocument.meta != null && this.JsonDocument.meta.status == ((int)TumblrAPIResponseEnum.OK).ToString()))
+                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponseEnum.Ok).ToString()))
                 {
                 }
                 else
@@ -164,7 +163,6 @@ namespace Tumblr_Tool.Managers
             catch
             {
                 JsonDocument = null;
-                return;
             }
         }
 
@@ -178,15 +176,12 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-
-                postList = GetPostListFromJsonDoc(type);
+                var postList = GetPostListFromJsonDoc(type);
 
                 return postList;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                string s = ex.Message;
                 return null;
             }
         }
@@ -211,7 +206,7 @@ namespace Tumblr_Tool.Managers
                     {
                         TumblrPost post = new TumblrPost();
 
-                        if (type == TumblrPostTypes.photo.ToString())
+                        if (type == TumblrPostTypes.Photo.ToString().ToLower())
                         {
                             PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
                         }
@@ -240,7 +235,7 @@ namespace Tumblr_Tool.Managers
             {
                 if (JsonDocument.response.total_posts != null)
                     return Convert.ToInt32(JsonDocument.response.total_posts);
-                else if (JsonDocument.response.blog.posts != null)
+                if (JsonDocument.response.blog.posts != null)
                     return Convert.ToInt32(JsonDocument.response.blog.posts);
             }
 

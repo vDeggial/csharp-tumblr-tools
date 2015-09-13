@@ -24,13 +24,13 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Save file format
         /// </summary>
-        private static string SaveFileFormat = SaveFileFormats.JSON.ToString();
+        private static SaveFileFormats SaveFileFormat = SaveFileFormats.Json;
 
         /// <summary>
         /// Add .jpg extension to file
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <param name="filename">File to add extension to</param>
+        /// <returns>Filename with .jpg extension</returns>
         public static string AddJpgExt(string filename)
         {
             if (!Path.HasExtension(filename))
@@ -44,8 +44,8 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Checks if file exists
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="file">Filename</param>
+        /// <returns>True if file exists, false otherwise</returns>
         public static bool FileExists(string file)
         {
             return File.Exists(file);
@@ -54,19 +54,19 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Find file
         /// </summary>
-        /// <param name="dir"></param>
-        /// <param name="name"></param>
+        /// <param name="dir">Directory</param>
+        /// <param name="name">Filename</param>
         /// <returns></returns>
-        public static string FindFile(string dir, string name)
+        public static string FindFile(string dir, string fileName)
         {
-            return Directory.GetFiles(@dir, name + ".*").FirstOrDefault();
+            return Directory.GetFiles(@dir, fileName + ".*").FirstOrDefault();
         }
 
         /// <summary>
         /// Generate full local file path from url and local directory path
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="location"></param>
+        /// <param name="url">Remote Url Path</param>
+        /// <param name="location">Local path</param>
         /// <returns></returns>
         public static string GenerateLocalPathToFile(string url, string location)
         {
@@ -74,11 +74,11 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Generate full local file path from url and local directory path with prefix
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="location"></param>
-        /// <param name="prefix"></param>
+        /// <param name="url">Remote url</param>
+        /// <param name="location">Local path</param>
+        /// <param name="prefix">File prefix</param>
         /// <returns></returns>
         public static string GenerateLocalPathToFile(string url, string location, string prefix)
         {
@@ -86,19 +86,18 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Generates list of image files in folder
         /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
+        /// <param name="location">Folder path</param>
+        /// <returns>Hashset of image files in specified folder</returns>
         public static HashSet<string> GenerateFolderImageList(string location)
         {
-            HashSet<string> imagesList = new HashSet<string>();
             string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
             DirectoryInfo di = new DirectoryInfo(location);
             HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
             FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
-            imagesList = (from f in files select f.Name).ToHashSet();
+            var imagesList = (from f in files select f.Name).ToHashSet();
 
             //foreach (FileInfo f in files)
             //{
@@ -109,10 +108,10 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Determine if file is in use
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="file">Filename</param>
+        /// <returns>True if file is locked, false otherwise</returns>
         public static bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;
@@ -131,8 +130,7 @@ namespace Tumblr_Tool.Helpers
             }
             finally
             {
-                if (stream != null)
-                    stream.Close();
+                stream?.Close();
             }
 
             //file is not locked
@@ -140,98 +138,74 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Read tumblr save file
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="format"></param>
+        /// <param name="fileLocation">File path</param>
+        /// <param name="format">Save file format</param>
         /// <returns></returns>
-        public static SaveFile ReadTumblrFile(string location, string format)
+        public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormats format)
         {
             switch (format)
             {
-                case "BIN":
-                    return BinaryHelper.ReadObject<SaveFile>(location);
+                case SaveFileFormats.Bin:
+                    return BinaryHelper.ReadObject<SaveFile>(fileLocation);
 
-                case "XML":
-                    return XmlHelper.ReadObject<SaveFile>(location);
+                case SaveFileFormats.Xml:
+                    return XmlHelper.ReadObject<SaveFile>(fileLocation);
 
-                case "JSON":
-                    return JsonHelper.ReadObject<SaveFile>(location);
+                case SaveFileFormats.Json:
+                    return JsonHelper.ReadObject<SaveFile>(fileLocation);
 
                 default:
                     return null;
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        public static SaveFile ReadTumblrFile(string location)
+        ///  <summary>
+        /// Read tumblr save file
+        ///  </summary>
+        /// <param name="fileLocation">File path</param>
+        /// <returns>Savefile object or null if cannot load</returns>
+        public static SaveFile ReadTumblrFile(string fileLocation)
         {
-            SaveFile saveFile = ReadTumblrFile(location, SaveFileFormats.BIN.ToString());
-
-            if (saveFile == null)
-                saveFile = ReadTumblrFile(location, SaveFileFormats.XML.ToString());
-
-            if (saveFile == null)
-                saveFile = ReadTumblrFile(location, SaveFileFormats.JSON.ToString());
+            SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormats.Bin) ??
+                                 ReadTumblrFile(fileLocation, SaveFileFormats.Xml) ??
+                                ReadTumblrFile(fileLocation, SaveFileFormats.Json);
 
             return saveFile;
         }
 
         /// <summary>
-        ///
+        /// Saves the save file
         /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        public static SaveFile ReadTumblrFileFromJSON(string location)
+        /// <param name="fileLocation">File path</param>
+        /// <param name="saveFile">Savefile object</param>
+        /// <returns>True if success saving, false otherwise</returns>
+        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile)
         {
-            return JsonHelper.ReadObject<SaveFile>(location);
+            return SaveTumblrFile(fileLocation, saveFile, SaveFileFormat);
         }
 
         /// <summary>
-        ///
+        /// Saves the save file
         /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        public static SaveFile ReadTumblrFileFromXML(string location)
+        /// <param name="fileLocation">File Path</param>
+        /// <param name="saveFile">Savefile object</param>
+        /// <param name="saveFileFormat">Savefile format</param>
+        /// <returns>True if success saving, false otherwise</returns>
+        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile, SaveFileFormats saveFileFormat)
         {
-            return XmlHelper.ReadObject<SaveFile>(location);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="location"></param>
-        /// <param name="saveFile"></param>
-        /// <returns></returns>
-        public static bool SaveTumblrFile(string location, SaveFile saveFile)
-        {
-            return FileHelper.SaveTumblrFile(location, saveFile, SaveFileFormat);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="location"></param>
-        /// <param name="file"></param>
-        /// <param name="format"></param>
-        /// <returns></returns>
-        public static bool SaveTumblrFile(string location, SaveFile file, string format)
-        {
-            file.AddDate();
-            switch (format)
+            saveFile.AddDate();
+            switch (saveFileFormat)
             {
-                case "BIN":
-                    return BinaryHelper.SaveObject(location, file);
+                case SaveFileFormats.Bin:
+                    return BinaryHelper.SaveObject(fileLocation, saveFile);
 
-                case "XML":
-                    return XmlHelper.SaveObject(location, file);
+                case SaveFileFormats.Xml:
+                    return XmlHelper.SaveObject(fileLocation, saveFile);
 
-                case "JSON":
-                    return JsonHelper.SaveObject(location, file);
+                case SaveFileFormats.Json:
+                    return JsonHelper.SaveObject(fileLocation, saveFile);
 
                 default:
                     return false;

@@ -17,8 +17,19 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum SaveFileFormats
     {
-        XML,
-        JSON,
-        BIN
+        /// <summary>
+        /// Xml savefile
+        /// </summary>
+        Xml,
+
+        /// <summary>
+        /// Json savefile
+        /// </summary>
+        Json,
+
+        /// <summary>
+        /// Binary savefile
+        /// </summary>
+        Bin
     }
 }

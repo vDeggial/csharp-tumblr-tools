@@ -17,17 +17,28 @@ using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Helpers
 {
+    /// <summary>
+    /// Helper for Json related functionality
+    /// </summary>
     public static class JsonHelper
     {
-        private const string _APIKEY = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
-        private const string _APIURL = "https://api.tumblr.com/v2/blog/{0}/{1}?api_key={2}{3}{4}";
-        private const string _AVATARQUERY = "avatar";
-        private const string _AVATARSIZE = "128";
+        /// <summary>
+        /// Tumblr API key
+        /// </summary>
+        private const string ApiKey = "SyqUQV9GroNgxpH7W6ysgIpyQV2yYp38n42XtXSWQp43DSUPVY";
 
-        private const string _INFOQUERY = "info";
-        private const string _LIMIT = "&limit={0}";
-        private const string _OFFSET = "&offset={0}";
-        private const string _POSTQUERY = "posts";
+        /// <summary>
+        /// Tumblr API url scheme
+        /// </summary>
+        private const string ApiUrl = "https://api.tumblr.com/v2/blog/{0}/{1}?api_key={2}{3}{4}";
+
+        private const string AvatarQuery = "avatar";
+        private const string AvatarSize = "128";
+
+        private const string InfoQuery = "info";
+        private const string Limit = "&limit={0}";
+        private const string Offset = "&offset={0}";
+        private const string PostQuery = "posts";
 
         /// <summary>
         ///
@@ -36,11 +47,9 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GenerateInfoQueryString(string tumblrDomain)
         {
-            string query;
-
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
-            query = string.Format(_APIURL, tumblrDomain, _INFOQUERY, _APIKEY,null,null);
+            var query = string.Format(ApiUrl, tumblrDomain, InfoQuery, ApiKey, null, null);
 
             return query;
         }
@@ -55,17 +64,15 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GenerateQueryString(string tumblrDomain, string type, int start = 0, int maxNumPosts = 0)
         {
-            string query;
-
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
-            string postQuery = _POSTQUERY;
-            if (type != TumblrPostTypes.all.ToString())
+            string postQuery = PostQuery;
+            if (type != TumblrPostTypes.All.ToString().ToLower())
             {
                 postQuery += "/" + type;
             }
 
-            query = string.Format(_APIURL, tumblrDomain, postQuery, _APIKEY, string.Format(_OFFSET, start.ToString()), string.Format(_LIMIT, maxNumPosts.ToString()));
+            var query = string.Format(ApiUrl, tumblrDomain, postQuery, ApiKey, string.Format(Offset, start.ToString()), string.Format(Limit, maxNumPosts.ToString()));
 
             return query;
         }
@@ -78,9 +85,8 @@ namespace Tumblr_Tool.Helpers
         public static string GetAvatarQueryString(string tumblrDomain)
         {
             tumblrDomain = WebHelper.GetDomainName(tumblrDomain);
-            string query;
 
-            query = string.Format(_APIURL, tumblrDomain, _AVATARQUERY + "/" + _AVATARSIZE, _APIKEY, string.Empty, string.Empty);
+            var query = string.Format(ApiUrl, tumblrDomain, AvatarQuery + "/" + AvatarSize, ApiKey, string.Empty, string.Empty);
             return query;
         }
 
@@ -119,8 +125,7 @@ namespace Tumblr_Tool.Helpers
             }
             finally
             {
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 
@@ -146,15 +151,13 @@ namespace Tumblr_Tool.Helpers
                 writer = new StreamWriter(filePath, append);
                 writer.Write(contentsToWriteToFile);
 
-                if (writer != null)
-                    writer.Close();
+                writer.Close();
 
                 return true;
             }
             catch
             {
-                if (writer != null)
-                    writer.Close();
+                writer?.Close();
                 return false;
             }
         }

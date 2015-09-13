@@ -17,22 +17,19 @@ namespace Tumblr_Tool
 {
     internal class ColorProgressBarDesigner : ControlDesigner
     {
-        public ColorProgressBarDesigner()
-        { }
-
         // clean up some unnecessary properties
-        protected override void PostFilterProperties(IDictionary Properties)
+        protected override void PostFilterProperties(IDictionary properties)
         {
-            Properties.Remove("AllowDrop");
-            Properties.Remove("BackgroundImage");
-            Properties.Remove("ContextMenu");
-            Properties.Remove("FlatStyle");
-            Properties.Remove("Image");
-            Properties.Remove("ImageAlign");
-            Properties.Remove("ImageIndex");
-            Properties.Remove("ImageList");
-            Properties.Remove("Text");
-            Properties.Remove("TextAlign");
+            properties.Remove("AllowDrop");
+            properties.Remove("BackgroundImage");
+            properties.Remove("ContextMenu");
+            properties.Remove("FlatStyle");
+            properties.Remove("Image");
+            properties.Remove("ImageAlign");
+            properties.Remove("ImageIndex");
+            properties.Remove("ImageList");
+            properties.Remove("Text");
+            properties.Remove("TextAlign");
         }
     }
 }

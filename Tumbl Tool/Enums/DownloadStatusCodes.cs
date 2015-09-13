@@ -17,12 +17,39 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum DownloadStatusCodes
     {
-        OK,
+        /// <summary>
+        /// Ok to start the download process
+        /// </summary>
+        Ok,
+
+        /// <summary>
+        /// File already exists
+        /// </summary>
         FileExists,
+
+        /// <summary>
+        /// Unable to download file
+        /// </summary>
         UnableDownload,
+
+        /// <summary>
+        /// Preparing to download
+        /// </summary>
         Preparing,
+
+        /// <summary>
+        /// Starting the download process
+        /// </summary>
         Starting,
+
+        /// <summary>
+        /// Download is in progress
+        /// </summary>
         Downloading,
+
+        /// <summary>
+        /// Finished downloading
+        /// </summary>
         Done
     }
 }

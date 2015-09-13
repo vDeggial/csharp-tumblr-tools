@@ -15,7 +15,7 @@ using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    [Serializable()]
+    [Serializable]
     public class AnswerPost : TumblrPost
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// </summary>
         public AnswerPost()
         {
-            this.Type = TumblrPostTypes.answer.ToString();
+            Type = TumblrPostTypes.Answer.ToString().ToLower();
         }
 
         public override string Answer { get; set; }

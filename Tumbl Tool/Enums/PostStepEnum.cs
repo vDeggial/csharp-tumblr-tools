@@ -17,7 +17,9 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum PostStepEnum
     {
-        XML = 50,
-        JSON = 20
+        /// <summary>
+        /// Tumblr API v2 maximum posts per query : 20
+        /// </summary>
+        Json = 20
     }
 }

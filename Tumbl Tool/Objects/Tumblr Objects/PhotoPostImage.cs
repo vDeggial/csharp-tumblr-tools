@@ -15,7 +15,7 @@ using System.IO;
 
 namespace Tumblr_Tool.Objects.Tumblr_Objects
 {
-    [Serializable()]
+    [Serializable]
     public class PhotoPostImage
     {
         /// <summary>
@@ -34,11 +34,11 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="height"></param>
         public PhotoPostImage(string url, string caption, string width, string height)
         {
-            this.Caption = caption;
-            this.Url = url;
-            this.Width = width;
-            this.Height = height;
-            this.Filename = !string.IsNullOrEmpty(this.Url) ? Path.GetFileName(this.Url) : null;
+            Caption = caption;
+            Url = url;
+            Width = width;
+            Height = height;
+            Filename = !string.IsNullOrEmpty(Url) ? Path.GetFileName(Url) : null;
         }
 
         public string Caption { get; set; }
@@ -48,7 +48,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public string Height { get; set; }
 
-        public string ParentPostID { get; set; }
+        public string ParentPostId { get; set; }
         public string Url { get; set; }
 
         public string Width { get; set; }

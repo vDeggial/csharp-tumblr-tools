@@ -11,7 +11,6 @@
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Tumblr_Tool
@@ -27,10 +26,7 @@ namespace Tumblr_Tool
             // Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (args.Count() == 1)
-                Application.Run(new mainForm(args[0]));
-            else
-                Application.Run(new mainForm());
+            Application.Run(args.Length == 1 ? new MainForm(args[0]) : new MainForm());
         }
     }
 }

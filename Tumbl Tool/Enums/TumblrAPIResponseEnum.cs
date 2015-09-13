@@ -15,10 +15,19 @@ namespace Tumblr_Tool.Enums
     /// <summary>
     /// Tumblr API Response Codes
     /// </summary>
-    public enum TumblrAPIResponseEnum
+    public enum TumblrApiResponseEnum
     {
-        OK = 200,
+        /// <summary>
+        /// Tumblr blog found
+        /// </summary>
+        Ok = 200,
+        /// <summary>
+        /// Access not authorized
+        /// </summary>
         NotAuthorized = 401,
+        /// <summary>
+        /// Tumblr blog not found
+        /// </summary>
         NotFound = 404
     }
 }

@@ -22,7 +22,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
@@ -36,7 +35,7 @@ namespace Tumblr_Tool.Managers
             DownloadedList = new HashSet<string>();
             TotalFileSize = 0;
             FileSizeRecieved = 0;
-            SaveFileFormat = SaveFileFormats.JSON.ToString();
+            SaveFileFormat = SaveFileFormats.Json.ToString();
         }
 
         public HashSet<string> DownloadedList { get; set; }
@@ -55,14 +54,13 @@ namespace Tumblr_Tool.Managers
 
         public bool DownloadSuccess { get; set; }
 
-        AutoResetEvent _ReadyToStop = new AutoResetEvent(false);
+        private readonly AutoResetEvent _readyToStop = new AutoResetEvent(false);
 
         public bool DownloadFile(DownloadMethods method, string remoteFileLocation, string localPath)
         {
             remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
 
-            string localFileFullPath;
-            localFileFullPath = FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath);
+            var localFileFullPath = FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath);
             localFileFullPath = FileHelper.AddJpgExt(localFileFullPath);
             switch (method)
             {
@@ -82,9 +80,8 @@ namespace Tumblr_Tool.Managers
 
         public bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
         {
-            
-            this.PercentDownloaded = 0;
-            this.StatusCode = DownloadStatusCodes.OK;
+            PercentDownloaded = 0;
+            StatusCode = DownloadStatusCodes.Ok;
 
             Uri uri = new Uri(remoteFileLocation);
             string domain = uri.Host;
@@ -95,7 +92,7 @@ namespace Tumblr_Tool.Managers
             var request = new RestRequest(path, Method.GET);
 
             client.DownloadData(request).SaveAs(localFilePath);
-            this.PercentDownloaded = 100;
+            PercentDownloaded = 100;
             return true;
         }
 
@@ -107,10 +104,8 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         public bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
         {
-            FileInfo file;
-
-            this.PercentDownloaded = 0;
-            this.StatusCode = DownloadStatusCodes.OK;
+            PercentDownloaded = 0;
+            StatusCode = DownloadStatusCodes.Ok;
 
             if (WebHelper.UrlExists(remoteFileLocation))
             {
@@ -119,21 +114,20 @@ namespace Tumblr_Tool.Managers
                     try
                     {
                         webClient.Proxy = null;
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Wc_DownloadCompleted);
-                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(Wc_DownloadProgressChanged);
-                        webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath,localFilePath);
+                        webClient.DownloadFileCompleted += Wc_DownloadCompleted;
+                        webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
+                        webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
 
-                        _ReadyToStop.WaitOne();
+                        _readyToStop.WaitOne();
 
                         return StatusCode == DownloadStatusCodes.Done;
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
-                        string s = exception.Message;
-                        this.StatusCode = DownloadStatusCodes.UnableDownload;
+                        StatusCode = DownloadStatusCodes.UnableDownload;
                         if (FileHelper.FileExists(localFilePath))
                         {
-                            file = new FileInfo(localFilePath);
+                            var file = new FileInfo(localFilePath);
 
                             if (!FileHelper.IsFileLocked(file)) file.Delete();
                         }
@@ -149,18 +143,16 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                this.PercentDownloaded = 0;
-                this.StatusCode = DownloadStatusCodes.OK;
+                PercentDownloaded = 0;
+                StatusCode = DownloadStatusCodes.Ok;
 
                 if (WebHelper.UrlExists(remoteFileLocation))
                 {
-
                     string outputFolder = Path.GetDirectoryName(localFilePath);
-                    if (!Directory.Exists(outputFolder))
+                    if (outputFolder != null && !Directory.Exists(outputFolder))
                         Directory.CreateDirectory(outputFolder);
 
-                    MyWebClient webClient = new MyWebClient();
-                    webClient.Proxy = null;
+                    MyWebClient webClient = new MyWebClient { Proxy = null };
 
                     using (Stream webStream = webClient.OpenRead(remoteFileLocation))
                     using (FileStream fileStream = new FileStream(localFilePath, FileMode.Create))
@@ -176,34 +168,33 @@ namespace Tumblr_Tool.Managers
                         Stopwatch sw = Stopwatch.StartNew();
 
                         // Download file in chunks
-                        while ((bytesRead = webStream.Read(buffer, 0, buffer.Length)) > 0)
+                        while (webStream != null && (bytesRead = webStream.Read(buffer, 0, buffer.Length)) > 0)
                         {
                             bytesReadComplete += bytesRead;
                             fileStream.Write(buffer, 0, bytesRead);
 
                             // Output current progress to the "Output" editor
-                            StringBuilder sb = new StringBuilder();
-                            this.PercentDownloaded = bytesReadComplete * 100 / bytesTotal;
-                            this.FileSizeRecieved = bytesReadComplete;
-                            sb.AppendLine(String.Format("Time Elapsed: {0:0,.00}s", sw.ElapsedMilliseconds));
-                            sb.AppendLine(String.Format("Average Speed: {0:0,0} KB/s", sw.ElapsedMilliseconds > 0 ? bytesReadComplete / sw.ElapsedMilliseconds / 1.024 : 0));
+                            //StringBuilder sb = new StringBuilder();
+                            // ReSharper disable once PossibleLossOfFraction
+                            PercentDownloaded = bytesReadComplete * 100 / bytesTotal;
+                            FileSizeRecieved = bytesReadComplete;
+                            //sb.AppendLine($"Time Elapsed: {sw.ElapsedMilliseconds:0,.00}s");
+                            //sb.AppendLine(
+                            //    $"Average Speed: {(sw.ElapsedMilliseconds > 0 ? bytesReadComplete/sw.ElapsedMilliseconds/1.024 : 0):0,0} KB/s");
                         }
 
                         sw.Stop();
-                        this.TotalFileSize += this.FileSizeRecieved;
-                        this.StatusCode = DownloadStatusCodes.Done;
+                        TotalFileSize += FileSizeRecieved;
+                        StatusCode = DownloadStatusCodes.Done;
                         return true;
                     }
                 }
-                else
-                {
-                    this.StatusCode = DownloadStatusCodes.UnableDownload;
-                    return false;
-                }
+                StatusCode = DownloadStatusCodes.UnableDownload;
+                return false;
             }
             catch
             {
-                this.StatusCode = DownloadStatusCodes.UnableDownload;
+                StatusCode = DownloadStatusCodes.UnableDownload;
                 if (FileHelper.FileExists(localFilePath))
                 {
                     FileInfo file = new FileInfo(localFilePath);
@@ -221,12 +212,9 @@ namespace Tumblr_Tool.Managers
         /// <param name="e"></param>
         public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
-            this.PercentDownloaded = e.ProgressPercentage;
+            PercentDownloaded = e.ProgressPercentage;
 
-            if (e.ProgressPercentage >= 100)
-                this.FileSizeRecieved = Convert.ToDouble(e.TotalBytesToReceive);
-            else
-                this.FileSizeRecieved = Convert.ToDouble(e.BytesReceived);
+            FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
         }
 
         /// <summary>
@@ -236,39 +224,38 @@ namespace Tumblr_Tool.Managers
         /// <param name="e"></param>
         private void Wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (e.Cancelled == true)
+            if (e.Cancelled)
             {
-                this.StatusCode = DownloadStatusCodes.UnableDownload;
+                StatusCode = DownloadStatusCodes.UnableDownload;
                 if (FileHelper.FileExists((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
 
                     if (!FileHelper.IsFileLocked(file)) file.Delete();
                 }
-                _ReadyToStop.Set();
+                _readyToStop.Set();
                 return;
             }
 
             if (e.Error != null)
             {
-                this.StatusCode = DownloadStatusCodes.UnableDownload;
+                StatusCode = DownloadStatusCodes.UnableDownload;
                 if (FileHelper.FileExists((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
 
                     if (!FileHelper.IsFileLocked(file)) file.Delete();
                 }
-                _ReadyToStop.Set();
+                _readyToStop.Set();
                 return;
             }
 
             if (e.Cancelled == false && e.Error == null)
             {
-                this.StatusCode = DownloadStatusCodes.Done;
+                StatusCode = DownloadStatusCodes.Done;
                 //this.DownloadedList.Add((string)e.UserState);
-                this.TotalFileSize += FileSizeRecieved;
-                _ReadyToStop.Set();
-                return;
+                TotalFileSize += FileSizeRecieved;
+                _readyToStop.Set();
             }
         }
     }

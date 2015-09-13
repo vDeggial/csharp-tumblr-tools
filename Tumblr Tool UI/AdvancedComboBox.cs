@@ -10,13 +10,16 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Tumblr_Tool
 {
-    [System.ComponentModel.DesignerCategory("Code")]
+    [DesignerCategory(@"Code")]
     public class AdvancedComboBox : ComboBox
     {
         /// <summary>
@@ -25,19 +28,19 @@ namespace Tumblr_Tool
         public AdvancedComboBox()
         {
             base.DrawMode = DrawMode.OwnerDrawVariable;
-            this.HighlightBackColor = Color.Black;
-            this.HighlightForeColor = Color.White;
-            this.ArrowBackColor = Color.White;
-            this.ArrowForeColor = Color.Black;
-            this.FlatStyle = FlatStyle.Flat;
-            this.ShowArrow = true;
-            this.Style = ComboBoxStyle.DropDownList;
-            this.DropDownStyle = ComboBoxStyle.DropDownList;
+            HighlightBackColor = Color.Black;
+            HighlightForeColor = Color.White;
+            ArrowBackColor = Color.White;
+            ArrowForeColor = Color.Black;
+            FlatStyle = FlatStyle.Flat;
+            ShowArrow = true;
+            Style = ComboBoxStyle.DropDownList;
+            DropDownStyle = ComboBoxStyle.DropDownList;
 
-            this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
-            this.DropDown += new System.EventHandler(AdjustWidthComboBox_DropDown);
-            this.SetStyle(ControlStyles.UserPaint, true);
-            this.Height = 21;
+            DrawItem += AdvancedComboBox_DrawItem;
+            DropDown += AdjustWidthComboBox_DropDown;
+            SetStyle(ControlStyles.UserPaint, true);
+            Height = 21;
         }
 
         new public DrawMode DrawMode { get; set; }
@@ -52,7 +55,7 @@ namespace Tumblr_Tool
 
         public bool ShowArrow { get; set; }
 
-        public ComboBoxStyle Style { get { return this.DropDownStyle; } set { this.DropDownStyle = value; } }
+        public ComboBoxStyle Style { get { return DropDownStyle; } set { DropDownStyle = value; } }
 
         /// <summary>
         ///
@@ -62,25 +65,24 @@ namespace Tumblr_Tool
         {
             base.OnPaint(e);
 
-            if (this.SelectedIndex < 0 && this.Items.Count != 0)
-                this.SelectedIndex = 0;
+            if (SelectedIndex < 0 && Items.Count != 0)
+                SelectedIndex = 0;
 
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
 
-            StringFormat sf = new StringFormat();
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat { LineAlignment = StringAlignment.Center };
             //sf.LineAlignment = StringAlignment.Center;
             //sf.Alignment = StringAlignment.Center;
 
             int buttonWidth = SystemInformation.VerticalScrollBarWidth;
-            Color highColor = this.ArrowBackColor;
-            Color lowColor = this.ArrowBackColor;
-            Rectangle itemRect = new Rectangle(this.Width - buttonWidth, 0, buttonWidth, this.Height);
+            Color highColor = ArrowBackColor;
+            Color lowColor = ArrowBackColor;
+            Rectangle itemRect = new Rectangle(Width - buttonWidth, 0, buttonWidth, Height);
 
-            if (this.Items.Count > 0)
+            if (Items.Count > 0)
             {
-                e.Graphics.DrawString(this.Items[this.SelectedIndex].ToString(), this.Font,
-                                          new SolidBrush(this.ForeColor), e.ClipRectangle, sf);
+                e.Graphics.DrawString(Items[SelectedIndex].ToString(), Font,
+                                          new SolidBrush(ForeColor), e.ClipRectangle, sf);
             }
 
             //Create the brushes.
@@ -97,7 +99,7 @@ namespace Tumblr_Tool
             //e.Graphics.DrawRectangle(outlinePen, itemRect.X, itemRect.Y, itemRect.Width - 2, itemRect.Height - 2);
             //outlinePen.Dispose();
 
-            if (this.ShowArrow)
+            if (ShowArrow)
             {
                 Rectangle rectGlimph = itemRect;
                 itemRect.Width -= 4;
@@ -132,34 +134,37 @@ namespace Tumblr_Tool
             if (e.Index < 0)
                 return;
 
-            StringFormat sf = new StringFormat();
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat { LineAlignment = StringAlignment.Center };
             //sf.LineAlignment = StringAlignment.Center;
             //sf.Alignment = StringAlignment.Center;
 
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
-                e.Graphics.FillRectangle(new SolidBrush(this.HighlightBackColor),
+                e.Graphics.FillRectangle(new SolidBrush(HighlightBackColor),
                                          e.Bounds);
-                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-                                  new SolidBrush(this.HighlightForeColor),
-                                  e.Bounds, sf);
+                if (combo != null)
+                    e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
+                        new SolidBrush(HighlightForeColor),
+                        e.Bounds, sf);
             }
             else
             {
-                e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
-                                         e.Bounds);
+                if (combo != null)
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
+                        e.Bounds);
 
-                e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-                                      new SolidBrush(combo.ForeColor),
-                                      e.Bounds, sf);
+                    e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
+                        new SolidBrush(combo.ForeColor),
+                        e.Bounds, sf);
+                }
             }
 
             //e.DrawFocusRectangle();
         }
 
-        private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
+        private void AdjustWidthComboBox_DropDown(object sender, EventArgs e)
         {
             ComboBox senderComboBox = (ComboBox)sender;
             int width = senderComboBox.DropDownWidth;
@@ -169,16 +174,7 @@ namespace Tumblr_Tool
                 (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
                 ? SystemInformation.VerticalScrollBarWidth : 0;
 
-            int newWidth;
-            foreach (string s in ((ComboBox)sender).Items)
-            {
-                newWidth = (int)g.MeasureString(s, font).Width
-                    + vertScrollBarWidth;
-                if (width < newWidth)
-                {
-                    width = newWidth;
-                }
-            }
+            width = (from string s in ((ComboBox)sender).Items select (int)g.MeasureString(s, font).Width + vertScrollBarWidth).Concat(new[] { width }).Max();
             senderComboBox.DropDownWidth = width;
         }
     }

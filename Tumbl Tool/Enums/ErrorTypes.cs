@@ -17,14 +17,49 @@ namespace Tumblr_Tool.Enums
     /// </summary>
     public enum ErrorTypes
     {
-        connectionError,
-        parsingError,
-        internalError,
-        unknownError,
-        xmlError,
-        jsonError,
-        downloadError,
-        crawlError,
-        urlError
+        /// <summary>
+        /// Connection error
+        /// </summary>
+        ConnectionError,
+
+        /// <summary>
+        /// Parsing error
+        /// </summary>
+        ParsingError,
+
+        /// <summary>
+        /// Internal system error
+        /// </summary>
+        InternalError,
+
+        /// <summary>
+        /// Unknown error
+        /// </summary>
+        UnknownError,
+
+        /// <summary>
+        /// Xml error
+        /// </summary>
+        XmlError,
+
+        /// <summary>
+        /// /Json error
+        /// </summary>
+        JsonError,
+
+        /// <summary>
+        /// Download error
+        /// </summary>
+        DownloadError,
+
+        /// <summary>
+        /// Crawl error
+        /// </summary>
+        CrawlError,
+
+        /// <summary>
+        /// Url error
+        /// </summary>
+        UrlError
     }
 }

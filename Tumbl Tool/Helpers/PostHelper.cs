@@ -28,11 +28,14 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateAnswerPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new AnswerPost();
-            post.Asker = !string.IsNullOrEmpty((string)jPost.asking_name) ? jPost.asking_name : null;
-            post.AskerUrl = !string.IsNullOrEmpty((string)jPost.asking_url) ? jPost.asking_url : null;
-            post.Question = !string.IsNullOrEmpty((string)jPost.question) ? jPost.question : null;
-            post.Answer = !string.IsNullOrEmpty((string)jPost.answer) ? jPost.answer : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new AnswerPost
+            {
+                Asker = !string.IsNullOrEmpty((string)jPost.asking_name) ? jPost.asking_name : null,
+                AskerUrl = !string.IsNullOrEmpty((string)jPost.asking_url) ? jPost.asking_url : null,
+                Question = !string.IsNullOrEmpty((string)jPost.question) ? jPost.question : null,
+                Answer = !string.IsNullOrEmpty((string)jPost.answer) ? jPost.answer : null
+            };
         }
 
         /// <summary>
@@ -42,16 +45,19 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateAudioPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new AudioPost();
-            post.Artist = !string.IsNullOrEmpty((string)jPost.artist) ? jPost.artist : null;
-            post.Album = !string.IsNullOrEmpty((string)jPost.album) ? jPost.album : null;
-            post.AlbumArt = !string.IsNullOrEmpty((string)jPost.album_art) ? jPost.album_art : null;
-            post.TrackName = !string.IsNullOrEmpty((string)jPost.track_name) ? jPost.track_name : null;
-            post.Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
-            post.AudioType = !string.IsNullOrEmpty((string)jPost.audio_type) ? jPost.audio_type : null;
-            post.AudioUrl = !string.IsNullOrEmpty((string)jPost.audio_url) ? jPost.audio_url : null;
-            post.PlaysCount = !string.IsNullOrEmpty((string)jPost.plays) ? jPost.plays : null;
-            post.Player = !string.IsNullOrEmpty((string)jPost.player) ? jPost.player : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new AudioPost
+            {
+                Artist = !string.IsNullOrEmpty((string)jPost.artist) ? jPost.artist : null,
+                Album = !string.IsNullOrEmpty((string)jPost.album) ? jPost.album : null,
+                AlbumArt = !string.IsNullOrEmpty((string)jPost.album_art) ? jPost.album_art : null,
+                TrackName = !string.IsNullOrEmpty((string)jPost.track_name) ? jPost.track_name : null,
+                Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null,
+                AudioType = !string.IsNullOrEmpty((string)jPost.audio_type) ? jPost.audio_type : null,
+                AudioUrl = !string.IsNullOrEmpty((string)jPost.audio_url) ? jPost.audio_url : null,
+                PlaysCount = !string.IsNullOrEmpty((string)jPost.plays) ? jPost.plays : null,
+                Player = !string.IsNullOrEmpty((string)jPost.player) ? jPost.player : null
+            };
         }
 
         /// <summary>
@@ -61,19 +67,24 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new ChatPost();
-            post.Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null;
-            post.Body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new ChatPost
+            {
+                Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
+                Body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null
+            };
 
             if (jPost.dialogue != null)
             {
                 post.Dialogue = new HashSet<ChatPostFragment>();
                 foreach (dynamic jChatFragment in jPost.dialogue)
                 {
-                    ChatPostFragment chatFragment = new ChatPostFragment();
-                    chatFragment.Name = !string.IsNullOrEmpty((string)jChatFragment.name) ? jChatFragment.name : null;
-                    chatFragment.Label = !string.IsNullOrEmpty((string)jChatFragment.label) ? jChatFragment.label : null;
-                    chatFragment.Phrase = !string.IsNullOrEmpty((string)jChatFragment.phrase) ? jChatFragment.phrase : null;
+                    ChatPostFragment chatFragment = new ChatPostFragment
+                    {
+                        Name = !string.IsNullOrEmpty((string)jChatFragment.name) ? jChatFragment.name : null,
+                        Label = !string.IsNullOrEmpty((string)jChatFragment.label) ? jChatFragment.label : null,
+                        Phrase = !string.IsNullOrEmpty((string)jChatFragment.phrase) ? jChatFragment.phrase : null
+                    };
                     post.Dialogue.Add(chatFragment);
                 }
             }
@@ -86,27 +97,30 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateLinkPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new LinkPost();
-            post.LinkAuthor = !string.IsNullOrEmpty((string)jPost.link_author) ? jPost.link_author : null;
-            post.LinkImage = !string.IsNullOrEmpty((string)jPost.link_image) ? jPost.link_image : null;
-            post.LinkUrl = !string.IsNullOrEmpty((string)jPost.url) ? jPost.url : null;
-            post.Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null;
-            post.Description = !string.IsNullOrEmpty((string)jPost.description) ? jPost.description : null;
-            post.Excerpt = !string.IsNullOrEmpty((string)jPost.excerpt) ? jPost.excerpt : null;
-            post.Publisher = !string.IsNullOrEmpty((string)jPost.publisher) ? jPost.publisher : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new LinkPost
+            {
+                LinkAuthor = !string.IsNullOrEmpty((string)jPost.link_author) ? jPost.link_author : null,
+                LinkImage = !string.IsNullOrEmpty((string)jPost.link_image) ? jPost.link_image : null,
+                LinkUrl = !string.IsNullOrEmpty((string)jPost.url) ? jPost.url : null,
+                Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
+                Description = !string.IsNullOrEmpty((string)jPost.description) ? jPost.description : null,
+                Excerpt = !string.IsNullOrEmpty((string)jPost.excerpt) ? jPost.excerpt : null,
+                Publisher = !string.IsNullOrEmpty((string)jPost.publisher) ? jPost.publisher : null
+            };
         }
 
-        /// <summary>
+        ///  <summary>
         ///
-        /// </summary>
-        /// <param name="post"></param>
-        /// <param name="jPost"></param>
+        ///  </summary>
+        ///  <param name="post"></param>
+        ///  <param name="jPost"></param>
+        /// <param name="imageSize"></param>
         public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost, ImageSizes imageSize)
         {
-            if (jPost.type == TumblrPostTypes.photo.ToString())
+            if (jPost.type == TumblrPostTypes.Photo.ToString().ToLower())
             {
-                post = new PhotoPost();
-                post.Photos = new HashSet<PhotoPostImage>();
+                post = new PhotoPost { Photos = new HashSet<PhotoPostImage>() };
 
                 foreach (dynamic jPhoto in jPost.photos)
                 {
@@ -121,11 +135,10 @@ namespace Tumblr_Tool.Helpers
                     }
                     else if (imageSize != ImageSizes.None)
                     {
-                        dynamic jPhotoAlt;
                         if (jPhoto.alt_sizes != null)
                         {
                             var jAltPhotos = new HashSet<dynamic>(jPhoto.alt_sizes);
-                            jPhotoAlt = (from p in jAltPhotos where p.width == ((int)imageSize).ToString() select p).FirstOrDefault();
+                            dynamic jPhotoAlt = (from p in jAltPhotos where p.width == ((int)imageSize).ToString() select p).FirstOrDefault();
                             if (jPhotoAlt != null)
                             {
                                 postImage.Url = jPhotoAlt.url;
@@ -137,7 +150,7 @@ namespace Tumblr_Tool.Helpers
                     }
 
                     postImage.Caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
-                    postImage.ParentPostID = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
+                    postImage.ParentPostId = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
                     post.Photos.Add(postImage);
                 }
             }
@@ -150,9 +163,12 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateQuotePost(ref TumblrPost post, dynamic jPost)
         {
-            post = new QuotePost();
-            post.Text = !string.IsNullOrEmpty((string)jPost.text) ? jPost.text : null;
-            post.Source = !string.IsNullOrEmpty((string)jPost.source) ? jPost.source : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new QuotePost
+            {
+                Text = !string.IsNullOrEmpty((string)jPost.text) ? jPost.text : null,
+                Source = !string.IsNullOrEmpty((string)jPost.source) ? jPost.source : null
+            };
         }
 
         /// <summary>
@@ -162,9 +178,12 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateTextPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new TextPost();
-            post.Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null;
-            post.Body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new TextPost
+            {
+                Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
+                Body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null
+            };
         }
 
         /// <summary>
@@ -174,23 +193,28 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void GenerateVideoPost(ref TumblrPost post, dynamic jPost)
         {
-            post = new VideoPost();
-            post.Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
-            post.VideoType = !string.IsNullOrEmpty((string)jPost.video_type) ? jPost.video_type : null;
-            post.VideoUrl = !string.IsNullOrEmpty((string)jPost.permalink_url) ? jPost.permalink_url : null;
-            post.ThumbnailUrl = !string.IsNullOrEmpty((string)jPost.thumbnail_url) ? jPost.thumbnail_url : null;
-            post.ThumbnailWidth = !string.IsNullOrEmpty((string)jPost.thumbnail_width) ? jPost.thumbnail_width : null;
-            post.ThumbnailHeight = !string.IsNullOrEmpty((string)jPost.thumbnail_height) ? jPost.thumbnail_height : null;
-            post.IsHtml5Capable = !string.IsNullOrEmpty((string)jPost.html5_capable) ? jPost.html5_capable : null;
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post = new VideoPost
+            {
+                Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null,
+                VideoType = !string.IsNullOrEmpty((string)jPost.video_type) ? jPost.video_type : null,
+                VideoUrl = !string.IsNullOrEmpty((string)jPost.permalink_url) ? jPost.permalink_url : null,
+                ThumbnailUrl = !string.IsNullOrEmpty((string)jPost.thumbnail_url) ? jPost.thumbnail_url : null,
+                ThumbnailWidth = !string.IsNullOrEmpty((string)jPost.thumbnail_width) ? jPost.thumbnail_width : null,
+                ThumbnailHeight = !string.IsNullOrEmpty((string)jPost.thumbnail_height) ? jPost.thumbnail_height : null,
+                IsHtml5Capable = !string.IsNullOrEmpty((string)jPost.html5_capable) ? jPost.html5_capable : null
+            };
 
             if (jPost.player != null)
             {
                 post.VideoPlayers = new HashSet<VideoPostEmbedPlayer>();
                 foreach (dynamic jPlayer in jPost.player)
                 {
-                    VideoPostEmbedPlayer player = new VideoPostEmbedPlayer();
-                    player.EmbedCode = !string.IsNullOrEmpty((string)jPlayer.embed_code) ? jPlayer.embed_code : null;
-                    player.Width = !string.IsNullOrEmpty((string)jPlayer.width) ? jPlayer.width : null;
+                    VideoPostEmbedPlayer player = new VideoPostEmbedPlayer
+                    {
+                        EmbedCode = !string.IsNullOrEmpty((string)jPlayer.embed_code) ? jPlayer.embed_code : null,
+                        Width = !string.IsNullOrEmpty((string)jPlayer.width) ? jPlayer.width : null
+                    };
                     post.VideoPlayers.Add(player);
                 }
             }
@@ -219,11 +243,11 @@ namespace Tumblr_Tool.Helpers
 
             post.ReblogKey = !string.IsNullOrEmpty((string)jPost.reblog_key) ? jPost.reblog_key : null;
 
-            post.ShortURL = !string.IsNullOrEmpty((string)jPost.short_url) ? jPost.short_url : null;
+            post.ShortUrl = !string.IsNullOrEmpty((string)jPost.short_url) ? jPost.short_url : null;
 
             post.NoteCount = !string.IsNullOrEmpty((string)jPost.note_count) ? jPost.note_count : null;
 
-            post.SourceURL = !string.IsNullOrEmpty((string)jPost.source_url) ? jPost.source_url : null;
+            post.SourceUrl = !string.IsNullOrEmpty((string)jPost.source_url) ? jPost.source_url : null;
 
             post.Slug = !string.IsNullOrEmpty((string)jPost.slug) ? jPost.slug : null;
 
