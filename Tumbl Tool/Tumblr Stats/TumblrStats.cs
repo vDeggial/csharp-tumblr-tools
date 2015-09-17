@@ -106,7 +106,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <returns></returns>
         public bool GetStats()
         {
-            var url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
+            var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
 
             if (url.TumblrExists(DocManager.ApiMode))
 
@@ -122,7 +122,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 TotalPosts = 0;
                 if (type != TumblrPostTypes.All && type != TumblrPostTypes.Conversation && type != TumblrPostTypes.Regular)
                 {
-                    url = JsonHelper.GenerateQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
+                    url = JsonHelper.GeneratePostQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
 
                     if (url.TumblrExists(DocManager.ApiMode))
                     {
@@ -193,7 +193,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             {
                 Step = (int)PostStepEnum.Json;
 
-                var url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower());
+                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(),0,1);
 
                 if (url.TumblrExists(DocManager.ApiMode))
                 {
@@ -207,7 +207,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                     {
                         if (DocManager.ApiMode == ApiModeEnum.ApiV2Json)
                         {
-                            url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), i);
+                            url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), i,1);
                         }
 
                         DocManager.GetDocument(url);
@@ -264,7 +264,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                DocManager.GetBlogInfo(JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1), Blog);
+                DocManager.GetBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1), Blog);
             }
             catch
             {

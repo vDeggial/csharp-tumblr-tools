@@ -199,13 +199,13 @@ namespace Tumblr_Tool.Image_Ripper
         /// <summary>
         ///
         /// </summary>
-        /// <param name="start"></param>
+        /// <param name="offset"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetTumblrPostList(int start = 0)
+        public HashSet<TumblrPost> GetTumblrPostList(int offset = 0)
         {
             try
             {
-                var query = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), start);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), offset);
 
                 DocumentManager.GetDocument(query);
 
@@ -232,7 +232,7 @@ namespace Tumblr_Tool.Image_Ripper
         {
             try
             {
-                var url = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
+                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
 
                 return url.TumblrExists(ApiMode);
             }
@@ -355,7 +355,7 @@ namespace Tumblr_Tool.Image_Ripper
         {
             try
             {
-                var query = JsonHelper.GenerateQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), 0, 1);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), 0, 1);
                 return DocumentManager.GetBlogInfo(query, Blog);
             }
             catch
@@ -376,14 +376,14 @@ namespace Tumblr_Tool.Image_Ripper
         /// <summary>
         ///
         /// </summary>
-        /// <param name="name"></param>
-        public void UpdateLogFile(string name)
+        /// <param name="logFileName"></param>
+        public void UpdateLogFile(string logFileName)
         {
             try
             {
-                if (TumblrPostLog == null || TumblrPostLog.Blog.Name != name)
+                if (TumblrPostLog == null || TumblrPostLog.Blog.Name != logFileName)
                 {
-                    TumblrPostLog = new SaveFile(name + ".log", Blog);
+                    TumblrPostLog = new SaveFile(logFileName + ".log", Blog);
                 }
 
                 UpdateLogFile(TumblrPostLog);
@@ -397,16 +397,16 @@ namespace Tumblr_Tool.Image_Ripper
         /// <summary>
         ///
         /// </summary>
-        /// <param name="log"></param>
-        public void UpdateLogFile(SaveFile log)
+        /// <param name="logFile"></param>
+        public void UpdateLogFile(SaveFile logFile)
         {
             try
             {
                 foreach (TumblrPost post in Blog.Posts)
                 {
-                    log.Blog.Posts.RemoveWhere(p => p.Id == post.Id);
+                    logFile.Blog.Posts.RemoveWhere(p => p.Id == post.Id);
 
-                    log.Blog.Posts.Add(post);
+                    logFile.Blog.Posts.Add(post);
                     IsLogUpdated = true;
                 }
             }

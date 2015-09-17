@@ -1478,7 +1478,7 @@ namespace Tumblr_Tool
                                 this.lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
 
                                 this.lbl_PostCount.Text = string.Empty;
-                                this.img_Stats_Avatar.LoadAsync(JsonHelper.GetAvatarQueryString(TumblrStats.Blog.Url));
+                                this.img_Stats_Avatar.LoadAsync(JsonHelper.GenerateAvatarQueryString(TumblrStats.Blog.Url));
                             });
                         }
 
