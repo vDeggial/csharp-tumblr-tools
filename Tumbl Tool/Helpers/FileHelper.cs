@@ -24,7 +24,7 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Save file format
         /// </summary>
-        private static SaveFileFormats SaveFileFormat = SaveFileFormats.Json;
+        private static SaveFileFormats _saveFileFormat = SaveFileFormats.Json;
 
         /// <summary>
         /// Add .jpg extension to file
@@ -55,7 +55,7 @@ namespace Tumblr_Tool.Helpers
         /// Find file
         /// </summary>
         /// <param name="dir">Directory</param>
-        /// <param name="name">Filename</param>
+        /// <param name="fileName">Filename</param>
         /// <returns></returns>
         public static string FindFile(string dir, string fileName)
         {
@@ -183,7 +183,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns>True if success saving, false otherwise</returns>
         public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile)
         {
-            return SaveTumblrFile(fileLocation, saveFile, SaveFileFormat);
+            return SaveTumblrFile(fileLocation, saveFile, _saveFileFormat);
         }
 
         /// <summary>
