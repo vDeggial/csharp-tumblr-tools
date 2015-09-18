@@ -256,7 +256,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
 
-                var numPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
+                var numPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
                 if (TotalNumberOfPosts == 0)
                     TotalNumberOfPosts = Blog.TotalPosts;

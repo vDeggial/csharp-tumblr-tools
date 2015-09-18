@@ -69,7 +69,7 @@
     <Compile Include="Enums\BlogPostsScanModes.cs" />
     <Compile Include="Enums\PostStatusCodes.cs" />
     <Compile Include="Enums\ProcessingCodes.cs" />
-    <Compile Include="Enums\NumberOfPostsPerDocument.cs" />
+    <Compile Include="Enums\NumberOfPostsPerApiDocument.cs" />
     <Compile Include="Enums\TumblrApiResponses.cs" />
     <Compile Include="Enums\TumblrPostTypes.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />

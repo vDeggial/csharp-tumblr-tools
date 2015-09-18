@@ -98,7 +98,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="offset">Tumblr posts offset</param>
         /// <param name="limit">Tumblr post limit per document</param>
         /// <returns>Tumblr API query string for blog posts</returns>
-        public static string GeneratePostQueryString(string tumblrDomain, string postType, int offset = 0, int limit = (int)NumberOfPostsPerDocument.ApiV2)
+        public static string GeneratePostQueryString(string tumblrDomain, string postType, int offset = 0, int limit = (int)NumberOfPostsPerApiDocument.ApiV2)
         {
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 

@@ -41,7 +41,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             DocManager = new DocumentManager();
             SetApiMode(apiMode);
-            NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
+            NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
             Blog = blog ?? new TumblrBlog(url);
 
@@ -53,7 +53,7 @@ namespace Tumblr_Tool.Tumblr_Stats
             MaxNumPosts = limit;
             Offset = offset;
 
-            NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2; //20 for JSON, 50 for XML
+            NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
             SetBlogInfo();
         }
@@ -191,7 +191,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
+                NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
                 var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(),0,1);
 

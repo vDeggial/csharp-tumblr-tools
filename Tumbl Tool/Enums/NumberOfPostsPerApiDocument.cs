@@ -15,7 +15,7 @@ namespace Tumblr_Tool.Enums
     /// <summary>
     /// Post API Crawl Step
     /// </summary>
-    public enum NumberOfPostsPerDocument
+    public enum NumberOfPostsPerApiDocument
     {
         /// <summary>
         /// Tumblr API v2 maximum posts per query : 20
