@@ -35,70 +35,70 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="blog"></param>
         /// <param name="url"></param>
         /// <param name="apiMode"></param>
-        /// <param name="startNum"></param>
-        /// <param name="endNum"></param>
-        public TumblrStats(TumblrBlog blog, string url, ApiModeEnum apiMode, int startNum = 0, int endNum = 0)
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        public TumblrStats(TumblrBlog blog, string url, ApiModes apiMode, int offset = 0, int limit = 0)
         {
             DocManager = new DocumentManager();
             SetApiMode(apiMode);
-            Step = (int)PostStepEnum.Json;
+            NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
 
             Blog = blog ?? new TumblrBlog(url);
 
             Blog.Posts = new HashSet<TumblrPost>();
 
-            Url = WebHelper.RemoveTrailingBackslash(Blog.Url);
-            TumblrDomain = WebHelper.GetDomainName(Url);
+            TumblrUrl = WebHelper.RemoveTrailingBackslash(Blog.Url);
+            TumblrDomain = WebHelper.GetDomainName(TumblrUrl);
 
-            MaxNumPosts = endNum;
-            Start = startNum;
+            MaxNumPosts = limit;
+            Offset = offset;
 
-            Step = (int)PostStepEnum.Json; //20 for JSON, 50 for XML
+            NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2; //20 for JSON, 50 for XML
 
             SetBlogInfo();
         }
 
-        public int AnswerPosts { get; set; }
+        public int NumAnswerPosts { get; set; }
 
-        public ApiModeEnum ApiMode { get; set; }
+        public ApiModes ApiMode { get; set; }
 
-        public int AudioPosts { get; set; }
+        public int NumAudioPosts { get; set; }
 
         public TumblrBlog Blog { get; set; }
 
-        public int ChatPosts { get; set; }
+        public int NumChatPosts { get; set; }
 
         public DocumentManager DocManager { get; set; }
 
-        public int Found { get; set; }
+        public int NumPostsFound { get; set; }
 
-        public int LinkPosts { get; set; }
+        public int NumLinkPosts { get; set; }
 
         public int MaxNumPosts { get; set; }
 
-        public int Parsed { get; set; }
+        public int NumParsed { get; set; }
 
-        public int PhotoPosts { get; set; }
+        public int NumPhotoPosts { get; set; }
 
-        public int QuotePosts { get; set; }
+        public int NumQuotePosts { get; set; }
 
-        public int Start { get; set; }
+        public int Offset { get; set; }
 
         public ProcessingCodes StatusCode { get; set; }
 
-        public int Step { get; set; }
+        public int NumPostsPerDocument { get; set; }
 
-        public int TextPosts { get; set; }
+        public int NumTextPosts { get; set; }
 
-        public int TotalPosts { get; set; }
+        public int NumTotalPosts { get; set; }
 
-        public int TotalPostsOverall { get; set; }
+        public int NumTotalPostsOverall { get; set; }
 
         public string TumblrDomain { get; set; }
 
-        public string Url { get; set; }
+        public string TumblrUrl { get; set; }
 
-        public int VideoPosts { get; set; }
+        public int NumVideoPosts { get; set; }
 
         /// <summary>
         ///
@@ -112,14 +112,14 @@ namespace Tumblr_Tool.Tumblr_Stats
 
             {
                 DocManager.GetDocument(url);
-                TotalPostsOverall = DocManager.GetTotalPostCount();
+                NumTotalPostsOverall = DocManager.GetTotalPostCount();
             }
 
             var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
 
             foreach (TumblrPostTypes type in values)
             {
-                TotalPosts = 0;
+                NumTotalPosts = 0;
                 if (type != TumblrPostTypes.All && type != TumblrPostTypes.Conversation && type != TumblrPostTypes.Regular)
                 {
                     url = JsonHelper.GeneratePostQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
@@ -127,48 +127,48 @@ namespace Tumblr_Tool.Tumblr_Stats
                     if (url.TumblrExists(DocManager.ApiMode))
                     {
                         DocManager.GetDocument(url);
-                        TotalPosts = DocManager.GetTotalPostCount();
+                        NumTotalPosts = DocManager.GetTotalPostCount();
 
                         switch (type)
                         {
                             case TumblrPostTypes.Photo:
-                                PhotoPosts = TotalPosts;
-                                Parsed++;
+                                NumPhotoPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Text:
-                                TextPosts = TotalPosts;
-                                Parsed++;
+                                NumTextPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Video:
-                                VideoPosts = TotalPosts;
-                                Parsed++;
+                                NumVideoPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Audio:
-                                AudioPosts = TotalPosts;
-                                Parsed++;
+                                NumAudioPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Link:
-                                LinkPosts = TotalPosts;
-                                Parsed++;
+                                NumLinkPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Quote:
-                                QuotePosts = TotalPosts;
-                                Parsed++;
+                                NumQuotePosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Chat:
-                                ChatPosts = TotalPosts;
-                                Parsed++;
+                                NumChatPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
 
                             case TumblrPostTypes.Answer:
-                                AnswerPosts = TotalPosts;
-                                Parsed++;
+                                NumAnswerPosts = NumTotalPosts;
+                                NumParsed++;
                                 break;
                         }
                         StatusCode = ProcessingCodes.Ok;
@@ -191,21 +191,21 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                Step = (int)PostStepEnum.Json;
+                NumPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
 
                 var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(),0,1);
 
                 if (url.TumblrExists(DocManager.ApiMode))
                 {
-                    TotalPosts = Blog.TotalPosts;
+                    NumTotalPosts = Blog.TotalPosts;
 
-                    int i = Start;
+                    int i = Offset;
 
-                    Parsed = 0;
+                    NumParsed = 0;
 
-                    while (i < TotalPosts)
+                    while (i < NumTotalPosts)
                     {
-                        if (DocManager.ApiMode == ApiModeEnum.ApiV2Json)
+                        if (DocManager.ApiMode == ApiModes.V2Json)
                         {
                             url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), i,1);
                         }
@@ -213,20 +213,20 @@ namespace Tumblr_Tool.Tumblr_Stats
                         DocManager.GetDocument(url);
                         Blog.Posts.UnionWith(DocManager.GetPostListFromDoc(TumblrPostTypes.All.ToString().ToLower(), DocManager.ApiMode));
 
-                        PhotoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Photo.ToString().ToLower() select p).ToList().Count;
-                        TextPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Regular.ToString().ToLower() || p.Type == TumblrPostTypes.Text.ToString().ToLower() select p).ToList().Count;
-                        VideoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Video.ToString().ToLower() select p).ToList().Count;
-                        LinkPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Link.ToString().ToLower() select p).ToList().Count;
-                        AudioPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Audio.ToString().ToLower() select p).ToList().Count;
-                        QuotePosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Quote.ToString().ToLower() select p).ToList().Count;
-                        ChatPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Chat.ToString().ToLower() || p.Type == TumblrPostTypes.Conversation.ToString().ToLower() select p).ToList().Count;
-                        AnswerPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Answer.ToString().ToLower() select p).ToList().Count;
-                        Parsed += Blog.Posts.Count;
+                        NumPhotoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Photo.ToString().ToLower() select p).ToList().Count;
+                        NumTextPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Regular.ToString().ToLower() || p.Type == TumblrPostTypes.Text.ToString().ToLower() select p).ToList().Count;
+                        NumVideoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Video.ToString().ToLower() select p).ToList().Count;
+                        NumLinkPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Link.ToString().ToLower() select p).ToList().Count;
+                        NumAudioPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Audio.ToString().ToLower() select p).ToList().Count;
+                        NumQuotePosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Quote.ToString().ToLower() select p).ToList().Count;
+                        NumChatPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Chat.ToString().ToLower() || p.Type == TumblrPostTypes.Conversation.ToString().ToLower() select p).ToList().Count;
+                        NumAnswerPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Answer.ToString().ToLower() select p).ToList().Count;
+                        NumParsed += Blog.Posts.Count;
                         Blog.Posts.Clear();
-                        i += Step;
+                        i += NumPostsPerDocument;
                     }
 
-                    Found = Blog.Posts.Count;
+                    NumPostsFound = Blog.Posts.Count;
                 }
                 else
                 {
@@ -244,7 +244,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetApiMode(ApiModeEnum mode)
+        public void SetApiMode(ApiModes mode)
         {
             try
             {

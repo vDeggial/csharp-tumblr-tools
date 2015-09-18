@@ -176,12 +176,12 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static bool TumblrExists(this string url, ApiModeEnum mode)
+        public static bool TumblrExists(this string url, ApiModes mode)
         {
             try
             {
                 dynamic jsonObject = JsonHelper.GetObject(url);
-                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponseEnum.Ok).ToString());
+                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponses.Ok).ToString());
             }
             catch
             {

@@ -30,7 +30,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         public DocumentManager()
         {
-            ApiMode = ApiModeEnum.ApiV2Json;
+            ApiMode = ApiModes.V2Json;
             ImageSize = ImageSizes.Original;
             JsonDocument = null;
         }
@@ -39,7 +39,7 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <param name="apiMode"></param>
-        public DocumentManager(ApiModeEnum apiMode)
+        public DocumentManager(ApiModes apiMode)
         {
             ApiMode = apiMode;
             ImageSize = ImageSizes.Original;
@@ -51,14 +51,14 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="apiMode"></param>
         /// <param name="imageSize"></param>
-        public DocumentManager(ApiModeEnum apiMode, ImageSizes imageSize)
+        public DocumentManager(ApiModes apiMode, ImageSizes imageSize)
         {
             ApiMode = apiMode;
             ImageSize = imageSize;
             JsonDocument = null;
         }
 
-        public ApiModeEnum ApiMode { get; set; }
+        public ApiModes ApiMode { get; set; }
         public ImageSizes ImageSize { get; set; }
         public dynamic JsonDocument { get; set; }
 
@@ -152,7 +152,7 @@ namespace Tumblr_Tool.Managers
             {
                 JsonDocument = JsonHelper.GetObject(url);
 
-                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponseEnum.Ok).ToString()))
+                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponses.Ok).ToString()))
                 {
                 }
                 else
@@ -169,14 +169,14 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="tumblrPostType"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string type, ApiModeEnum mode)
+        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, ApiModes mode)
         {
             try
             {
-                var postList = GetPostListFromJsonDoc(type);
+                var postList = GetPostListFromJsonDoc(tumblrPostType);
 
                 return postList;
             }
@@ -189,9 +189,9 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="tumblrPostType"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromJsonDoc(string type)
+        public HashSet<TumblrPost> GetPostListFromJsonDoc(string tumblrPostType)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace Tumblr_Tool.Managers
                     {
                         TumblrPost post = new TumblrPost();
 
-                        if (type == TumblrPostTypes.Photo.ToString().ToLower())
+                        if (tumblrPostType == TumblrPostTypes.Photo.ToString().ToLower())
                         {
                             PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
                         }

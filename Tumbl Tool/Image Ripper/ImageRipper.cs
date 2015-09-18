@@ -46,21 +46,21 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="parsePng"></param>
         /// <param name="parseGif"></param>
         /// <param name="imageSize"></param>
-        /// <param name="startNum"></param>
-        /// <param name="endNum"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
         /// <param name="apiMode"></param>
         public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true,
-            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSizes imageSize = ImageSizes.None, int startNum = 0, int endNum = 0, ApiModeEnum apiMode = ApiModeEnum.ApiV2Json)
+            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSizes imageSize = ImageSizes.None, int offset = 0, int limit = 0, ApiModes apiMode = ApiModes.V2Json)
         {
             TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
             TumblrDomain = WebHelper.GetDomainName(blog.Url);
 
             GenerateLog = generateLog;
 
-            Offset = startNum;
+            Offset = offset;
             SaveLocation = saveLocation;
 
-            MaximumNumberOfPosts = endNum;
+            Limit = limit;
 
             ErrorList = new HashSet<string>();
 
@@ -82,7 +82,7 @@ namespace Tumblr_Tool.Image_Ripper
             CommentsList = new Dictionary<string, string>();
         }
 
-        public ApiModeEnum ApiMode { get; set; }
+        public ApiModes ApiMode { get; set; }
 
         public ImageSizes ImageSize { get; set; }
 
@@ -104,7 +104,7 @@ namespace Tumblr_Tool.Image_Ripper
 
         public bool IsLogUpdated { get; set; }
 
-        public int MaximumNumberOfPosts { get; set; }
+        public int Limit { get; set; }
 
         public int NumberOfParsedPosts { get; set; }
 
@@ -209,7 +209,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 DocumentManager.GetDocument(query);
 
-                if ((ApiMode == ApiModeEnum.ApiV2Json && DocumentManager.JsonDocument != null))
+                if ((ApiMode == ApiModes.V2Json && DocumentManager.JsonDocument != null))
                 {
                     DocumentManager.ImageSize = ImageSize;
                     HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostTypes.Photo.ToString().ToLower(), ApiMode);
@@ -247,7 +247,7 @@ namespace Tumblr_Tool.Image_Ripper
         /// </summary>
         /// <param name="parseMode"></param>
         /// <returns></returns>
-        public TumblrBlog ParseBlogPosts(ParseModes parseMode)
+        public TumblrBlog ParseBlogPosts(BlogPostsScanModes parseMode)
         {
             try
             {
@@ -256,7 +256,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
 
-                var step = (int)PostStepEnum.Json;
+                var numPostsPerDocument = (int)NumberOfPostsPerDocument.ApiV2;
 
                 if (TotalNumberOfPosts == 0)
                     TotalNumberOfPosts = Blog.TotalPosts;
@@ -265,7 +265,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                 PercentComplete = 0;
 
-                if (parseMode == ParseModes.FullRescan)
+                if (parseMode == BlogPostsScanModes.FullBlogRescan)
                 {
                     while (Offset < TotalNumberOfPosts && !IsCancelled)
                     {
@@ -274,7 +274,7 @@ namespace Tumblr_Tool.Image_Ripper
                         GenerateImageListForDownload(posts);
                         NumberOfParsedPosts += Blog.Posts.Count;
                         PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
-                        Offset += step;
+                        Offset += numPostsPerDocument;
 
                         if (GenerateLog)
                         {
@@ -283,7 +283,7 @@ namespace Tumblr_Tool.Image_Ripper
                         Blog.Posts = new HashSet<TumblrPost>();
                     }
                 }
-                else if (parseMode == ParseModes.NewestOnly)
+                else if (parseMode == BlogPostsScanModes.NewestPostsOnly)
                 {
                     while (!finished && Offset < TotalNumberOfPosts && !IsCancelled)
                     {
@@ -306,7 +306,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                         GenerateImageListForDownload(posts);
                         PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
-                        Offset += step;
+                        Offset += numPostsPerDocument;
 
                         if (GenerateLog)
                         {
@@ -334,7 +334,7 @@ namespace Tumblr_Tool.Image_Ripper
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetApiMode(ApiModeEnum mode)
+        public void SetApiMode(ApiModes mode)
         {
             try
             {

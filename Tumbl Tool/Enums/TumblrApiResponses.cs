@@ -13,13 +13,21 @@
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Enum for different Tumblr API versioning - API v1 XML or API v2 JSON
+    /// Tumblr API Response Codes
     /// </summary>
-    public enum ApiModeEnum
+    public enum TumblrApiResponses
     {
         /// <summary>
-        /// Tumblr API v2
+        /// Tumblr blog found
         /// </summary>
-        ApiV2Json
+        Ok = 200,
+        /// <summary>
+        /// Access not authorized
+        /// </summary>
+        NotAuthorized = 401,
+        /// <summary>
+        /// Tumblr blog not found
+        /// </summary>
+        NotFound = 404
     }
 }

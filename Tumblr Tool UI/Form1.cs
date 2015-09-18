@@ -138,7 +138,7 @@ namespace Tumblr_Tool
 
         public ToolOptions Options { get; set; }
 
-        public Dictionary<string, ParseModes> ParseModesDict { get; set; }
+        public Dictionary<string, BlogPostsScanModes> BlogPostsScanModesDict { get; set; }
         public ImageRipper ImageRipper { get; set; }
 
         public string SaveLocation { get; set; }
@@ -380,7 +380,7 @@ namespace Tumblr_Tool
                     if (ImageRipper != null)
                     {
                         //this.ImageRipper.SetAPIMode((ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), Options.ApiMode));
-                        ImageRipper.SetApiMode(ApiModeEnum.ApiV2Json);
+                        ImageRipper.SetApiMode(ApiModes.V2Json);
                         ImageRipper.SetLogFile(TumblrLogFile);
 
                         if (ImageRipper.TumblrExists())
@@ -413,10 +413,10 @@ namespace Tumblr_Tool
 
                                     if (ImageRipper != null)
                                     {
-                                        ParseModes mode = ParseModes.NewestOnly;
+                                        BlogPostsScanModes mode = BlogPostsScanModes.NewestPostsOnly;
                                         Invoke((MethodInvoker)delegate
                                         {
-                                            mode = this.ParseModesDict[this.select_Mode.SelectedItem.ToString()];
+                                            mode = this.BlogPostsScanModesDict[this.select_Mode.SelectedItem.ToString()];
                                         });
 
                                         lock (ImageRipper)
@@ -646,7 +646,7 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    UpdateWorkStatusTextNewLine("Unable to get post info from API (Offset " + this.ImageRipper.NumberOfParsedPosts + " - " + (ImageRipper.NumberOfParsedPosts + (int)PostStepEnum.Json) + ") ... ");
+                                    UpdateWorkStatusTextNewLine("Unable to get post info from API (Offset " + this.ImageRipper.NumberOfParsedPosts + " - " + (ImageRipper.NumberOfParsedPosts + (int)NumberOfPostsPerDocument.ApiV2) + ") ... ");
                                 });
                             }
                             ImageRipper.StatusCode = ProcessingCodes.Crawling;
@@ -1412,7 +1412,7 @@ namespace Tumblr_Tool
 
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    TumblrStats = new TumblrStats(new TumblrBlog(TumblrUrl), TumblrUrl, ApiModeEnum.ApiV2Json)
+                    TumblrStats = new TumblrStats(new TumblrBlog(TumblrUrl), TumblrUrl, ApiModes.V2Json)
                     {
                         StatusCode = ProcessingCodes.Initializing
                     };
@@ -1463,7 +1463,7 @@ namespace Tumblr_Tool
                             this.lbl_PercentBar.Text = @"Getting initial blog info ... ";
                         });
                     }
-                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.TotalPosts <= 0)
+                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.NumTotalPosts <= 0)
                     {
                         // wait till we got the blog title and desc and posts number
                     }
@@ -1475,7 +1475,7 @@ namespace Tumblr_Tool
                             {
                                 this.lbl_Stats_TotalCount.Visible = true;
                                 this.lbl_Stats_BlogTitle.Text = TumblrStats.Blog.Title;
-                                this.lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
+                                this.lbl_Stats_TotalCount.Text = TumblrStats.NumTotalPostsOverall.ToString();
 
                                 this.lbl_PostCount.Text = string.Empty;
                                 this.img_Stats_Avatar.LoadAsync(JsonHelper.GenerateAvatarQueryString(TumblrStats.Blog.Url));
@@ -1503,7 +1503,7 @@ namespace Tumblr_Tool
                                 });
                             }
 
-                            percent = (int)((TumblrStats.Parsed / (double)typesCount) * 100.00);
+                            percent = (int)((TumblrStats.NumParsed / (double)typesCount) * 100.00);
                             if (percent < 0)
                                 percent = 0;
 
@@ -1522,7 +1522,7 @@ namespace Tumblr_Tool
                                 }
                             }
 
-                            if (CurrentPostCount != TumblrStats.Parsed)
+                            if (CurrentPostCount != TumblrStats.NumParsed)
                             {
                                 if (!IsDisposed)
                                 {
@@ -1530,23 +1530,23 @@ namespace Tumblr_Tool
                                     Invoke((MethodInvoker)delegate
                                     {
                                         this.lbl_PercentBar.Visible = true;
-                                        this.lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
-                                        this.lbl_Stats_PhotoCount.Text = TumblrStats.PhotoPosts.ToString();
-                                        this.lbl_Stats_TextCount.Text = TumblrStats.TextPosts.ToString();
-                                        this.lbl_Stats_QuoteStats.Text = TumblrStats.QuotePosts.ToString();
-                                        this.lbl_Stats_LinkCount.Text = TumblrStats.LinkPosts.ToString();
-                                        this.lbl_Stats_AudioCount.Text = TumblrStats.AudioPosts.ToString();
-                                        this.lbl_Stats_VideoCount.Text = TumblrStats.VideoPosts.ToString();
-                                        this.lbl_Stats_ChatCount.Text = TumblrStats.ChatPosts.ToString();
-                                        this.lbl_Stats_AnswerCount.Text = TumblrStats.AnswerPosts.ToString();
+                                        this.lbl_Stats_TotalCount.Text = TumblrStats.NumTotalPostsOverall.ToString();
+                                        this.lbl_Stats_PhotoCount.Text = TumblrStats.NumPhotoPosts.ToString();
+                                        this.lbl_Stats_TextCount.Text = TumblrStats.NumTextPosts.ToString();
+                                        this.lbl_Stats_QuoteStats.Text = TumblrStats.NumQuotePosts.ToString();
+                                        this.lbl_Stats_LinkCount.Text = TumblrStats.NumLinkPosts.ToString();
+                                        this.lbl_Stats_AudioCount.Text = TumblrStats.NumAudioPosts.ToString();
+                                        this.lbl_Stats_VideoCount.Text = TumblrStats.NumVideoPosts.ToString();
+                                        this.lbl_Stats_ChatCount.Text = TumblrStats.NumChatPosts.ToString();
+                                        this.lbl_Stats_AnswerCount.Text = TumblrStats.NumAnswerPosts.ToString();
                                         this.lbl_PercentBar.Text = string.Format(PercentFormat, percent1);
                                         this.lbl_PostCount.Visible = true;
-                                        this.lbl_PostCount.Text = string.Format(PostCountFormat, TumblrStats.Parsed, (typesCount));
+                                        this.lbl_PostCount.Text = string.Format(PostCountFormat, TumblrStats.NumParsed, (typesCount));
                                     });
                                 }
                             }
 
-                            CurrentPostCount = TumblrStats.Parsed;
+                            CurrentPostCount = TumblrStats.NumParsed;
                             CurrentPercent = percent;
                         }
                     }
@@ -1625,7 +1625,7 @@ namespace Tumblr_Tool
 
             OptionsFileName = Path.Combine(fullAppFolderPath, "Tumblr Tools.options");
 
-            ParseModesDict = new Dictionary<string, ParseModes>();
+            BlogPostsScanModesDict = new Dictionary<string, BlogPostsScanModes>();
             DownloadedList = new List<string>();
             DownloadedSizesList = new List<int>();
             NotDownloadedList = new List<string>();
@@ -1640,8 +1640,8 @@ namespace Tumblr_Tool
 
             select_Mode.DataSource = modeData;
 
-            ParseModesDict.Add(ModeNewestOnly, ParseModes.NewestOnly);
-            ParseModesDict.Add(ModeFullRescan, ParseModes.FullRescan);
+            BlogPostsScanModesDict.Add(ModeNewestOnly, BlogPostsScanModes.NewestPostsOnly);
+            BlogPostsScanModesDict.Add(ModeFullRescan, BlogPostsScanModes.FullBlogRescan);
 
             select_Mode.SelectItem(ModeNewestOnly);
             select_Mode.DropDownStyle = ComboBoxStyle.DropDownList;

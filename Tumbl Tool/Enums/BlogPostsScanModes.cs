@@ -10,24 +10,25 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System.ComponentModel;
+
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Tumblr API Response Codes
+    /// Parse Modes: Full Rescan / New Posts Only
     /// </summary>
-    public enum TumblrApiResponseEnum
+    public enum BlogPostsScanModes
     {
         /// <summary>
-        /// Tumblr blog found
+        /// Scan new posts only
         /// </summary>
-        Ok = 200,
+        [Description("New")]
+        NewestPostsOnly = 0,
+
         /// <summary>
-        /// Access not authorized
+        /// Full blog rescan
         /// </summary>
-        NotAuthorized = 401,
-        /// <summary>
-        /// Tumblr blog not found
-        /// </summary>
-        NotFound = 404
+        [Description("Full")]
+        FullBlogRescan = 1
     }
 }

@@ -10,25 +10,16 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using System.ComponentModel;
-
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Parse Modes: Full Rescan / New Posts Only
+    /// Enum for different Tumblr API versioning - API v1 XML or API v2 JSON
     /// </summary>
-    public enum ParseModes
+    public enum ApiModes
     {
         /// <summary>
-        /// Full blog rescan
+        /// Tumblr API v2
         /// </summary>
-        [Description("Full")]
-        FullRescan = 1,
-
-        /// <summary>
-        /// Scan new posts only
-        /// </summary>
-        [Description("New")]
-        NewestOnly = 0
+        V2Json
     }
 }
