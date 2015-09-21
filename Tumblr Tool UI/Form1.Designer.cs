@@ -35,20 +35,20 @@ namespace Tumblr_Tool
             this.menuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.download_Worker = new System.ComponentModel.BackgroundWorker();
+            this.imageDownloadWorker = new System.ComponentModel.BackgroundWorker();
             this.menu_TopMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.crawl_Worker = new System.ComponentModel.BackgroundWorker();
-            this.crawl_UpdateUI_Worker = new System.ComponentModel.BackgroundWorker();
+            this.imageCrawlWorker = new System.ComponentModel.BackgroundWorker();
+            this.imageCrawlWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.status_Strip = new System.Windows.Forms.StatusStrip();
             this.lbl_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_PostCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Size = new System.Windows.Forms.ToolStripStatusLabel();
-            this.download_UIUpdate_Worker = new System.ComponentModel.BackgroundWorker();
-            this.getStats_Worker = new System.ComponentModel.BackgroundWorker();
-            this.getStatsUI_Worker = new System.ComponentModel.BackgroundWorker();
+            this.imageDownloadWorkerUI = new System.ComponentModel.BackgroundWorker();
+            this.blogGetStatsWorker = new System.ComponentModel.BackgroundWorker();
+            this.blogGetStatsWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl_Main = new KRBTabControl.KRBTabControl();
             this.tab_ImageRipper = new KRBTabControl.TabPageEx();
@@ -161,12 +161,12 @@ namespace Tumblr_Tool
             this.menuItem_About.Size = new System.Drawing.Size(107, 22);
             this.menuItem_About.Text = "About";
             // 
-            // download_Worker
+            // imageDownloadWorker
             // 
-            this.download_Worker.WorkerReportsProgress = true;
-            this.download_Worker.WorkerSupportsCancellation = true;
-            this.download_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_DoWork);
-            this.download_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_AfterDone);
+            this.imageDownloadWorker.WorkerReportsProgress = true;
+            this.imageDownloadWorker.WorkerSupportsCancellation = true;
+            this.imageDownloadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_DoWork);
+            this.imageDownloadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_AfterDone);
             // 
             // menu_TopMenu
             // 
@@ -219,19 +219,19 @@ namespace Tumblr_Tool
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
-            // crawl_Worker
+            // imageCrawlWorker
             // 
-            this.crawl_Worker.WorkerReportsProgress = true;
-            this.crawl_Worker.WorkerSupportsCancellation = true;
-            this.crawl_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_DoWork);
-            this.crawl_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_AfterDone);
+            this.imageCrawlWorker.WorkerReportsProgress = true;
+            this.imageCrawlWorker.WorkerSupportsCancellation = true;
+            this.imageCrawlWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_DoWork);
+            this.imageCrawlWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_AfterDone);
             // 
-            // crawl_UpdateUI_Worker
+            // imageCrawlWorkerUI
             // 
-            this.crawl_UpdateUI_Worker.WorkerReportsProgress = true;
-            this.crawl_UpdateUI_Worker.WorkerSupportsCancellation = true;
-            this.crawl_UpdateUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_UI__DoWork);
-            this.crawl_UpdateUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_UI__AfterDone);
+            this.imageCrawlWorkerUI.WorkerReportsProgress = true;
+            this.imageCrawlWorkerUI.WorkerSupportsCancellation = true;
+            this.imageCrawlWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_UI__DoWork);
+            this.imageCrawlWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_UI__AfterDone);
             // 
             // status_Strip
             // 
@@ -291,26 +291,26 @@ namespace Tumblr_Tool
             this.lbl_Size.Text = "[Size]";
             this.lbl_Size.Visible = false;
             // 
-            // download_UIUpdate_Worker
+            // imageDownloadWorkerUI
             // 
-            this.download_UIUpdate_Worker.WorkerReportsProgress = true;
-            this.download_UIUpdate_Worker.WorkerSupportsCancellation = true;
-            this.download_UIUpdate_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_UI__DoWork);
-            this.download_UIUpdate_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_UI__AfterDone);
+            this.imageDownloadWorkerUI.WorkerReportsProgress = true;
+            this.imageDownloadWorkerUI.WorkerSupportsCancellation = true;
+            this.imageDownloadWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_UI__DoWork);
+            this.imageDownloadWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_UI__AfterDone);
             // 
-            // getStats_Worker
+            // blogGetStatsWorker
             // 
-            this.getStats_Worker.WorkerReportsProgress = true;
-            this.getStats_Worker.WorkerSupportsCancellation = true;
-            this.getStats_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_DoWork);
-            this.getStats_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_AfterDone);
+            this.blogGetStatsWorker.WorkerReportsProgress = true;
+            this.blogGetStatsWorker.WorkerSupportsCancellation = true;
+            this.blogGetStatsWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_DoWork);
+            this.blogGetStatsWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_AfterDone);
             // 
-            // getStatsUI_Worker
+            // blogGetStatsWorkerUI
             // 
-            this.getStatsUI_Worker.WorkerReportsProgress = true;
-            this.getStatsUI_Worker.WorkerSupportsCancellation = true;
-            this.getStatsUI_Worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_UI__DoWork);
-            this.getStatsUI_Worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_UI_AfterDone);
+            this.blogGetStatsWorkerUI.WorkerReportsProgress = true;
+            this.blogGetStatsWorkerUI.WorkerSupportsCancellation = true;
+            this.blogGetStatsWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_UI__DoWork);
+            this.blogGetStatsWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_UI_AfterDone);
             // 
             // fileBackgroundWorker
             // 
@@ -557,7 +557,7 @@ namespace Tumblr_Tool
             this.btn_Browse.TabIndex = 6;
             this.btn_Browse.Text = "Browse";
             this.btn_Browse.UseVisualStyleBackColor = true;
-            this.btn_Browse.Click += new System.EventHandler(this.BrowseLocation);
+            this.btn_Browse.Click += new System.EventHandler(this.BrowseLocalPath);
             this.btn_Browse.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
             this.btn_Browse.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
             // 
@@ -1253,7 +1253,7 @@ namespace Tumblr_Tool
             this.bar_Progress.TabIndex = 13;
             this.bar_Progress.Value = 50;
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1321,27 +1321,27 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_Browse;
         private System.Windows.Forms.Button btn_ImageCrawler_Start;
         private System.Windows.Forms.RichTextBox txt_WorkStatus;
-        private System.ComponentModel.BackgroundWorker download_Worker;
+        private System.ComponentModel.BackgroundWorker imageDownloadWorker;
         private ColorProgressBar bar_Progress;
         private System.Windows.Forms.MenuStrip menu_TopMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.ComponentModel.BackgroundWorker crawl_Worker;
-        private System.ComponentModel.BackgroundWorker crawl_UpdateUI_Worker;
+        private System.ComponentModel.BackgroundWorker imageCrawlWorker;
+        private System.ComponentModel.BackgroundWorker imageCrawlWorkerUI;
         private System.Windows.Forms.StatusStrip status_Strip;
         private System.Windows.Forms.ToolStripStatusLabel lbl_Status;
         private System.Windows.Forms.ToolStripStatusLabel lbl_PostCount;
         private System.Windows.Forms.ToolStripStatusLabel lbl_Size;
-        private System.ComponentModel.BackgroundWorker download_UIUpdate_Worker;
+        private System.ComponentModel.BackgroundWorker imageDownloadWorkerUI;
         private System.Windows.Forms.TextBox txt_Stats_TumblrURL;
         private System.Windows.Forms.Label lbl_Stats_Photo;
         private System.Windows.Forms.Label lbl_Stats_PhotoCount;
         private System.Windows.Forms.Label lbl_Stats_TotalCount;
         private System.Windows.Forms.Label lbl_Stats_Total;
         private System.Windows.Forms.Label lbl_Stats_URL;
-        private System.ComponentModel.BackgroundWorker getStats_Worker;
-        private System.ComponentModel.BackgroundWorker getStatsUI_Worker;
+        private System.ComponentModel.BackgroundWorker blogGetStatsWorker;
+        private System.ComponentModel.BackgroundWorker blogGetStatsWorkerUI;
         private System.Windows.Forms.Button btn_Stats_Start;
         private System.Windows.Forms.Label lbl_Stats_QuoteStats;
         private System.Windows.Forms.Label lbl_Stats_LinkCount;

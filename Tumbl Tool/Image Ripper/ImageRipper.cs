@@ -207,7 +207,7 @@ namespace Tumblr_Tool.Image_Ripper
             {
                 var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), offset);
 
-                DocumentManager.GetDocument(query);
+                DocumentManager.GetRemoteDocument(query);
 
                 if ((ApiMode == ApiModes.V2Json && DocumentManager.JsonDocument != null))
                 {
@@ -356,7 +356,7 @@ namespace Tumblr_Tool.Image_Ripper
             try
             {
                 var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), 0, 1);
-                return DocumentManager.GetBlogInfo(query, Blog);
+                return DocumentManager.GetRemoteBlogInfo(query, Blog);
             }
             catch
             {

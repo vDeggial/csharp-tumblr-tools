@@ -168,7 +168,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void BrowseLocation(object sender, EventArgs e)
+        public void BrowseLocalPath(object sender, EventArgs e)
         {
             using (FolderBrowserDialog ofd = new FolderBrowserDialog())
             {
@@ -300,9 +300,9 @@ namespace Tumblr_Tool
                             NotDownloadedList = new List<string>();
                             DownloadedSizesList = new List<int>();
 
-                            download_UIUpdate_Worker.RunWorkerAsync();
+                            imageDownloadWorkerUI.RunWorkerAsync();
 
-                            download_Worker.RunWorkerAsync(ImageRipper.ImageList);
+                            imageDownloadWorker.RunWorkerAsync(ImageRipper.ImageList);
                         }
                     }
                 }
@@ -646,7 +646,7 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    UpdateWorkStatusTextNewLine("Unable to get post info from API (Offset " + this.ImageRipper.NumberOfParsedPosts + " - " + (ImageRipper.NumberOfParsedPosts + (int)NumberOfPostsPerDocument.ApiV2) + ") ... ");
+                                    UpdateWorkStatusTextNewLine("Unable to get post info from API (Offset " + this.ImageRipper.NumberOfParsedPosts + " - " + (ImageRipper.NumberOfParsedPosts + (int)NumberOfPostsPerApiDocument.ApiV2) + ") ... ");
                                 });
                             }
                             ImageRipper.StatusCode = ProcessingCodes.Crawling;
@@ -1463,7 +1463,7 @@ namespace Tumblr_Tool
                             this.lbl_PercentBar.Text = @"Getting initial blog info ... ";
                         });
                     }
-                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.NumTotalPosts <= 0)
+                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.NumTotalPostsForType <= 0)
                     {
                         // wait till we got the blog title and desc and posts number
                     }
@@ -1918,8 +1918,8 @@ namespace Tumblr_Tool
             {
                 EnableUI_Stats(false);
 
-                getStats_Worker.RunWorkerAsync();
-                getStatsUI_Worker.RunWorkerAsync();
+                blogGetStatsWorker.RunWorkerAsync();
+                blogGetStatsWorkerUI.RunWorkerAsync();
             }
             else
             {
@@ -1975,9 +1975,9 @@ namespace Tumblr_Tool
 
                 if (!IsCancelled)
                 {
-                    crawl_Worker.RunWorkerAsync(ImageRipper);
+                    imageCrawlWorker.RunWorkerAsync(ImageRipper);
 
-                    crawl_UpdateUI_Worker.RunWorkerAsync(ImageRipper);
+                    imageCrawlWorkerUI.RunWorkerAsync(ImageRipper);
                 }
             }
             else

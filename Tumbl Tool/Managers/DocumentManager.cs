@@ -68,11 +68,11 @@ namespace Tumblr_Tool.Managers
         /// <param name="url"></param>
         /// <param name="blog"></param>
         /// <returns></returns>
-        public bool GetBlogInfo(string url, TumblrBlog blog)
+        public bool GetRemoteBlogInfo(string url, TumblrBlog blog)
         {
             try
             {
-                return GetJsonBlogInfo(url, blog);
+                return GetRemoteBlogInfoJson(url, blog);
             }
             catch
             {
@@ -84,11 +84,11 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <param name="url"></param>
-        public void GetDocument(string url)
+        public void GetRemoteDocument(string url)
         {
             try
             {
-                GetJsonDocument(url);
+                GetRemoteJsonDocument(url);
             }
             catch
             {
@@ -102,7 +102,7 @@ namespace Tumblr_Tool.Managers
         /// <param name="url"></param>
         /// <param name="blog"></param>
         /// <returns></returns>
-        public bool GetJsonBlogInfo(string url, TumblrBlog blog)
+        public bool GetRemoteBlogInfoJson(string url, TumblrBlog blog)
         {
             if (!string.IsNullOrEmpty(url))
             {
@@ -146,7 +146,7 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <param name="url"></param>
-        public void GetJsonDocument(string url)
+        public void GetRemoteJsonDocument(string url)
         {
             try
             {
