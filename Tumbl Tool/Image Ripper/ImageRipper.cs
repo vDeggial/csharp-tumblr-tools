@@ -10,7 +10,6 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Enums;
@@ -151,23 +150,17 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     foreach (PhotoPostImage image in post.Photos)
                     {
-                        if (!FileHelper.IsExistingFile(ExistingImageList,image.Filename))
-                        {
-                            try
-                            {
-                                //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
 
-                                //post.caption = post.caption.StripTags();
-                                ImageList.Add(image);
-                            }
-                            catch
-                            {
-                                return;
-                            }
-                        }
-                        else
+                        try
                         {
-                            image.Downloaded = true;
+                            //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
+
+                            //post.caption = post.caption.StripTags();
+                            ImageList.Add(image);
+                        }
+                        catch
+                        {
+                            return;
                         }
                     }
                 }
@@ -269,26 +262,29 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
 
-                    if (parseMode == BlogPostsScanModes.NewestPostsOnly)
+                    HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
+                                                                                where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
+                                                                                select p));
+
+                    posts.RemoveWhere(x => existingHash.Contains(x));
+
+                    if (parseMode == BlogPostsScanModes.NewestPostsOnly && existingHash.Count > 0)
                     {
-                        HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
-                                                                                    where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
-                                                                                    select p));
-
-                        posts.RemoveWhere(x => existingHash.Contains(x));
-
-                        
-
-                        if (existingHash.Count > 0)
-                        {
                             finished = true;
-                        }
                     }
 
-                    Blog.Posts.UnionWith(posts);
-                    NumberOfParsedPosts += posts.Count;
+                    if (posts.Count != 0)
+                    {
+                        Blog.Posts.UnionWith(posts);
+                        NumberOfParsedPosts += posts.Count;
+                        GenerateImageListForDownload(posts);
+                    }
 
-                    GenerateImageListForDownload(posts);
+                    else
+                    {
+                        NumberOfParsedPosts += numPostsPerDocument;
+                    }
+
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
                     Offset += numPostsPerDocument;
 
