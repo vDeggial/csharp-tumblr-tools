@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: September, 2015
+ *  Last Updated: November, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -46,7 +46,7 @@ namespace Tumblr_Tool.Helpers
         /// </summary>
         /// <param name="file">Filename</param>
         /// <returns>True if file exists, false otherwise</returns>
-        public static bool FileExists(string file)
+        public static bool FileExistsOnHdd(string file)
         {
             return File.Exists(file);
         }
@@ -59,7 +59,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string FindFile(string dir, string fileName)
         {
-            return Directory.GetFiles(@dir, fileName + ".*").FirstOrDefault();
+            return Directory.GetFiles(dir, fileName + ".*").FirstOrDefault();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GenerateLocalPathToFile(string url, string location)
         {
-            return @location + @"\" + Path.GetFileName(url);
+            return location + @"\" + Path.GetFileName(url);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GenerateLocalPathToFile(string url, string location, string prefix)
         {
-            return @location + @"\" + prefix + Path.GetFileName(url);
+            return location + @"\" + prefix + Path.GetFileName(url);
         }
 
         /// <summary>
@@ -98,6 +98,7 @@ namespace Tumblr_Tool.Helpers
             FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
             var imagesList = (from f in files select f.Name).ToHashSet();
+
 
             //foreach (FileInfo f in files)
             //{
@@ -210,6 +211,32 @@ namespace Tumblr_Tool.Helpers
                 default:
                     return false;
             }
+        }
+
+        /// <summary>
+        /// Check if the file name exosts in the directory listing Hashset already
+        /// </summary>
+        /// <param name="sourceSet"></param>
+        /// <param name="fileName"></param>
+        /// <param name="useFullString"></param>
+        /// <param name="cutOffChar"></param>
+        /// <returns></returns>
+        public static bool IsExistingFile(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
+        {
+            HashSet<string> list;
+            if (!useFullString)
+            {
+                list = (from p in sourceSet
+                    where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
+                    select p).ToHashSet();
+            }
+            else
+            {
+                list = (from p in sourceSet
+                        where p.ToLower().Contains(fileName.ToLower())
+                        select p).ToHashSet();
+            }
+            return Convert.ToBoolean(list.Count);
         }
     }
 }

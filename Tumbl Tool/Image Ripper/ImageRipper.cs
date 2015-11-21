@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: September, 2015
+ *  Last Updated: November, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -151,7 +151,7 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     foreach (PhotoPostImage image in post.Photos)
                     {
-                        if (!ExistingImageList.Contains(image.Filename, StringComparer.OrdinalIgnoreCase))
+                        if (!FileHelper.IsExistingFile(ExistingImageList,image.Filename))
                         {
                             try
                             {
@@ -289,9 +289,9 @@ namespace Tumblr_Tool.Image_Ripper
                     {
                         HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
 
+
                         HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
-                                                                                    where ExistingImageList.Contains(p.Photos.Last().Filename,
-                                                                                        StringComparer.OrdinalIgnoreCase)
+                                                                                    where FileHelper.IsExistingFile(ExistingImageList,p.Photos.Last().Filename)
                                                                                     select p));
 
                         posts.RemoveWhere(x => existingHash.Contains(x));

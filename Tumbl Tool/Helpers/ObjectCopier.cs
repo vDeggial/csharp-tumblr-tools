@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: September, 2015
+ *  Last Updated: November, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -23,11 +23,11 @@ namespace Tumblr_Tool.Helpers
     public static class ObjectCopier
     {
         /// <summary>
-        ///
+        /// Deep object clone
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="source"> Object to clone</param>
+        /// <returns>Returns deep copy of object</returns>
         public static T Clone<T>(this T source)
         {
             if (!typeof(T).IsSerializable)

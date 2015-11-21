@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: September, 2015
+ *  Last Updated: November, 2015
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -125,7 +125,7 @@ namespace Tumblr_Tool.Managers
                     catch (Exception)
                     {
                         StatusCode = DownloadStatusCodes.UnableDownload;
-                        if (FileHelper.FileExists(localFilePath))
+                        if (FileHelper.FileExistsOnHdd(localFilePath))
                         {
                             var file = new FileInfo(localFilePath);
 
@@ -195,7 +195,7 @@ namespace Tumblr_Tool.Managers
             catch
             {
                 StatusCode = DownloadStatusCodes.UnableDownload;
-                if (FileHelper.FileExists(localFilePath))
+                if (FileHelper.FileExistsOnHdd(localFilePath))
                 {
                     FileInfo file = new FileInfo(localFilePath);
 
@@ -227,7 +227,7 @@ namespace Tumblr_Tool.Managers
             if (e.Cancelled)
             {
                 StatusCode = DownloadStatusCodes.UnableDownload;
-                if (FileHelper.FileExists((string)e.UserState))
+                if (FileHelper.FileExistsOnHdd((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
 
@@ -240,7 +240,7 @@ namespace Tumblr_Tool.Managers
             if (e.Error != null)
             {
                 StatusCode = DownloadStatusCodes.UnableDownload;
-                if (FileHelper.FileExists((string)e.UserState))
+                if (FileHelper.FileExistsOnHdd((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
 
