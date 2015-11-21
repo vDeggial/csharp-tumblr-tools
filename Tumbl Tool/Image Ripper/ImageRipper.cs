@@ -265,57 +265,41 @@ namespace Tumblr_Tool.Image_Ripper
 
                 PercentComplete = 0;
 
-                if (parseMode == BlogPostsScanModes.FullBlogRescan)
+                while (Offset < TotalNumberOfPosts && !IsCancelled && !finished)
                 {
-                    while (Offset < TotalNumberOfPosts && !IsCancelled)
+                    HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
+
+                    if (parseMode == BlogPostsScanModes.NewestPostsOnly)
                     {
-                        HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
-                        Blog.Posts.UnionWith(posts);
-                        GenerateImageListForDownload(posts);
-                        NumberOfParsedPosts += Blog.Posts.Count;
-                        PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
-                        Offset += numPostsPerDocument;
-
-                        if (GenerateLog)
-                        {
-                            UpdateLogFile(Blog.Name);
-                        }
-                        Blog.Posts = new HashSet<TumblrPost>();
-                    }
-                }
-                else if (parseMode == BlogPostsScanModes.NewestPostsOnly)
-                {
-                    while (!finished && Offset < TotalNumberOfPosts && !IsCancelled)
-                    {
-                        HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
-
-
                         HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
-                                                                                    where FileHelper.IsExistingFile(ExistingImageList,p.Photos.Last().Filename)
+                                                                                    where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
                                                                                     select p));
 
                         posts.RemoveWhere(x => existingHash.Contains(x));
 
-                        Blog.Posts.UnionWith(posts);
-                        NumberOfParsedPosts += posts.Count;
+                        
 
                         if (existingHash.Count > 0)
                         {
                             finished = true;
                         }
-
-                        GenerateImageListForDownload(posts);
-                        PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
-                        Offset += numPostsPerDocument;
-
-                        if (GenerateLog)
-                        {
-                            UpdateLogFile(Blog.Name);
-                        }
-
-                        Blog.Posts = new HashSet<TumblrPost>();
                     }
+
+                    Blog.Posts.UnionWith(posts);
+                    NumberOfParsedPosts += posts.Count;
+
+                    GenerateImageListForDownload(posts);
+                    PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
+                    Offset += numPostsPerDocument;
+
+                    if (GenerateLog)
+                    {
+                        UpdateLogFile(Blog.Name);
+                    }
+                    Blog.Posts = new HashSet<TumblrPost>();
                 }
+
+                
 
                 TotalNumberOfImages = ImageList.Count;
 
