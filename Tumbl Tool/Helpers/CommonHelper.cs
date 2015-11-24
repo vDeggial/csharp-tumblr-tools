@@ -114,5 +114,16 @@ namespace Tumblr_Tool.Helpers
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
+
+        public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
+        {
+            HashSet<T> newSet = new HashSet<T>();
+            for (int n = set.Count - 1; n >= 0; n--)
+            {
+                newSet.Add(set.ElementAt(n));
+            }
+
+            return newSet;
+        }
     }
 }

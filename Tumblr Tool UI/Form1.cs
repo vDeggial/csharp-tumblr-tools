@@ -60,7 +60,7 @@ namespace Tumblr_Tool
         public const string SuffixGb = "GB";
         public const string SuffixKb = "KB";
         public const string SuffixMb = "MB";
-        public const string Version = "1.3.4";
+        public const string Version = "1.3.5";
         public const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2015 Shino Amakusa";
         public const string WorktextCheckingConnx = "Checking connection ...";
         public const string WorktextDownloadingImages = "Downloading ...";
@@ -861,6 +861,11 @@ namespace Tumblr_Tool
                     lock (DownloadManager)
                     {
                         DownloadManager.StatusCode = DownloadStatusCodes.Downloading;
+                    }
+
+                    if (Options.OldToNewDownloadOrder)
+                    {
+                        imagesList = imagesList.ReverseHashSet();
                     }
 
                     foreach (PhotoPostImage photoImage in imagesList)
@@ -1700,7 +1705,8 @@ namespace Tumblr_Tool
             }
             else
             {
-                SetOptions();
+                RestoreOptions();
+                //SetOptions();
                 SaveOptions(file);
             }
 
@@ -1820,13 +1826,14 @@ namespace Tumblr_Tool
         {
             check_Options_ParseGIF.Checked = Options.ParseGif;
             check_Options_ParseJPEG.Checked = Options.ParseJpeg;
-            check_Options_ParseDownload.Checked = !Options.ParseOnly;
-            check_Options_ParseOnly.Checked = Options.ParseOnly;
+            check_Options_ParseDownload.Checked = Options.DownloadFiles;
+            check_Options_ParseOnly.Checked = !Options.DownloadFiles;
             check_Options_ParsePhotoSets.Checked = Options.ParsePhotoSets;
             check_Options_ParsePNG.Checked = Options.ParsePng;
             //this.apiMode = (ApiModeEnum) Enum.Parse(typeof(ApiModeEnum), this.Options.ApiMode);
 
             check_Options_GenerateLog.Checked = Options.GenerateLog;
+            check_Options_OldToNewDownloadOrder.Checked = Options.OldToNewDownloadOrder;
         }
 
         /// <summary>
@@ -1894,9 +1901,10 @@ namespace Tumblr_Tool
             Options.ParsePhotoSets = check_Options_ParsePhotoSets.Checked;
             //this.select_Options_APIMode.SelectedIndex = 1;
             //this.Options.ApiMode = Enum.GetName(typeof(ApiModeEnum), this.select_Options_APIMode.SelectedIndex);
-            Options.ParseOnly = check_Options_ParseOnly.Checked;
+            Options.DownloadFiles = !check_Options_ParseOnly.Checked;
             //this.Options.ApiMode = this.apiMode.ToString();
             Options.GenerateLog = check_Options_GenerateLog.Checked;
+            Options.OldToNewDownloadOrder = check_Options_OldToNewDownloadOrder.Checked;
         }
 
         /// <summary>

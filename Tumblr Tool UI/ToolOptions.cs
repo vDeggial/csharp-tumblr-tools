@@ -14,12 +14,31 @@ namespace Tumblr_Tool
 {
     public class ToolOptions
     {
-        //public string ApiMode { get; set; }
+        public ToolOptions()
+        {
+            GenerateLog = true;
+            ParseGif = true;
+            ParseJpeg = true;
+            DownloadFiles = true;
+            ParsePhotoSets = true;
+            ParsePng = true;
+            OldToNewDownloadOrder = true;
+        }
+
+        /// <summary>
+        /// Option to parse posts without image files download
+        /// </summary>
+        public bool DownloadFiles { get; set; }
 
         /// <summary>
         /// Option to generate posts log file
         /// </summary>
         public bool GenerateLog { get; set; }
+
+        /// <summary>
+        /// Reverse download order - t/f
+        /// </summary>
+        public bool OldToNewDownloadOrder { get; set; }
 
         /// <summary>
         /// Option to parse .gif files
@@ -30,12 +49,6 @@ namespace Tumblr_Tool
         /// Option to parse .jpg files
         /// </summary>
         public bool ParseJpeg { get; set; }
-
-        /// <summary>
-        /// Option to parse posts without image files download
-        /// </summary>
-        public bool ParseOnly { get; set; }
-
         /// <summary>
         /// Option to parse image photosets
         /// </summary>

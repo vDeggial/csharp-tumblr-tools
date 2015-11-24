@@ -98,6 +98,7 @@ namespace Tumblr_Tool
             this.section_Options_LogOptions = new System.Windows.Forms.GroupBox();
             this.check_Options_GenerateLog = new System.Windows.Forms.CheckBox();
             this.section_Options_MethodOptions = new System.Windows.Forms.GroupBox();
+            this.check_Options_OldToNewDownloadOrder = new System.Windows.Forms.CheckBox();
             this.check_Options_ParseDownload = new System.Windows.Forms.CheckBox();
             this.check_Options_ParseOnly = new System.Windows.Forms.CheckBox();
             this.btn_Options_Reset = new System.Windows.Forms.Button();
@@ -1028,16 +1029,27 @@ namespace Tumblr_Tool
             // 
             // section_Options_MethodOptions
             // 
+            this.section_Options_MethodOptions.Controls.Add(this.check_Options_OldToNewDownloadOrder);
             this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseDownload);
             this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseOnly);
             this.section_Options_MethodOptions.Location = new System.Drawing.Point(147, 23);
             this.section_Options_MethodOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.section_Options_MethodOptions.Name = "section_Options_MethodOptions";
             this.section_Options_MethodOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 99);
+            this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 143);
             this.section_Options_MethodOptions.TabIndex = 1;
             this.section_Options_MethodOptions.TabStop = false;
             this.section_Options_MethodOptions.Text = "Method Options";
+            // 
+            // check_Options_OldToNewDownloadOrder
+            // 
+            this.check_Options_OldToNewDownloadOrder.Enabled = false;
+            this.check_Options_OldToNewDownloadOrder.Location = new System.Drawing.Point(8, 87);
+            this.check_Options_OldToNewDownloadOrder.Name = "check_Options_OldToNewDownloadOrder";
+            this.check_Options_OldToNewDownloadOrder.Size = new System.Drawing.Size(124, 39);
+            this.check_Options_OldToNewDownloadOrder.TabIndex = 2;
+            this.check_Options_OldToNewDownloadOrder.Text = "Old to New Download Order";
+            this.check_Options_OldToNewDownloadOrder.UseVisualStyleBackColor = true;
             // 
             // check_Options_ParseDownload
             // 
@@ -1391,6 +1403,7 @@ namespace Tumblr_Tool
         private System.Windows.Forms.ImageList iconsList;
         private System.Windows.Forms.Button btn_ImageCrawler_Stop;
         private AdvancedComboBox select_ImagesSize;
+        private System.Windows.Forms.CheckBox check_Options_OldToNewDownloadOrder;
     }
 }
 
