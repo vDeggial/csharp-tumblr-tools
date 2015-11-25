@@ -33,6 +33,7 @@ namespace Tumblr_Tool
 {
     public partial class MainForm : Form
     {
+        public const string FileSizeFormat = "{0} {1}";
         public const string ImageSizeLarge = "Large";
         public const string ImageSizeMedium = "Medium";
         public const string ImageSizeOriginal = "Original";
@@ -48,7 +49,6 @@ namespace Tumblr_Tool
         public const string ResultFail = " fail";
         public const string ResultOk = " ok";
         public const string ResultSuccess = " success";
-        public const string FileSizeFormat = "{0} {1}";
         public const string StatusDone = "Done";
         public const string StatusDownloadingFormat = "Downloading: {0}";
         public const string StatusError = "Error";
@@ -71,6 +71,8 @@ namespace Tumblr_Tool
         public const string WorktextStarting = "Starting ...";
         public const string WorktextUpdatingLog = "Updating log...";
         public string OptionsFileName;
+
+        private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
 
         public MainForm()
         {
@@ -104,6 +106,7 @@ namespace Tumblr_Tool
         //    }
         //}
 
+        public Dictionary<string, BlogPostsScanModes> BlogPostsScanModesDict { get; set; }
         public string CurrentImage { get; set; }
 
         public int CurrentPercent { get; set; }
@@ -123,6 +126,7 @@ namespace Tumblr_Tool
         public DownloadManager DownloadManager { get; set; }
 
         public string ErrorMessage { get; set; }
+        public ImageRipper ImageRipper { get; set; }
         public Dictionary<string, ImageSizes> ImageSizesIndexDict { get; set; }
         public bool IsCancelled { get; set; }
 
@@ -137,10 +141,6 @@ namespace Tumblr_Tool
         public List<string> NotDownloadedList { get; set; }
 
         public ToolOptions Options { get; set; }
-
-        public Dictionary<string, BlogPostsScanModes> BlogPostsScanModesDict { get; set; }
-        public ImageRipper ImageRipper { get; set; }
-
         public string SaveLocation { get; set; }
 
         public SaveFile TumblrLogFile { get; set; }
@@ -150,9 +150,6 @@ namespace Tumblr_Tool
         public TumblrStats TumblrStats { get; set; }
 
         public string TumblrUrl { get; set; }
-
-        private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
-
         /// <summary>
         ///
         /// </summary>
@@ -865,7 +862,7 @@ namespace Tumblr_Tool
 
                     if (Options.OldToNewDownloadOrder)
                     {
-                        imagesList = imagesList.ReverseHashSet();
+                        imagesList = imagesList.Reverse().ToHashSet();
                     }
 
                     foreach (PhotoPostImage photoImage in imagesList)

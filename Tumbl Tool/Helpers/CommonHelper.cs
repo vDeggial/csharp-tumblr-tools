@@ -71,6 +71,11 @@ namespace Tumblr_Tool.Helpers
             return input?.Replace(strToReplace, strWith);
         }
 
+        public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
+        {
+            return set.Reverse().ToHashSet();
+        }
+
         /// <summary>
         /// Convert to Hashset
         /// </summary>
@@ -113,17 +118,6 @@ namespace Tumblr_Tool.Helpers
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
-        }
-
-        public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
-        {
-            HashSet<T> newSet = new HashSet<T>();
-            for (int n = set.Count - 1; n >= 0; n--)
-            {
-                newSet.Add(set.ElementAt(n));
-            }
-
-            return newSet;
         }
     }
 }
