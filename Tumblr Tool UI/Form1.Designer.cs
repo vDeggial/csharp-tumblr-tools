@@ -99,7 +99,6 @@ namespace Tumblr_Tool
             this.check_Options_GenerateLog = new System.Windows.Forms.CheckBox();
             this.section_Options_MethodOptions = new System.Windows.Forms.GroupBox();
             this.check_Options_OldToNewDownloadOrder = new System.Windows.Forms.CheckBox();
-            this.check_Options_ParseDownload = new System.Windows.Forms.CheckBox();
             this.check_Options_ParseOnly = new System.Windows.Forms.CheckBox();
             this.btn_Options_Reset = new System.Windows.Forms.Button();
             this.section_Options_ImageTypes = new System.Windows.Forms.GroupBox();
@@ -1030,7 +1029,6 @@ namespace Tumblr_Tool
             // section_Options_MethodOptions
             // 
             this.section_Options_MethodOptions.Controls.Add(this.check_Options_OldToNewDownloadOrder);
-            this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseDownload);
             this.section_Options_MethodOptions.Controls.Add(this.check_Options_ParseOnly);
             this.section_Options_MethodOptions.Location = new System.Drawing.Point(147, 23);
             this.section_Options_MethodOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1039,32 +1037,16 @@ namespace Tumblr_Tool
             this.section_Options_MethodOptions.Size = new System.Drawing.Size(158, 143);
             this.section_Options_MethodOptions.TabIndex = 1;
             this.section_Options_MethodOptions.TabStop = false;
-            this.section_Options_MethodOptions.Text = "Method Options";
+            this.section_Options_MethodOptions.Text = "Download Options";
             // 
             // check_Options_OldToNewDownloadOrder
             // 
-            this.check_Options_OldToNewDownloadOrder.Enabled = false;
-            this.check_Options_OldToNewDownloadOrder.Location = new System.Drawing.Point(8, 87);
+            this.check_Options_OldToNewDownloadOrder.Location = new System.Drawing.Point(8, 57);
             this.check_Options_OldToNewDownloadOrder.Name = "check_Options_OldToNewDownloadOrder";
             this.check_Options_OldToNewDownloadOrder.Size = new System.Drawing.Size(124, 39);
             this.check_Options_OldToNewDownloadOrder.TabIndex = 2;
             this.check_Options_OldToNewDownloadOrder.Text = "Old to New Download Order";
             this.check_Options_OldToNewDownloadOrder.UseVisualStyleBackColor = true;
-            // 
-            // check_Options_ParseDownload
-            // 
-            this.check_Options_ParseDownload.AutoSize = true;
-            this.check_Options_ParseDownload.Checked = true;
-            this.check_Options_ParseDownload.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_Options_ParseDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.check_Options_ParseDownload.Location = new System.Drawing.Point(8, 65);
-            this.check_Options_ParseDownload.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.check_Options_ParseDownload.Name = "check_Options_ParseDownload";
-            this.check_Options_ParseDownload.Size = new System.Drawing.Size(124, 20);
-            this.check_Options_ParseDownload.TabIndex = 1;
-            this.check_Options_ParseDownload.Text = "Parse && Download";
-            this.check_Options_ParseDownload.UseVisualStyleBackColor = true;
-            this.check_Options_ParseDownload.CheckedChanged += new System.EventHandler(this.check_ParseDownload_CheckedChanged);
             // 
             // check_Options_ParseOnly
             // 
@@ -1073,11 +1055,10 @@ namespace Tumblr_Tool
             this.check_Options_ParseOnly.Location = new System.Drawing.Point(8, 36);
             this.check_Options_ParseOnly.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.check_Options_ParseOnly.Name = "check_Options_ParseOnly";
-            this.check_Options_ParseOnly.Size = new System.Drawing.Size(81, 20);
+            this.check_Options_ParseOnly.Size = new System.Drawing.Size(117, 20);
             this.check_Options_ParseOnly.TabIndex = 0;
-            this.check_Options_ParseOnly.Text = "Parse Only";
+            this.check_Options_ParseOnly.Text = "Parse Only Mode";
             this.check_Options_ParseOnly.UseVisualStyleBackColor = true;
-            this.check_Options_ParseOnly.CheckedChanged += new System.EventHandler(this.check_ParseOnly_CheckedChanged);
             // 
             // btn_Options_Reset
             // 
@@ -1184,7 +1165,7 @@ namespace Tumblr_Tool
             this.btn_Options_Save.TabIndex = 8;
             this.btn_Options_Save.Text = "Save";
             this.btn_Options_Save.UseVisualStyleBackColor = true;
-            this.btn_Options_Save.Click += new System.EventHandler(this.OptionsAccept);
+            this.btn_Options_Save.Click += new System.EventHandler(this.OptionsSave);
             this.btn_Options_Save.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
             this.btn_Options_Save.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
             // 
@@ -1387,7 +1368,6 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_Options_Reset;
         private System.Windows.Forms.GroupBox section_Options;
         private System.Windows.Forms.GroupBox section_Options_MethodOptions;
-        private System.Windows.Forms.CheckBox check_Options_ParseDownload;
         private System.Windows.Forms.CheckBox check_Options_ParseOnly;
         private System.Windows.Forms.GroupBox section_Options_ImageTypes;
         private System.Windows.Forms.CheckBox check_Options_ParseGIF;

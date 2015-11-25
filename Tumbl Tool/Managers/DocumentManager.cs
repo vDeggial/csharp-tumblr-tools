@@ -65,6 +65,26 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
+        /// <param name="tumblrPostType"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, ApiModes mode)
+        {
+            try
+            {
+                var postList = GetPostListFromJsonDoc(tumblrPostType);
+
+                return postList;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="url"></param>
         /// <param name="blog"></param>
         /// <returns></returns>
@@ -99,10 +119,66 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
+        /// <returns></returns>
+        public int GetTotalPostCount()
+        {
+            if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.blog != null)
+            {
+                if (JsonDocument.response.total_posts != null)
+                    return Convert.ToInt32(JsonDocument.response.total_posts);
+                if (JsonDocument.response.blog.posts != null)
+                    return Convert.ToInt32(JsonDocument.response.blog.posts);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tumblrPostType"></param>
+        /// <returns></returns>
+        private HashSet<TumblrPost> GetPostListFromJsonDoc(string tumblrPostType)
+        {
+            try
+            {
+                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
+
+                if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.posts != null)
+                {
+                    JArray jPostArray = JsonDocument.response.posts;
+                    HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
+
+                    foreach (dynamic jPost in jPostList)
+                    {
+                        TumblrPost post = new TumblrPost();
+
+                        if (tumblrPostType == TumblrPostTypes.Photo.ToString().ToLower())
+                        {
+                            PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
+                        }
+
+                        PostHelper.IncludeCommonPostFields(ref post, jPost);
+
+                        postList.Add(post);
+                    }
+                }
+
+                return postList;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="url"></param>
         /// <param name="blog"></param>
         /// <returns></returns>
-        public bool GetRemoteBlogInfoJson(string url, TumblrBlog blog)
+        private bool GetRemoteBlogInfoJson(string url, TumblrBlog blog)
         {
             if (!string.IsNullOrEmpty(url))
             {
@@ -146,7 +222,7 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <param name="url"></param>
-        public void GetRemoteJsonDocument(string url)
+        private void GetRemoteJsonDocument(string url)
         {
             try
             {
@@ -164,82 +240,6 @@ namespace Tumblr_Tool.Managers
             {
                 JsonDocument = null;
             }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tumblrPostType"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, ApiModes mode)
-        {
-            try
-            {
-                var postList = GetPostListFromJsonDoc(tumblrPostType);
-
-                return postList;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tumblrPostType"></param>
-        /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromJsonDoc(string tumblrPostType)
-        {
-            try
-            {
-                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-
-                if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.posts != null)
-                {
-                    JArray jPostArray = JsonDocument.response.posts;
-                    HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
-
-                    foreach (dynamic jPost in jPostList)
-                    {
-                        TumblrPost post = new TumblrPost();
-
-                        if (tumblrPostType == TumblrPostTypes.Photo.ToString().ToLower())
-                        {
-                            PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
-                        }
-
-                        PostHelper.IncludeCommonPostFields(ref post, jPost);
-
-                        postList.Add(post);
-                    }
-                }
-
-                return postList;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public int GetTotalPostCount()
-        {
-            if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.blog != null)
-            {
-                if (JsonDocument.response.total_posts != null)
-                    return Convert.ToInt32(JsonDocument.response.total_posts);
-                if (JsonDocument.response.blog.posts != null)
-                    return Convert.ToInt32(JsonDocument.response.blog.posts);
-            }
-
-            return 0;
         }
     }
 }

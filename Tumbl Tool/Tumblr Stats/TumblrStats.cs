@@ -183,62 +183,6 @@ namespace Tumblr_Tool.Tumblr_Stats
             return true;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public TumblrBlog GetTumblrPostStats()
-        {
-            try
-            {
-                NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
-
-                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(),0,1);
-
-                if (url.TumblrExists(DocumentManager.ApiMode))
-                {
-                    NumTotalPostsForType = Blog.TotalPosts;
-
-                    int i = Offset;
-
-                    NumParsed = 0;
-
-                    while (i < NumTotalPostsForType)
-                    {
-                        if (DocumentManager.ApiMode == ApiModes.V2Json)
-                        {
-                            url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), i,1);
-                        }
-
-                        DocumentManager.GetRemoteDocument(url);
-                        Blog.Posts.UnionWith(DocumentManager.GetPostListFromDoc(TumblrPostTypes.All.ToString().ToLower(), DocumentManager.ApiMode));
-
-                        NumPhotoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Photo.ToString().ToLower() select p).ToList().Count;
-                        NumTextPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Regular.ToString().ToLower() || p.Type == TumblrPostTypes.Text.ToString().ToLower() select p).ToList().Count;
-                        NumVideoPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Video.ToString().ToLower() select p).ToList().Count;
-                        NumLinkPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Link.ToString().ToLower() select p).ToList().Count;
-                        NumAudioPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Audio.ToString().ToLower() select p).ToList().Count;
-                        NumQuotePosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Quote.ToString().ToLower() select p).ToList().Count;
-                        NumChatPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Chat.ToString().ToLower() || p.Type == TumblrPostTypes.Conversation.ToString().ToLower() select p).ToList().Count;
-                        NumAnswerPosts += (from p in Blog.Posts where p.Type == TumblrPostTypes.Answer.ToString().ToLower() select p).ToList().Count;
-                        NumParsed += Blog.Posts.Count;
-                        Blog.Posts.Clear();
-                        i += NumPostsPerDocument;
-                    }
-
-                    NumPostsFound = Blog.Posts.Count;
-                }
-                else
-                {
-                    StatusCode = ProcessingCodes.InvalidUrl;
-                }
-                return Blog;
-            }
-            catch
-            {
-                return Blog;
-            }
-        }
 
         /// <summary>
         ///

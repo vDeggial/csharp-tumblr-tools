@@ -150,11 +150,12 @@ namespace Tumblr_Tool
         public TumblrStats TumblrStats { get; set; }
 
         public string TumblrUrl { get; set; }
+
         /// <summary>
         ///
         /// </summary>
         /// <param name="str"></param>
-        public void AddWorkStatusText(string str)
+        private void AddWorkStatusText(string str)
         {
             if (!txt_WorkStatus.Text.EndsWith(str))
             {
@@ -165,7 +166,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void BrowseLocalPath(object sender, EventArgs e)
+        private void BrowseLocalPath(object sender, EventArgs e)
         {
             using (FolderBrowserDialog ofd = new FolderBrowserDialog())
             {
@@ -176,7 +177,7 @@ namespace Tumblr_Tool
             }
         }
 
-        public void ButtonOnMouseEnter(object sender, EventArgs e)
+        private void ButtonOnMouseEnter(object sender, EventArgs e)
         {
             Button button = sender as Button;
 
@@ -195,7 +196,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ButtonOnMouseLeave(object sender, EventArgs e)
+        private void ButtonOnMouseLeave(object sender, EventArgs e)
         {
             Button button = sender as Button;
             if (button != null)
@@ -210,8 +211,30 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelOperations(object sender, EventArgs e)
+        {
+            IsCancelled = true;
+            if (ImageRipper != null)
+            {
+                ImageRipper.IsCancelled = true;
+            }
+
+            IsDownloadDone = true;
+            EnableUI_Crawl(true);
+
+            UpdateWorkStatusTextNewLine("Operation cancelled ...");
+            img_DisplayImage.Image = Resources.tumblrlogo;
+            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
+            UpdateStatusText(StatusReady);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="value"></param>
-        public void ColorizeProgressBar(int value)
+        private void ColorizeProgressBar(int value)
         {
             switch (value / 10)
             {
@@ -270,7 +293,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CrawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void CrawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -315,7 +338,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CrawlWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void CrawlWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -496,7 +519,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CrawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void CrawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -544,7 +567,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CrawlWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void CrawlWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -778,7 +801,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DownloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void DownloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             lock (DownloadManager)
             {
@@ -828,7 +851,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DownloadWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void DownloadWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             Thread.Sleep(200);
             try
@@ -967,7 +990,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DownloadWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void DownloadWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -1050,7 +1073,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DownloadWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void DownloadWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             CurrentPercent = 0;
             CurrentPostCount = 0;
@@ -1260,7 +1283,7 @@ namespace Tumblr_Tool
         ///
         /// </summary>
         /// <param name="state"></param>
-        public void EnableUI_Crawl(bool state)
+        private void EnableUI_Crawl(bool state)
         {
             btn_Browse.Enabled = state;
             btn_ImageCrawler_Start.Visible = state;
@@ -1283,7 +1306,7 @@ namespace Tumblr_Tool
         ///
         /// </summary>
         /// <param name="state"></param>
-        public void EnableUI_Stats(bool state)
+        private void EnableUI_Stats(bool state)
         {
             btn_Stats_Start.Enabled = state;
             fileToolStripMenuItem.Enabled = state;
@@ -1296,7 +1319,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ExitApplication(object sender, FormClosingEventArgs e)
+        private void ExitApplication(object sender, FormClosingEventArgs e)
         {
             try
             {
@@ -1345,7 +1368,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void FileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void FileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
         }
 
@@ -1354,7 +1377,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void FileBW_DoWork(object sender, DoWorkEventArgs e)
+        private void FileBW_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1375,7 +1398,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public Bitmap GetImageFromFile(string file)
+        private Bitmap GetImageFromFile(string file)
         {
             try
             {
@@ -1395,7 +1418,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void GetStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void GetStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             TumblrStats.StatusCode = ProcessingCodes.Done;
         }
@@ -1405,7 +1428,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void GetStatsWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void GetStatsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             TumblrStats.StatusCode = ProcessingCodes.Initializing;
             try
@@ -1437,7 +1460,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void GetStatsWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void GetStatsWorker_UI__DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1589,7 +1612,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void GetStatsWorker_UI_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void GetStatsWorker_UI_AfterDone(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -1614,7 +1637,7 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
-        public void GlobalInitialize()
+        private void GlobalInitialize()
         {
             string appFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string appFolderName = "Tumblr Tools";
@@ -1727,7 +1750,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="urlString"></param>
         /// <returns></returns>
-        public bool IsValidUrl(string urlString)
+        private bool IsValidUrl(string urlString)
         {
             try
             {
@@ -1743,7 +1766,7 @@ namespace Tumblr_Tool
         ///
         /// </summary>
         /// <param name="filename"></param>
-        public void LoadOptions(string filename)
+        private void LoadOptions(string filename)
         {
             Options = JsonHelper.ReadObject<ToolOptions>(filename);
             //this.Options.ApiMode = ApiModeEnum.v2JSON.ToString();
@@ -1755,7 +1778,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btn_ImageCrawler_Start.Enabled = false;
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -1781,7 +1804,7 @@ namespace Tumblr_Tool
         ///
         /// </summary>
         /// <param name="file"></param>
-        public void OpenTumblrFile(string file)
+        private void OpenTumblrFile(string file)
         {
             try
             {
@@ -1819,11 +1842,32 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
-        public void RestoreOptions()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OptionsSave(object sender, EventArgs e)
+        {
+            SetOptions();
+            SaveOptions(OptionsFileName);
+            UpdateStatusText("Options saved");
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OptionsUiRestore(object sender, EventArgs e)
+        {
+            RestoreOptions();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        private void RestoreOptions()
         {
             check_Options_ParseGIF.Checked = Options.ParseGif;
             check_Options_ParseJPEG.Checked = Options.ParseJpeg;
-            check_Options_ParseDownload.Checked = Options.DownloadFiles;
             check_Options_ParseOnly.Checked = !Options.DownloadFiles;
             check_Options_ParsePhotoSets.Checked = Options.ParsePhotoSets;
             check_Options_ParsePNG.Checked = Options.ParsePng;
@@ -1836,7 +1880,7 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
-        public void SaveLogFile()
+        private void SaveLogFile()
         {
             FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename, TumblrLogFile);
         }
@@ -1845,12 +1889,12 @@ namespace Tumblr_Tool
         ///
         /// </summary>
         /// <param name="filename"></param>
-        public void SaveOptions(string filename)
+        private void SaveOptions(string filename)
         {
             JsonHelper.SaveObject(filename, Options);
         }
 
-        public void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFile saveFile = new SaveFile(ImageRipper.Blog.Name + ".tumblr", ImageRipper.Blog);
             using (SaveFileDialog sfd = new SaveFileDialog())
@@ -1873,14 +1917,23 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool SaveTumblrFile(string name)
+        private bool SaveTumblrFile(string name)
         {
             TumblrSaveFile = new SaveFile(name + ".tumblr", ImageRipper.Blog);
 
             return FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrSaveFile.Filename, TumblrSaveFile);
         }
 
-        public void SetDoubleBuffering(Control control, bool value)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void select_Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void SetDoubleBuffering(Control control, bool value)
         {
             PropertyInfo controlProperty = typeof(Control)
                 .GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -1890,7 +1943,7 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
-        public void SetOptions()
+        private void SetOptions()
         {
             Options.ParsePng = check_Options_ParsePNG.Checked;
             Options.ParseJpeg = check_Options_ParseJPEG.Checked;
@@ -1909,7 +1962,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void StartGetStats(object sender, EventArgs e)
+        private void StartGetStats(object sender, EventArgs e)
         {
             lbl_PostCount.Visible = false;
             bar_Progress.BarColor = Color.Black;
@@ -1938,7 +1991,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void StartImageCrawl(object sender, EventArgs e)
+        private void StartImageCrawl(object sender, EventArgs e)
         {
             EnableUI_Crawl(false);
             IsCancelled = false;
@@ -2001,266 +2054,9 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void StatsTumblrUrlUpdate(object sender, EventArgs e)
+        private void StatsTumblrUrlUpdate(object sender, EventArgs e)
         {
             txt_Stats_TumblrURL.Text = txt_TumblrURL.Text;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void TabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (DisableOtherTabs)
-            {
-                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
-
-                if (tabWizardControl != null)
-                {
-                    int selectedTab = tabWizardControl.SelectedIndex;
-
-                    //Disable the tab selection
-                    if (CurrentSelectedTab != selectedTab)
-                    {
-                        //If selected tab is different than the current one, re-select the current tab.
-                        //This disables the navigation using the tab selection.
-                        tabWizardControl.SelectTab(CurrentSelectedTab);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void TabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (!e.TabPage.Enabled)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void TabPage_Enter(object sender, EventArgs e)
-        {
-            CurrentSelectedTab = tabControl_Main.SelectedIndex;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ToolStripMenuItem_Paint(object sender, PaintEventArgs e)
-        {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-
-            if (tsmi != null)
-            {
-                AdvancedMenuRenderer renderer = tsmi.GetCurrentParent().Renderer as AdvancedMenuRenderer;
-
-                renderer?.ChangeTextForeColor(tsmi, e);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
-        {
-            txt_TumblrURL.Text = txt_Stats_TumblrURL.Text;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="text"></param>
-        public void UpdateStatusText(string text)
-        {
-            if (!lbl_Status.Text.Contains(text))
-            {
-                lbl_Status.Text = text;
-                lbl_Status.Invalidate();
-                status_Strip.Update();
-                status_Strip.Refresh();
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="strToReplace"></param>
-        /// <param name="strToAdd"></param>
-        public void UpdateWorkStatusTextConcat(string strToReplace, string strToAdd = "")
-        {
-            if (txt_WorkStatus.Text.Contains(strToReplace) && !txt_WorkStatus.Text.Contains(string.Concat(strToReplace, strToAdd)))
-            {
-                txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace, strToAdd));
-
-                txt_WorkStatus.Update();
-                txt_WorkStatus.Refresh();
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="text"></param>
-        public void UpdateWorkStatusTextNewLine(string text)
-        {
-            if (!txt_WorkStatus.Text.Contains(text))
-            {
-                txt_WorkStatus.Text += txt_WorkStatus.Text != "" ? "\r\n" : "";
-                txt_WorkStatus.Text += @":: " + text;
-                txt_WorkStatus.Update();
-                txt_WorkStatus.Refresh();
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="replaceStr"></param>
-        public void UpdateWorkStatusTextReplace(string str, string replaceStr)
-        {
-            if (txt_WorkStatus.Text.Contains(str))
-            {
-                txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(str, replaceStr);
-
-                txt_WorkStatus.Update();
-                txt_WorkStatus.Refresh();
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public bool ValidateInputFields()
-        {
-            bool saveLocationEmpty = string.IsNullOrEmpty(SaveLocation);
-            bool urlValid = true;
-
-            if (saveLocationEmpty)
-            {
-                MsgBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
-                EnableUI_Crawl(true);
-                btn_Browse.Focus();
-            }
-            else
-            {
-                if (!IsValidUrl(TumblrUrl))
-                {
-                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
-                    txt_TumblrURL.Focus();
-                    EnableUI_Crawl(true);
-                    urlValid = false;
-                }
-            }
-
-            return (!saveLocationEmpty && urlValid);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void WorkStatusAutoScroll(object sender, EventArgs e)
-        {
-            txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
-            txt_WorkStatus.ScrollToCaret();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CancelOperations(object sender, EventArgs e)
-        {
-            IsCancelled = true;
-            if (ImageRipper != null)
-            {
-                ImageRipper.IsCancelled = true;
-            }
-
-            IsDownloadDone = true;
-            EnableUI_Crawl(true);
-
-            UpdateWorkStatusTextNewLine("Operation cancelled ...");
-            img_DisplayImage.Image = Resources.tumblrlogo;
-            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
-            UpdateStatusText(StatusReady);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void check_ParseDownload_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_Options_ParseDownload.Checked)
-            {
-                check_Options_ParseOnly.Checked = false;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void check_ParseOnly_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_Options_ParseOnly.Checked)
-            {
-                check_Options_ParseDownload.Checked = false;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OptionsAccept(object sender, EventArgs e)
-        {
-            SetOptions();
-            SaveOptions(OptionsFileName);
-            UpdateStatusText("Options saved");
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OptionsUiRestore(object sender, EventArgs e)
-        {
-            RestoreOptions();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void select_Mode_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         /// <summary>
@@ -2292,6 +2088,184 @@ namespace Tumblr_Tool
 
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (DisableOtherTabs)
+            {
+                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
+
+                if (tabWizardControl != null)
+                {
+                    int selectedTab = tabWizardControl.SelectedIndex;
+
+                    //Disable the tab selection
+                    if (CurrentSelectedTab != selectedTab)
+                    {
+                        //If selected tab is different than the current one, re-select the current tab.
+                        //This disables the navigation using the tab selection.
+                        tabWizardControl.SelectTab(CurrentSelectedTab);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (!e.TabPage.Enabled)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TabPage_Enter(object sender, EventArgs e)
+        {
+            CurrentSelectedTab = tabControl_Main.SelectedIndex;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripMenuItem_Paint(object sender, PaintEventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+
+            if (tsmi != null)
+            {
+                AdvancedMenuRenderer renderer = tsmi.GetCurrentParent().Renderer as AdvancedMenuRenderer;
+
+                renderer?.ChangeTextForeColor(tsmi, e);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Txt_StatsTumblrURL_TextChanged(object sender, EventArgs e)
+        {
+            txt_TumblrURL.Text = txt_Stats_TumblrURL.Text;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        private void UpdateStatusText(string text)
+        {
+            if (!lbl_Status.Text.Contains(text))
+            {
+                lbl_Status.Text = text;
+                lbl_Status.Invalidate();
+                status_Strip.Update();
+                status_Strip.Refresh();
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="strToReplace"></param>
+        /// <param name="strToAdd"></param>
+        private void UpdateWorkStatusTextConcat(string strToReplace, string strToAdd = "")
+        {
+            if (txt_WorkStatus.Text.Contains(strToReplace) && !txt_WorkStatus.Text.Contains(string.Concat(strToReplace, strToAdd)))
+            {
+                txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace, strToAdd));
+
+                txt_WorkStatus.Update();
+                txt_WorkStatus.Refresh();
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        private void UpdateWorkStatusTextNewLine(string text)
+        {
+            if (!txt_WorkStatus.Text.Contains(text))
+            {
+                txt_WorkStatus.Text += txt_WorkStatus.Text != "" ? "\r\n" : "";
+                txt_WorkStatus.Text += @":: " + text;
+                txt_WorkStatus.Update();
+                txt_WorkStatus.Refresh();
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="replaceStr"></param>
+        private void UpdateWorkStatusTextReplace(string str, string replaceStr)
+        {
+            if (txt_WorkStatus.Text.Contains(str))
+            {
+                txt_WorkStatus.Text = txt_WorkStatus.Text.Replace(str, replaceStr);
+
+                txt_WorkStatus.Update();
+                txt_WorkStatus.Refresh();
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidateInputFields()
+        {
+            bool saveLocationEmpty = string.IsNullOrEmpty(SaveLocation);
+            bool urlValid = true;
+
+            if (saveLocationEmpty)
+            {
+                MsgBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                EnableUI_Crawl(true);
+                btn_Browse.Focus();
+            }
+            else
+            {
+                if (!IsValidUrl(TumblrUrl))
+                {
+                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    txt_TumblrURL.Focus();
+                    EnableUI_Crawl(true);
+                    urlValid = false;
+                }
+            }
+
+            return (!saveLocationEmpty && urlValid);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WorkStatusAutoScroll(object sender, EventArgs e)
+        {
+            txt_WorkStatus.SelectionStart = txt_WorkStatus.TextLength;
+            txt_WorkStatus.ScrollToCaret();
         }
     }
 }

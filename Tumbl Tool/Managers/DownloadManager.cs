@@ -30,6 +30,8 @@ namespace Tumblr_Tool.Managers
 {
     public class DownloadManager
     {
+        private readonly AutoResetEvent _readyToStop = new AutoResetEvent(false);
+
         public DownloadManager()
         {
             DownloadedList = new HashSet<string>();
@@ -40,6 +42,7 @@ namespace Tumblr_Tool.Managers
 
         public HashSet<string> DownloadedList { get; set; }
 
+        public bool DownloadSuccess { get; set; }
         public double FileSizeRecieved { get; set; }
 
         public double PercentDownloaded { get; set; }
@@ -51,11 +54,6 @@ namespace Tumblr_Tool.Managers
         public double TotalFileSize { get; set; }
 
         public int TotalFilesToDownload { get; set; }
-
-        public bool DownloadSuccess { get; set; }
-
-        private readonly AutoResetEvent _readyToStop = new AutoResetEvent(false);
-
         public bool DownloadFile(DownloadMethods method, string remoteFileLocation, string localPath)
         {
             remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
@@ -78,7 +76,19 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        public bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        {
+            PercentDownloaded = e.ProgressPercentage;
+
+            FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
+        }
+
+        private bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
         {
             PercentDownloaded = 0;
             StatusCode = DownloadStatusCodes.Ok;
@@ -96,50 +106,7 @@ namespace Tumblr_Tool.Managers
             return true;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="remoteFileLocation"></param>
-        /// <param name="localFilePath"></param>
-        /// <returns></returns>
-        public bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
-        {
-            PercentDownloaded = 0;
-            StatusCode = DownloadStatusCodes.Ok;
-
-            if (WebHelper.UrlExists(remoteFileLocation))
-            {
-                using (MyWebClient webClient = new MyWebClient())
-                {
-                    try
-                    {
-                        webClient.Proxy = null;
-                        webClient.DownloadFileCompleted += Wc_DownloadCompleted;
-                        webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
-                        webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
-
-                        _readyToStop.WaitOne();
-
-                        return StatusCode == DownloadStatusCodes.Done;
-                    }
-                    catch (Exception)
-                    {
-                        StatusCode = DownloadStatusCodes.UnableDownload;
-                        if (FileHelper.FileExistsOnHdd(localFilePath))
-                        {
-                            var file = new FileInfo(localFilePath);
-
-                            if (!FileHelper.IsFileLocked(file)) file.Delete();
-                        }
-                        return false;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public bool DownloadFileWebClient(string remoteFileLocation, string localFilePath)
+        private bool DownloadFileWebClient(string remoteFileLocation, string localFilePath)
         {
             try
             {
@@ -208,15 +175,45 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        /// <param name="remoteFileLocation"></param>
+        /// <param name="localFilePath"></param>
+        /// <returns></returns>
+        private bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
         {
-            PercentDownloaded = e.ProgressPercentage;
+            PercentDownloaded = 0;
+            StatusCode = DownloadStatusCodes.Ok;
 
-            FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
+            if (WebHelper.UrlExists(remoteFileLocation))
+            {
+                using (MyWebClient webClient = new MyWebClient())
+                {
+                    try
+                    {
+                        webClient.Proxy = null;
+                        webClient.DownloadFileCompleted += Wc_DownloadCompleted;
+                        webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
+                        webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
+
+                        _readyToStop.WaitOne();
+
+                        return StatusCode == DownloadStatusCodes.Done;
+                    }
+                    catch (Exception)
+                    {
+                        StatusCode = DownloadStatusCodes.UnableDownload;
+                        if (FileHelper.FileExistsOnHdd(localFilePath))
+                        {
+                            var file = new FileInfo(localFilePath);
+
+                            if (!FileHelper.IsFileLocked(file)) file.Delete();
+                        }
+                        return false;
+                    }
+                }
+            }
+
+            return false;
         }
-
         /// <summary>
         ///
         /// </summary>
