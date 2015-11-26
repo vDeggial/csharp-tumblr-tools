@@ -2040,12 +2040,7 @@ namespace Tumblr_Tool
             }
             else
             {
-                btn_ImageCrawler_Start.Enabled = true;
-                lbl_PostCount.Visible = false;
-                lbl_Size.Visible = false;
-                bar_Progress.Visible = false;
-                img_DisplayImage.Visible = true;
-                tab_TumblrStats.Enabled = true;
+                EnableUI_Crawl(true);
             }
         }
 
@@ -2088,45 +2083,6 @@ namespace Tumblr_Tool
 
             if (e.TabPage.Text == "IsSelectable?")
                 e.Cancel = true;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (DisableOtherTabs)
-            {
-                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
-
-                if (tabWizardControl != null)
-                {
-                    int selectedTab = tabWizardControl.SelectedIndex;
-
-                    //Disable the tab selection
-                    if (CurrentSelectedTab != selectedTab)
-                    {
-                        //If selected tab is different than the current one, re-select the current tab.
-                        //This disables the navigation using the tab selection.
-                        tabWizardControl.SelectTab(CurrentSelectedTab);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TabMainTabSelect_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (!e.TabPage.Enabled)
-            {
-                e.Cancel = true;
-            }
         }
 
         /// <summary>

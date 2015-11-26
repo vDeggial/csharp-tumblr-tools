@@ -29,6 +29,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateAnswerPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new AnswerPost
             {
                 Asker = !string.IsNullOrEmpty((string)jPost.asking_name) ? jPost.asking_name : null,
@@ -46,6 +48,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateAudioPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new AudioPost
             {
                 Artist = !string.IsNullOrEmpty((string)jPost.artist) ? jPost.artist : null,
@@ -68,6 +72,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateChatPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new ChatPost
             {
                 Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
@@ -98,6 +104,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateLinkPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new LinkPost
             {
                 LinkAuthor = !string.IsNullOrEmpty((string)jPost.link_author) ? jPost.link_author : null,
@@ -118,41 +126,41 @@ namespace Tumblr_Tool.Helpers
         /// <param name="imageSize"></param>
         public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost, ImageSizes imageSize)
         {
-            if (jPost.type == TumblrPostTypes.Photo.ToString().ToLower())
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
+            post = new PhotoPost { Photos = new HashSet<PhotoPostImage>() };
+
+            foreach (dynamic jPhoto in jPost.photos)
             {
-                post = new PhotoPost { Photos = new HashSet<PhotoPostImage>() };
+                PhotoPostImage postImage = new PhotoPostImage();
 
-                foreach (dynamic jPhoto in jPost.photos)
+                if (imageSize == ImageSizes.Original)
                 {
-                    PhotoPostImage postImage = new PhotoPostImage();
-
-                    if (imageSize == ImageSizes.Original)
+                    postImage.Url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
+                    postImage.Filename = !string.IsNullOrEmpty(postImage.Url) ? Path.GetFileName(postImage.Url) : null;
+                    postImage.Width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
+                    postImage.Height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
+                }
+                else if (imageSize != ImageSizes.None)
+                {
+                    if (jPhoto.alt_sizes != null)
                     {
-                        postImage.Url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
-                        postImage.Filename = !string.IsNullOrEmpty(postImage.Url) ? Path.GetFileName(postImage.Url) : null;
-                        postImage.Width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
-                        postImage.Height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
-                    }
-                    else if (imageSize != ImageSizes.None)
-                    {
-                        if (jPhoto.alt_sizes != null)
+                        var jAltPhotos = new HashSet<dynamic>(jPhoto.alt_sizes);
+                        dynamic jPhotoAlt = (from p in jAltPhotos where p.width == ((int)imageSize).ToString() select p).FirstOrDefault();
+                        if (jPhotoAlt != null)
                         {
-                            var jAltPhotos = new HashSet<dynamic>(jPhoto.alt_sizes);
-                            dynamic jPhotoAlt = (from p in jAltPhotos where p.width == ((int)imageSize).ToString() select p).FirstOrDefault();
-                            if (jPhotoAlt != null)
-                            {
-                                postImage.Url = jPhotoAlt.url;
-                                postImage.Filename = !string.IsNullOrEmpty(postImage.Url) ? Path.GetFileName(postImage.Url) : null;
-                                postImage.Width = jPhotoAlt.width;
-                                postImage.Height = jPhotoAlt.height;
-                            }
+                            postImage.Url = jPhotoAlt.url;
+                            postImage.Filename = !string.IsNullOrEmpty(postImage.Url) ? Path.GetFileName(postImage.Url) : null;
+                            postImage.Width = jPhotoAlt.width;
+                            postImage.Height = jPhotoAlt.height;
                         }
                     }
-
-                    postImage.Caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
-                    postImage.ParentPostId = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
-                    post.Photos.Add(postImage);
                 }
+
+                postImage.Caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
+                postImage.ParentPostId = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
+                post.Photos.Add(postImage);
             }
         }
 
@@ -164,6 +172,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateQuotePost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new QuotePost
             {
                 Text = !string.IsNullOrEmpty((string)jPost.text) ? jPost.text : null,
@@ -179,6 +189,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateTextPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new TextPost
             {
                 Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
@@ -194,6 +206,8 @@ namespace Tumblr_Tool.Helpers
         public static void GenerateVideoPost(ref TumblrPost post, dynamic jPost)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post = new VideoPost
             {
                 Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null,
@@ -227,6 +241,9 @@ namespace Tumblr_Tool.Helpers
         /// <param name="jPost"></param>
         public static void IncludeCommonPostFields(ref TumblrPost post, dynamic jPost)
         {
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            if (jPost == null) throw new ArgumentNullException(nameof(jPost));
+
             post.Type = !string.IsNullOrEmpty((string)jPost.type) ? jPost.type : null;
 
             post.Id = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;

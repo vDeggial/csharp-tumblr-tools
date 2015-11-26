@@ -1041,6 +1041,7 @@ namespace Tumblr_Tool
             // 
             // check_Options_OldToNewDownloadOrder
             // 
+            this.check_Options_OldToNewDownloadOrder.Enabled = false;
             this.check_Options_OldToNewDownloadOrder.Location = new System.Drawing.Point(8, 57);
             this.check_Options_OldToNewDownloadOrder.Name = "check_Options_OldToNewDownloadOrder";
             this.check_Options_OldToNewDownloadOrder.Size = new System.Drawing.Size(124, 39);
