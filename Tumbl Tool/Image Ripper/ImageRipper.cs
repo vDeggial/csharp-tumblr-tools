@@ -166,14 +166,21 @@ namespace Tumblr_Tool.Image_Ripper
                     if (posts.Count != 0)
                     {
                         Blog.Posts.UnionWith(posts);
-                        NumberOfParsedPosts += posts.Count;
+                        
                         GenerateImageListForDownload(posts);
+                    }
+
+                    if (parseMode == BlogPostsScanModes.FullBlogRescan || posts.Count == 0)
+                    {
+                        NumberOfParsedPosts += numPostsPerDocument;
                     }
 
                     else
                     {
-                        NumberOfParsedPosts += numPostsPerDocument;
+                        NumberOfParsedPosts += posts.Count;
                     }
+
+                    if (NumberOfParsedPosts > TotalNumberOfPosts) NumberOfParsedPosts = TotalNumberOfPosts;
 
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
                     Offset += numPostsPerDocument;
