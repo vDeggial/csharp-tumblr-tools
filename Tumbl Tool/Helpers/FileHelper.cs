@@ -63,24 +63,13 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Generate full local file path from url and local directory path
-        /// </summary>
-        /// <param name="url">Remote Url Path</param>
-        /// <param name="location">Local path</param>
-        /// <returns></returns>
-        public static string GenerateLocalPathToFile(string url, string location)
-        {
-            return location + @"\" + Path.GetFileName(url);
-        }
-
-        /// <summary>
         /// Generate full local file path from url and local directory path with prefix
         /// </summary>
         /// <param name="url">Remote url</param>
         /// <param name="location">Local path</param>
         /// <param name="prefix">File prefix</param>
         /// <returns></returns>
-        public static string GenerateLocalPathToFile(string url, string location, string prefix)
+        public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
         {
             return location + @"\" + prefix + Path.GetFileName(url);
         }

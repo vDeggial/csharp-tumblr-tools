@@ -60,7 +60,7 @@ namespace Tumblr_Tool
         public const string SuffixGb = "GB";
         public const string SuffixKb = "KB";
         public const string SuffixMb = "MB";
-        public const string Version = "1.3.5";
+        public const string Version = "1.3.6";
         public const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2015 Shino Amakusa";
         public const string WorktextCheckingConnx = "Checking connection ...";
         public const string WorktextDownloadingImages = "Downloading ...";
@@ -1055,6 +1055,18 @@ namespace Tumblr_Tool
                             this.lbl_Size.Visible = false;
                         });
                     }
+
+                    if (NotDownloadedList.Count > 0)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
+                            UpdateWorkStatusTextNewLine("Failed: " + this.NotDownloadedList.Count + " image(s).");
+                            this.bar_Progress.Value = 0;
+                            this.lbl_PercentBar.Text = string.Empty;
+                        });
+                    }
+
                     Invoke((MethodInvoker)delegate
                     {
                         UpdateStatusText(StatusDone);
