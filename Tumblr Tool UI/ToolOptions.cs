@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2015
+ *  Last Updated: March, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -49,6 +49,7 @@ namespace Tumblr_Tool
         /// Option to parse .jpg files
         /// </summary>
         public bool ParseJpeg { get; set; }
+
         /// <summary>
         /// Option to parse image photosets
         /// </summary>

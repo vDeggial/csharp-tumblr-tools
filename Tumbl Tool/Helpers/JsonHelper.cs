@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2015
+ *  Last Updated: March, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -77,7 +77,7 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Generates blog info query string 
+        /// Generates blog info query string
         /// </summary>
         /// <param name="tumblrDomain">Tumblr blog domain</param>
         /// <returns>Full API blog info query string</returns>
@@ -112,6 +112,7 @@ namespace Tumblr_Tool.Helpers
 
             return query;
         }
+
         public static JObject GetObject(string url)
         {
             string result = WebHelper.GetRemoteDocumentAsString(url);
@@ -127,7 +128,7 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Reads in json object as specified class 
+        /// Reads in json object as specified class
         /// </summary>
         /// <typeparam name="T"> Object class</typeparam>
         /// <param name="filePath">File location path</param>

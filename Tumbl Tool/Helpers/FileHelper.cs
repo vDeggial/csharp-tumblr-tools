@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2015
+ *  Last Updated: March, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -87,7 +87,6 @@ namespace Tumblr_Tool.Helpers
             FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
             var imagesList = (from f in files select f.Name).ToHashSet();
-
 
             //foreach (FileInfo f in files)
             //{
@@ -216,8 +215,8 @@ namespace Tumblr_Tool.Helpers
             if (!useFullString)
             {
                 list = (from p in sourceSet
-                    where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
-                    select p).ToHashSet();
+                        where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
+                        select p).ToHashSet();
             }
             else
             {

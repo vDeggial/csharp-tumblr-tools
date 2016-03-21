@@ -338,7 +338,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 2;
+            this.tabControl_Main.SelectedIndex = 3;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -1193,7 +1193,7 @@ namespace Tumblr_Tool
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(276, 30);
             this.label1.TabIndex = 7;
-            this.label1.Text = "© 2013 - 2015 Shino Amakusa";
+            this.label1.Text = "© 2013 - 2016 Shino Amakusa";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About

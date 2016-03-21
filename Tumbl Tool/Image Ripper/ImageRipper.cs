@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2015
+ *  Last Updated: March, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -166,7 +166,7 @@ namespace Tumblr_Tool.Image_Ripper
                     if (posts.Count != 0)
                     {
                         Blog.Posts.UnionWith(posts);
-                        
+
                         GenerateImageListForDownload(posts);
                     }
 
@@ -174,7 +174,6 @@ namespace Tumblr_Tool.Image_Ripper
                     {
                         NumberOfParsedPosts += numPostsPerDocument;
                     }
-
                     else
                     {
                         NumberOfParsedPosts += posts.Count;
@@ -191,8 +190,6 @@ namespace Tumblr_Tool.Image_Ripper
                     }
                     Blog.Posts = new HashSet<TumblrPost>();
                 }
-
-
 
                 TotalNumberOfImages = ImageList.Count;
 
@@ -306,7 +303,6 @@ namespace Tumblr_Tool.Image_Ripper
                 {
                     foreach (PhotoPostImage image in post.Photos)
                     {
-
                         try
                         {
                             //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
@@ -372,6 +368,7 @@ namespace Tumblr_Tool.Image_Ripper
                 return new HashSet<TumblrPost>();
             }
         }
+
         /// <summary>
         ///
         /// </summary>

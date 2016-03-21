@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: September, 2015
+ *  Last Updated: March, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -60,8 +60,8 @@ namespace Tumblr_Tool
         public const string SuffixGb = "GB";
         public const string SuffixKb = "KB";
         public const string SuffixMb = "MB";
-        public const string Version = "1.3.6";
-        public const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2015 Shino Amakusa";
+        public const string Version = "1.3.7";
+        public const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2016 Shino Amakusa";
         public const string WorktextCheckingConnx = "Checking connection ...";
         public const string WorktextDownloadingImages = "Downloading ...";
         public const string WorktextGettingBlogInfo = "Getting info ...";
