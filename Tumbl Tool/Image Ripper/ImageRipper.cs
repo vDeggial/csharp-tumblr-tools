@@ -170,6 +170,11 @@ namespace Tumblr_Tool.Image_Ripper
                         GenerateImageListForDownload(posts);
                     }
 
+                    if (parseMode == BlogPostsScanModes.FullBlogRescan)
+                    {
+                        Blog.Posts.UnionWith(existingHash);
+                    }
+
                     if (parseMode == BlogPostsScanModes.FullBlogRescan || posts.Count == 0)
                     {
                         NumberOfParsedPosts += numPostsPerDocument;
@@ -186,6 +191,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                     if (GenerateLog)
                     {
+
                         UpdateLogFile(Blog.Name);
                     }
                     Blog.Posts = new HashSet<TumblrPost>();
