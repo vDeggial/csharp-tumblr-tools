@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: March, 2016
+ *  Last Updated: April, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -33,12 +33,19 @@ namespace Tumblr_Tool.Helpers
         /// <returns>Filename with .jpg extension</returns>
         public static string AddJpgExt(string filename)
         {
-            if (!Path.HasExtension(filename))
+            try
             {
-                filename += ".jpg";
-            }
+                if (!Path.HasExtension(filename))
+                {
+                    filename += ".jpg";
+                }
 
-            return filename;
+                return filename;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -48,7 +55,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns>True if file exists, false otherwise</returns>
         public static bool FileExistsOnHdd(string file)
         {
-            return File.Exists(file);
+            try
+            {
+                return File.Exists(file);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -59,7 +73,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string FindFile(string dir, string fileName)
         {
-            return Directory.GetFiles(dir, fileName + ".*").FirstOrDefault();
+            try
+            {
+                return Directory.GetFiles(dir, fileName + ".*").FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -71,7 +92,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
         {
-            return location + @"\" + prefix + Path.GetFileName(url);
+            try
+            {
+                return location + @"\" + prefix + Path.GetFileName(url);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -81,19 +109,28 @@ namespace Tumblr_Tool.Helpers
         /// <returns>Hashset of image files in specified folder</returns>
         public static HashSet<string> GenerateFolderImageList(string location)
         {
-            string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
-            DirectoryInfo di = new DirectoryInfo(location);
-            HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
-            FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
+            try
+            {
 
-            var imagesList = (from f in files select f.Name).ToHashSet();
 
-            //foreach (FileInfo f in files)
-            //{
-            //    imagesList.Add(f.Name);
-            //}
+                string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
+                DirectoryInfo di = new DirectoryInfo(location);
+                HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
+                FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
-            return imagesList;
+                var imagesList = (from f in files select f.Name).ToHashSet();
+
+                //foreach (FileInfo f in files)
+                //{
+                //    imagesList.Add(f.Name);
+                //}
+
+                return imagesList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -134,19 +171,26 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormats format)
         {
-            switch (format)
+            try
             {
-                case SaveFileFormats.Bin:
-                    return BinaryHelper.ReadObject<SaveFile>(fileLocation);
+                switch (format)
+                {
+                    case SaveFileFormats.Bin:
+                        return BinaryHelper.ReadObject<SaveFile>(fileLocation);
 
-                case SaveFileFormats.Xml:
-                    return XmlHelper.ReadObject<SaveFile>(fileLocation);
+                    case SaveFileFormats.Xml:
+                        return XmlHelper.ReadObject<SaveFile>(fileLocation);
 
-                case SaveFileFormats.Json:
-                    return JsonHelper.ReadObject<SaveFile>(fileLocation);
+                    case SaveFileFormats.Json:
+                        return JsonHelper.ReadObject<SaveFile>(fileLocation);
 
-                default:
-                    return null;
+                    default:
+                        return null;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -157,11 +201,18 @@ namespace Tumblr_Tool.Helpers
         /// <returns>Savefile object or null if cannot load</returns>
         public static SaveFile ReadTumblrFile(string fileLocation)
         {
-            SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormats.Bin) ??
-                                 ReadTumblrFile(fileLocation, SaveFileFormats.Xml) ??
-                                ReadTumblrFile(fileLocation, SaveFileFormats.Json);
+            try
+            {
+                SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormats.Bin) ??
+                                     ReadTumblrFile(fileLocation, SaveFileFormats.Xml) ??
+                                    ReadTumblrFile(fileLocation, SaveFileFormats.Json);
 
-            return saveFile;
+                return saveFile;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -172,7 +223,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns>True if success saving, false otherwise</returns>
         public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile)
         {
-            return SaveTumblrFile(fileLocation, saveFile, _saveFileFormat);
+            try
+            {
+                return SaveTumblrFile(fileLocation, saveFile, _saveFileFormat);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -184,20 +242,27 @@ namespace Tumblr_Tool.Helpers
         /// <returns>True if success saving, false otherwise</returns>
         public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile, SaveFileFormats saveFileFormat)
         {
-            saveFile.AddDate();
-            switch (saveFileFormat)
+            try
             {
-                case SaveFileFormats.Bin:
-                    return BinaryHelper.SaveObject(fileLocation, saveFile);
+                saveFile.AddDate();
+                switch (saveFileFormat)
+                {
+                    case SaveFileFormats.Bin:
+                        return BinaryHelper.SaveObject(fileLocation, saveFile);
 
-                case SaveFileFormats.Xml:
-                    return XmlHelper.SaveObject(fileLocation, saveFile);
+                    case SaveFileFormats.Xml:
+                        return XmlHelper.SaveObject(fileLocation, saveFile);
 
-                case SaveFileFormats.Json:
-                    return JsonHelper.SaveObject(fileLocation, saveFile);
+                    case SaveFileFormats.Json:
+                        return JsonHelper.SaveObject(fileLocation, saveFile);
 
-                default:
-                    return false;
+                    default:
+                        return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -211,20 +276,29 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static bool IsExistingFile(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
         {
-            HashSet<string> list;
-            if (!useFullString)
+            try
             {
-                list = (from p in sourceSet
-                        where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
-                        select p).ToHashSet();
+                HashSet<string> list;
+                if (!useFullString)
+                {
+                    list = (from p in sourceSet
+                            where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
+                            select p).ToHashSet();
+                }
+                else
+                {
+                    list = (from p in sourceSet
+                            where p.ToLower().Contains(fileName.ToLower())
+                            select p).ToHashSet();
+                }
+                return Convert.ToBoolean(list.Count);
             }
-            else
+            catch
             {
-                list = (from p in sourceSet
-                        where p.ToLower().Contains(fileName.ToLower())
-                        select p).ToHashSet();
+                return false;
             }
-            return Convert.ToBoolean(list.Count);
         }
+            
+
     }
 }

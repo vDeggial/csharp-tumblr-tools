@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: March, 2016
+ *  Last Updated: April, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -250,7 +250,14 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="log"></param>
         public void SetLogFile(SaveFile log)
         {
-            TumblrPostLog = log;
+            try
+            {
+                TumblrPostLog = log;
+            }
+            catch
+            {
+                //
+            }
         }
 
         /// <summary>
@@ -298,52 +305,59 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="posts"></param>
         private void GenerateImageListForDownload(HashSet<TumblrPost> posts)
         {
-            foreach (var tumblrPost in posts)
+            try
             {
-                var post = (PhotoPost)tumblrPost;
-                if (!ParsePhotoSets && post.Photos.Count > 1)
+                foreach (var tumblrPost in posts)
                 {
-                    // do not parse images from photoset
-                }
-                else
-                {
-                    foreach (PhotoPostImage image in post.Photos)
+                    var post = (PhotoPost)tumblrPost;
+                    if (!ParsePhotoSets && post.Photos.Count > 1)
                     {
-                        try
+                        // do not parse images from photoset
+                    }
+                    else
+                    {
+                        foreach (PhotoPostImage image in post.Photos)
                         {
-                            //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
+                            try
+                            {
+                                //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
 
-                            //post.caption = post.caption.StripTags();
-                            ImageList.Add(image);
-                        }
-                        catch
-                        {
-                            return;
+                                //post.caption = post.caption.StripTags();
+                                ImageList.Add(image);
+                            }
+                            catch
+                            {
+                                return;
+                            }
                         }
                     }
                 }
+
+                if (ImageList.Count > 0)
+                {
+                    HashSet<PhotoPostImage> removeHash = new HashSet<PhotoPostImage>();
+
+                    if (!ParseGif)
+                    {
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".gif") select p)));
+                    }
+
+                    if (!ParseJpeg)
+                    {
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".jpg") || p.Filename.ToLower().EndsWith(".jpeg") select p)));
+                    }
+
+                    if (!ParsePng)
+                    {
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".png") select p)));
+                    }
+
+                    ImageList.RemoveWhere(x => removeHash.Contains(x));
+                }
             }
-
-            if (ImageList.Count > 0)
+            catch
             {
-                HashSet<PhotoPostImage> removeHash = new HashSet<PhotoPostImage>();
-
-                if (!ParseGif)
-                {
-                    removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".gif") select p)));
-                }
-
-                if (!ParseJpeg)
-                {
-                    removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".jpg") || p.Filename.ToLower().EndsWith(".jpeg") select p)));
-                }
-
-                if (!ParsePng)
-                {
-                    removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".png") select p)));
-                }
-
-                ImageList.RemoveWhere(x => removeHash.Contains(x));
+                //ignored
             }
         }
 

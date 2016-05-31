@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: March, 2016
+ *  Last Updated: April, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -31,9 +31,16 @@ namespace Tumblr_Tool.Helpers
         /// <returns>Array of bytes representing original string</returns>
         public static byte[] GetBytes(string str)
         {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
+            try
+            {
+                byte[] bytes = new byte[str.Length * sizeof(char)];
+                Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+                return bytes;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -43,9 +50,16 @@ namespace Tumblr_Tool.Helpers
         /// <returns>String representation of array of bytes</returns>
         public static string GetString(byte[] bytes)
         {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
+            try
+            {
+                char[] chars = new char[bytes.Length / sizeof(char)];
+                Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+                return new string(chars);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -56,7 +70,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns>String with replaced newline break chars</returns>
         public static string NewLineToBreak(string input, string strToReplace)
         {
-            return input?.Replace(strToReplace, "\n\r");
+            try
+            {
+                return input?.Replace(strToReplace, "\n\r");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -68,12 +89,26 @@ namespace Tumblr_Tool.Helpers
         /// <returns>String with replaced value</returns>
         public static string ReplaceInString(string input, string strToReplace, string strWith)
         {
-            return input?.Replace(strToReplace, strWith);
+            try
+            {
+                return input?.Replace(strToReplace, strWith);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
         {
-            return set.Reverse().ToHashSet();
+            try
+            {
+                return set.Reverse().ToHashSet();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -84,7 +119,14 @@ namespace Tumblr_Tool.Helpers
         /// <returns>Hasheset of objects of the type T</returns>
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> obj)
         {
-            return new HashSet<T>(obj);
+            try
+            {
+                return new HashSet<T>(obj);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -94,17 +136,24 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string ToSlug(this string text)
         {
-            StringBuilder builder = new StringBuilder();
+            try
+            {
+                StringBuilder builder = new StringBuilder();
 
-            foreach (char c in text)
-                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                    builder.Append(c);
+                foreach (char c in text)
+                    if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                        builder.Append(c);
 
-            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(text);
+                byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(text);
 
-            var value = Regex.Replace(Regex.Replace(Encoding.ASCII.GetString(bytes), @"\s{2,}|[^\w]", " ", RegexOptions.ECMAScript).Trim(), @"\s+", "_");
+                var value = Regex.Replace(Regex.Replace(Encoding.ASCII.GetString(bytes), @"\s{2,}|[^\w]", " ", RegexOptions.ECMAScript).Trim(), @"\s+", "_");
 
-            return value.ToLowerInvariant();
+                return value.ToLowerInvariant();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -114,10 +163,17 @@ namespace Tumblr_Tool.Helpers
         /// <returns>DateTime representation of Unix timestamp</returns>
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
-            // Unix timestamp is seconds past epoch
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
+            try
+            {
+                // Unix timestamp is seconds past epoch
+                DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+                return dtDateTime;
+            }
+            catch
+            {
+                return DateTime.Now;
+            }
         }
     }
 }

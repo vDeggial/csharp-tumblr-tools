@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: March, 2016
+ *  Last Updated: April, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -30,7 +30,14 @@ namespace Tumblr_Tool.Helpers
         /// </returns>
 		public static DateTime FromTimestamp(Int64 timestamp)
         {
-            return FromTimestamp((double)timestamp);
+            try
+            {
+                return FromTimestamp((double)timestamp);
+            }
+            catch
+            {
+                return DateTime.Now;
+            }
         }
 
         /// <summary>
@@ -44,8 +51,15 @@ namespace Tumblr_Tool.Helpers
         /// </returns>
 		public static DateTime FromTimestamp(Double timestamp)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            return origin.AddSeconds(timestamp).ToLocalTime();
+            try
+            {
+                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                return origin.AddSeconds(timestamp).ToLocalTime();
+            }
+            catch
+            {
+                return DateTime.Now;
+            }
         }
 
         /// <summary>
@@ -59,9 +73,16 @@ namespace Tumblr_Tool.Helpers
         /// </returns>
 		public static double ToTimestamp(DateTime date)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan diff = date.ToUniversalTime() - origin;
-            return Math.Floor(diff.TotalSeconds);
+            try
+            {
+                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                TimeSpan diff = date.ToUniversalTime() - origin;
+                return Math.Floor(diff.TotalSeconds);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }
