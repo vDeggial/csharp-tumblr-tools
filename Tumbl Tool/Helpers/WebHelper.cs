@@ -109,12 +109,6 @@ namespace Tumblr_Tool.Helpers
                 IRestResponse response = client.Execute(request);
                 var docStr = response.Content;
 
-                //using (var wc = new RestClient(url))
-                //{
-                //    wc.Encoding = Encoding.UTF8;
-                //    docStr = wc.DownloadString(url);
-                //}
-
                 return !string.IsNullOrEmpty(docStr) ? docStr : null;
             }
             catch
@@ -216,12 +210,6 @@ namespace Tumblr_Tool.Helpers
                 {
                     return false;
                 }
-
-                //using (var client = new WebClient())
-                //using (var stream = client.OpenRead(url))
-                //{
-                //    return true;
-                //}
             }
             catch
             {

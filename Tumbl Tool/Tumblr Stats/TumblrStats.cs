@@ -22,12 +22,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 {
     public class TumblrStats
     {
-        /// <summary>
-        ///
-        /// </summary>
-        public TumblrStats()
-        {
-        }
 
         /// <summary>
         ///
@@ -37,7 +31,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="apiMode"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        public TumblrStats(TumblrBlog blog, string url, TumblrApiVersion apiMode, int offset = 0, int limit = 0)
+        public TumblrStats(TumblrBlog blog = null, string url = null, TumblrApiVersion apiMode = TumblrApiVersion.V2Json, int offset = 0, int limit = 0)
         {
             DocumentManager = new DocumentManager();
             SetApiMode(apiMode);

@@ -25,33 +25,13 @@ namespace Tumblr_Tool.Managers
 {
     public class DocumentManager
     {
-        /// <summary>
-        ///
-        /// </summary>
-        public DocumentManager()
-        {
-            ApiVersion = TumblrApiVersion.V2Json;
-            ImageSize = ImageSize.Original;
-            JsonDocument = null;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="apiMode"></param>
-        public DocumentManager(TumblrApiVersion apiMode)
-        {
-            ApiVersion = apiMode;
-            ImageSize = ImageSize.Original;
-            JsonDocument = null;
-        }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="apiMode"></param>
         /// <param name="imageSize"></param>
-        public DocumentManager(TumblrApiVersion apiMode, ImageSize imageSize)
+        public DocumentManager(TumblrApiVersion apiMode = TumblrApiVersion.V2Json, ImageSize imageSize = ImageSize.Original)
         {
             ApiVersion = apiMode;
             ImageSize = imageSize;

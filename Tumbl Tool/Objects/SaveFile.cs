@@ -28,27 +28,7 @@ namespace Tumblr_Tool.Objects
         public SaveFile(string fileName = "", TumblrBlog blog = null)
         {
             Filename = fileName;
-            //this.blog = new Tumblr();
-            //this.blog.cname = blog.cname;
-            //this.blog.description = blog.description;
-            //this.blog.name = blog.name;
-            //this.blog.posts = new HashSet<TumblrPost>();
-            //this.blog.posts.AddRange(blog.posts);
-            //this.blog.timezone = blog.timezone;
-            //this.blog.title = blog.title;
-            //this.blog.totalPosts = blog.totalPosts;
-
             Blog = blog.Clone();
-            AddDate();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public SaveFile()
-        {
-            Filename = null;
-            Blog = null;
             AddDate();
         }
 

@@ -132,7 +132,7 @@ namespace Tumblr_Tool.Helpers
         /// <typeparam name="T"> Object class</typeparam>
         /// <param name="filePath">File location path</param>
         /// <returns>Object of type T read in from file</returns>
-        public static T ReadObject<T>(string filePath) where T : new()
+        public static T ReadObject<T>(string filePath)
         {
             TextReader reader = null;
             try
@@ -159,7 +159,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="objectToWrite">Object to writeto file</param>
         /// <param name="append">Append to file?</param>
         /// <returns>True if save succeeds, false otherwise</returns>
-        public static bool SaveObject<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        public static bool SaveObject<T>(string filePath, T objectToWrite, bool append = false)
         {
             TextWriter writer = null;
             try

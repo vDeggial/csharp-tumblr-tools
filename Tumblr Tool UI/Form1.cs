@@ -1371,7 +1371,6 @@ namespace Tumblr_Tool
             TumblrStats.ProcessingStatusCode = ProcessingCode.Initializing;
             try
             {
-                TumblrStats = new TumblrStats();
 
                 if (WebHelper.CheckForInternetConnection())
                 {

@@ -45,10 +45,10 @@ namespace Tumblr_Tool.Managers
         public double PercentDownloaded { get; set; }
         public int TotalFilesToDownload { get; set; }
 
-        private bool DownloadSuccess { get; set; }
         private double FileSizeRecieved { get; set; }
         private string SaveFileFormat { get; set; }
         private double TotalFileSize { get; set; }
+
 
         public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
         {

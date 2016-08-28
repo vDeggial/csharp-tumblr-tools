@@ -22,17 +22,6 @@ namespace Tumblr_Tool.Image_Ripper
 {
     public class ImageRipper
     {
-        /// <summary>
-        /// Constructor for the class
-        /// </summary>
-        public ImageRipper()
-        {
-            ImageList = new HashSet<PhotoPostImage>();
-            ErrorList = new HashSet<string>();
-            DocumentManager = new DocumentManager();
-            Blog = new TumblrBlog();
-            ImageCommentsList = new Dictionary<string, string>();
-        }
 
         /// <summary>
         /// Constructor
@@ -48,11 +37,14 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <param name="apiMode"></param>
-        public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true,
+        public ImageRipper(TumblrBlog blog = null, string saveLocation = null, bool generateLog = false, bool parseSets = true,
             bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSize imageSize = ImageSize.None, int offset = 0, int limit = 0, TumblrApiVersion apiMode = TumblrApiVersion.V2Json)
         {
-            TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
-            TumblrDomain = WebHelper.GetDomainName(blog.Url);
+            if (blog != null)
+            {
+                TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
+                TumblrDomain = WebHelper.GetDomainName(blog.Url);
+            }
 
             GenerateLog = generateLog;
 
@@ -227,21 +219,6 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="log"></param>
-        public void SetLogFile(SaveFile log)
-        {
-            try
-            {
-                TumblrPostLog = log;
-            }
-            catch
-            {
-                //
-            }
-        }
 
         /// <summary>
         ///
