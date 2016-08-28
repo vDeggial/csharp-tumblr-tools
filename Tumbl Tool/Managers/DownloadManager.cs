@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -37,25 +37,20 @@ namespace Tumblr_Tool.Managers
             DownloadedList = new HashSet<string>();
             TotalFileSize = 0;
             FileSizeRecieved = 0;
-            SaveFileFormat = SaveFileFormats.Json.ToString();
+            SaveFileFormat = Enums.SaveFileFormat.Json.ToString();
         }
 
         public HashSet<string> DownloadedList { get; set; }
-
-        public bool DownloadSuccess { get; set; }
-        public double FileSizeRecieved { get; set; }
-
+        public DownloadStatusCode DownloadStatusCode { get; set; }
         public double PercentDownloaded { get; set; }
-
-        public string SaveFileFormat { get; set; }
-
-        public DownloadStatusCodes StatusCode { get; set; }
-
-        public double TotalFileSize { get; set; }
-
         public int TotalFilesToDownload { get; set; }
 
-        public bool DownloadFile(DownloadMethods method, string remoteFileLocation, string localPath)
+        private bool DownloadSuccess { get; set; }
+        private double FileSizeRecieved { get; set; }
+        private string SaveFileFormat { get; set; }
+        private double TotalFileSize { get; set; }
+
+        public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
         {
             remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
 
@@ -63,13 +58,13 @@ namespace Tumblr_Tool.Managers
             localFileFullPath = FileHelper.AddJpgExt(localFileFullPath);
             switch (method)
             {
-                case DownloadMethods.WebClientAsync:
+                case DownloadMethod.WebClientAsync:
                     return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
 
-                case DownloadMethods.PostSharp:
+                case DownloadMethod.PostSharp:
                     return DownloadFilePostSharp(remoteFileLocation, localFileFullPath);
 
-                case DownloadMethods.WebClient:
+                case DownloadMethod.WebClient:
                     return DownloadFileWebClient(remoteFileLocation, localFileFullPath);
 
                 default:
@@ -92,7 +87,7 @@ namespace Tumblr_Tool.Managers
         private bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
         {
             PercentDownloaded = 0;
-            StatusCode = DownloadStatusCodes.Ok;
+            DownloadStatusCode = DownloadStatusCode.Ok;
 
             Uri uri = new Uri(remoteFileLocation);
             string domain = uri.Host;
@@ -112,7 +107,7 @@ namespace Tumblr_Tool.Managers
             try
             {
                 PercentDownloaded = 0;
-                StatusCode = DownloadStatusCodes.Ok;
+                DownloadStatusCode = DownloadStatusCode.Ok;
 
                 if (WebHelper.UrlExists(remoteFileLocation))
                 {
@@ -153,16 +148,16 @@ namespace Tumblr_Tool.Managers
 
                         sw.Stop();
                         TotalFileSize += FileSizeRecieved;
-                        StatusCode = DownloadStatusCodes.Done;
+                        DownloadStatusCode = DownloadStatusCode.Done;
                         return true;
                     }
                 }
-                StatusCode = DownloadStatusCodes.UnableDownload;
+                DownloadStatusCode = DownloadStatusCode.UnableDownload;
                 return false;
             }
             catch
             {
-                StatusCode = DownloadStatusCodes.UnableDownload;
+                DownloadStatusCode = DownloadStatusCode.UnableDownload;
                 if (FileHelper.FileExistsOnHdd(localFilePath))
                 {
                     FileInfo file = new FileInfo(localFilePath);
@@ -182,7 +177,7 @@ namespace Tumblr_Tool.Managers
         private bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
         {
             PercentDownloaded = 0;
-            StatusCode = DownloadStatusCodes.Ok;
+            DownloadStatusCode = DownloadStatusCode.Ok;
 
             if (WebHelper.UrlExists(remoteFileLocation))
             {
@@ -197,11 +192,11 @@ namespace Tumblr_Tool.Managers
 
                         _readyToStop.WaitOne();
 
-                        return StatusCode == DownloadStatusCodes.Done;
+                        return DownloadStatusCode == DownloadStatusCode.Done;
                     }
                     catch (Exception)
                     {
-                        StatusCode = DownloadStatusCodes.UnableDownload;
+                        DownloadStatusCode = DownloadStatusCode.UnableDownload;
                         if (FileHelper.FileExistsOnHdd(localFilePath))
                         {
                             var file = new FileInfo(localFilePath);
@@ -225,7 +220,7 @@ namespace Tumblr_Tool.Managers
         {
             if (e.Cancelled)
             {
-                StatusCode = DownloadStatusCodes.UnableDownload;
+                DownloadStatusCode = DownloadStatusCode.UnableDownload;
                 if (FileHelper.FileExistsOnHdd((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
@@ -238,7 +233,7 @@ namespace Tumblr_Tool.Managers
 
             if (e.Error != null)
             {
-                StatusCode = DownloadStatusCodes.UnableDownload;
+                DownloadStatusCode = DownloadStatusCode.UnableDownload;
                 if (FileHelper.FileExistsOnHdd((string)e.UserState))
                 {
                     FileInfo file = new FileInfo((string)e.UserState);
@@ -251,7 +246,7 @@ namespace Tumblr_Tool.Managers
 
             if (e.Cancelled == false && e.Error == null)
             {
-                StatusCode = DownloadStatusCodes.Done;
+                DownloadStatusCode = DownloadStatusCode.Done;
                 //this.DownloadedList.Add((string)e.UserState);
                 TotalFileSize += FileSizeRecieved;
                 _readyToStop.Set();

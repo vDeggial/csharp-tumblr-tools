@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tumblr_Tool</RootNamespace>
     <AssemblyName>Tumblr Tool</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -47,9 +47,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Enums\DownloadMethods.cs" />
-    <Compile Include="Enums\ImageSizes.cs" />
-    <Compile Include="Enums\SaveFileFormats.cs" />
+    <Compile Include="Enums\DownloadMethod.cs" />
+    <Compile Include="Enums\ImageSize.cs" />
+    <Compile Include="Enums\SaveFileFormat.cs" />
     <Compile Include="Helpers\BinaryHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
@@ -62,16 +62,16 @@
     <Compile Include="Objects\SaveFile.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
-    <Compile Include="Enums\ApiModes.cs" />
-    <Compile Include="Enums\DownloadStatusCodes.cs" />
-    <Compile Include="Enums\ErrorTypes.cs" />
+    <Compile Include="Enums\TumblrApiVersion.cs" />
+    <Compile Include="Enums\DownloadStatusCode.cs" />
+    <Compile Include="Enums\ErrorType.cs" />
     <Compile Include="Enums\ImageFormat.cs" />
-    <Compile Include="Enums\BlogPostsScanModes.cs" />
-    <Compile Include="Enums\PostStatusCodes.cs" />
-    <Compile Include="Enums\ProcessingCodes.cs" />
+    <Compile Include="Enums\BlogPostsScanMode.cs" />
+    <Compile Include="Enums\PostStatusCode.cs" />
+    <Compile Include="Enums\ProcessingCode.cs" />
     <Compile Include="Enums\NumberOfPostsPerApiDocument.cs" />
-    <Compile Include="Enums\TumblrApiResponses.cs" />
-    <Compile Include="Enums\TumblrPostTypes.cs" />
+    <Compile Include="Enums\TumblrApiResponse.cs" />
+    <Compile Include="Enums\TumblrPostType.cs" />
     <Compile Include="Image Ripper\ImageRipper.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\DownloadManager.cs" />
@@ -92,8 +92,8 @@
     <Compile Include="Tumblr Stats\TumblrStats.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Newtonsoft.Json.dll" />
-    <Content Include="RestSharp.dll" />
+    <None Include="Newtonsoft.Json.dll" />
+    <None Include="RestSharp.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

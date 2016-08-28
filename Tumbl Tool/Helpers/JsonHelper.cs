@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -103,7 +103,7 @@ namespace Tumblr_Tool.Helpers
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
             string postQuery = PostQuery;
-            if (postType != TumblrPostTypes.All.ToString().ToLower())
+            if (postType != TumblrPostType.All.ToString().ToLower())
             {
                 postQuery += "/" + postType;
             }
@@ -113,13 +113,12 @@ namespace Tumblr_Tool.Helpers
             return query;
         }
 
-        public static JObject GetObject(string url)
+        public static JObject GetObject(string jsonString)
         {
-            string result = WebHelper.GetRemoteDocumentAsString(url);
 
-            if (result != null)
+            if (jsonString != null)
             {
-                return JObject.Parse(result);
+                return JObject.Parse(jsonString);
             }
             else
             {

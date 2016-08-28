@@ -6,60 +6,70 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Error types
+    /// Tumblr Post Types
     /// </summary>
-    public enum ErrorTypes
+    public enum TumblrPostType
     {
         /// <summary>
-        /// Connection error
+        /// Tumblr text post
         /// </summary>
-        ConnectionError,
+        Text,
 
         /// <summary>
-        /// Parsing error
+        /// Tumblr text post
         /// </summary>
-        ParsingError,
+        Regular,
 
         /// <summary>
-        /// Internal system error
+        /// Tumblr photo post
         /// </summary>
-        InternalError,
+        Photo,
 
         /// <summary>
-        /// Unknown error
+        /// Tumblr chat post
         /// </summary>
-        UnknownError,
+        Chat,
 
         /// <summary>
-        /// Xml error
+        /// Tumblr chat post
         /// </summary>
-        XmlError,
+        Conversation,
 
         /// <summary>
-        /// /Json error
+        /// Tumblr link post
         /// </summary>
-        JsonError,
+        Link,
 
         /// <summary>
-        /// Download error
+        /// Tumblr quote post
         /// </summary>
-        DownloadError,
+        Quote,
 
         /// <summary>
-        /// Crawl error
+        /// Tumblr audio post
         /// </summary>
-        CrawlError,
+        Audio,
 
         /// <summary>
-        /// Url error
+        /// Tumblr video post
         /// </summary>
-        UrlError
+        Video,
+
+        /// <summary>
+        /// Tumblr ask answer post
+        /// </summary>
+        Answer,
+
+        /// <summary>
+        /// All posts
+        /// </summary>
+        All
     }
 }

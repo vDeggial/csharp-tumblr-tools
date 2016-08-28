@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -176,12 +176,12 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static bool TumblrExists(this string url, ApiModes mode)
+        public static bool TumblrExists(this string url, TumblrApiVersion mode)
         {
             try
             {
-                dynamic jsonObject = JsonHelper.GetObject(url);
-                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponses.Ok).ToString());
+                dynamic jsonObject = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
+                return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponse.Ok).ToString());
             }
             catch
             {

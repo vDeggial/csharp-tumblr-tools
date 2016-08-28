@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -24,7 +24,7 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Save file format
         /// </summary>
-        private static SaveFileFormats _saveFileFormat = SaveFileFormats.Json;
+        private static SaveFileFormat _saveFileFormat = SaveFileFormat.Json;
 
         /// <summary>
         /// Add .jpg extension to file
@@ -169,19 +169,19 @@ namespace Tumblr_Tool.Helpers
         /// <param name="fileLocation">File path</param>
         /// <param name="format">Save file format</param>
         /// <returns></returns>
-        public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormats format)
+        public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormat format)
         {
             try
             {
                 switch (format)
                 {
-                    case SaveFileFormats.Bin:
+                    case SaveFileFormat.Bin:
                         return BinaryHelper.ReadObject<SaveFile>(fileLocation);
 
-                    case SaveFileFormats.Xml:
+                    case SaveFileFormat.Xml:
                         return XmlHelper.ReadObject<SaveFile>(fileLocation);
 
-                    case SaveFileFormats.Json:
+                    case SaveFileFormat.Json:
                         return JsonHelper.ReadObject<SaveFile>(fileLocation);
 
                     default:
@@ -203,9 +203,9 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormats.Bin) ??
-                                     ReadTumblrFile(fileLocation, SaveFileFormats.Xml) ??
-                                    ReadTumblrFile(fileLocation, SaveFileFormats.Json);
+                SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormat.Bin) ??
+                                     ReadTumblrFile(fileLocation, SaveFileFormat.Xml) ??
+                                    ReadTumblrFile(fileLocation, SaveFileFormat.Json);
 
                 return saveFile;
             }
@@ -240,20 +240,20 @@ namespace Tumblr_Tool.Helpers
         /// <param name="saveFile">Savefile object</param>
         /// <param name="saveFileFormat">Savefile format</param>
         /// <returns>True if success saving, false otherwise</returns>
-        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile, SaveFileFormats saveFileFormat)
+        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile, SaveFileFormat saveFileFormat)
         {
             try
             {
                 saveFile.AddDate();
                 switch (saveFileFormat)
                 {
-                    case SaveFileFormats.Bin:
+                    case SaveFileFormat.Bin:
                         return BinaryHelper.SaveObject(fileLocation, saveFile);
 
-                    case SaveFileFormats.Xml:
+                    case SaveFileFormat.Xml:
                         return XmlHelper.SaveObject(fileLocation, saveFile);
 
-                    case SaveFileFormats.Json:
+                    case SaveFileFormat.Json:
                         return JsonHelper.SaveObject(fileLocation, saveFile);
 
                     default:

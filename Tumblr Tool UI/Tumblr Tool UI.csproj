@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tumblr_Tool</RootNamespace>
     <AssemblyName>Tumblr Tools</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -75,16 +75,24 @@
     <ManifestKeyFile>Tumblr Tool UI_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dotnetrix.TabControl">
+    <Reference Include="Dotnetrix.TabControl, Version=1.0.1.7, Culture=neutral, PublicKeyToken=ddb3299291faa03f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Dotnetrix.TabControl.dll</HintPath>
     </Reference>
-    <Reference Include="KRBTabControl">
+    <Reference Include="KRBTabControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\KRBTabControl.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -137,6 +145,7 @@
     <None Include="GOTHICB.TTF" />
     <None Include="GOTHICBI.TTF" />
     <None Include="GOTHICI.TTF" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -181,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tumblr.png" />
+    <None Include="Dotnetrix.TabControl.dll" />
+    <None Include="KRBTabControl.dll" />
     <Content Include="tumblr icon.ico" />
     <None Include="Resources\copyright.png" />
     <None Include="Resources\filesize.png" />
@@ -192,8 +203,6 @@
     <None Include="Resources\menu.png" />
     <None Include="Resources\about.png" />
     <None Include="Resources\avatar.png" />
-    <Content Include="Dotnetrix.TabControl.dll" />
-    <Content Include="KRBTabControl.dll" />
     <Content Include="Resources\down.ico" />
     <Content Include="Resources\info.ico" />
     <None Include="Resources\options.png" />

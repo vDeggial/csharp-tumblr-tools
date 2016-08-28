@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -31,7 +31,7 @@ namespace Tumblr_Tool.Image_Ripper
             ErrorList = new HashSet<string>();
             DocumentManager = new DocumentManager();
             Blog = new TumblrBlog();
-            CommentsList = new Dictionary<string, string>();
+            ImageCommentsList = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -49,92 +49,76 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="limit"></param>
         /// <param name="apiMode"></param>
         public ImageRipper(TumblrBlog blog, string saveLocation, bool generateLog = false, bool parseSets = true,
-            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSizes imageSize = ImageSizes.None, int offset = 0, int limit = 0, ApiModes apiMode = ApiModes.V2Json)
+            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSize imageSize = ImageSize.None, int offset = 0, int limit = 0, TumblrApiVersion apiMode = TumblrApiVersion.V2Json)
         {
             TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
             TumblrDomain = WebHelper.GetDomainName(blog.Url);
 
             GenerateLog = generateLog;
 
-            Offset = offset;
+            ApiQueryOffset = offset;
             SaveLocation = saveLocation;
 
-            Limit = limit;
+            ApiQueryPostLimit = limit;
 
             ErrorList = new HashSet<string>();
 
             Blog = blog;
-            StatusCode = ProcessingCodes.Ok;
+            ProcessingStatusCode = ProcessingCode.Ok;
             ParsePhotoSets = parseSets;
             ParseJpeg = parseJpeg;
             ParsePng = parsePng;
             ParseGif = parseGif;
             ImageSize = imageSize;
-            ApiMode = apiMode;
+            ApiVersion = apiMode;
 
             Blog?.Posts?.Clear();
             TotalNumberOfPosts = 0;
             ImageList = new HashSet<PhotoPostImage>();
             TotalNumberOfImages = 0;
             DocumentManager = new DocumentManager();
-            SetApiMode(ApiMode);
-            CommentsList = new Dictionary<string, string>();
+            SetApiMode(ApiVersion);
+            ImageCommentsList = new Dictionary<string, string>();
         }
 
-        public ApiModes ApiMode { get; set; }
-
+        public TumblrApiVersion ApiVersion { get; set; }
         public TumblrBlog Blog { get; set; }
-        public Dictionary<string, string> CommentsList { get; set; }
-        public DocumentManager DocumentManager { get; set; }
-        public HashSet<string> ErrorList { get; set; }
-        public HashSet<string> ExistingImageList { get; set; }
-        public bool GenerateLog { get; set; }
         public HashSet<PhotoPostImage> ImageList { get; set; }
-        public ImageSizes ImageSize { get; set; }
+        public ImageSize ImageSize { get; set; }
         public bool IsCancelled { get; set; }
-
         public bool IsLogUpdated { get; set; }
-
-        public int Limit { get; set; }
-
         public int NumberOfParsedPosts { get; set; }
-
-        public int Offset { get; set; }
-
-        public bool ParseGif { get; set; }
-
-        public bool ParseJpeg { get; set; }
-
-        public bool ParsePhotoSets { get; set; }
-
-        public bool ParsePng { get; set; }
-
         public int PercentComplete { get; set; }
-
-        public string SaveLocation { get; set; }
-
-        public ProcessingCodes StatusCode { get; set; }
-
-        public int TotalNumberOfImages { get; set; }
-
+        public ProcessingCode ProcessingStatusCode { get; set; }
         public int TotalNumberOfPosts { get; set; }
-
-        public string TumblrDomain { get; set; }
-
         public SaveFile TumblrPostLog { get; set; }
 
-        public string TumblrUrl { get; set; }
+        private int ApiQueryOffset { get; set; }
+        private int ApiQueryPostLimit { get; set; }
+        private Dictionary<string, string> ImageCommentsList { get; set; }
+        private DocumentManager DocumentManager { get; set; }
+        private HashSet<string> ErrorList { get; set; }
+        private HashSet<string> ExistingImageList { get; set; }
+        private bool GenerateLog { get; set; }
+        private bool ParseGif { get; set; }
+        private bool ParseJpeg { get; set; }
+        private bool ParsePhotoSets { get; set; }
+        private bool ParsePng { get; set; }
+        private string SaveLocation { get; set; }
+        private int TotalNumberOfImages { get; set; }
+        private string TumblrDomain { get; set; }
+        private string TumblrUrl { get; set; }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="parseMode"></param>
         /// <returns></returns>
-        public TumblrBlog ParseBlogPosts(BlogPostsScanModes parseMode)
+        public TumblrBlog ParseBlogPosts(BlogPostsScanMode parseMode)
         {
             try
             {
-                StatusCode = ProcessingCodes.Crawling;
+                ProcessingStatusCode = ProcessingCode.Crawling;
                 ExistingImageList = FileHelper.GenerateFolderImageList(SaveLocation);
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
@@ -148,9 +132,9 @@ namespace Tumblr_Tool.Image_Ripper
 
                 PercentComplete = 0;
 
-                while (Offset < TotalNumberOfPosts && !IsCancelled && !finished)
+                while (ApiQueryOffset < TotalNumberOfPosts && !IsCancelled && !finished)
                 {
-                    HashSet<TumblrPost> posts = GetTumblrPostList(Offset);
+                    HashSet<TumblrPost> posts = GetTumblrPostList(ApiQueryOffset);
 
                     HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
                                                                                 where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
@@ -158,7 +142,7 @@ namespace Tumblr_Tool.Image_Ripper
 
                     posts.RemoveWhere(x => existingHash.Contains(x));
 
-                    if (parseMode == BlogPostsScanModes.NewestPostsOnly && existingHash.Count > 0)
+                    if (parseMode == BlogPostsScanMode.NewestPostsOnly && existingHash.Count > 0)
                     {
                         finished = true;
                     }
@@ -170,12 +154,12 @@ namespace Tumblr_Tool.Image_Ripper
                         GenerateImageListForDownload(posts);
                     }
 
-                    if (parseMode == BlogPostsScanModes.FullBlogRescan)
+                    if (parseMode == BlogPostsScanMode.FullBlogRescan)
                     {
                         Blog.Posts.UnionWith(existingHash);
                     }
 
-                    if (parseMode == BlogPostsScanModes.FullBlogRescan || posts.Count == 0)
+                    if (parseMode == BlogPostsScanMode.FullBlogRescan || posts.Count == 0)
                     {
                         NumberOfParsedPosts += numPostsPerDocument;
                     }
@@ -187,11 +171,10 @@ namespace Tumblr_Tool.Image_Ripper
                     if (NumberOfParsedPosts > TotalNumberOfPosts) NumberOfParsedPosts = TotalNumberOfPosts;
 
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
-                    Offset += numPostsPerDocument;
+                    ApiQueryOffset += numPostsPerDocument;
 
                     if (GenerateLog)
                     {
-
                         UpdateLogFile(Blog.Name);
                     }
                     Blog.Posts = new HashSet<TumblrPost>();
@@ -214,12 +197,12 @@ namespace Tumblr_Tool.Image_Ripper
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetApiMode(ApiModes mode)
+        public void SetApiMode(TumblrApiVersion mode)
         {
             try
             {
-                ApiMode = mode; // XML or JSON
-                DocumentManager.ApiMode = mode;
+                ApiVersion = mode; // XML or JSON
+                DocumentManager.ApiVersion = mode;
             }
             catch
             {
@@ -235,7 +218,7 @@ namespace Tumblr_Tool.Image_Ripper
         {
             try
             {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), 0, 1);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), 0, 1);
                 return DocumentManager.GetRemoteBlogInfo(query, Blog);
             }
             catch
@@ -268,9 +251,9 @@ namespace Tumblr_Tool.Image_Ripper
         {
             try
             {
-                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
+                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
 
-                return url.TumblrExists(ApiMode);
+                return url.TumblrExists(ApiVersion);
             }
             catch
             {
@@ -370,17 +353,17 @@ namespace Tumblr_Tool.Image_Ripper
         {
             try
             {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.Photo.ToString().ToLower(), offset);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), offset);
 
                 DocumentManager.GetRemoteDocument(query);
 
-                if ((ApiMode == ApiModes.V2Json && DocumentManager.JsonDocument != null))
+                if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {
                     DocumentManager.ImageSize = ImageSize;
-                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostTypes.Photo.ToString().ToLower(), ApiMode);
+                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.Photo.ToString().ToLower(), ApiVersion);
                     return posts;
                 }
-                StatusCode = ProcessingCodes.UnableDownload;
+                ProcessingStatusCode = ProcessingCode.UnableDownload;
                 return new HashSet<TumblrPost>();
             }
             catch

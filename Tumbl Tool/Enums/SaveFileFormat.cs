@@ -6,29 +6,30 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
-
-using System.ComponentModel;
 
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Parse Modes: Full Rescan / New Posts Only
+    /// Formats for Save files
     /// </summary>
-    public enum BlogPostsScanModes
+    public enum SaveFileFormat
     {
         /// <summary>
-        /// Scan new posts only
+        /// Xml savefile
         /// </summary>
-        [Description("New")]
-        NewestPostsOnly = 0,
+        Xml,
 
         /// <summary>
-        /// Full blog rescan
+        /// Json savefile
         /// </summary>
-        [Description("Full")]
-        FullBlogRescan = 1
+        Json,
+
+        /// <summary>
+        /// Binary savefile
+        /// </summary>
+        Bin
     }
 }

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -37,11 +37,11 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="apiMode"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        public TumblrStats(TumblrBlog blog, string url, ApiModes apiMode, int offset = 0, int limit = 0)
+        public TumblrStats(TumblrBlog blog, string url, TumblrApiVersion apiMode, int offset = 0, int limit = 0)
         {
             DocumentManager = new DocumentManager();
             SetApiMode(apiMode);
-            NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
+            TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
             Blog = blog ?? new TumblrBlog(url);
 
@@ -50,133 +50,107 @@ namespace Tumblr_Tool.Tumblr_Stats
             TumblrUrl = WebHelper.RemoveTrailingBackslash(Blog.Url);
             TumblrDomain = WebHelper.GetDomainName(TumblrUrl);
 
-            MaxNumPosts = limit;
-            Offset = offset;
+            ApiQueryLimit = limit;
+            ApiQueryOffset = offset;
 
-            NumPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
+            TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
             SetBlogInfo();
         }
 
-        public int NumAnswerPosts { get; set; }
-
-        public ApiModes ApiMode { get; set; }
-
-        public int NumAudioPosts { get; set; }
-
         public TumblrBlog Blog { get; set; }
+        public int PostTypesProcessedCount { get; set; }
+        public ProcessingCode ProcessingStatusCode { get; set; }
+        public int TotalAnswerPosts { get; set; }
+        public int TotalAudioPosts { get; set; }
+        public int TotalChatPosts { get; set; }
+        public int TotalLinkPosts { get; set; }
+        public int TotalPhotoPosts { get; set; }
+        public int TotalPostsForType { get; set; }
+        public int TotalPostsFound { get; set; }
+        public int TotalPostsOverall { get; set; }
+        public int TotalPostsPerDocument { get; set; }
+        public int TotalQuotePosts { get; set; }
+        public int TotalTextPosts { get; set; }
+        public int TotalVideoPosts { get; set; }
 
-        public int NumChatPosts { get; set; }
-
-        public DocumentManager DocumentManager { get; set; }
-
-        public int NumPostsFound { get; set; }
-
-        public int NumLinkPosts { get; set; }
-
-        public int MaxNumPosts { get; set; }
-
-        public int NumParsed { get; set; }
-
-        public int NumPhotoPosts { get; set; }
-
-        public int NumQuotePosts { get; set; }
-
-        public int Offset { get; set; }
-
-        public ProcessingCodes StatusCode { get; set; }
-
-        public int NumPostsPerDocument { get; set; }
-
-        public int NumTextPosts { get; set; }
-
-        public int NumTotalPostsForType { get; set; }
-
-        public int NumTotalPostsOverall { get; set; }
-
-        public string TumblrDomain { get; set; }
-
-        public string TumblrUrl { get; set; }
-
-        public int NumVideoPosts { get; set; }
+        private int ApiQueryLimit { get; set; }
+        private int ApiQueryOffset { get; set; }
+        private TumblrApiVersion ApiVersion { get; set; }
+        private DocumentManager DocumentManager { get; set; }
+        private string TumblrDomain { get; set; }
+        private string TumblrUrl { get; set; }
 
         /// <summary>
         ///
         /// </summary>
         /// <returns></returns>
-        public bool GetStats()
+        public bool GetTumblrStats()
         {
-            var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1);
+            var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
 
-            if (url.TumblrExists(DocumentManager.ApiMode))
+            if (url.TumblrExists(DocumentManager.ApiVersion))
 
             {
                 DocumentManager.GetRemoteDocument(url);
-                NumTotalPostsOverall = DocumentManager.GetTotalPostCount();
+                TotalPostsOverall = DocumentManager.GetTotalPostCount();
             }
 
-            var values = Enum.GetValues(typeof(TumblrPostTypes)).Cast<TumblrPostTypes>();
+            var postTypes = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>().ToHashSet();
+            postTypes.RemoveWhere(type => type == TumblrPostType.All || type == TumblrPostType.Regular || type == TumblrPostType.Conversation);
 
-            foreach (TumblrPostTypes type in values)
+            foreach (TumblrPostType type in postTypes)
             {
-                NumTotalPostsForType = 0;
-                if (type != TumblrPostTypes.All && type != TumblrPostTypes.Conversation && type != TumblrPostTypes.Regular)
+                int TotalPostsForType = 0;
+                url = JsonHelper.GeneratePostQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
+
+                if (url.TumblrExists(DocumentManager.ApiVersion))
                 {
-                    url = JsonHelper.GeneratePostQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
+                    DocumentManager.GetRemoteDocument(url);
+                    TotalPostsForType = DocumentManager.GetTotalPostCount();
 
-                    if (url.TumblrExists(DocumentManager.ApiMode))
+                    switch (type)
                     {
-                        DocumentManager.GetRemoteDocument(url);
-                        NumTotalPostsForType = DocumentManager.GetTotalPostCount();
+                        case TumblrPostType.Photo:
+                            TotalPhotoPosts = TotalPostsForType;
+                            break;
 
-                        switch (type)
-                        {
-                            case TumblrPostTypes.Photo:
-                                NumPhotoPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Text:
+                            TotalTextPosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Text:
-                                NumTextPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Video:
+                            TotalVideoPosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Video:
-                                NumVideoPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Audio:
+                            TotalAudioPosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Audio:
-                                NumAudioPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Link:
+                            TotalLinkPosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Link:
-                                NumLinkPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Quote:
+                            TotalQuotePosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Quote:
-                                NumQuotePosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
+                        case TumblrPostType.Chat:
+                            TotalChatPosts = TotalPostsForType;
+                            break;
 
-                            case TumblrPostTypes.Chat:
-                                NumChatPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
-
-                            case TumblrPostTypes.Answer:
-                                NumAnswerPosts = NumTotalPostsForType;
-                                NumParsed++;
-                                break;
-                        }
-                        StatusCode = ProcessingCodes.Ok;
+                        case TumblrPostType.Answer:
+                            TotalAnswerPosts = TotalPostsForType;
+                            break;
                     }
-                    else
-                    {
-                        StatusCode = ProcessingCodes.InvalidUrl;
-                    }
+
+                    PostTypesProcessedCount++;
+
+                    ProcessingStatusCode = ProcessingCode.Ok;
+                }
+                else
+                {
+                    ProcessingStatusCode = ProcessingCode.InvalidUrl;
                 }
             }
 
@@ -187,12 +161,12 @@ namespace Tumblr_Tool.Tumblr_Stats
         ///
         /// </summary>
         /// <param name="mode"></param>
-        public void SetApiMode(ApiModes mode)
+        public void SetApiMode(TumblrApiVersion mode)
         {
             try
             {
-                ApiMode = mode; // XML or JSON
-                DocumentManager.ApiMode = mode;
+                ApiVersion = mode; // XML or JSON
+                DocumentManager.ApiVersion = mode;
             }
             catch
             {
@@ -207,7 +181,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             try
             {
-                DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostTypes.All.ToString().ToLower(), 0, 1), Blog);
+                DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1), Blog);
             }
             catch
             {

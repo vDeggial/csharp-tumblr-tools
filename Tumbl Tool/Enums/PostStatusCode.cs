@@ -6,30 +6,35 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Image download internal methods
+    /// POst Download Status Codes
     /// </summary>
-    public enum DownloadMethods
+    public enum PostStatusCode
     {
         /// <summary>
-        /// Use .Net WebClient Async file download method
+        /// New post
         /// </summary>
-        WebClientAsync,
+        New,
 
         /// <summary>
-        /// Use PostShard file download method
+        /// Downloaded post
         /// </summary>
-        PostSharp,
+        Downloaded,
 
         /// <summary>
-        /// Use .Net WebClient sync file download method
+        /// Unabled to download post
         /// </summary>
-        WebClient
+        UnableToDownload,
+
+        /// <summary>
+        /// Ignored post
+        /// </summary>
+        Ignored
     }
 }

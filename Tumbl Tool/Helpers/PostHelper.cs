@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -124,7 +124,7 @@ namespace Tumblr_Tool.Helpers
         ///  <param name="post"></param>
         ///  <param name="jPost"></param>
         /// <param name="imageSize"></param>
-        public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost, ImageSizes imageSize)
+        public static void GeneratePhotoPost(ref TumblrPost post, dynamic jPost, ImageSize imageSize)
         {
             if (post == null) throw new ArgumentNullException(nameof(post));
             if (jPost == null) throw new ArgumentNullException(nameof(jPost));
@@ -135,14 +135,14 @@ namespace Tumblr_Tool.Helpers
             {
                 PhotoPostImage postImage = new PhotoPostImage();
 
-                if (imageSize == ImageSizes.Original)
+                if (imageSize == ImageSize.Original)
                 {
                     postImage.Url = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.url) ? jPhoto.original_size.url : null : null;
                     postImage.Filename = !string.IsNullOrEmpty(postImage.Url) ? Path.GetFileName(postImage.Url) : null;
                     postImage.Width = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.width) ? jPhoto.original_size.width : null : null;
                     postImage.Height = jPhoto.original_size != null ? !string.IsNullOrEmpty((string)jPhoto.original_size.height) ? jPhoto.original_size.height : null : null;
                 }
-                else if (imageSize != ImageSizes.None)
+                else if (imageSize != ImageSize.None)
                 {
                     if (jPhoto.alt_sizes != null)
                     {

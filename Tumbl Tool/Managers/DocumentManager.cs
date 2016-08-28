@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -30,8 +30,8 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         public DocumentManager()
         {
-            ApiMode = ApiModes.V2Json;
-            ImageSize = ImageSizes.Original;
+            ApiVersion = TumblrApiVersion.V2Json;
+            ImageSize = ImageSize.Original;
             JsonDocument = null;
         }
 
@@ -39,10 +39,10 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <param name="apiMode"></param>
-        public DocumentManager(ApiModes apiMode)
+        public DocumentManager(TumblrApiVersion apiMode)
         {
-            ApiMode = apiMode;
-            ImageSize = ImageSizes.Original;
+            ApiVersion = apiMode;
+            ImageSize = ImageSize.Original;
             JsonDocument = null;
         }
 
@@ -51,15 +51,15 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="apiMode"></param>
         /// <param name="imageSize"></param>
-        public DocumentManager(ApiModes apiMode, ImageSizes imageSize)
+        public DocumentManager(TumblrApiVersion apiMode, ImageSize imageSize)
         {
-            ApiMode = apiMode;
+            ApiVersion = apiMode;
             ImageSize = imageSize;
             JsonDocument = null;
         }
 
-        public ApiModes ApiMode { get; set; }
-        public ImageSizes ImageSize { get; set; }
+        public TumblrApiVersion ApiVersion { get; set; }
+        public ImageSize ImageSize { get; set; }
         public dynamic JsonDocument { get; set; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Tumblr_Tool.Managers
         /// <param name="tumblrPostType"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, ApiModes mode)
+        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, TumblrApiVersion mode)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace Tumblr_Tool.Managers
                     {
                         TumblrPost post = new TumblrPost();
 
-                        if (tumblrPostType == TumblrPostTypes.Photo.ToString().ToLower())
+                        if (tumblrPostType == TumblrPostType.Photo.ToString().ToLower())
                         {
                             PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
                         }
@@ -185,7 +185,7 @@ namespace Tumblr_Tool.Managers
                 try
                 {
                     if (blog == null) blog = new TumblrBlog(url);
-                    dynamic jsonDocument = JsonHelper.GetObject(url);
+                    dynamic jsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
 
                     if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
                     {
@@ -226,9 +226,9 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                JsonDocument = JsonHelper.GetObject(url);
+                JsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
 
-                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponses.Ok).ToString()))
+                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
                 {
                 }
                 else

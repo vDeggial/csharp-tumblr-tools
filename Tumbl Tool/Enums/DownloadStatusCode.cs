@@ -6,50 +6,50 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2016
+ *  Last Updated: August, 2016
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 namespace Tumblr_Tool.Enums
 {
     /// <summary>
-    /// Image sizes to download as per Tumblr API
+    /// Download Status Codes
     /// </summary>
-    public enum ImageSizes
+    public enum DownloadStatusCode
     {
         /// <summary>
-        /// Unknown size
+        /// Ok to start the download process
         /// </summary>
-        None = 0,
+        Ok,
 
         /// <summary>
-        /// Original image size (Max Width: 1280px)
+        /// File already exists
         /// </summary>
-        Original = 1280,
+        FileExists,
 
         /// <summary>
-        /// Large image size (Max Width: 500px)
+        /// Unable to download file
         /// </summary>
-        Large = 500,
+        UnableDownload,
 
         /// <summary>
-        /// Medium image size (Max Width: 400px)
+        /// Preparing to download
         /// </summary>
-        Medium = 400,
+        Preparing,
 
         /// <summary>
-        /// Small image size (Max Width: 250px)
+        /// Starting the download process
         /// </summary>
-        Small = 250,
+        Starting,
 
         /// <summary>
-        /// Xtra Small image size (Max Width: 100px)
+        /// Download is in progress
         /// </summary>
-        XSmall = 100,
+        Downloading,
 
         /// <summary>
-        /// Square image size (75px x 75px)
+        /// Finished downloading
         /// </summary>
-        Square = 75
+        Done
     }
 }

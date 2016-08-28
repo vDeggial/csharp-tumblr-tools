@@ -498,7 +498,6 @@ namespace Tumblr_Tool
             this.select_Mode.Style = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.select_Mode.TabIndex = 16;
             this.select_Mode.TabStop = false;
-            this.select_Mode.SelectedIndexChanged += new System.EventHandler(this.select_Mode_SelectedIndexChanged);
             // 
             // txt_WorkStatus
             // 
@@ -1189,16 +1188,16 @@ namespace Tumblr_Tool
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(167, 207);
+            this.label1.Location = new System.Drawing.Point(167, 171);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(276, 30);
+            this.label1.Size = new System.Drawing.Size(279, 47);
             this.label1.TabIndex = 7;
-            this.label1.Text = "© 2013 - 2016 Shino Amakusa";
+            this.label1.Text = "© 2013 - 2016 Shino Amakusa tumblrtools.codeplex.com";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About
             // 
-            this.lbl_About.Location = new System.Drawing.Point(167, 122);
+            this.lbl_About.Location = new System.Drawing.Point(167, 100);
             this.lbl_About.Name = "lbl_About";
             this.lbl_About.Size = new System.Drawing.Size(279, 60);
             this.lbl_About.TabIndex = 6;
