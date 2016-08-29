@@ -22,7 +22,6 @@ namespace Tumblr_Tool.Tumblr_Stats
 {
     public class TumblrStats
     {
-
         /// <summary>
         ///
         /// </summary>
@@ -34,7 +33,8 @@ namespace Tumblr_Tool.Tumblr_Stats
         public TumblrStats(TumblrBlog blog = null, string url = null, TumblrApiVersion apiMode = TumblrApiVersion.V2Json, int offset = 0, int limit = 0)
         {
             DocumentManager = new DocumentManager();
-            SetApiMode(apiMode);
+            ApiVersion = apiMode;
+            DocumentManager.ApiVersion = apiMode;
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
             Blog = blog ?? new TumblrBlog(url);
@@ -49,7 +49,8 @@ namespace Tumblr_Tool.Tumblr_Stats
 
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
-            SetBlogInfo();
+            // Get Blog Info
+            DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1), Blog);
         }
 
         public TumblrBlog Blog { get; set; }
@@ -149,38 +150,6 @@ namespace Tumblr_Tool.Tumblr_Stats
             }
 
             return true;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="mode"></param>
-        public void SetApiMode(TumblrApiVersion mode)
-        {
-            try
-            {
-                ApiVersion = mode; // XML or JSON
-                DocumentManager.ApiVersion = mode;
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public void SetBlogInfo()
-        {
-            try
-            {
-                DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1), Blog);
-            }
-            catch
-            {
-                // ignored
-            }
         }
     }
 }

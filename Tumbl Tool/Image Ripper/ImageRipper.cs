@@ -69,7 +69,8 @@ namespace Tumblr_Tool.Image_Ripper
             ImageList = new HashSet<PhotoPostImage>();
             TotalNumberOfImages = 0;
             DocumentManager = new DocumentManager();
-            SetApiMode(ApiVersion);
+            ApiVersion = apiMode;
+            DocumentManager.ApiVersion = apiMode;
             ImageCommentsList = new Dictionary<string, string>();
         }
 
@@ -83,23 +84,39 @@ namespace Tumblr_Tool.Image_Ripper
         public int PercentComplete { get; set; }
         public ProcessingCode ProcessingStatusCode { get; set; }
         public int TotalNumberOfPosts { get; set; }
+        public string TumblrDomain { get; set; }
         public SaveFile TumblrPostLog { get; set; }
 
         private int ApiQueryOffset { get; set; }
         private int ApiQueryPostLimit { get; set; }
-        private Dictionary<string, string> ImageCommentsList { get; set; }
         private DocumentManager DocumentManager { get; set; }
         private HashSet<string> ErrorList { get; set; }
         private HashSet<string> ExistingImageList { get; set; }
         private bool GenerateLog { get; set; }
+        private Dictionary<string, string> ImageCommentsList { get; set; }
         private bool ParseGif { get; set; }
         private bool ParseJpeg { get; set; }
         private bool ParsePhotoSets { get; set; }
         private bool ParsePng { get; set; }
         private string SaveLocation { get; set; }
         private int TotalNumberOfImages { get; set; }
-        private string TumblrDomain { get; set; }
         private string TumblrUrl { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public bool GetTumblrBlogInfo()
+        {
+            try
+            {
+                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), 0, 1), Blog);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         ///
@@ -184,42 +201,6 @@ namespace Tumblr_Tool.Image_Ripper
                 return Blog;
             }
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="mode"></param>
-        public void SetApiMode(TumblrApiVersion mode)
-        {
-            try
-            {
-                ApiVersion = mode; // XML or JSON
-                DocumentManager.ApiVersion = mode;
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public bool SetBlogInfo()
-        {
-            try
-            {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), 0, 1);
-                return DocumentManager.GetRemoteBlogInfo(query, Blog);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-
         /// <summary>
         ///
         /// </summary>
@@ -235,27 +216,6 @@ namespace Tumblr_Tool.Image_Ripper
             catch
             {
                 return false;
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="logFileName"></param>
-        public void UpdateLogFile(string logFileName)
-        {
-            try
-            {
-                if (TumblrPostLog == null || TumblrPostLog.Blog.Name != logFileName)
-                {
-                    TumblrPostLog = new SaveFile(logFileName + ".log", Blog);
-                }
-
-                UpdateLogFile(TumblrPostLog);
-            }
-            catch
-            {
-                // ignored
             }
         }
 
@@ -337,7 +297,7 @@ namespace Tumblr_Tool.Image_Ripper
                 if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {
                     DocumentManager.ImageSize = ImageSize;
-                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.Photo.ToString().ToLower(), ApiVersion);
+                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.Photo.ToString().ToLower());
                     return posts;
                 }
                 ProcessingStatusCode = ProcessingCode.UnableDownload;
@@ -349,6 +309,26 @@ namespace Tumblr_Tool.Image_Ripper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="logFileName"></param>
+        private void UpdateLogFile(string logFileName)
+        {
+            try
+            {
+                if (TumblrPostLog == null || TumblrPostLog.Blog.Name != logFileName)
+                {
+                    TumblrPostLog = new SaveFile(logFileName + ".log", Blog);
+                }
+
+                UpdateLogFile(TumblrPostLog);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
         /// <summary>
         ///
         /// </summary>

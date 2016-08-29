@@ -77,7 +77,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        private void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
             PercentDownloaded = e.ProgressPercentage;
 

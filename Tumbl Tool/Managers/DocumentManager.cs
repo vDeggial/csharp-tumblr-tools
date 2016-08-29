@@ -42,25 +42,7 @@ namespace Tumblr_Tool.Managers
         public ImageSize ImageSize { get; set; }
         public dynamic JsonDocument { get; set; }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tumblrPostType"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType, TumblrApiVersion mode)
-        {
-            try
-            {
-                var postList = GetPostListFromJsonDoc(tumblrPostType);
 
-                return postList;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
 
         /// <summary>
         ///
@@ -70,14 +52,42 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         public bool GetRemoteBlogInfo(string url, TumblrBlog blog)
         {
-            try
+            if (!string.IsNullOrEmpty(url))
             {
-                return GetRemoteBlogInfoJson(url, blog);
+                try
+                {
+                    if (blog == null) blog = new TumblrBlog(url);
+                    dynamic jsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
+
+                    if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
+                    {
+                        blog.Title = jsonDocument.response.blog.title;
+                        blog.Description = jsonDocument.response.blog.description;
+                        blog.Name = jsonDocument.response.blog.name;
+                        blog.Url = jsonDocument.response.blog.url;
+                        blog.Nsfw = Convert.ToBoolean(jsonDocument.response.blog.is_nsfw);
+                        blog.AskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask);
+                        blog.AnonAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask_anon);
+                        blog.LastUpdated = CommonHelper.UnixTimeStampToDateTime(Convert.ToDouble(jsonDocument.response.blog.updated));
+
+                        if (jsonDocument.response.total_posts != null)
+                            blog.TotalPosts = Convert.ToInt32(jsonDocument.response.total_posts);
+                        else if (jsonDocument.response.blog.posts != null)
+                            blog.TotalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
+
+                        if (jsonDocument.response.blog.posts != null)
+                            blog.BlogTotalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
+
+                        return true;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
             }
-            catch
-            {
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -118,7 +128,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="tumblrPostType"></param>
         /// <returns></returns>
-        private HashSet<TumblrPost> GetPostListFromJsonDoc(string tumblrPostType)
+        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType)
         {
             try
             {
@@ -151,53 +161,6 @@ namespace Tumblr_Tool.Managers
                 return null;
             }
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="blog"></param>
-        /// <returns></returns>
-        private bool GetRemoteBlogInfoJson(string url, TumblrBlog blog)
-        {
-            if (!string.IsNullOrEmpty(url))
-            {
-                try
-                {
-                    if (blog == null) blog = new TumblrBlog(url);
-                    dynamic jsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
-
-                    if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
-                    {
-                        blog.Title = jsonDocument.response.blog.title;
-                        blog.Description = jsonDocument.response.blog.description;
-                        blog.Name = jsonDocument.response.blog.name;
-                        blog.Url = jsonDocument.response.blog.url;
-                        blog.Nsfw = Convert.ToBoolean(jsonDocument.response.blog.is_nsfw);
-                        blog.AskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask);
-                        blog.AnonAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask_anon);
-                        blog.LastUpdated = CommonHelper.UnixTimeStampToDateTime(Convert.ToDouble(jsonDocument.response.blog.updated));
-
-                        if (jsonDocument.response.total_posts != null)
-                            blog.TotalPosts = Convert.ToInt32(jsonDocument.response.total_posts);
-                        else if (jsonDocument.response.blog.posts != null)
-                            blog.TotalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
-
-                        if (jsonDocument.response.blog.posts != null)
-                            blog.BlogTotalPosts = Convert.ToInt32(jsonDocument.response.blog.posts);
-
-                        return true;
-                    }
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>
         ///
         /// </summary>

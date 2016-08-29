@@ -380,7 +380,7 @@ namespace Tumblr_Tool
                                 ImageRipper.ProcessingStatusCode = ProcessingCode.GettingBlogInfo;
                             }
 
-                            if (ImageRipper.SetBlogInfo())
+                            if (ImageRipper.GetTumblrBlogInfo())
                             {
                                 lock (ImageRipper)
                                 {

@@ -120,10 +120,6 @@ namespace Tumblr_Tool.Helpers
 
                 var imagesList = (from f in files select f.Name).ToHashSet();
 
-                //foreach (FileInfo f in files)
-                //{
-                //    imagesList.Add(f.Name);
-                //}
 
                 return imagesList;
             }
