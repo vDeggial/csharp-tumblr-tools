@@ -52,23 +52,30 @@ namespace Tumblr_Tool.Managers
 
         public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
         {
-            remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
-
-            var localFileFullPath = FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath);
-            localFileFullPath = FileHelper.AddJpgExt(localFileFullPath);
-            switch (method)
+            try
             {
-                case DownloadMethod.WebClientAsync:
-                    return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
+                remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
 
-                case DownloadMethod.PostSharp:
-                    return DownloadFilePostSharp(remoteFileLocation, localFileFullPath);
+                var localFileFullPath = FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath);
+                localFileFullPath = FileHelper.AddJpgExt(localFileFullPath);
+                switch (method)
+                {
+                    case DownloadMethod.WebClientAsync:
+                        return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
 
-                case DownloadMethod.WebClient:
-                    return DownloadFileWebClient(remoteFileLocation, localFileFullPath);
+                    case DownloadMethod.PostSharp:
+                        return DownloadFilePostSharp(remoteFileLocation, localFileFullPath);
 
-                default:
-                    return false;
+                    case DownloadMethod.WebClient:
+                        return DownloadFileWebClient(remoteFileLocation, localFileFullPath);
+
+                    default:
+                        return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -79,27 +86,41 @@ namespace Tumblr_Tool.Managers
         /// <param name="e"></param>
         private void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
         {
-            PercentDownloaded = e.ProgressPercentage;
+            try
+            {
+                PercentDownloaded = e.ProgressPercentage;
 
-            FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
+                FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
         {
-            PercentDownloaded = 0;
-            DownloadStatusCode = DownloadStatusCode.Ok;
+            try
+            {
+                PercentDownloaded = 0;
+                DownloadStatusCode = DownloadStatusCode.Ok;
 
-            Uri uri = new Uri(remoteFileLocation);
-            string domain = uri.Host;
-            string protocol = uri.Scheme + Uri.SchemeDelimiter;
-            string path = uri.PathAndQuery;
+                Uri uri = new Uri(remoteFileLocation);
+                string domain = uri.Host;
+                string protocol = uri.Scheme + Uri.SchemeDelimiter;
+                string path = uri.PathAndQuery;
 
-            var client = new RestClient(string.Concat(protocol, domain));
-            var request = new RestRequest(path, Method.GET);
+                var client = new RestClient(string.Concat(protocol, domain));
+                var request = new RestRequest(path, Method.GET);
 
-            client.DownloadData(request).SaveAs(localFilePath);
-            PercentDownloaded = 100;
-            return true;
+                client.DownloadData(request).SaveAs(localFilePath);
+                PercentDownloaded = 100;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool DownloadFileWebClient(string remoteFileLocation, string localFilePath)
@@ -176,39 +197,46 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         private bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
         {
-            PercentDownloaded = 0;
-            DownloadStatusCode = DownloadStatusCode.Ok;
-
-            if (WebHelper.UrlExists(remoteFileLocation))
+            try
             {
-                using (MyWebClient webClient = new MyWebClient())
+                PercentDownloaded = 0;
+                DownloadStatusCode = DownloadStatusCode.Ok;
+
+                if (WebHelper.UrlExists(remoteFileLocation))
                 {
-                    try
+                    using (MyWebClient webClient = new MyWebClient())
                     {
-                        webClient.Proxy = null;
-                        webClient.DownloadFileCompleted += Wc_DownloadCompleted;
-                        webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
-                        webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
-
-                        _readyToStop.WaitOne();
-
-                        return DownloadStatusCode == DownloadStatusCode.Done;
-                    }
-                    catch (Exception)
-                    {
-                        DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                        if (FileHelper.FileExistsOnHdd(localFilePath))
+                        try
                         {
-                            var file = new FileInfo(localFilePath);
+                            webClient.Proxy = null;
+                            webClient.DownloadFileCompleted += Wc_DownloadCompleted;
+                            webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
+                            webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
 
-                            if (!FileHelper.IsFileLocked(file)) file.Delete();
+                            _readyToStop.WaitOne();
+
+                            return DownloadStatusCode == DownloadStatusCode.Done;
                         }
-                        return false;
+                        catch (Exception)
+                        {
+                            DownloadStatusCode = DownloadStatusCode.UnableDownload;
+                            if (FileHelper.FileExistsOnHdd(localFilePath))
+                            {
+                                var file = new FileInfo(localFilePath);
+
+                                if (!FileHelper.IsFileLocked(file)) file.Delete();
+                            }
+                            return false;
+                        }
                     }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -218,38 +246,45 @@ namespace Tumblr_Tool.Managers
         /// <param name="e"></param>
         private void Wc_DownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (e.Cancelled)
+            try
             {
-                DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                if (e.Cancelled)
                 {
-                    FileInfo file = new FileInfo((string)e.UserState);
+                    DownloadStatusCode = DownloadStatusCode.UnableDownload;
+                    if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                    {
+                        FileInfo file = new FileInfo((string)e.UserState);
 
-                    if (!FileHelper.IsFileLocked(file)) file.Delete();
+                        if (!FileHelper.IsFileLocked(file)) file.Delete();
+                    }
+                    _readyToStop.Set();
+                    return;
                 }
-                _readyToStop.Set();
-                return;
-            }
 
-            if (e.Error != null)
-            {
-                DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                if (e.Error != null)
                 {
-                    FileInfo file = new FileInfo((string)e.UserState);
+                    DownloadStatusCode = DownloadStatusCode.UnableDownload;
+                    if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                    {
+                        FileInfo file = new FileInfo((string)e.UserState);
 
-                    if (!FileHelper.IsFileLocked(file)) file.Delete();
+                        if (!FileHelper.IsFileLocked(file)) file.Delete();
+                    }
+                    _readyToStop.Set();
+                    return;
                 }
-                _readyToStop.Set();
-                return;
-            }
 
-            if (e.Cancelled == false && e.Error == null)
+                if (e.Cancelled == false && e.Error == null)
+                {
+                    DownloadStatusCode = DownloadStatusCode.Done;
+                    //this.DownloadedList.Add((string)e.UserState);
+                    TotalFileSize += FileSizeRecieved;
+                    _readyToStop.Set();
+                }
+            }
+            catch
             {
-                DownloadStatusCode = DownloadStatusCode.Done;
-                //this.DownloadedList.Add((string)e.UserState);
-                TotalFileSize += FileSizeRecieved;
-                _readyToStop.Set();
+                return;
             }
         }
     }

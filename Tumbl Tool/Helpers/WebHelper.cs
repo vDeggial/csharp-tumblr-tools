@@ -170,11 +170,11 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static bool TumblrExists(this string url, TumblrApiVersion mode)
+        public static bool TumblrExists(this string url)
         {
             try
             {
-                dynamic jsonObject = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
+                dynamic jsonObject = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
                 return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponse.Ok).ToString());
             }
             catch

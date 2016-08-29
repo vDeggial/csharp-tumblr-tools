@@ -38,6 +38,8 @@ namespace Tumblr_Tool.Helpers
                 Question = !string.IsNullOrEmpty((string)jPost.question) ? jPost.question : null,
                 Answer = !string.IsNullOrEmpty((string)jPost.answer) ? jPost.answer : null
             };
+
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -62,6 +64,7 @@ namespace Tumblr_Tool.Helpers
                 PlaysCount = !string.IsNullOrEmpty((string)jPost.plays) ? jPost.plays : null,
                 Player = !string.IsNullOrEmpty((string)jPost.player) ? jPost.player : null
             };
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -94,6 +97,7 @@ namespace Tumblr_Tool.Helpers
                     post.Dialogue.Add(chatFragment);
                 }
             }
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -116,6 +120,7 @@ namespace Tumblr_Tool.Helpers
                 Excerpt = !string.IsNullOrEmpty((string)jPost.excerpt) ? jPost.excerpt : null,
                 Publisher = !string.IsNullOrEmpty((string)jPost.publisher) ? jPost.publisher : null
             };
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         ///  <summary>
@@ -162,6 +167,7 @@ namespace Tumblr_Tool.Helpers
                 postImage.ParentPostId = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
                 post.Photos.Add(postImage);
             }
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -179,6 +185,7 @@ namespace Tumblr_Tool.Helpers
                 Text = !string.IsNullOrEmpty((string)jPost.text) ? jPost.text : null,
                 Source = !string.IsNullOrEmpty((string)jPost.source) ? jPost.source : null
             };
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -196,6 +203,7 @@ namespace Tumblr_Tool.Helpers
                 Title = !string.IsNullOrEmpty((string)jPost.title) ? jPost.title : null,
                 Body = !string.IsNullOrEmpty((string)jPost.body) ? jPost.body : null
             };
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>
@@ -232,6 +240,7 @@ namespace Tumblr_Tool.Helpers
                     post.VideoPlayers.Add(player);
                 }
             }
+            IncludeCommonPostFields(ref post, jPost);
         }
 
         /// <summary>

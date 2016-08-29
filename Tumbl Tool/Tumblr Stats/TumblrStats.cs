@@ -84,7 +84,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         {
             var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
 
-            if (url.TumblrExists(DocumentManager.ApiVersion))
+            if (url.TumblrExists())
 
             {
                 DocumentManager.GetRemoteDocument(url);
@@ -99,7 +99,7 @@ namespace Tumblr_Tool.Tumblr_Stats
                 int TotalPostsForType = 0;
                 url = JsonHelper.GeneratePostQueryString(TumblrDomain, type.ToString().ToLower(), 0, 1);
 
-                if (url.TumblrExists(DocumentManager.ApiVersion))
+                if (url.TumblrExists())
                 {
                     DocumentManager.GetRemoteDocument(url);
                     TotalPostsForType = DocumentManager.GetTotalPostCount();

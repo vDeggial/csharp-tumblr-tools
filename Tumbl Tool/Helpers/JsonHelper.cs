@@ -113,7 +113,7 @@ namespace Tumblr_Tool.Helpers
             return query;
         }
 
-        public static JObject GetObject(string jsonString)
+        public static JObject GetObjectFromString(string jsonString)
         {
 
             if (jsonString != null)

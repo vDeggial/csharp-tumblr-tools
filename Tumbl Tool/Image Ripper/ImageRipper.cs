@@ -22,7 +22,6 @@ namespace Tumblr_Tool.Image_Ripper
 {
     public class ImageRipper
     {
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -149,6 +148,8 @@ namespace Tumblr_Tool.Image_Ripper
                                                                                 where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
                                                                                 select p));
 
+                   
+
                     posts.RemoveWhere(x => existingHash.Contains(x));
 
                     if (parseMode == BlogPostsScanMode.NewestPostsOnly && existingHash.Count > 0)
@@ -165,6 +166,14 @@ namespace Tumblr_Tool.Image_Ripper
 
                     if (parseMode == BlogPostsScanMode.FullBlogRescan)
                     {
+                        foreach (TumblrPost post in existingHash)
+                        {
+                            foreach (PhotoPostImage image in post.Photos)
+                            {
+                                image.Downloaded = true;
+                            }
+                        }
+
                         Blog.Posts.UnionWith(existingHash);
                     }
 
@@ -201,6 +210,7 @@ namespace Tumblr_Tool.Image_Ripper
                 return Blog;
             }
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -211,7 +221,7 @@ namespace Tumblr_Tool.Image_Ripper
             {
                 var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
 
-                return url.TumblrExists(ApiVersion);
+                return url.TumblrExists();
             }
             catch
             {
@@ -240,9 +250,6 @@ namespace Tumblr_Tool.Image_Ripper
                         {
                             try
                             {
-                                //post.caption = CommonHelper.NewLineToBreak(post.caption, "</p>", string.Empty);
-
-                                //post.caption = post.caption.StripTags();
                                 ImageList.Add(image);
                             }
                             catch
@@ -322,26 +329,11 @@ namespace Tumblr_Tool.Image_Ripper
                     TumblrPostLog = new SaveFile(logFileName + ".log", Blog);
                 }
 
-                UpdateLogFile(TumblrPostLog);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="logFile"></param>
-        private void UpdateLogFile(SaveFile logFile)
-        {
-            try
-            {
                 foreach (TumblrPost post in Blog.Posts)
                 {
-                    logFile.Blog.Posts.RemoveWhere(p => p.Id == post.Id);
+                    TumblrPostLog.Blog.Posts.RemoveWhere(p => p.Id == post.Id);
 
-                    logFile.Blog.Posts.Add(post);
+                    TumblrPostLog.Blog.Posts.Add(post);
                     IsLogUpdated = true;
                 }
             }

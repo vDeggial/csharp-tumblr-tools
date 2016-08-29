@@ -47,6 +47,45 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
+        /// <param name="tumblrPostType"></param>
+        /// <returns></returns>
+        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType)
+        {
+            try
+            {
+                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
+
+                if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.posts != null)
+                {
+                    JArray jPostArray = JsonDocument.response.posts;
+                    HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
+
+                    foreach (dynamic jPost in jPostList)
+                    {
+                        TumblrPost post = new TumblrPost();
+
+                        if (tumblrPostType == TumblrPostType.Photo.ToString().ToLower())
+                        {
+                            PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
+                        }
+
+                        // PostHelper.IncludeCommonPostFields(ref post, jPost);
+
+                        postList.Add(post);
+                    }
+                }
+
+                return postList;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="url"></param>
         /// <param name="blog"></param>
         /// <returns></returns>
@@ -57,7 +96,7 @@ namespace Tumblr_Tool.Managers
                 try
                 {
                     if (blog == null) blog = new TumblrBlog(url);
-                    dynamic jsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
+                    dynamic jsonDocument = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
 
                     if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
                     {
@@ -90,6 +129,7 @@ namespace Tumblr_Tool.Managers
             return false;
         }
 
+
         /// <summary>
         ///
         /// </summary>
@@ -98,7 +138,15 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                GetRemoteJsonDocument(url);
+                JsonDocument = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
+
+                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
+                {
+                }
+                else
+                {
+                    JsonDocument = null;
+                }
             }
             catch
             {
@@ -121,68 +169,6 @@ namespace Tumblr_Tool.Managers
             }
 
             return 0;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="tumblrPostType"></param>
-        /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType)
-        {
-            try
-            {
-                HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
-
-                if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.posts != null)
-                {
-                    JArray jPostArray = JsonDocument.response.posts;
-                    HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
-
-                    foreach (dynamic jPost in jPostList)
-                    {
-                        TumblrPost post = new TumblrPost();
-
-                        if (tumblrPostType == TumblrPostType.Photo.ToString().ToLower())
-                        {
-                            PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
-                        }
-
-                        PostHelper.IncludeCommonPostFields(ref post, jPost);
-
-                        postList.Add(post);
-                    }
-                }
-
-                return postList;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="url"></param>
-        private void GetRemoteJsonDocument(string url)
-        {
-            try
-            {
-                JsonDocument = JsonHelper.GetObject(WebHelper.GetRemoteDocumentAsString(url));
-
-                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
-                {
-                }
-                else
-                {
-                    JsonDocument = null;
-                }
-            }
-            catch
-            {
-                JsonDocument = null;
-            }
         }
     }
 }

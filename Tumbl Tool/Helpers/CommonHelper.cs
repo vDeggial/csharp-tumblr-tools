@@ -63,24 +63,6 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Replace part of string with "\r\n"
-        /// </summary>
-        /// <param name="input">Original string</param>
-        /// <param name="strToReplace">String to replace</param>
-        /// <returns>String with replaced newline break chars</returns>
-        public static string NewLineToBreak(string input, string strToReplace)
-        {
-            try
-            {
-                return input?.Replace(strToReplace, "\n\r");
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Replace part of the string with other
         /// </summary>
         /// <param name="input">Original string</param>
@@ -99,6 +81,23 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        /// Replace part of string with "\r\n"
+        /// </summary>
+        /// <param name="input">Original string</param>
+        /// <param name="strToReplace">String to replace</param>
+        /// <returns>String with replaced newline break chars</returns>
+        public static string ReplaceInStringToNewline(string input, string strToReplace)
+        {
+            try
+            {
+                return input?.Replace(strToReplace, "\n\r");
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
         {
             try
