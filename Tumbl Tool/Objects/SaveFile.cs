@@ -32,6 +32,16 @@ namespace Tumblr_Tool.Objects
             AddDate();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        public SaveFile()
+        {
+            Filename = null;
+            Blog = null;
+            AddDate();
+        }
+
         [XmlElement("blog")]
         public TumblrBlog Blog { get; set; }
 
