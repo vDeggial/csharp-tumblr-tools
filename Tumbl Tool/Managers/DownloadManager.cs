@@ -49,7 +49,6 @@ namespace Tumblr_Tool.Managers
         private string SaveFileFormat { get; set; }
         private double TotalFileSize { get; set; }
 
-
         public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
         {
             try

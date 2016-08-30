@@ -41,13 +41,18 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
             Filename = !string.IsNullOrEmpty(Url) ? Path.GetFileName(Url) : null;
         }
 
+        public string Aperture { get; set; }
+        public string Camera { get; set; }
         public string Caption { get; set; }
 
         public bool Downloaded { get; set; }
+        public string Exposure { get; set; }
         public string Filename { get; set; }
 
+        public string FocalLength { get; set; }
         public string Height { get; set; }
 
+        public string ISO { get; set; }
         public string ParentPostId { get; set; }
         public string Url { get; set; }
 

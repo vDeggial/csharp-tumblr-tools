@@ -83,9 +83,11 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public virtual string Source { get; set; }
 
+        public string SourceTitle { get; set; }
         public string SourceUrl { get; set; }
-
         public string State { get; set; }
+
+        public string Summary { get; set; }
 
         [XmlArrayItem("tag")]
         public HashSet<string> Tags { get; set; }
@@ -102,6 +104,8 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public virtual string TrackName { get; set; }
 
         public virtual string TrackNumber { get; set; }
+
+        public virtual string ImagePermalink { get; set; }
 
         [XmlElement("type")]
         public string Type { get; set; }

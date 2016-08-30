@@ -25,7 +25,6 @@ namespace Tumblr_Tool.Managers
 {
     public class DocumentManager
     {
-
         /// <summary>
         ///
         /// </summary>
@@ -41,8 +40,6 @@ namespace Tumblr_Tool.Managers
         public TumblrApiVersion ApiVersion { get; set; }
         public ImageSize ImageSize { get; set; }
         public dynamic JsonDocument { get; set; }
-
-
 
         /// <summary>
         ///
@@ -128,7 +125,6 @@ namespace Tumblr_Tool.Managers
 
             return false;
         }
-
 
         /// <summary>
         ///

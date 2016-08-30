@@ -148,8 +148,6 @@ namespace Tumblr_Tool.Image_Ripper
                                                                                 where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
                                                                                 select p));
 
-                   
-
                     posts.RemoveWhere(x => existingHash.Contains(x));
 
                     if (parseMode == BlogPostsScanMode.NewestPostsOnly && existingHash.Count > 0)

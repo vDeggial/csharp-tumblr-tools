@@ -40,6 +40,7 @@ namespace Tumblr_Tool.Objects
 
         [XmlElement("filename")]
         public string Filename { get; set; }
+
         /// <summary>
         ///
         /// </summary>

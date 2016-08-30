@@ -115,7 +115,6 @@ namespace Tumblr_Tool.Helpers
 
         public static JObject GetObjectFromString(string jsonString)
         {
-
             if (jsonString != null)
             {
                 return JObject.Parse(jsonString);

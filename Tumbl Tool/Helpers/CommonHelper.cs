@@ -98,6 +98,7 @@ namespace Tumblr_Tool.Helpers
                 return null;
             }
         }
+
         public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
         {
             try

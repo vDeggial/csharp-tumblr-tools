@@ -71,6 +71,7 @@ namespace Tumblr_Tool
         private const string WorktextStarting = "Starting ...";
         private const string WorktextUpdatingLog = "Updating log...";
         private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
+
         public MainForm()
         {
             InitializeComponent();
@@ -841,7 +842,6 @@ namespace Tumblr_Tool
 
                 _readyToDownload.WaitOne();
 
-
                 if (imagesList.Count != 0)
                 {
                     lock (DownloadManager)
@@ -1066,14 +1066,12 @@ namespace Tumblr_Tool
                     {
                         Invoke((MethodInvoker)delegate
                         {
-
                             UpdateStatusText(StatusDone);
                         });
                     }
                 }
                 else
                 {
-
                     decimal totalLength = 0;
 
                     if (!IsDisposed && DownloadedList.Count < 10)
@@ -1148,7 +1146,6 @@ namespace Tumblr_Tool
 
                                 if (downloaded > total)
                                     downloaded = total;
-
 
                                 int percent = total > 0 ? (int)((downloaded / (double)total) * 100.00) : 0;
 
@@ -1371,7 +1368,6 @@ namespace Tumblr_Tool
             TumblrStats.ProcessingStatusCode = ProcessingCode.Initializing;
             try
             {
-
                 if (WebHelper.CheckForInternetConnection())
                 {
                     TumblrStats = new TumblrStats(new TumblrBlog(TumblrUrl), TumblrUrl, TumblrApiVersion.V2Json)
@@ -1860,7 +1856,6 @@ namespace Tumblr_Tool
 
             return FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrSaveFile.Filename, TumblrSaveFile);
         }
-
 
         private void SetDoubleBuffering(Control control, bool value)
         {

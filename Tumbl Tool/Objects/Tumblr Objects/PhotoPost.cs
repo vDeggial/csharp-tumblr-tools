@@ -32,6 +32,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         [XmlElement("caption")]
         public override string Caption { get; set; }
 
+        public override string ImagePermalink { get; set; }
         public override HashSet<PhotoPostImage> Photos { get; set; }
 
         /// <summary>

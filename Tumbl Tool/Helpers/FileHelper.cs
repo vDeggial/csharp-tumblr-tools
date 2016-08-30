@@ -111,15 +111,12 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-
-
                 string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
                 DirectoryInfo di = new DirectoryInfo(location);
                 HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
                 FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
                 var imagesList = (from f in files select f.Name).ToHashSet();
-
 
                 return imagesList;
             }
@@ -294,7 +291,5 @@ namespace Tumblr_Tool.Helpers
                 return false;
             }
         }
-            
-
     }
 }

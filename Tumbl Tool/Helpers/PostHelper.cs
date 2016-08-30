@@ -163,10 +163,21 @@ namespace Tumblr_Tool.Helpers
                     }
                 }
 
+                if (jPhoto.exif != null)
+                {
+                    postImage.Aperture = !string.IsNullOrEmpty((string)jPhoto.exif.Aperture) ? jPhoto.exif.Aperture : null;
+                    postImage.Camera = !string.IsNullOrEmpty((string)jPhoto.exif.Camera) ? jPhoto.exif.Camera : null;
+                    postImage.ISO = !string.IsNullOrEmpty((string)jPhoto.exif.ISO) ? jPhoto.exif.ISO : null;
+                    postImage.Exposure = !string.IsNullOrEmpty((string)jPhoto.exif.Exposure) ? jPhoto.exif.Exposure : null;
+                    postImage.FocalLength = !string.IsNullOrEmpty((string)jPhoto.exif.FocalLength) ? jPhoto.exif.FocalLength : null;
+                }
+
                 postImage.Caption = !string.IsNullOrEmpty((string)jPhoto.caption) ? jPhoto.caption : null;
                 postImage.ParentPostId = !string.IsNullOrEmpty((string)jPost.id) ? jPost.id : null;
                 post.Photos.Add(postImage);
             }
+            post.ImagePermalink = !string.IsNullOrEmpty((string)jPost.image_permalink) ? jPost.image_permalink : null;
+
             IncludeCommonPostFields(ref post, jPost);
         }
 
@@ -261,8 +272,6 @@ namespace Tumblr_Tool.Helpers
 
             post.Caption = !string.IsNullOrEmpty((string)jPost.caption) ? jPost.caption : null;
 
-            // post.caption = CommonHelper.NewLineToBreak(post.caption, "\n\r\n", string.Empty);
-
             post.Date = !string.IsNullOrEmpty((string)jPost.date) ? jPost.date : null;
 
             post.Format = !string.IsNullOrEmpty((string)jPost.format) ? jPost.format : null;
@@ -274,6 +283,10 @@ namespace Tumblr_Tool.Helpers
             post.NoteCount = !string.IsNullOrEmpty((string)jPost.note_count) ? jPost.note_count : null;
 
             post.SourceUrl = !string.IsNullOrEmpty((string)jPost.source_url) ? jPost.source_url : null;
+
+            post.SourceTitle = !string.IsNullOrEmpty((string)jPost.source_title) ? jPost.source_title : null;
+
+            post.Summary = !string.IsNullOrEmpty((string)jPost.summary) ? jPost.summary : null;
 
             post.Slug = !string.IsNullOrEmpty((string)jPost.slug) ? jPost.slug : null;
 
