@@ -1701,7 +1701,7 @@ namespace Tumblr_Tool
         /// <param name="filename"></param>
         private void LoadOptions(string filename)
         {
-            Options = JsonHelper.ReadObject<ToolOptions>(filename);
+            Options = JsonHelper.ReadObjectFromFile<ToolOptions>(filename);
             //this.Options.ApiMode = ApiModeEnum.v2JSON.ToString();
             RestoreOptions();
         }
@@ -1824,7 +1824,7 @@ namespace Tumblr_Tool
         /// <param name="filename"></param>
         private void SaveOptions(string filename)
         {
-            JsonHelper.SaveObject(filename, Options);
+            JsonHelper.SaveObjectToFile(filename, Options);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

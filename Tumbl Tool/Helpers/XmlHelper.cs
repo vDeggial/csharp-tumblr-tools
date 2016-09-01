@@ -24,7 +24,7 @@ namespace Tumblr_Tool.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static T ReadObject<T>(string filename)
+        public static T ReadObjectFromFile<T>(string filename) where T : new()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="filename"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool SaveObject<T>(string filename, T obj)
+        public static bool SaveObjectToFile<T>(string filename, T obj) where T : new()
         {
             try
             {

@@ -156,6 +156,15 @@ namespace Tumblr_Tool.Helpers
             return false;
         }
 
+        public static string ReadFileAsString(string filePath)
+        {
+            using (TextReader reader = new StreamReader(@filePath))
+            {
+                var fileContents = reader.ReadToEnd();
+                return fileContents;
+            }
+        }
+
         /// <summary>
         /// Read tumblr save file
         /// </summary>
@@ -169,13 +178,16 @@ namespace Tumblr_Tool.Helpers
                 switch (format)
                 {
                     case SaveFileFormat.Bin:
-                        return BinaryHelper.ReadObject<SaveFile>(fileLocation);
+                        return BinaryHelper.ReadObjectFromFile<SaveFile>(fileLocation);
 
                     case SaveFileFormat.Xml:
-                        return XmlHelper.ReadObject<SaveFile>(fileLocation);
+                        return XmlHelper.ReadObjectFromFile<SaveFile>(fileLocation);
 
                     case SaveFileFormat.Json:
-                        return JsonHelper.ReadObject<SaveFile>(fileLocation);
+                        return JsonHelper.ReadObjectFromFile<SaveFile>(fileLocation);
+
+                    case SaveFileFormat.JsonCompressed:
+                        return JsonHelper.ReadObjectFromFileCompressed<SaveFile>(fileLocation);
 
                     default:
                         return null;
@@ -198,7 +210,8 @@ namespace Tumblr_Tool.Helpers
             {
                 SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormat.Bin) ??
                                      ReadTumblrFile(fileLocation, SaveFileFormat.Xml) ??
-                                    ReadTumblrFile(fileLocation, SaveFileFormat.Json);
+                                    ReadTumblrFile(fileLocation, SaveFileFormat.Json) ??
+                                    ReadTumblrFile(fileLocation, SaveFileFormat.JsonCompressed);
 
                 return saveFile;
             }
@@ -241,13 +254,16 @@ namespace Tumblr_Tool.Helpers
                 switch (saveFileFormat)
                 {
                     case SaveFileFormat.Bin:
-                        return BinaryHelper.SaveObject(fileLocation, saveFile);
+                        return BinaryHelper.SaveObjectToFile(fileLocation, saveFile);
 
                     case SaveFileFormat.Xml:
-                        return XmlHelper.SaveObject(fileLocation, saveFile);
+                        return XmlHelper.SaveObjectToFile(fileLocation, saveFile);
+
+                    case SaveFileFormat.JsonCompressed:
+                        return JsonHelper.SaveObjectToFileCompressed(fileLocation, saveFile);
 
                     case SaveFileFormat.Json:
-                        return JsonHelper.SaveObject(fileLocation, saveFile);
+                        return JsonHelper.SaveObjectToFile(fileLocation, saveFile);
 
                     default:
                         return false;

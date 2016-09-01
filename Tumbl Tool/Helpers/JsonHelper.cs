@@ -13,6 +13,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.IO.Compression;
 using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Helpers
@@ -131,23 +132,47 @@ namespace Tumblr_Tool.Helpers
         /// <typeparam name="T"> Object class</typeparam>
         /// <param name="filePath">File location path</param>
         /// <returns>Object of type T read in from file</returns>
-        public static T ReadObject<T>(string filePath)
+        public static T ReadObjectFromFile<T>(string filePath, int method = 1)
         {
-            TextReader reader = null;
-            try
+            switch (method)
             {
-                reader = new StreamReader(filePath);
-                var fileContents = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
+                case 1:
+                    try
+                    {
+                        using (TextReader reader = new StreamReader(filePath))
+                        {
+                            using (var fileContents = new JsonTextReader(reader))
+                            {
+                                var serializer = JsonSerializer.CreateDefault(
+                                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
+
+                                return serializer.Deserialize<T>(fileContents);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        return default(T);
+                    }
+                case 2:
+                    try
+                    {
+                        var fileContents = FileHelper.ReadFileAsString(filePath);
+                        return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
+                    }
+                    catch
+                    {
+                        return default(T);
+                    }
             }
-            catch
-            {
-                return default(T);
-            }
-            finally
-            {
-                reader?.Close();
-            }
+            return default(T);
+        }
+
+        public static T ReadObjectFromFileCompressed<T>(string filePath)
+        {
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                return DeserializeCompressedFile<T>(fs,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
         }
 
         /// <summary>
@@ -158,28 +183,87 @@ namespace Tumblr_Tool.Helpers
         /// <param name="objectToWrite">Object to writeto file</param>
         /// <param name="append">Append to file?</param>
         /// <returns>True if save succeeds, false otherwise</returns>
-        public static bool SaveObject<T>(string filePath, T objectToWrite, bool append = false)
+        public static bool SaveObjectToFile<T>(string filePath, T objectToWrite, int method = 1, bool append = false)
         {
-            TextWriter writer = null;
-            try
+            switch (method)
             {
-                var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
+                case 1:
+                    try
+                    {
+                        using (TextWriter writer = new StreamWriter(filePath, append))
+                        {
+                            var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore,
+                                TypeNameHandling = TypeNameHandling.None,
+                                DefaultValueHandling = DefaultValueHandling.Include,
+                                Formatting = Formatting.Indented
+                            });
+                            serializer.Serialize(writer, objectToWrite);
+
+                            return true;
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                case 2:
+                    try
+                    {
+                        using (TextWriter writer = new StreamWriter(filePath, append))
+                        {
+                            string contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore,
+                                TypeNameHandling = TypeNameHandling.None,
+                                DefaultValueHandling = DefaultValueHandling.Include
+                            });
+                            writer.Write(contentsToWriteToFile);
+
+                            writer.Close();
+
+                            return true;
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+            }
+            return false;
+        }
+
+        public static bool SaveObjectToFileCompressed(string filePath, object objectToWrite)
+        {
+            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
+                SerializeCompressedFile(objectToWrite, fs, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     TypeNameHandling = TypeNameHandling.None,
                     DefaultValueHandling = DefaultValueHandling.Include
                 });
-                writer = new StreamWriter(filePath, append);
-                writer.Write(contentsToWriteToFile);
+            return true;
+        }
 
-                writer.Close();
-
-                return true;
-            }
-            catch
+        private static T DeserializeCompressedFile<T>(Stream stream, JsonSerializerSettings settings = null)
+        {
+            using (var compressor = new GZipStream(stream, CompressionMode.Decompress))
+            using (var reader = new StreamReader(compressor))
+            using (var jsonReader = new JsonTextReader(reader))
             {
-                writer?.Close();
-                return false;
+                var serializer = JsonSerializer.CreateDefault(settings);
+                return serializer.Deserialize<T>(jsonReader);
+            }
+        }
+
+        private static void SerializeCompressedFile(object value, Stream stream, JsonSerializerSettings settings = null)
+        {
+            using (var compressor = new GZipStream(stream, CompressionMode.Compress))
+            using (var writer = new StreamWriter(compressor))
+            {
+                var serializer = JsonSerializer.CreateDefault(settings);
+                serializer.Serialize(writer, value);
             }
         }
     }

@@ -25,62 +25,99 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
             Tags = new HashSet<string>();
         }
 
+        [XmlIgnore]
         public virtual string Album { get; set; }
 
+        [XmlIgnore]
         public virtual string AlbumArt { get; set; }
 
+        [XmlIgnore]
         public virtual string Answer { get; set; }
+
+        [XmlIgnore]
         public virtual string Artist { get; set; }
 
+        [XmlIgnore]
         public virtual string Asker { get; set; }
 
+        [XmlIgnore]
         public virtual string AskerUrl { get; set; }
+
+        [XmlIgnore]
         public virtual string AudioType { get; set; }
+
+        [XmlIgnore]
         public virtual string AudioUrl { get; set; }
+
+        [XmlIgnore]
         public virtual string Body { get; set; }
+
+        [XmlIgnore]
         public virtual string Caption { get; set; }
 
         [XmlElement("date")]
         public string Date { get; set; }
 
+        [XmlIgnore]
         public virtual string Description { get; set; }
+
+        [XmlIgnore]
         public virtual HashSet<ChatPostFragment> Dialogue { get; set; }
+
+        [XmlIgnore]
         public virtual string Duration { get; set; }
+
+        [XmlIgnore]
         public virtual string Excerpt { get; set; }
 
-        [XmlElement("format")]
         public string Format { get; set; }
 
-        [XmlElement("id")]
         public string Id { get; set; }
 
+        [XmlIgnore]
         public virtual string IsHtml5Capable { get; set; }
+
         public string LastProcessedDate { get; set; }
+
+        [XmlIgnore]
         public virtual string LinkAuthor { get; set; }
+
+        [XmlIgnore]
         public virtual string LinkImage { get; set; }
+
+        [XmlIgnore]
         public virtual string LinkUrl { get; set; }
+
+        [XmlIgnore]
         public string NoteCount { get; set; }
 
-        [XmlArrayItem("photo")]
+        [XmlIgnore]
         public virtual HashSet<PhotoPostImage> Photos { get; set; }
 
+        [XmlIgnore]
         public virtual string Player { get; set; }
+
+        [XmlIgnore]
         public virtual string PlaysCount { get; set; }
+
         public string PostAuthor { get; set; }
 
         [XmlElement("postText")]
         public string PostText { get; set; }
 
+        [XmlIgnore]
         public virtual string Publisher { get; set; }
+
+        [XmlIgnore]
         public virtual string Question { get; set; }
 
-        [XmlElement("reblogKey")]
         public string ReblogKey { get; set; }
 
         public string ShortUrl { get; set; }
 
         public string Slug { get; set; }
 
+        [XmlIgnore]
         public virtual string Source { get; set; }
 
         public string SourceTitle { get; set; }
@@ -89,35 +126,48 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
 
         public string Summary { get; set; }
 
-        [XmlArrayItem("tag")]
         public HashSet<string> Tags { get; set; }
 
+        [XmlIgnore]
         public virtual string Text { get; set; }
 
+        [XmlIgnore]
         public virtual string ThumbnailHeight { get; set; }
 
+        [XmlIgnore]
         public virtual string ThumbnailUrl { get; set; }
+
+        [XmlIgnore]
         public virtual string ThumbnailWidth { get; set; }
+
         public string Timestamp { get; set; }
+
+        [XmlIgnore]
         public virtual string Title { get; set; }
 
+        [XmlIgnore]
         public virtual string TrackName { get; set; }
 
+        [XmlIgnore]
         public virtual string TrackNumber { get; set; }
 
+        [XmlIgnore]
         public virtual string ImagePermalink { get; set; }
 
-        [XmlElement("type")]
         public string Type { get; set; }
 
-        [XmlElement("url")]
         public string Url { get; set; }
 
+        [XmlIgnore]
         public virtual HashSet<VideoPostEmbedPlayer> VideoPlayers { get; set; }
 
+        [XmlIgnore]
         public virtual string VideoType { get; set; }
+
+        [XmlIgnore]
         public virtual string VideoUrl { get; set; }
 
+        [XmlIgnore]
         public virtual string Year { get; set; }
 
         /// <summary>
