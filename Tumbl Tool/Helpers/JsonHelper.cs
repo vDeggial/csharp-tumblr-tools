@@ -139,14 +139,19 @@ namespace Tumblr_Tool.Helpers
                 case 1:
                     try
                     {
-                        using (TextReader reader = new StreamReader(filePath))
+                        using (FileStream fs = new FileStream(@filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            using (var fileContents = new JsonTextReader(reader))
+                            using (TextReader reader = new StreamReader(fs))
                             {
-                                var serializer = JsonSerializer.CreateDefault(
-                                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
+                                fs.Position = 0;
+                                using (var jsonReader = new JsonTextReader(reader))
+                                {
+                                    jsonReader.CloseInput = false;
+                                    var serializer = JsonSerializer.CreateDefault(
+                                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
 
-                                return serializer.Deserialize<T>(fileContents);
+                                    return serializer.Deserialize<T>(jsonReader);
+                                }
                             }
                         }
                     }
@@ -157,7 +162,7 @@ namespace Tumblr_Tool.Helpers
                 case 2:
                     try
                     {
-                        var fileContents = FileHelper.ReadFileAsString(filePath);
+                        var fileContents = FileHelper.ReadFileAsString(@filePath);
                         return JsonConvert.DeserializeObject<T>(fileContents, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
                     }
                     catch
@@ -170,7 +175,7 @@ namespace Tumblr_Tool.Helpers
 
         public static T ReadObjectFromFileCompressed<T>(string filePath)
         {
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 return DeserializeCompressedFile<T>(fs,
                     new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Include });
         }
@@ -183,25 +188,28 @@ namespace Tumblr_Tool.Helpers
         /// <param name="objectToWrite">Object to writeto file</param>
         /// <param name="append">Append to file?</param>
         /// <returns>True if save succeeds, false otherwise</returns>
-        public static bool SaveObjectToFile<T>(string filePath, T objectToWrite, int method = 1, bool append = false)
+        public static bool SaveObjectToFile<T>(string filePath, T objectToWrite, int method = 1)
         {
             switch (method)
             {
                 case 1:
                     try
                     {
-                        using (TextWriter writer = new StreamWriter(filePath, append))
+                        using (FileStream fs = new FileStream(@filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                         {
-                            var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
+                            using (TextWriter writer = new StreamWriter(fs))
                             {
-                                NullValueHandling = NullValueHandling.Ignore,
-                                TypeNameHandling = TypeNameHandling.None,
-                                DefaultValueHandling = DefaultValueHandling.Include,
-                                Formatting = Formatting.Indented
-                            });
-                            serializer.Serialize(writer, objectToWrite);
+                                var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
+                                {
+                                    NullValueHandling = NullValueHandling.Ignore,
+                                    TypeNameHandling = TypeNameHandling.None,
+                                    DefaultValueHandling = DefaultValueHandling.Include,
+                                    Formatting = Formatting.Indented
+                                });
+                                serializer.Serialize(writer, objectToWrite);
 
-                            return true;
+                                return true;
+                            }
                         }
                     }
                     catch
@@ -211,25 +219,29 @@ namespace Tumblr_Tool.Helpers
                 case 2:
                     try
                     {
-                        using (TextWriter writer = new StreamWriter(filePath, append))
+                        using (FileStream fs = new FileStream(@filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                         {
-                            string contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
+                            using (TextWriter writer = new StreamWriter(fs))
                             {
-                                NullValueHandling = NullValueHandling.Ignore,
-                                TypeNameHandling = TypeNameHandling.None,
-                                DefaultValueHandling = DefaultValueHandling.Include
-                            });
-                            writer.Write(contentsToWriteToFile);
+                                string contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
+                                {
+                                    NullValueHandling = NullValueHandling.Ignore,
+                                    TypeNameHandling = TypeNameHandling.None,
+                                    DefaultValueHandling = DefaultValueHandling.Include
+                                });
+                                writer.Write(contentsToWriteToFile);
 
-                            writer.Close();
+                                writer.Close();
 
-                            return true;
+                                return true;
+                            }
                         }
                     }
                     catch
                     {
                         return false;
                     }
+            
             }
             return false;
         }

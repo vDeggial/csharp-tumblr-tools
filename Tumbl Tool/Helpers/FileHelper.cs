@@ -158,10 +158,14 @@ namespace Tumblr_Tool.Helpers
 
         public static string ReadFileAsString(string filePath)
         {
-            using (TextReader reader = new StreamReader(@filePath))
+            using (FileStream fs = new FileStream(@filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var fileContents = reader.ReadToEnd();
-                return fileContents;
+                using (TextReader reader = new StreamReader(fs))
+                {
+                    fs.Position = 0;
+                    string fileContents = reader.ReadToEnd();
+                    return fileContents;
+                }
             }
         }
 
