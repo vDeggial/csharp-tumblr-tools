@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2016
+ *  Last Updated: March, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -60,7 +60,7 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.4.0";
+        private const string Version = "1.4.1";
         private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2016 Shino Amakusa\r\ntumblrtools.codeplex.com";
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
@@ -1815,7 +1815,8 @@ namespace Tumblr_Tool
         /// </summary>
         private void SaveLogFile()
         {
-            FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename, TumblrLogFile);
+            FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename, TumblrLogFile, SaveFileFormat.JsonCompressed);
+            FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename + ".txt", TumblrLogFile);
         }
 
         /// <summary>
