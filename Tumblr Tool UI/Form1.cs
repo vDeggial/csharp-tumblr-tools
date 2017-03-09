@@ -784,31 +784,7 @@ namespace Tumblr_Tool
                 TumblrSaveFile.Blog.Posts = null;
                 SaveTumblrFile(ImageRipper.Blog.Name);
 
-                if (Options.GenerateLog && DownloadedList.Count > 0)
-                {
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextNewLine(WorktextUpdatingLog);
-                            this.lbl_PercentBar.Visible = false;
-                            this.bar_Progress.Visible = false;
-                        });
-                    }
-
-                    SaveLogFile();
-
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextConcat(WorktextUpdatingLog, ResultDone);
-                        });
-                    }
-
-                    ImageRipper.TumblrPostLog = null;
-                    TumblrLogFile = null;
-                }
+                
                 IsDownloadDone = true;
             }
             catch (Exception)
@@ -1038,6 +1014,32 @@ namespace Tumblr_Tool
                         UpdateStatusText(StatusDone);
                         EnableUI_Crawl(true);
                     });
+                }
+
+                if (Options.GenerateLog && DownloadedList.Count > 0)
+                {
+                    if (!IsDisposed)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateWorkStatusTextNewLine(WorktextUpdatingLog);
+                            this.lbl_PercentBar.Visible = false;
+                            this.bar_Progress.Visible = false;
+                        });
+                    }
+
+                    SaveLogFile();
+
+                    if (!IsDisposed)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateWorkStatusTextConcat(WorktextUpdatingLog, ResultDone);
+                        });
+                    }
+
+                    ImageRipper.TumblrPostLog = null;
+                    TumblrLogFile = null;
                 }
             }
             catch (Exception)
