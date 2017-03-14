@@ -216,7 +216,7 @@ namespace Tumblr_Tool
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Visible = false;
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
             // 
             // imageCrawlWorker
@@ -1192,7 +1192,7 @@ namespace Tumblr_Tool
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(279, 47);
             this.label1.TabIndex = 7;
-            this.label1.Text = "© 2013 - 2016 Shino Amakusa tumblrtools.codeplex.com";
+            this.label1.Text = "© 2013 - 2017 Shino Amakusa tumblrtools.codeplex.com";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About

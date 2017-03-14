@@ -60,8 +60,8 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.4.1";
-        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2016 Shino Amakusa\r\ntumblrtools.codeplex.com";
+        private const string Version = "1.4.1.0";
+        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2017 Shino Amakusa\r\ntumblrtools.codeplex.com";
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
         private const string WorktextGettingBlogInfo = "Getting info ...";
@@ -150,9 +150,10 @@ namespace Tumblr_Tool
 
         private void ButtonOnMouseEnter(object sender, EventArgs e)
         {
-            Button button = sender as Button;
+            Button button = new Button();
+            if (sender is Button) button = sender as Button;
 
-            if (button != null)
+            if (button != null && button is Button)
             {
                 button.UseVisualStyleBackColor = false;
                 button.ForeColor = Color.Maroon;
@@ -169,7 +170,8 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void ButtonOnMouseLeave(object sender, EventArgs e)
         {
-            Button button = sender as Button;
+            Button button = new Button();
+            if (sender is Button) button = sender as Button;
             if (button != null)
             {
                 button.UseVisualStyleBackColor = true;
@@ -1830,7 +1832,7 @@ namespace Tumblr_Tool
             JsonHelper.SaveObjectToFile(filename, Options);
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFile saveFile = new SaveFile(ImageRipper.Blog.Name + ".tumblr", ImageRipper.Blog);
             using (SaveFileDialog sfd = new SaveFileDialog())
@@ -1990,7 +1992,8 @@ namespace Tumblr_Tool
         {
             if (DisableOtherTabs)
             {
-                KRBTabControl.KRBTabControl tabWizardControl = sender as KRBTabControl.KRBTabControl;
+                KRBTabControl.KRBTabControl tabWizardControl = new KRBTabControl.KRBTabControl();
+                if (sender is KRBTabControl.KRBTabControl) tabWizardControl = tabWizardControl = sender as KRBTabControl.KRBTabControl;
 
                 if (tabWizardControl != null)
                 {
@@ -2029,7 +2032,8 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void ToolStripMenuItem_Paint(object sender, PaintEventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            ToolStripMenuItem tsmi = new ToolStripMenuItem();
+            if (sender is ToolStripMenuItem) tsmi = sender as ToolStripMenuItem;
 
             if (tsmi != null)
             {
