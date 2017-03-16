@@ -291,20 +291,19 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                HashSet<string> list;
-                if (!useFullString)
+                switch (useFullString)
                 {
-                    list = (from p in sourceSet
+                    case false:
+                    return Convert.ToBoolean((from p in sourceSet
                             where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
-                            select p).ToHashSet();
+                            select p).Count());
+                    case true:
+                        return Convert.ToBoolean((from p in sourceSet
+                                                  where p.ToLower().Contains(fileName.ToLower())
+                                                  select p).Count());
                 }
-                else
-                {
-                    list = (from p in sourceSet
-                            where p.ToLower().Contains(fileName.ToLower())
-                            select p).ToHashSet();
-                }
-                return Convert.ToBoolean(list.Count);
+
+                return false;
             }
             catch
             {
