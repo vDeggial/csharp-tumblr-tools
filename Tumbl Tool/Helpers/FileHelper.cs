@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2016
+ *  Last Updated: March, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -49,6 +49,38 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
+        /// Check if the file name exosts in the directory listing Hashset already
+        /// </summary>
+        /// <param name="sourceSet"></param>
+        /// <param name="fileName"></param>
+        /// <param name="useFullString"></param>
+        /// <param name="cutOffChar"></param>
+        /// <returns></returns>
+        public static bool FileDownloadedBefore(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
+        {
+            try
+            {
+                switch (useFullString)
+                {
+                    case false:
+                        return Convert.ToBoolean((from p in sourceSet
+                                                  where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
+                                                  select p).Count());
+                    case true:
+                        return Convert.ToBoolean((from p in sourceSet
+                                                  where p.ToLower().Contains(fileName.ToLower())
+                                                  select p).Count());
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Checks if file exists
         /// </summary>
         /// <param name="file">Filename</param>
@@ -84,25 +116,6 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Generate full local file path from url and local directory path with prefix
-        /// </summary>
-        /// <param name="url">Remote url</param>
-        /// <param name="location">Local path</param>
-        /// <param name="prefix">File prefix</param>
-        /// <returns></returns>
-        public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
-        {
-            try
-            {
-                return location + @"\" + prefix + Path.GetFileName(url);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Generates list of image files in folder
         /// </summary>
         /// <param name="location">Folder path</param>
@@ -126,6 +139,24 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate full local file path from url and local directory path with prefix
+        /// </summary>
+        /// <param name="url">Remote url</param>
+        /// <param name="location">Local path</param>
+        /// <param name="prefix">File prefix</param>
+        /// <returns></returns>
+        public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
+        {
+            try
+            {
+                return location + @"\" + prefix + Path.GetFileName(url);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// Determine if file is in use
         /// </summary>
@@ -272,38 +303,6 @@ namespace Tumblr_Tool.Helpers
                     default:
                         return false;
                 }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Check if the file name exosts in the directory listing Hashset already
-        /// </summary>
-        /// <param name="sourceSet"></param>
-        /// <param name="fileName"></param>
-        /// <param name="useFullString"></param>
-        /// <param name="cutOffChar"></param>
-        /// <returns></returns>
-        public static bool IsExistingFile(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
-        {
-            try
-            {
-                switch (useFullString)
-                {
-                    case false:
-                    return Convert.ToBoolean((from p in sourceSet
-                            where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
-                            select p).Count());
-                    case true:
-                        return Convert.ToBoolean((from p in sourceSet
-                                                  where p.ToLower().Contains(fileName.ToLower())
-                                                  select p).Count());
-                }
-
-                return false;
             }
             catch
             {

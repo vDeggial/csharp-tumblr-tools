@@ -104,7 +104,7 @@ namespace Tumblr_Tool.Managers
                         blog.Nsfw = Convert.ToBoolean(jsonDocument.response.blog.is_nsfw);
                         blog.AskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask);
                         blog.AnonAskEnabled = Convert.ToBoolean(jsonDocument.response.blog.ask_anon);
-                        blog.LastUpdated = CommonHelper.UnixTimeStampToDateTime(Convert.ToDouble(jsonDocument.response.blog.updated));
+                        blog.LastUpdated = DateTimeHelper.UnixTimeStampToDateTime(Convert.ToDouble(jsonDocument.response.blog.updated));
 
                         if (jsonDocument.response.total_posts != null)
                             blog.TotalPosts = Convert.ToInt32(jsonDocument.response.total_posts);

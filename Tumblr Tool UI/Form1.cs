@@ -60,7 +60,7 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.4.1.0";
+        private const string Version = "1.4.1.1";
         private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2017 Shino Amakusa\r\ntumblrtools.codeplex.com";
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
@@ -512,7 +512,7 @@ namespace Tumblr_Tool
                         {
                             if (this.IsCrawlingDone && !this.check_Options_ParseOnly.Checked && !this.IsCancelled && this.ImageRipper.ImageList.Count != 0)
                             {
-                                UpdateStatusText(string.Format(StatusDownloadingFormat, "Initializing"));
+                                UpdateStatusText(string.Format(StatusDownloadingFormat, "Prepairing to download ..."));
                                 this.bar_Progress.Value = 0;
 
                                 this.lbl_PercentBar.Text = string.Format(PercentFormat, "0");
@@ -1193,7 +1193,7 @@ namespace Tumblr_Tool
                                 {
                                     Invoke((MethodInvoker)delegate
                                     {
-                                        UpdateStatusText(string.Format(StatusDownloadingFormat, "Connecting"));
+                                        UpdateStatusText(string.Format(StatusDownloadingFormat, "Connecting ..."));
                                     });
                                 }
                                 else if (percent != (int)DownloadManager.PercentDownloaded)
@@ -1651,7 +1651,7 @@ namespace Tumblr_Tool
             bar_Progress.Value = 0;
 
             DownloadManager = new DownloadManager();
-            Text += @" " + Version + "";
+            Text += @" " + Version + " - © 2013 - 2017 - Shino Amakusa";
             lbl_About_Version.Text = @"Version: " + Version;
 
             string file = OptionsFileName;

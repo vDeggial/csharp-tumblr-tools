@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2016
+ *  Last Updated: March, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -63,7 +63,7 @@ namespace Tumblr_Tool.Managers
                         return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
 
                     case DownloadMethod.PostSharp:
-                        return DownloadFilePostSharp(remoteFileLocation, localFileFullPath);
+                        return DownloadFileRestSharp(remoteFileLocation, localFileFullPath);
 
                     case DownloadMethod.WebClient:
                         return DownloadFileWebClient(remoteFileLocation, localFileFullPath);
@@ -78,26 +78,7 @@ namespace Tumblr_Tool.Managers
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
-        {
-            try
-            {
-                PercentDownloaded = e.ProgressPercentage;
-
-                FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-        private bool DownloadFilePostSharp(string remoteFileLocation, string localFilePath)
+        private bool DownloadFileRestSharp(string remoteFileLocation, string localFilePath)
         {
             try
             {
@@ -280,6 +261,25 @@ namespace Tumblr_Tool.Managers
                     TotalFileSize += FileSizeRecieved;
                     _readyToStop.Set();
                 }
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Wc_DownloadProgressChanged(Object sender, DownloadProgressChangedEventArgs e)
+        {
+            try
+            {
+                PercentDownloaded = e.ProgressPercentage;
+
+                FileSizeRecieved = Convert.ToDouble(e.ProgressPercentage >= 100 ? e.TotalBytesToReceive : e.BytesReceived);
             }
             catch
             {

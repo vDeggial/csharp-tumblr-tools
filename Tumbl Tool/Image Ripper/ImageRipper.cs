@@ -145,7 +145,7 @@ namespace Tumblr_Tool.Image_Ripper
                     HashSet<TumblrPost> posts = GetTumblrPostList(ApiQueryOffset);
 
                     HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
-                                                                                where FileHelper.IsExistingFile(ExistingImageList, p.Photos.Last().Filename)
+                                                                                where FileHelper.FileDownloadedBefore(ExistingImageList, p.Photos.Last().Filename)
                                                                                 select p));
 
                     posts.RemoveWhere(x => existingHash.Contains(x));

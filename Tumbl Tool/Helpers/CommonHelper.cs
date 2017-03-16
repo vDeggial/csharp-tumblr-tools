@@ -156,24 +156,6 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
-        /// <summary>
-        /// Convert Unix timestamp to date/time
-        /// </summary>
-        /// <param name="unixTimeStamp">Unix timestamp</param>
-        /// <returns>DateTime representation of Unix timestamp</returns>
-        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
-        {
-            try
-            {
-                // Unix timestamp is seconds past epoch
-                DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-                return dtDateTime;
-            }
-            catch
-            {
-                return DateTime.Now;
-            }
-        }
+        
     }
 }
