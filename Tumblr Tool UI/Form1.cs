@@ -27,6 +27,7 @@ using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 using Tumblr_Tool.Properties;
+using Tumblr_Tool.Tag_Scanner;
 using Tumblr_Tool.Tumblr_Stats;
 
 namespace Tumblr_Tool
@@ -113,7 +114,7 @@ namespace Tumblr_Tool
         private ToolOptions Options { get; set; }
         private string OptionsFileName { get; set; }
         private string SaveLocation { get; set; }
-
+        private TagScanner TagScanner { get; set; }
         private SaveFile TumblrLogFile { get; set; }
 
         private SaveFile TumblrSaveFile { get; set; }
@@ -786,7 +787,6 @@ namespace Tumblr_Tool
                 TumblrSaveFile.Blog.Posts = null;
                 SaveTumblrFile(ImageRipper.Blog.Name);
 
-                
                 IsDownloadDone = true;
             }
             catch (Exception)
@@ -1253,6 +1253,21 @@ namespace Tumblr_Tool
             DisableOtherTabs = !state;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="state"></param>
+        private void EnableUI_TagScanner(bool state)
+        {
+            btn_TagScanner_Start.Enabled = state;
+            txt_TagScanner_URL.Enabled = state;
+            DisableOtherTabs = !state;
+
+            bar_Progress.Visible = !state;
+            lbl_PercentBar.Visible = !state;
+
+            lbl_PostCount.Visible = !state;
+        }
         /// <summary>
         ///
         /// </summary>
@@ -1973,6 +1988,50 @@ namespace Tumblr_Tool
             }
         }
 
+        private void StartTagScan(object sender, EventArgs e)
+        {
+            EnableUI_TagScanner(false);
+            IsCancelled = false;
+            lbl_PercentBar.Text = string.Empty;
+            TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TagScanner_URL.Text);
+
+            lbl_PostCount.ForeColor = Color.Black;
+            bar_Progress.BarColor = Color.Black;
+            lbl_PercentBar.ForeColor = Color.Black;
+            lbl_PercentBar.Text = string.Empty;
+
+            bar_Progress.Value = 0;
+            bar_Progress.Maximum = 100;
+            bar_Progress.Minimum = 0;
+
+            lbl_PostCount.Text = string.Empty;
+            lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            DownloadManager = new DownloadManager();
+            TagScanner = new TagScanner(new TumblrBlog(TumblrUrl));
+
+            if (IsValidUrl(TumblrUrl))
+            {
+                if (!IsDisposed)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        UpdateStatusText(StatusInit);
+                    });
+                }
+
+                if (!IsCancelled)
+                {
+                    blogTagListWorker.RunWorkerAsync(TagScanner);
+
+                    blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                }
+            }
+            else
+            {
+                EnableUI_TagScanner(true);
+            }
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -2023,6 +2082,178 @@ namespace Tumblr_Tool
         private void TabPage_Enter(object sender, EventArgs e)
         {
             CurrentSelectedTab = tabControl_Main.SelectedIndex;
+        }
+
+        private void TagListWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        {
+            TagScanner.ProcessingStatusCode = ProcessingCode.Done;
+        }
+
+        private void TagListWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
+            try
+            {
+                if (WebHelper.CheckForInternetConnection())
+                {
+                    TagScanner = new TagScanner(new TumblrBlog(TumblrUrl))
+                    {
+                        ProcessingStatusCode = ProcessingCode.Initializing
+                    };
+
+                    TagScanner.GetTumblrBlogInfo();
+                    TagScanner.ProcessingStatusCode = ProcessingCode.Parsing;
+                    TagScanner.ScanTags();
+                }
+                else
+                {
+                    TagScanner.ProcessingStatusCode = ProcessingCode.ConnectionError;
+                }
+            }
+            catch (Exception)
+            {
+                // MsgBox.Show(exception.Message);
+            }
+        }
+
+        private void TagListWorkerUI_AfterWork(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                if (!IsDisposed)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        string tagsList = txt_TagList.Text;
+
+                        if (tagsList != string.Join(",", TagScanner.TagList))
+                        {
+                            txt_TagList.Text = string.Join(",", TagScanner.TagList);
+                        }
+                            });
+
+                    Invoke((MethodInvoker)delegate
+                    {
+                        EnableUI_TagScanner(true);
+                        UpdateStatusText(StatusDone);
+                        this.lbl_PostCount.Visible = false;
+                        this.bar_Progress.Visible = false;
+                        this.lbl_PercentBar.Visible = false;
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                // MsgBox.Show(exception.Message);
+            }
+        }
+
+        private void TagListWorkerUI_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (!IsDisposed)
+                {
+                    Invoke((MethodInvoker)delegate
+                        {
+                            this.bar_Progress.Value = 0;
+                            this.bar_Progress.Visible = true;
+                            this.lbl_Size.Visible = false;
+                            this.lbl_PercentBar.Visible = true;
+                        });
+                }
+
+                while (TagScanner.ProcessingStatusCode != ProcessingCode.Done && TagScanner.ProcessingStatusCode != ProcessingCode.ConnectionError && TagScanner.ProcessingStatusCode != ProcessingCode.InvalidUrl)
+                {
+                    if (TagScanner.Blog == null)
+                    {
+                        // wait till other worker created and populated blog info
+                        Invoke((MethodInvoker)delegate
+                        {
+                            this.lbl_PercentBar.Text = @"Getting initial blog info ... ";
+                        });
+                    }
+                    else
+                    {
+                        if (!IsDisposed)
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                UpdateStatusText(StatusGettingstats);
+                            });
+                        }
+
+                        int percent = 0;
+                        while (percent < 100)
+                        {
+                            percent = TagScanner.PercentComplete;
+                            if (percent < 0)
+                                percent = 0;
+
+                            if (percent >= 100)
+                                percent = 100;
+
+                            if (CurrentPercent != percent)
+                            {
+                                if (!IsDisposed)
+                                {
+                                    var percent1 = percent;
+                                    Invoke((MethodInvoker)delegate
+                                    {
+                                        this.bar_Progress.Value = percent1;
+                                    });
+                                }
+                            }
+
+                            if (CurrentPostCount != TagScanner.NumberOfParsedPosts)
+                            {
+                                if (!IsDisposed)
+                                {
+                                    var percent1 = percent;
+                                    Invoke((MethodInvoker)delegate
+                                    {
+                                        this.lbl_PercentBar.Visible = true;
+                                        this.lbl_PercentBar.Text = string.Format(PercentFormat, percent1);
+                                        this.lbl_PostCount.Visible = true;
+                                        this.lbl_PostCount.Text = string.Format(PostCountFormat, TagScanner.NumberOfParsedPosts, TagScanner.TotalNumberOfPosts);
+                                    });
+                                }
+                            }
+
+                            CurrentPostCount = TagScanner.PercentComplete;
+                            CurrentPercent = percent;
+                        }
+                    }
+                }
+
+                if (TumblrStats.ProcessingStatusCode == ProcessingCode.InvalidUrl)
+                {
+                    if (!IsDisposed)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateStatusText(StatusError);
+                            this.lbl_PostCount.Visible = false;
+                            this.bar_Progress.Visible = false;
+                            this.lbl_Size.Visible = false;
+
+                            MessageBox.Show(@"Invalid Tumblr URL", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        });
+                    }
+                }
+                else if (TumblrStats.ProcessingStatusCode == ProcessingCode.ConnectionError)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        MessageBox.Show(@"No Internet connection detected!", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UpdateStatusText(StatusError);
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                // MsgBox.Show(exception.Message);
+            }
         }
 
         /// <summary>
