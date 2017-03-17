@@ -11,6 +11,10 @@ namespace Tumblr_Tool.Tag_Scanner
         public TagScanner(TumblrBlog blog = null)
         {
             Blog = blog;
+            DocumentManager = new DocumentManager();
+            TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
+            TumblrDomain = WebHelper.GetDomainName(blog.Url);
+            TagList = new HashSet<string>();
         }
 
         public TumblrApiVersion ApiVersion { get; set; }
@@ -35,7 +39,7 @@ namespace Tumblr_Tool.Tag_Scanner
         {
             try
             {
-                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), 0, 1), Blog);
+                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1), Blog);
             }
             catch
             {
@@ -74,7 +78,7 @@ namespace Tumblr_Tool.Tag_Scanner
 
                     NumberOfParsedPosts += posts.Count;
 
-                    if (NumberOfParsedPosts > TotalNumberOfPosts) NumberOfParsedPosts = TotalNumberOfPosts;
+                    NumberOfParsedPosts = (NumberOfParsedPosts > TotalNumberOfPosts) ? TotalNumberOfPosts : NumberOfParsedPosts;
 
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
                     ApiQueryOffset += numPostsPerDocument;

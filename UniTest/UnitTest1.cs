@@ -23,10 +23,10 @@ namespace UniTest
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
+        [TestMethod, Ignore]
         public void GenerateTagListTest()
         {
-            string logFileName = @"D:\Tumblr\Blogs\jai-envie-detoi\jai-envie-detoi.log";
+            string logFileName = @"D:\Tumblr\Blogs\jai-envie-de-toi\jai-envie-detoi.log.txt";
             SaveFile log = JsonHelper.ReadObjectFromFile<SaveFile>(logFileName);
             TumblrBlog blog = log.Blog;
 
@@ -59,8 +59,8 @@ namespace UniTest
             //    }
             //}
 
-            File.WriteAllText(@"D:\Tumblr\Blogs\jai-envie-detoi\tags.txt", string.Join(",", tagsSorted));
-            File.WriteAllLines(@"D:\Tumblr\Blogs\jai-envie-detoi\invalidtags.html", invalidtags);
+            File.WriteAllText(@"D:\Tumblr\Blogs\jai-envie-de-toi\tags.txt", string.Join(",", tagsSorted));
+            File.WriteAllLines(@"D:\Tumblr\Blogs\jai-envie-de-toi\invalidtags.html", invalidtags);
 
 
         }

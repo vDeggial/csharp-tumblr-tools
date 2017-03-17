@@ -66,6 +66,12 @@ namespace Tumblr_Tool.Managers
                             PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
                         }
 
+                        else if (tumblrPostType == TumblrPostType.All.ToString().ToLower())
+                        {
+                            
+                            PostHelper.IncludeCommonPostFields(ref post, jPost);
+                        }
+
                         // PostHelper.IncludeCommonPostFields(ref post, jPost);
 
                         postList.Add(post);
