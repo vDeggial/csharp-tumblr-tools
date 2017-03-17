@@ -89,6 +89,7 @@
     <Compile Include="Objects\Tumblr Objects\VideoPost.cs" />
     <Compile Include="Objects\Tumblr Objects\VideoPostEmbedPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tag Scanner\TagScanner.cs" />
     <Compile Include="Tumblr Stats\TumblrStats.cs" />
   </ItemGroup>
   <ItemGroup>
