@@ -19,7 +19,7 @@ namespace Tumblr_Tool.Tag_Scanner
 
         public TumblrApiVersion ApiVersion { get; set; }
         public TumblrBlog Blog { get; set; }
-        public bool IsCancelled { get; private set; }
+        public bool IsCancelled { get; set; }
         public int NumberOfParsedPosts { get; set; }
         public int PercentComplete { get; private set; }
         public ProcessingCode ProcessingStatusCode { get; set; }
@@ -73,7 +73,8 @@ namespace Tumblr_Tool.Tag_Scanner
 
                     foreach (TumblrPost post in posts)
                     {
-                        TagList.UnionWith(post.Tags);
+
+                        if (post.Tags != null) TagList.UnionWith(post.Tags);
                     }
 
                     NumberOfParsedPosts += posts.Count;

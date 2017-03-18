@@ -53,10 +53,11 @@ namespace Tumblr_Tool
         private const string StatusDone = "Done";
         private const string StatusDownloadingFormat = "Downloading: {0}";
         private const string StatusError = "Error";
-        private const string StatusGettingstats = "Getting stats ...";
+        private const string StatusGettingStats = "Getting stats ...";
+        private const string StatusGettingTags = "Getting tags ...";
         private const string StatusIndexing = "Indexing ...";
         private const string StatusInit = "Initializing ...";
-        private const string StatusOpensavefile = "Opening save file ...";
+        private const string StatusOpenSaveFile = "Opening save file ...";
         private const string StatusReady = "Ready";
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
@@ -87,7 +88,7 @@ namespace Tumblr_Tool
 
             txt_Crawler_SaveLocation.Text = Path.GetDirectoryName(file);
 
-            UpdateStatusText(StatusOpensavefile);
+            UpdateStatusText(StatusOpenSaveFile);
 
             OpenTumblrSaveFile(file);
         }
@@ -1263,6 +1264,9 @@ namespace Tumblr_Tool
             txt_TagScanner_URL.Enabled = state;
             DisableOtherTabs = !state;
 
+            btn_TagScanner_Start.Visible = state;
+            btn_TagScanner_Stop.Visible = !state;
+
             bar_Progress.Visible = !state;
             lbl_PercentBar.Visible = !state;
 
@@ -1337,7 +1341,7 @@ namespace Tumblr_Tool
             {
                 Invoke((MethodInvoker)delegate
                 {
-                    UpdateStatusText(StatusOpensavefile);
+                    UpdateStatusText(StatusOpenSaveFile);
                     OpenTumblrSaveFile((string)e.Argument);
                 });
             }
@@ -1463,7 +1467,7 @@ namespace Tumblr_Tool
                         {
                             Invoke((MethodInvoker)delegate
                             {
-                                UpdateStatusText(StatusGettingstats);
+                                UpdateStatusText(StatusGettingStats);
                             });
                         }
 
@@ -1691,6 +1695,8 @@ namespace Tumblr_Tool
             lbl_PercentBar.Text = string.Empty;
             lbl_PercentBar.Visible = true;
 
+            btn_TagScanner_Stop.Visible = false;
+
             SetDoubleBuffering(bar_Progress, true);
             SetDoubleBuffering(img_Crawler_DisplayImage, true);
 
@@ -1741,7 +1747,7 @@ namespace Tumblr_Tool
                 ofd.Filter = @"Tumblr Tools Files (.tumblr)|*.tumblr|All Files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    UpdateStatusText(StatusOpensavefile);
+                    UpdateStatusText(StatusOpenSaveFile);
 
                     fileBackgroundWorker.RunWorkerAsync(ofd.FileName);
                 }
@@ -1994,6 +2000,7 @@ namespace Tumblr_Tool
             IsCancelled = false;
             lbl_PercentBar.Text = string.Empty;
             TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TagScanner_URL.Text);
+            txt_TagScanner_TagList.Clear();
 
             lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
@@ -2114,12 +2121,8 @@ namespace Tumblr_Tool
                 {
                     Invoke((MethodInvoker)delegate
                     {
-                        string tagsList = txt_TagList.Text;
-
-                        if (tagsList != string.Join(",", TagScanner.TagList))
-                        {
-                            txt_TagList.Text = string.Join(",", TagScanner.TagList);
-                        }
+                        txt_TagScanner_TagList.Text = "Populating the list ... ";
+                        txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
                     });
 
                     Invoke((MethodInvoker)delegate
@@ -2150,6 +2153,7 @@ namespace Tumblr_Tool
                             this.bar_Progress.Visible = true;
                             this.lbl_Size.Visible = false;
                             this.lbl_PercentBar.Visible = true;
+                            txt_TagScanner_TagList.Text = "The list of tags will appear after indexing is indexing is done ...";
                         });
                 }
 
@@ -2169,12 +2173,12 @@ namespace Tumblr_Tool
                         {
                             Invoke((MethodInvoker)delegate
                             {
-                                UpdateStatusText(StatusGettingstats);
+                                UpdateStatusText(StatusGettingTags);
                             });
                         }
 
                         int percent = 0;
-                        while (percent < 100)
+                        while (percent < 100 && !IsCancelled)
                         {
                             percent = TagScanner.PercentComplete;
                             if (percent < 0)
@@ -2391,6 +2395,20 @@ namespace Tumblr_Tool
         {
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.TextLength;
             txt_Crawler_WorkStatus.ScrollToCaret();
+        }
+
+        private void TagScanner_Stop(object sender, EventArgs e)
+        {
+            IsCancelled = true;
+            if (TagScanner != null)
+            {
+                TagScanner.IsCancelled = true;
+            }
+
+            EnableUI_TagScanner(true);
+
+            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
+            UpdateStatusText(StatusReady);
         }
     }
 }
