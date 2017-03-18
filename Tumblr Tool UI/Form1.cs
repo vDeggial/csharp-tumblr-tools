@@ -1272,6 +1272,7 @@ namespace Tumblr_Tool
 
             lbl_PostCount.Visible = !state;
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -1720,6 +1721,41 @@ namespace Tumblr_Tool
             }
         }
 
+        private void ListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            SolidBrush ForegroundBrushSelected = new SolidBrush(Color.Maroon);
+            SolidBrush ForegroundBrush = new SolidBrush(Color.Black);
+            SolidBrush BackgroundBrushSelected = new SolidBrush(Color.White);
+            SolidBrush BackgroundBrush = new SolidBrush(Color.White);
+
+            e.DrawBackground();
+            bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
+
+            ListBox listBox = sender as ListBox;
+
+            int index = e.Index;
+            if (index >= 0 && index < listBox.Items.Count)
+            {
+                string text = listBox.Items[index].ToString();
+                Graphics g = e.Graphics;
+
+                //background:
+                SolidBrush backgroundBrush;
+                if (selected)
+                    backgroundBrush = BackgroundBrushSelected;
+                else
+                    backgroundBrush = BackgroundBrush;
+
+                g.FillRectangle(backgroundBrush, e.Bounds);
+
+                //text:
+                SolidBrush foregroundBrush = (selected) ? ForegroundBrushSelected : ForegroundBrush;
+                g.DrawString(text, e.Font, foregroundBrush, listBox.GetItemRectangle(index).Location);
+            }
+
+            e.DrawFocusRectangle();
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -2000,7 +2036,8 @@ namespace Tumblr_Tool
             IsCancelled = false;
             lbl_PercentBar.Text = string.Empty;
             TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TagScanner_URL.Text);
-            txt_TagScanner_TagList.Clear();
+            list_TagScanner_TagLIst.DataSource = null;
+            list_TagScanner_TagLIst.Items.Clear();
 
             lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
@@ -2121,8 +2158,9 @@ namespace Tumblr_Tool
                 {
                     Invoke((MethodInvoker)delegate
                     {
-                        txt_TagScanner_TagList.Text = "Populating the list ... ";
-                        txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
+                        //txt_TagScanner_TagList.Text = "Populating the list ... ";
+                        //txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
+                        list_TagScanner_TagLIst.DataSource = TagScanner.TagList.ToList();
                     });
 
                     Invoke((MethodInvoker)delegate
@@ -2145,6 +2183,7 @@ namespace Tumblr_Tool
         {
             try
             {
+                int TagCount = 0;
                 if (!IsDisposed)
                 {
                     Invoke((MethodInvoker)delegate
@@ -2153,7 +2192,7 @@ namespace Tumblr_Tool
                             this.bar_Progress.Visible = true;
                             this.lbl_Size.Visible = false;
                             this.lbl_PercentBar.Visible = true;
-                            txt_TagScanner_TagList.Text = "The list of tags will appear after indexing is indexing is done ...";
+                            list_TagScanner_TagLIst.Items.Add("The list of tags will appear after indexing is done ...");
                         });
                 }
 
@@ -2199,6 +2238,21 @@ namespace Tumblr_Tool
                                 }
                             }
 
+                            lock (TagScanner.TagList)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                    {
+                                        if (TagScanner.TagList.Count != Convert.ToInt64(lbl_TagScanner_TagCount.Text))
+                                        {
+                                            lbl_TagScanner_TagCount.Text = TagScanner.TagList.Count.ToString();
+                                        }
+                                        //if (txt_TagScanner_TagList.Text != string.Join(",", TagScanner.TagList))
+                                        //{
+                                        //    txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
+                                        //}
+                                    });
+                            }
+
                             if (CurrentPostCount != TagScanner.NumberOfParsedPosts)
                             {
                                 if (!IsDisposed)
@@ -2216,6 +2270,7 @@ namespace Tumblr_Tool
 
                             CurrentPostCount = TagScanner.PercentComplete;
                             CurrentPercent = percent;
+                            TagCount = TagScanner.TagList.Count;
                         }
                     }
                 }
@@ -2250,6 +2305,20 @@ namespace Tumblr_Tool
             }
         }
 
+        private void TagScanner_Stop(object sender, EventArgs e)
+        {
+            IsCancelled = true;
+            if (TagScanner != null)
+            {
+                TagScanner.IsCancelled = true;
+            }
+
+            EnableUI_TagScanner(true);
+
+            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
+            UpdateStatusText(StatusReady);
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -2278,6 +2347,7 @@ namespace Tumblr_Tool
             txt_Stats_TumblrURL.Text = txt_Crawler_TumblrURL.Text;
             txt_TagScanner_URL.Text = txt_Crawler_TumblrURL.Text;
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -2395,20 +2465,6 @@ namespace Tumblr_Tool
         {
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.TextLength;
             txt_Crawler_WorkStatus.ScrollToCaret();
-        }
-
-        private void TagScanner_Stop(object sender, EventArgs e)
-        {
-            IsCancelled = true;
-            if (TagScanner != null)
-            {
-                TagScanner.IsCancelled = true;
-            }
-
-            EnableUI_TagScanner(true);
-
-            //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
-            UpdateStatusText(StatusReady);
         }
     }
 }

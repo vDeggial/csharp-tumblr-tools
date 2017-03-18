@@ -84,8 +84,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GetDomainName(string url)
         {
-            Uri uriResult;
-            bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+            bool result = Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
             return result ? uriResult.Host : null;
         }
 
@@ -123,8 +122,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static bool IsValidUrl(this string source)
         {
-            Uri uriResult;
-            return Uri.TryCreate(source, UriKind.Absolute, out uriResult) && Uri.CheckSchemeName(uriResult.Scheme) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            return Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && Uri.CheckSchemeName(uriResult.Scheme) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
 
         /// <summary>

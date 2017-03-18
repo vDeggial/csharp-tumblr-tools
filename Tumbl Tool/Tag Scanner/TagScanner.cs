@@ -1,4 +1,16 @@
-﻿using System.Collections.Generic;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2013
+ *
+ *  Last Updated: March, 2017
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System.Collections.Generic;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Managers;
@@ -73,8 +85,10 @@ namespace Tumblr_Tool.Tag_Scanner
 
                     foreach (TumblrPost post in posts)
                     {
-
-                        if (post.Tags != null) TagList.UnionWith(post.Tags);
+                        lock (TagList)
+                        {
+                            if (post.Tags != null) TagList.UnionWith(post.Tags);
+                        }
                     }
 
                     NumberOfParsedPosts += posts.Count;

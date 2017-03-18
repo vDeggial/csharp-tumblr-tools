@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2016
+ *  Last Updated: March, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -237,7 +237,7 @@ namespace Tumblr_Tool
                     break;
             }
 
-            _timer.Tick += timer_Tick;
+            _timer.Tick += Timer_Tick;
             _timer.Start();
 
             if (beep)
@@ -247,7 +247,7 @@ namespace Tumblr_Tool
             return _buttonResult;
         }
 
-        private static void timer_Tick(object sender, EventArgs e)
+        private static void Timer_Tick(object sender, EventArgs e)
         {
             Timer timer = (Timer)sender;
             AnimateMsgBox animate = (AnimateMsgBox)timer.Tag;
@@ -338,18 +338,17 @@ namespace Tumblr_Tool
                 btn.FlatStyle = FlatStyle.Flat;
                 btn.Anchor = AnchorStyles.None;
 
-                btn.MouseEnter += button_MouseEnter;
-                btn.MouseLeave += button_MouseLeave;
+                btn.MouseEnter += Button_MouseEnter;
+                btn.MouseLeave += Button_MouseLeave;
 
                 _msgBox._flpButtons.Controls.Add(btn);
             }
         }
 
-        public static void button_MouseEnter(object sender, EventArgs e)
+        public static void Button_MouseEnter(object sender, EventArgs e)
         {
-            Button button = sender as Button;
 
-            if (button != null)
+            if (sender is Button button)
             {
                 button.UseVisualStyleBackColor = false;
                 button.ForeColor = Color.Maroon;
@@ -359,10 +358,9 @@ namespace Tumblr_Tool
             }
         }
 
-        public static void button_MouseLeave(object sender, EventArgs e)
+        public static void Button_MouseLeave(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-            if (button != null)
+            if (sender is Button button)
             {
                 button.UseVisualStyleBackColor = true;
                 button.ForeColor = Color.Black;

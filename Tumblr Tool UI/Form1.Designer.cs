@@ -94,7 +94,9 @@ namespace Tumblr_Tool
             this.lbl_Stats_Total = new System.Windows.Forms.Label();
             this.btn_Stats_Start = new System.Windows.Forms.Button();
             this.tab_TagScanner = new KRBTabControl.TabPageEx();
-            this.txt_TagScanner_TagList = new System.Windows.Forms.RichTextBox();
+            this.list_TagScanner_TagLIst = new System.Windows.Forms.ListBox();
+            this.lbl_TagScanner_TagCount = new System.Windows.Forms.Label();
+            this.lbl_TagScanner_NumberOfTags = new System.Windows.Forms.Label();
             this.btn_TagScanner_Stop = new System.Windows.Forms.Button();
             this.btn_TagScanner_Start = new System.Windows.Forms.Button();
             this.txt_TagScanner_URL = new System.Windows.Forms.TextBox();
@@ -984,7 +986,9 @@ namespace Tumblr_Tool
             // tab_TagScanner
             // 
             this.tab_TagScanner.BackColor = System.Drawing.Color.White;
-            this.tab_TagScanner.Controls.Add(this.txt_TagScanner_TagList);
+            this.tab_TagScanner.Controls.Add(this.list_TagScanner_TagLIst);
+            this.tab_TagScanner.Controls.Add(this.lbl_TagScanner_TagCount);
+            this.tab_TagScanner.Controls.Add(this.lbl_TagScanner_NumberOfTags);
             this.tab_TagScanner.Controls.Add(this.btn_TagScanner_Stop);
             this.tab_TagScanner.Controls.Add(this.btn_TagScanner_Start);
             this.tab_TagScanner.Controls.Add(this.txt_TagScanner_URL);
@@ -998,18 +1002,43 @@ namespace Tumblr_Tool
             this.tab_TagScanner.TabIndex = 4;
             this.tab_TagScanner.Text = "Tags";
             // 
-            // txt_TagScanner_TagList
+            // list_TagScanner_TagLIst
             // 
-            this.txt_TagScanner_TagList.BackColor = System.Drawing.Color.White;
-            this.txt_TagScanner_TagList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_TagScanner_TagList.DetectUrls = false;
-            this.txt_TagScanner_TagList.Location = new System.Drawing.Point(-1, 102);
-            this.txt_TagScanner_TagList.Name = "txt_TagScanner_TagList";
-            this.txt_TagScanner_TagList.ReadOnly = true;
-            this.txt_TagScanner_TagList.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txt_TagScanner_TagList.Size = new System.Drawing.Size(626, 141);
-            this.txt_TagScanner_TagList.TabIndex = 0;
-            this.txt_TagScanner_TagList.Text = "";
+            this.list_TagScanner_TagLIst.BackColor = System.Drawing.Color.White;
+            this.list_TagScanner_TagLIst.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.list_TagScanner_TagLIst.Cursor = System.Windows.Forms.Cursors.Default;
+            this.list_TagScanner_TagLIst.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.list_TagScanner_TagLIst.FormattingEnabled = true;
+            this.list_TagScanner_TagLIst.ItemHeight = 16;
+            this.list_TagScanner_TagLIst.Items.AddRange(new object[] {
+            "Tag List is empty ... "});
+            this.list_TagScanner_TagLIst.Location = new System.Drawing.Point(306, 25);
+            this.list_TagScanner_TagLIst.Name = "list_TagScanner_TagLIst";
+            this.list_TagScanner_TagLIst.Size = new System.Drawing.Size(296, 208);
+            this.list_TagScanner_TagLIst.Sorted = true;
+            this.list_TagScanner_TagLIst.TabIndex = 8;
+            this.list_TagScanner_TagLIst.TabStop = false;
+            this.list_TagScanner_TagLIst.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListBox_DrawItem);
+            // 
+            // lbl_TagScanner_TagCount
+            // 
+            this.lbl_TagScanner_TagCount.AutoSize = true;
+            this.lbl_TagScanner_TagCount.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(149, 151);
+            this.lbl_TagScanner_TagCount.Name = "lbl_TagScanner_TagCount";
+            this.lbl_TagScanner_TagCount.Size = new System.Drawing.Size(13, 15);
+            this.lbl_TagScanner_TagCount.TabIndex = 7;
+            this.lbl_TagScanner_TagCount.Text = "0";
+            // 
+            // lbl_TagScanner_NumberOfTags
+            // 
+            this.lbl_TagScanner_NumberOfTags.AutoSize = true;
+            this.lbl_TagScanner_NumberOfTags.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(123, 136);
+            this.lbl_TagScanner_NumberOfTags.Name = "lbl_TagScanner_NumberOfTags";
+            this.lbl_TagScanner_NumberOfTags.Size = new System.Drawing.Size(66, 15);
+            this.lbl_TagScanner_NumberOfTags.TabIndex = 6;
+            this.lbl_TagScanner_NumberOfTags.Text = "No of Tags:";
             // 
             // btn_TagScanner_Stop
             // 
@@ -1017,7 +1046,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Stop.ImageKey = "browse.ico";
             this.btn_TagScanner_Stop.ImageList = this.iconsList;
-            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(348, 70);
+            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(191, 70);
             this.btn_TagScanner_Stop.Name = "btn_TagScanner_Stop";
             this.btn_TagScanner_Stop.Size = new System.Drawing.Size(62, 26);
             this.btn_TagScanner_Stop.TabIndex = 5;
@@ -1034,7 +1063,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Start.ImageKey = "browse.ico";
             this.btn_TagScanner_Start.ImageList = this.iconsList;
-            this.btn_TagScanner_Start.Location = new System.Drawing.Point(221, 70);
+            this.btn_TagScanner_Start.Location = new System.Drawing.Point(64, 70);
             this.btn_TagScanner_Start.Name = "btn_TagScanner_Start";
             this.btn_TagScanner_Start.Size = new System.Drawing.Size(98, 26);
             this.btn_TagScanner_Start.TabIndex = 3;
@@ -1047,7 +1076,7 @@ namespace Tumblr_Tool
             // 
             // txt_TagScanner_URL
             // 
-            this.txt_TagScanner_URL.Location = new System.Drawing.Point(221, 43);
+            this.txt_TagScanner_URL.Location = new System.Drawing.Point(64, 44);
             this.txt_TagScanner_URL.Name = "txt_TagScanner_URL";
             this.txt_TagScanner_URL.Size = new System.Drawing.Size(189, 21);
             this.txt_TagScanner_URL.TabIndex = 2;
@@ -1056,7 +1085,7 @@ namespace Tumblr_Tool
             // lbl_TagScanner_URL
             // 
             this.lbl_TagScanner_URL.AutoSize = true;
-            this.lbl_TagScanner_URL.Location = new System.Drawing.Point(281, 24);
+            this.lbl_TagScanner_URL.Location = new System.Drawing.Point(123, 25);
             this.lbl_TagScanner_URL.Name = "lbl_TagScanner_URL";
             this.lbl_TagScanner_URL.Size = new System.Drawing.Size(69, 16);
             this.lbl_TagScanner_URL.TabIndex = 1;
@@ -1491,10 +1520,12 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_TagScanner_Start;
         private System.Windows.Forms.TextBox txt_TagScanner_URL;
         private System.Windows.Forms.Label lbl_TagScanner_URL;
-        private System.Windows.Forms.RichTextBox txt_TagScanner_TagList;
         private System.ComponentModel.BackgroundWorker blogTagListWorker;
         private System.ComponentModel.BackgroundWorker blogTagLIstWorkerUI;
         private System.Windows.Forms.Button btn_TagScanner_Stop;
+        private System.Windows.Forms.Label lbl_TagScanner_TagCount;
+        private System.Windows.Forms.Label lbl_TagScanner_NumberOfTags;
+        private System.Windows.Forms.ListBox list_TagScanner_TagLIst;
     }
 }
 
