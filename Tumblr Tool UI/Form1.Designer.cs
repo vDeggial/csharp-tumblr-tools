@@ -1094,6 +1094,7 @@ namespace Tumblr_Tool
             // 
             // txt_TagScanner_URL
             // 
+            this.txt_TagScanner_URL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_TagScanner_URL.Location = new System.Drawing.Point(64, 44);
             this.txt_TagScanner_URL.Name = "txt_TagScanner_URL";
             this.txt_TagScanner_URL.Size = new System.Drawing.Size(189, 21);
