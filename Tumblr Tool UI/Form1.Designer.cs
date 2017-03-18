@@ -352,7 +352,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 2;
+            this.tabControl_Main.SelectedIndex = 1;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -1094,7 +1094,9 @@ namespace Tumblr_Tool
             // 
             // txt_TagScanner_URL
             // 
+            this.txt_TagScanner_URL.BackColor = System.Drawing.Color.White;
             this.txt_TagScanner_URL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_TagScanner_URL.ForeColor = System.Drawing.Color.Black;
             this.txt_TagScanner_URL.Location = new System.Drawing.Point(64, 44);
             this.txt_TagScanner_URL.Name = "txt_TagScanner_URL";
             this.txt_TagScanner_URL.Size = new System.Drawing.Size(189, 21);
