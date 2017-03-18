@@ -268,7 +268,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void CrawlWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -313,7 +313,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void CrawlWorker_Work(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -494,7 +494,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void CrawlWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -542,7 +542,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void CrawlWorkerUI_Work(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -776,7 +776,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DownloadWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void DownloadWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             lock (DownloadManager)
             {
@@ -801,7 +801,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DownloadWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void DownloadWorker_Work(object sender, DoWorkEventArgs e)
         {
             Thread.Sleep(200);
             try
@@ -935,7 +935,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DownloadWorker_UI__AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void DownloadWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -1056,7 +1056,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DownloadWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void DownloadWorkerUI_Work(object sender, DoWorkEventArgs e)
         {
             CurrentPercent = 0;
             CurrentPostCount = 0;
@@ -1327,7 +1327,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FileBW_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void FileOpenWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
         }
 
@@ -1336,7 +1336,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FileBW_DoWork(object sender, DoWorkEventArgs e)
+        private void FileOpenWorker_Work(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1377,7 +1377,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GetStatsWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void GetStatsWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             TumblrStats.ProcessingStatusCode = ProcessingCode.Done;
         }
@@ -1387,7 +1387,7 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GetStatsWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void GetStatsWorker_Work(object sender, DoWorkEventArgs e)
         {
             TumblrStats.ProcessingStatusCode = ProcessingCode.Initializing;
             try
@@ -1417,7 +1417,34 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GetStatsWorker_UI__DoWork(object sender, DoWorkEventArgs e)
+        private void GetStatsWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                if (!IsDisposed)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        EnableUI_Stats(true);
+                        UpdateStatusText(StatusDone);
+                        this.lbl_PostCount.Visible = false;
+                        this.bar_Progress.Visible = false;
+                        this.lbl_PercentBar.Visible = false;
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                // MsgBox.Show(exception.Message);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GetStatsWorkerUI_Work(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -1563,34 +1590,6 @@ namespace Tumblr_Tool
                 // MsgBox.Show(exception.Message);
             }
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetStatsWorker_UI_AfterDone(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
-            {
-                if (!IsDisposed)
-                {
-                    Invoke((MethodInvoker)delegate
-                    {
-                        EnableUI_Stats(true);
-                        UpdateStatusText(StatusDone);
-                        this.lbl_PostCount.Visible = false;
-                        this.bar_Progress.Visible = false;
-                        this.lbl_PercentBar.Visible = false;
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                // MsgBox.Show(exception.Message);
-            }
-        }
-
         /// <summary>
         ///
         /// </summary>
@@ -1697,6 +1696,7 @@ namespace Tumblr_Tool
             lbl_PercentBar.Visible = true;
 
             btn_TagScanner_Stop.Visible = false;
+            btn_TagScanner_SaveAsFile.Visible = false;
 
             SetDoubleBuffering(bar_Progress, true);
             SetDoubleBuffering(img_Crawler_DisplayImage, true);
@@ -1785,7 +1785,7 @@ namespace Tumblr_Tool
                 {
                     UpdateStatusText(StatusOpenSaveFile);
 
-                    fileBackgroundWorker.RunWorkerAsync(ofd.FileName);
+                    fileOpenWorker.RunWorkerAsync(ofd.FileName);
                 }
                 else
                 {
@@ -1887,6 +1887,11 @@ namespace Tumblr_Tool
         private void SaveOptions(string filename)
         {
             JsonHelper.SaveObjectToFile(filename, Options);
+        }
+
+        private void SaveTagListAsFile(object sender, EventArgs e)
+        {
+            tagListSaveWorker.RunWorkerAsync();
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2036,8 +2041,8 @@ namespace Tumblr_Tool
             IsCancelled = false;
             lbl_PercentBar.Text = string.Empty;
             TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TagScanner_URL.Text);
-            list_TagScanner_TagLIst.DataSource = null;
-            list_TagScanner_TagLIst.Items.Clear();
+            list_TagScanner_TagList.DataSource = null;
+            list_TagScanner_TagList.Items.Clear();
 
             lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
@@ -2047,6 +2052,8 @@ namespace Tumblr_Tool
             bar_Progress.Value = 0;
             bar_Progress.Maximum = 100;
             bar_Progress.Minimum = 0;
+
+            btn_TagScanner_SaveAsFile.Visible = false;
 
             lbl_PostCount.Text = string.Empty;
             lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -2072,6 +2079,8 @@ namespace Tumblr_Tool
             }
             else
             {
+                MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                UpdateStatusText(StatusReady);
                 EnableUI_TagScanner(true);
             }
         }
@@ -2085,7 +2094,7 @@ namespace Tumblr_Tool
         {
             if (DisableOtherTabs)
             {
-                KRBTabControl.KRBTabControl tabWizardControl = new KRBTabControl.KRBTabControl();
+                KRBTabControl.KRBTabControl tabWizardControl = null;
                 if (sender is KRBTabControl.KRBTabControl) tabWizardControl = tabWizardControl = sender as KRBTabControl.KRBTabControl;
 
                 if (tabWizardControl != null)
@@ -2118,12 +2127,46 @@ namespace Tumblr_Tool
             CurrentSelectedTab = tabControl_Main.SelectedIndex;
         }
 
-        private void TagListWorker_AfterDone(object sender, RunWorkerCompletedEventArgs e)
+        private void TagListSaveWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Invoke((MethodInvoker)delegate
+                    {
+                        UpdateStatusText("File Saved");
+                    });
+        }
+
+        private void TagListSaveWorker_Work(object sender, DoWorkEventArgs e)
+        {
+            ListBox listBox = list_TagScanner_TagList;
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Text File|*.txt|CSV File|*.csv|All Files|*.*",
+                Title = "Save a Tag List as File"
+            };
+            Invoke((MethodInvoker)delegate
+                    {
+                        saveFileDialog.ShowDialog();
+                    });
+
+            if (saveFileDialog.FileName != "")
+            {
+                using (StreamWriter myOutputStream = new StreamWriter(saveFileDialog.FileName))
+                {
+                    string tags = string.Join(",", listBox.Items.Cast<string>().ToList());
+                    myOutputStream.Write(tags);
+                    //foreach (var item in listBox.Items)
+                    //{
+                    //    myOutputStream.WriteLine(item.ToString());
+                    //}
+                }
+            }
+        }
+
+        private void TagListWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Done;
         }
-
-        private void TagListWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void TagListWorker_Work(object sender, DoWorkEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
             try
@@ -2149,8 +2192,7 @@ namespace Tumblr_Tool
                 // MsgBox.Show(exception.Message);
             }
         }
-
-        private void TagListWorkerUI_AfterWork(object sender, RunWorkerCompletedEventArgs e)
+        private void TagListWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
@@ -2160,7 +2202,11 @@ namespace Tumblr_Tool
                     {
                         //txt_TagScanner_TagList.Text = "Populating the list ... ";
                         //txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
-                        list_TagScanner_TagLIst.DataSource = TagScanner.TagList.ToList();
+                        list_TagScanner_TagList.DataSource = TagScanner.TagList.ToList();
+                        if (TagScanner.TagList.Count != 0)
+                        {
+                            btn_TagScanner_SaveAsFile.Visible = true;
+                        }
                     });
 
                     Invoke((MethodInvoker)delegate
@@ -2179,7 +2225,7 @@ namespace Tumblr_Tool
             }
         }
 
-        private void TagListWorkerUI_DoWork(object sender, DoWorkEventArgs e)
+        private void TagListWorkerUI_Work(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -2192,7 +2238,7 @@ namespace Tumblr_Tool
                             this.bar_Progress.Visible = true;
                             this.lbl_Size.Visible = false;
                             this.lbl_PercentBar.Visible = true;
-                            list_TagScanner_TagLIst.Items.Add("The list of tags will appear after indexing is done ...");
+                            list_TagScanner_TagList.Items.Add("The list of tags will appear after indexing is done ...");
                         });
                 }
 

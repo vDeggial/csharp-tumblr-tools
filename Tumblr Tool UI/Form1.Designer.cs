@@ -49,7 +49,7 @@ namespace Tumblr_Tool
             this.imageDownloadWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.blogGetStatsWorker = new System.ComponentModel.BackgroundWorker();
             this.blogGetStatsWorkerUI = new System.ComponentModel.BackgroundWorker();
-            this.fileBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.fileOpenWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl_Main = new KRBTabControl.KRBTabControl();
             this.tab_ImageRipper = new KRBTabControl.TabPageEx();
             this.select_Crawler_ImagesSize = new Tumblr_Tool.AdvancedComboBox();
@@ -94,7 +94,8 @@ namespace Tumblr_Tool
             this.lbl_Stats_Total = new System.Windows.Forms.Label();
             this.btn_Stats_Start = new System.Windows.Forms.Button();
             this.tab_TagScanner = new KRBTabControl.TabPageEx();
-            this.list_TagScanner_TagLIst = new System.Windows.Forms.ListBox();
+            this.btn_TagScanner_SaveAsFile = new System.Windows.Forms.Button();
+            this.list_TagScanner_TagList = new System.Windows.Forms.ListBox();
             this.lbl_TagScanner_TagCount = new System.Windows.Forms.Label();
             this.lbl_TagScanner_NumberOfTags = new System.Windows.Forms.Label();
             this.btn_TagScanner_Stop = new System.Windows.Forms.Button();
@@ -123,6 +124,7 @@ namespace Tumblr_Tool
             this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
             this.blogTagListWorker = new System.ComponentModel.BackgroundWorker();
             this.blogTagLIstWorkerUI = new System.ComponentModel.BackgroundWorker();
+            this.tagListSaveWorker = new System.ComponentModel.BackgroundWorker();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -176,8 +178,8 @@ namespace Tumblr_Tool
             // 
             this.imageDownloadWorker.WorkerReportsProgress = true;
             this.imageDownloadWorker.WorkerSupportsCancellation = true;
-            this.imageDownloadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_DoWork);
-            this.imageDownloadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_AfterDone);
+            this.imageDownloadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_Work);
+            this.imageDownloadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_Completed);
             // 
             // menu_TopMenu
             // 
@@ -234,15 +236,15 @@ namespace Tumblr_Tool
             // 
             this.imageCrawlWorker.WorkerReportsProgress = true;
             this.imageCrawlWorker.WorkerSupportsCancellation = true;
-            this.imageCrawlWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_DoWork);
-            this.imageCrawlWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_AfterDone);
+            this.imageCrawlWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_Work);
+            this.imageCrawlWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_Completed);
             // 
             // imageCrawlWorkerUI
             // 
             this.imageCrawlWorkerUI.WorkerReportsProgress = true;
             this.imageCrawlWorkerUI.WorkerSupportsCancellation = true;
-            this.imageCrawlWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_UI__DoWork);
-            this.imageCrawlWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_UI__AfterDone);
+            this.imageCrawlWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorkerUI_Work);
+            this.imageCrawlWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorkerUI_Completed);
             // 
             // status_Strip
             // 
@@ -306,28 +308,28 @@ namespace Tumblr_Tool
             // 
             this.imageDownloadWorkerUI.WorkerReportsProgress = true;
             this.imageDownloadWorkerUI.WorkerSupportsCancellation = true;
-            this.imageDownloadWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorker_UI__DoWork);
-            this.imageDownloadWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorker_UI__AfterDone);
+            this.imageDownloadWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorkerUI_Work);
+            this.imageDownloadWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorkerUI_Completed);
             // 
             // blogGetStatsWorker
             // 
             this.blogGetStatsWorker.WorkerReportsProgress = true;
             this.blogGetStatsWorker.WorkerSupportsCancellation = true;
-            this.blogGetStatsWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_DoWork);
-            this.blogGetStatsWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_AfterDone);
+            this.blogGetStatsWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_Work);
+            this.blogGetStatsWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_Completed);
             // 
             // blogGetStatsWorkerUI
             // 
             this.blogGetStatsWorkerUI.WorkerReportsProgress = true;
             this.blogGetStatsWorkerUI.WorkerSupportsCancellation = true;
-            this.blogGetStatsWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorker_UI__DoWork);
-            this.blogGetStatsWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorker_UI_AfterDone);
+            this.blogGetStatsWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.GetStatsWorkerUI_Work);
+            this.blogGetStatsWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.GetStatsWorkerUI_Completed);
             // 
-            // fileBackgroundWorker
+            // fileOpenWorker
             // 
-            this.fileBackgroundWorker.WorkerSupportsCancellation = true;
-            this.fileBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FileBW_DoWork);
-            this.fileBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileBW_AfterDone);
+            this.fileOpenWorker.WorkerSupportsCancellation = true;
+            this.fileOpenWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.FileOpenWorker_Work);
+            this.fileOpenWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileOpenWorker_Completed);
             // 
             // tabControl_Main
             // 
@@ -986,7 +988,8 @@ namespace Tumblr_Tool
             // tab_TagScanner
             // 
             this.tab_TagScanner.BackColor = System.Drawing.Color.White;
-            this.tab_TagScanner.Controls.Add(this.list_TagScanner_TagLIst);
+            this.tab_TagScanner.Controls.Add(this.btn_TagScanner_SaveAsFile);
+            this.tab_TagScanner.Controls.Add(this.list_TagScanner_TagList);
             this.tab_TagScanner.Controls.Add(this.lbl_TagScanner_TagCount);
             this.tab_TagScanner.Controls.Add(this.lbl_TagScanner_NumberOfTags);
             this.tab_TagScanner.Controls.Add(this.btn_TagScanner_Stop);
@@ -1001,44 +1004,59 @@ namespace Tumblr_Tool
             this.tab_TagScanner.Size = new System.Drawing.Size(623, 246);
             this.tab_TagScanner.TabIndex = 4;
             this.tab_TagScanner.Text = "Tags";
+            this.tab_TagScanner.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
-            // list_TagScanner_TagLIst
+            // btn_TagScanner_SaveAsFile
             // 
-            this.list_TagScanner_TagLIst.BackColor = System.Drawing.Color.White;
-            this.list_TagScanner_TagLIst.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.list_TagScanner_TagLIst.Cursor = System.Windows.Forms.Cursors.Default;
-            this.list_TagScanner_TagLIst.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.list_TagScanner_TagLIst.FormattingEnabled = true;
-            this.list_TagScanner_TagLIst.ItemHeight = 16;
-            this.list_TagScanner_TagLIst.Items.AddRange(new object[] {
+            this.btn_TagScanner_SaveAsFile.FlatAppearance.BorderSize = 0;
+            this.btn_TagScanner_SaveAsFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_TagScanner_SaveAsFile.Location = new System.Drawing.Point(191, 220);
+            this.btn_TagScanner_SaveAsFile.Name = "btn_TagScanner_SaveAsFile";
+            this.btn_TagScanner_SaveAsFile.Size = new System.Drawing.Size(87, 23);
+            this.btn_TagScanner_SaveAsFile.TabIndex = 9;
+            this.btn_TagScanner_SaveAsFile.Text = "Save To File";
+            this.btn_TagScanner_SaveAsFile.UseVisualStyleBackColor = true;
+            this.btn_TagScanner_SaveAsFile.Click += new System.EventHandler(this.SaveTagListAsFile);
+            this.btn_TagScanner_SaveAsFile.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
+            this.btn_TagScanner_SaveAsFile.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            // 
+            // list_TagScanner_TagList
+            // 
+            this.list_TagScanner_TagList.BackColor = System.Drawing.Color.White;
+            this.list_TagScanner_TagList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.list_TagScanner_TagList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.list_TagScanner_TagList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.list_TagScanner_TagList.FormattingEnabled = true;
+            this.list_TagScanner_TagList.ItemHeight = 16;
+            this.list_TagScanner_TagList.Items.AddRange(new object[] {
             "Tag List is empty ... "});
-            this.list_TagScanner_TagLIst.Location = new System.Drawing.Point(306, 25);
-            this.list_TagScanner_TagLIst.Name = "list_TagScanner_TagLIst";
-            this.list_TagScanner_TagLIst.Size = new System.Drawing.Size(296, 208);
-            this.list_TagScanner_TagLIst.Sorted = true;
-            this.list_TagScanner_TagLIst.TabIndex = 8;
-            this.list_TagScanner_TagLIst.TabStop = false;
-            this.list_TagScanner_TagLIst.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListBox_DrawItem);
+            this.list_TagScanner_TagList.Location = new System.Drawing.Point(306, 25);
+            this.list_TagScanner_TagList.Name = "list_TagScanner_TagList";
+            this.list_TagScanner_TagList.Size = new System.Drawing.Size(296, 208);
+            this.list_TagScanner_TagList.Sorted = true;
+            this.list_TagScanner_TagList.TabIndex = 8;
+            this.list_TagScanner_TagList.TabStop = false;
+            this.list_TagScanner_TagList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListBox_DrawItem);
             // 
             // lbl_TagScanner_TagCount
             // 
-            this.lbl_TagScanner_TagCount.AutoSize = true;
-            this.lbl_TagScanner_TagCount.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(149, 151);
+            this.lbl_TagScanner_TagCount.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(64, 112);
             this.lbl_TagScanner_TagCount.Name = "lbl_TagScanner_TagCount";
-            this.lbl_TagScanner_TagCount.Size = new System.Drawing.Size(13, 15);
+            this.lbl_TagScanner_TagCount.Size = new System.Drawing.Size(189, 46);
             this.lbl_TagScanner_TagCount.TabIndex = 7;
             this.lbl_TagScanner_TagCount.Text = "0";
+            this.lbl_TagScanner_TagCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_TagScanner_NumberOfTags
             // 
-            this.lbl_TagScanner_NumberOfTags.AutoSize = true;
-            this.lbl_TagScanner_NumberOfTags.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(123, 136);
+            this.lbl_TagScanner_NumberOfTags.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(64, 158);
             this.lbl_TagScanner_NumberOfTags.Name = "lbl_TagScanner_NumberOfTags";
-            this.lbl_TagScanner_NumberOfTags.Size = new System.Drawing.Size(66, 15);
+            this.lbl_TagScanner_NumberOfTags.Size = new System.Drawing.Size(189, 29);
             this.lbl_TagScanner_NumberOfTags.TabIndex = 6;
-            this.lbl_TagScanner_NumberOfTags.Text = "No of Tags:";
+            this.lbl_TagScanner_NumberOfTags.Text = "Tags";
+            this.lbl_TagScanner_NumberOfTags.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btn_TagScanner_Stop
             // 
@@ -1368,13 +1386,18 @@ namespace Tumblr_Tool
             // 
             // blogTagListWorker
             // 
-            this.blogTagListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorker_DoWork);
-            this.blogTagListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorker_AfterDone);
+            this.blogTagListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorker_Work);
+            this.blogTagListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorker_Completed);
             // 
             // blogTagLIstWorkerUI
             // 
-            this.blogTagLIstWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorkerUI_DoWork);
-            this.blogTagLIstWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorkerUI_AfterWork);
+            this.blogTagLIstWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorkerUI_Work);
+            this.blogTagLIstWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorkerUI_Completed);
+            // 
+            // tagListSaveWorker
+            // 
+            this.tagListSaveWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListSaveWorker_Work);
+            this.tagListSaveWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListSaveWorker_Completed);
             // 
             // MainForm
             // 
@@ -1485,7 +1508,7 @@ namespace Tumblr_Tool
         private System.Windows.Forms.GroupBox box_PostStats;
         private System.Windows.Forms.Label lbl_Stats_BlogTitle;
         private System.Windows.Forms.RichTextBox txt_Stats_BlogDescription;
-        private System.ComponentModel.BackgroundWorker fileBackgroundWorker;
+        private System.ComponentModel.BackgroundWorker fileOpenWorker;
         private System.Windows.Forms.Label lbl_PercentBar;
         private System.Windows.Forms.Label lbl_Crawler_Mode;
         private AdvancedComboBox select_Crawler_Mode;
@@ -1525,7 +1548,9 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_TagScanner_Stop;
         private System.Windows.Forms.Label lbl_TagScanner_TagCount;
         private System.Windows.Forms.Label lbl_TagScanner_NumberOfTags;
-        private System.Windows.Forms.ListBox list_TagScanner_TagLIst;
+        private System.Windows.Forms.ListBox list_TagScanner_TagList;
+        private System.Windows.Forms.Button btn_TagScanner_SaveAsFile;
+        private System.ComponentModel.BackgroundWorker tagListSaveWorker;
     }
 }
 
