@@ -93,7 +93,7 @@
     </Reference>
     <Reference Include="KRBTabControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\KRBTabControl.dll</HintPath>
+      <HintPath>..\KRBTabControl\bin\Debug\KRBTabControl.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -190,8 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tumblr.png" />
-    <None Include="Dotnetrix.TabControl.dll" />
-    <None Include="KRBTabControl.dll" />
     <Content Include="tumblr icon.ico" />
     <None Include="Resources\copyright.png" />
     <None Include="Resources\filesize.png" />

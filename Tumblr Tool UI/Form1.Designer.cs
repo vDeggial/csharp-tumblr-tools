@@ -347,7 +347,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 2;
+            this.tabControl_Main.SelectedIndex = 0;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -386,7 +386,7 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.Name = "tab_ImageRipper";
             this.tab_ImageRipper.Size = new System.Drawing.Size(623, 246);
             this.tab_ImageRipper.TabIndex = 0;
-            this.tab_ImageRipper.Text = "Image Download";
+            this.tab_ImageRipper.Text = "Downloader";
             this.tab_ImageRipper.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
             // select_ImagesSize
@@ -639,7 +639,7 @@ namespace Tumblr_Tool
             this.tab_TumblrStats.Name = "tab_TumblrStats";
             this.tab_TumblrStats.Size = new System.Drawing.Size(623, 246);
             this.tab_TumblrStats.TabIndex = 1;
-            this.tab_TumblrStats.Text = "Blog Statistics";
+            this.tab_TumblrStats.Text = "Stats";
             this.tab_TumblrStats.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
             // img_Stats_Avatar
@@ -989,11 +989,12 @@ namespace Tumblr_Tool
             this.tab_TagScanner.Controls.Add(this.txt_TagList);
             this.tab_TagScanner.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab_TagScanner.ImageIndex = 6;
+            this.tab_TagScanner.IsClosable = false;
             this.tab_TagScanner.Location = new System.Drawing.Point(1, 32);
             this.tab_TagScanner.Name = "tab_TagScanner";
             this.tab_TagScanner.Size = new System.Drawing.Size(623, 246);
             this.tab_TagScanner.TabIndex = 4;
-            this.tab_TagScanner.Text = "Tag Scanner";
+            this.tab_TagScanner.Text = "Tags";
             // 
             // btn_TagScanner_Start
             // 

@@ -61,7 +61,7 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.4.1.1";
+        private const string Version = "1.4.2";
         private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2017 Shino Amakusa\r\ntumblrtools.codeplex.com";
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
