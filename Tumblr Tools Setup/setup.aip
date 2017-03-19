@@ -27,20 +27,24 @@
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:v"/>
-    <ROW Property="ProductCode" Value="1033:{DD3DC807-01D9-485C-AEAE-BDFE2385CA85} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{12CF592F-8F0E-4237-B6C3-12B299E7D637} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Tumblr Tools"/>
-    <ROW Property="ProductVersion" Value="1.4.1.1" Type="32" TargetFile="TumblrTools.exe"/>
+    <ROW Property="ProductVersion" Value="1.4.2.0" Type="32" TargetFile="TumblrTools.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{C43D57AB-D004-49BF-871E-513E0F63FC6E}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT" MultiBuildValue="DefaultBuild:Windows XP x86 Service Pack 3, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Vista x86 Service Pack 1, Windows Vista x86 Service Pack 2, Windows Server 2008 x86" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT50" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT50Display" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT5X" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
     <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT64" MultiBuildValue="DefaultBuild:Windows XP x64 Service Pack 2, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Vista x64 Service Pack 1, Windows Vista x64 Service Pack 2, Windows Server 2008 x64, Windows Server 2008 R2 x64, Windows Server 2008 R2 x64 Service Pack 1" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT64Display" MultiBuildValue="DefaultBuild:Windows XP x64 Service Pack 2, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Server 2008 x64, Windows Server 2008 R2 x64" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNTDisplay" MultiBuildValue="DefaultBuild:Windows XP x86 Service Pack 3, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Server 2008 x86" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1" DirectoryOptions="3"/>
@@ -50,11 +54,10 @@
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{C9FB84CB-4AC4-43ED-A7C5-7F609DB63D63}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{3D4FB11F-423D-4589-8D02-E27CA813C22D}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_DisableModify" ComponentId="{A3FEBDAA-38BE-464E-88F6-78A7FF1626E4}" Directory_="APPDIR" Attributes="4" KeyPath="NoModify" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{6E27DFF6-A57F-4D9A-84A3-D63CD7540C93}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="AI_InstallLanguage" ComponentId="{0003DE0D-E22C-4081-BE99-22417812D25A}" Directory_="APPDIR" Attributes="4" KeyPath="AI_InstallLanguage" Options="1"/>
-    <ROW Component="Dotnetrix.TabControl.dll" ComponentId="{D7FF4C63-7032-4E64-91F4-DDE3DDDC2310}" Directory_="APPDIR" Attributes="0" KeyPath="Dotnetrix.TabControl.dll"/>
     <ROW Component="GOTHIC.TTF" ComponentId="{55806518-00AB-49B3-8851-CC476BD82114}" Directory_="FontsFolder" Attributes="16" Type="0"/>
     <ROW Component="InstallLanguage" ComponentId="{DABBD805-07C3-4ACD-8389-552E5A42252B}" Directory_="APPDIR" Attributes="4" KeyPath="InstallLanguage" Options="1"/>
     <ROW Component="KRBTabControl.dll" ComponentId="{442B683C-F140-4AE3-AA96-5D0224787DED}" Directory_="APPDIR" Attributes="0" KeyPath="KRBTabControl.dll"/>
@@ -68,11 +71,10 @@
     <ROW Component="URL" ComponentId="{869F9829-5C7C-40BF-A209-FF134027B4F6}" Directory_="APPDIR" Attributes="4" KeyPath="URL"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath AI_InstallLanguage Dotnetrix.TabControl.dll GOTHIC.TTF InstallLanguage KRBTabControl.dll Newtonsoft.Json.dll ProductInformation RestSharp.dll SHORTCUTDIR TumblrTool.dll TumblrTools.exe TumblrTools.exe.config URL"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath AI_InstallLanguage GOTHIC.TTF InstallLanguage KRBTabControl.dll Newtonsoft.Json.dll ProductInformation RestSharp.dll SHORTCUTDIR TumblrTool.dll TumblrTools.exe TumblrTools.exe.config URL"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="Dotnetrix.TabControl.dll" Component_="Dotnetrix.TabControl.dll" FileName="DOTNET~1.DLL|Dotnetrix.TabControl.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Dotnetrix.TabControl.dll" SelfReg="false" NextFile="GOTHIC.TTF"/>
     <ROW File="GOTHIC.TTF" Component_="GOTHIC.TTF" FileName="GOTHIC.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHIC.TTF" SelfReg="false" NextFile="GOTHICB.TTF"/>
     <ROW File="GOTHICB.TTF" Component_="GOTHIC.TTF" FileName="GOTHICB.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICB.TTF" SelfReg="false" NextFile="GOTHICBI.TTF"/>
     <ROW File="GOTHICBI.TTF" Component_="GOTHIC.TTF" FileName="GOTHICBI.TTF" Attributes="0" SourcePath="..\Tumblr Tool UI\GOTHICBI.TTF" SelfReg="false" NextFile="GOTHICI.TTF"/>
@@ -83,13 +85,13 @@
     <ROW File="TumblrTool.dll" Component_="TumblrTool.dll" FileName="TUMBLR~1.DLL|Tumblr Tool.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Tumblr Tool.dll" SelfReg="false" NextFile="Newtonsoft.Json.dll"/>
     <ROW File="TumblrTools.exe" Component_="TumblrTools.exe" FileName="TUMBLR~1.EXE|Tumblr Tools.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Tumblr Tools.exe" SelfReg="false" NextFile="TumblrTools.exe.config" DigSign="true"/>
     <ROW File="TumblrTools.exe.config" Component_="TumblrTools.exe.config" FileName="TUMBLR~1.CON|Tumblr Tools.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\Tumblr Tool UI\bin\Debug\Tumblr Tools.exe.config" SelfReg="false" NextFile="TumblrTool.dll"/>
-    <ROW File="tumblricon.ico" Component_="TumblrTools.exe.config" FileName="TUMBLR~1.ICO|tumblr icon.ico" Version="65535.65535.65535.65535" Attributes="1" SourcePath="..\Tumblr Tool UI\Images\tumblr icon.ico" SelfReg="false" NextFile="Dotnetrix.TabControl.dll"/>
+    <ROW File="tumblricon.ico" Component_="TumblrTools.exe.config" FileName="TUMBLR~1.ICO|tumblr icon.ico" Version="65535.65535.65535.65535" Attributes="1" SourcePath="..\Tumblr Tool UI\Images\tumblr icon.ico" SelfReg="false" NextFile="GOTHIC.TTF"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" GeneralOptions="oh" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup 1.4.1.1" Languages="en" InstallationType="2" CabsLocation="1" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="8" LangsDialog="true" UseLargeSchema="true" Unicode="true" ExeName="Tumblr Tools Setup 1.4.1.1" UACExecutionLevel="2"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup 1.4.2" Languages="en" InstallationType="2" CabsLocation="1" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="8" LangsDialog="true" UseLargeSchema="true" Unicode="true" ExeName="Tumblr Tools Setup 1.4.2" UACExecutionLevel="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -301,6 +303,8 @@
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="( Version9X OR ( NOT VersionNT64 ) OR ( VersionNT64 AND ((VersionNT64 &lt;&gt; 502) OR (ServicePackLevel &lt;&gt; 2) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT64 &lt;&gt; 502) OR (ServicePackLevel &lt;&gt; 2) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 0) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT64 &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 1) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT64 &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 2) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT64 &lt;&gt; 600) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 601) OR (ServicePackLevel &lt;&gt; 0) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 601) OR (ServicePackLevel &lt;&gt; 1) OR (MsiNTProductType = 1)) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT64Display]." DescriptionLocId="AI.LaunchCondition.NoSpecificNT64" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="( Version9X OR VersionNT64 OR ( VersionNT AND ((VersionNT &lt;&gt; 501) OR (ServicePackLevel &lt;&gt; 3)) AND ((VersionNT &lt;&gt; 502) OR (ServicePackLevel &lt;&gt; 2)) AND ((VersionNT &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 0) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 1) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT &lt;&gt; 600) OR (ServicePackLevel &lt;&gt; 2) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT &lt;&gt; 600) OR (MsiNTProductType = 1)) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNTDisplay]." DescriptionLocId="AI.LaunchCondition.NoSpecificNT" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT40Display]" DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT64 OR ((VersionNT &lt;&gt; 501) OR (ServicePackLevel = 3))) AND ((VersionNT &lt;&gt; 502) OR (ServicePackLevel = 2))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -360,10 +364,10 @@
     <ATTRIBUTE name="DynamicInstances" value="DefaultBuild:"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
-    <ROW PrereqKey="BB9062A4604BB61146D7C9AA49D" DisplayName=".NET Framework 4.6.1 (web installer)" SetupFileUrl="Prerequisites\.NET Framework 4.6.1\NDP461-KB3102438-Web.exe" Location="0" ExactSize="0" WinNTVersions="Windows XP x86 Service Pack 3, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Vista x86 Service Pack 1, Windows Vista x86 Service Pack 2, Windows Server 2008 x86, Windows 7 x86" WinNT64Versions="Windows XP x64 Service Pack 2, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Vista x64 Service Pack 1, Windows Vista x64 Service Pack 2, Windows Server 2008 x64, Windows 7 x64, Windows Server 2008 R2 x64" Operator="1" NoUiComLine="/q /norestart" Options="xy" TargetName=".NET Framework 4.6.1\NDP461-KB3102438-Web.exe"/>
-    <ATTRIBUTE name="PrereqsOrder" value="BB9062A4604BB61146D7C9AA49D"/>
+    <ROW PrereqKey="BCB8EE3864A2CAD5BED4782268FBC" DisplayName=".NET Framework 4.6.2 (web installer)" SetupFileUrl="Prerequisites\.NET Framework 4.6.2\NDP462-KB3151802-Web.exe" Location="0" ExactSize="0" WinNTVersions="Windows XP x86 Service Pack 3, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Vista x86 Service Pack 1, Windows Vista x86 Service Pack 2, Windows Server 2008 x86, Windows 7 x86" WinNT64Versions="Windows XP x64 Service Pack 2, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Vista x64 Service Pack 1, Windows Vista x64 Service Pack 2, Windows Server 2008 x64, Windows 7 x64, Windows Server 2008 R2 x64, Windows Server 2016 x64" Operator="1" NoUiComLine="/q /norestart" Options="xyz" TargetName=".NET Framework 4.6.2\NDP462-KB3151802-Web.exe"/>
+    <ATTRIBUTE name="PrereqsOrder" value="BCB8EE3864A2CAD5BED4782268FBC"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
-    <ROW SearchKey="BB9062A4604BB61146D7C9AA49DRelease" Prereq="BB9062A4604BB61146D7C9AA49D" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release" RefContent="G394253" Order="1" Property="PreReqSearch_BB9062A4604BB61146D7C9AA49D"/>
+    <ROW SearchKey="BCB8EE3864A2CAD5BED4782268FBCRelease" Prereq="BCB8EE3864A2CAD5BED4782268FBC" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release" RefContent="G394801" Order="1" Property="PreReqSearch_BCB8EE3864A2CAD5BED4782268FBC"/>
   </COMPONENT>
 </DOCUMENT>
