@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
-using Tumblr_Tool.Tag_Scanner;
 
 namespace UniTest
 {
@@ -62,7 +62,7 @@ namespace UniTest
         public void TestMethod1()
         {
             TumblrBlog Blog = new TumblrBlog("http://jai-envie-de-toi.ml");
-            TagScanner scanner = new TagScanner(Blog);
+            TagScanManager scanner = new TagScanManager(Blog);
             scanner.GetTumblrBlogInfo();
             scanner.ScanTags();
             HashSet<string> s = scanner.TagList;

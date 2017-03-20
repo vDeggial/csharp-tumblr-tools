@@ -22,13 +22,10 @@ using System.Threading;
 using System.Windows.Forms;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
-using Tumblr_Tool.Image_Ripper;
 using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 using Tumblr_Tool.Properties;
-using Tumblr_Tool.Tag_Scanner;
-using Tumblr_Tool.Tumblr_Stats;
 
 namespace Tumblr_Tool
 {
@@ -104,7 +101,7 @@ namespace Tumblr_Tool
         private List<int> DownloadedSizesList { get; set; }
         private DownloadManager DownloadManager { get; set; }
         private string ErrorMessage { get; set; }
-        private ImageRipper ImageRipper { get; set; }
+        private PhotoPostParseManager ImageRipper { get; set; }
         private Dictionary<string, ImageSize> ImageSizesIndexDict { get; set; }
         private bool IsCancelled { get; set; }
         private bool IsCrawlingDone { get; set; }
@@ -115,12 +112,12 @@ namespace Tumblr_Tool
         private ToolOptions Options { get; set; }
         private string OptionsFileName { get; set; }
         private string SaveLocation { get; set; }
-        private TagScanner TagScanner { get; set; }
+        private TagScanManager TagScanner { get; set; }
         private SaveFile TumblrLogFile { get; set; }
 
         private SaveFile TumblrSaveFile { get; set; }
 
-        private TumblrStats TumblrStats { get; set; }
+        private TumblrStatsManager TumblrStats { get; set; }
 
         private string TumblrUrl { get; set; }
 
@@ -347,7 +344,7 @@ namespace Tumblr_Tool
                     //this.tumblrBlog = new TumblrBlog();
                     //this.tumblrBlog.url = this.tumblrURL;
 
-                    ImageRipper = new ImageRipper(new TumblrBlog(TumblrUrl), SaveLocation,
+                    ImageRipper = new PhotoPostParseManager(new TumblrBlog(TumblrUrl), SaveLocation,
                         check_Options_GenerateLog.Checked, check_Options_ParsePhotoSets.Checked,
                         check_Options_ParseJPEG.Checked, check_Options_ParsePNG.Checked, check_Options_ParseGIF.Checked)
                     {
@@ -1394,7 +1391,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    TumblrStats = new TumblrStats(new TumblrBlog(TumblrUrl), TumblrUrl, TumblrApiVersion.V2Json)
+                    TumblrStats = new TumblrStatsManager(new TumblrBlog(TumblrUrl), TumblrUrl, TumblrApiVersion.V2Json)
                     {
                         ProcessingStatusCode = ProcessingCode.Initializing
                     };
@@ -1611,8 +1608,8 @@ namespace Tumblr_Tool
             DownloadedSizesList = new List<int>();
             NotDownloadedList = new List<string>();
             Options = new ToolOptions();
-            ImageRipper = new ImageRipper();
-            TumblrStats = new TumblrStats();
+            ImageRipper = new PhotoPostParseManager();
+            TumblrStats = new TumblrStatsManager();
 
             select_Crawler_Mode.Items.Clear();
             select_Crawler_Mode.Height = 21;
@@ -2006,7 +2003,7 @@ namespace Tumblr_Tool
             lbl_PostCount.Text = string.Empty;
             lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
             DownloadManager = new DownloadManager();
-            ImageRipper = new ImageRipper();
+            ImageRipper = new PhotoPostParseManager();
 
             if (ValidateInputFields())
             {
@@ -2058,7 +2055,7 @@ namespace Tumblr_Tool
             lbl_PostCount.Text = string.Empty;
             lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
             DownloadManager = new DownloadManager();
-            TagScanner = new TagScanner(new TumblrBlog(TumblrUrl));
+            TagScanner = new TagScanManager(new TumblrBlog(TumblrUrl));
 
             if (IsValidUrl(TumblrUrl))
             {
@@ -2173,7 +2170,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    TagScanner = new TagScanner(new TumblrBlog(TumblrUrl))
+                    TagScanner = new TagScanManager(new TumblrBlog(TumblrUrl))
                     {
                         ProcessingStatusCode = ProcessingCode.Initializing
                     };

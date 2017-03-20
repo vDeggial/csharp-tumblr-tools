@@ -13,14 +13,13 @@
 using System.Collections.Generic;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
-using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
-namespace Tumblr_Tool.Tag_Scanner
+namespace Tumblr_Tool.Managers
 {
-    public class TagScanner
+    public class TagScanManager
     {
-        public TagScanner(TumblrBlog blog = null)
+        public TagScanManager(TumblrBlog blog = null)
         {
             Blog = blog;
             DocumentManager = new DocumentManager();

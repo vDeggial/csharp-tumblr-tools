@@ -15,12 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
-using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
-namespace Tumblr_Tool.Tumblr_Stats
+namespace Tumblr_Tool.Managers
 {
-    public class TumblrStats
+    public class TumblrStatsManager
     {
         /// <summary>
         ///
@@ -30,7 +29,7 @@ namespace Tumblr_Tool.Tumblr_Stats
         /// <param name="apiMode"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        public TumblrStats(TumblrBlog blog = null, string url = null, TumblrApiVersion apiMode = TumblrApiVersion.V2Json, int offset = 0, int limit = 0)
+        public TumblrStatsManager(TumblrBlog blog = null, string url = null, TumblrApiVersion apiMode = TumblrApiVersion.V2Json, int offset = 0, int limit = 0)
         {
             DocumentManager = new DocumentManager();
             ApiVersion = apiMode;

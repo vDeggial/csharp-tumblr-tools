@@ -14,13 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
-using Tumblr_Tool.Managers;
 using Tumblr_Tool.Objects;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
-namespace Tumblr_Tool.Image_Ripper
+namespace Tumblr_Tool.Managers
 {
-    public class ImageRipper
+    public class PhotoPostParseManager
     {
         /// <summary>
         /// Constructor
@@ -35,9 +34,9 @@ namespace Tumblr_Tool.Image_Ripper
         /// <param name="imageSize"></param>
         /// <param name="offset"></param>
         /// <param name="limit"></param>
-        /// <param name="apiMode"></param>
-        public ImageRipper(TumblrBlog blog = null, string saveLocation = null, bool generateLog = false, bool parseSets = true,
-            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSize imageSize = ImageSize.None, int offset = 0, int limit = 0, TumblrApiVersion apiMode = TumblrApiVersion.V2Json)
+        /// <param name="apiVersion"></param>
+        public PhotoPostParseManager(TumblrBlog blog = null, string saveLocation = null, bool generateLog = false, bool parseSets = true,
+            bool parseJpeg = true, bool parsePng = true, bool parseGif = true, ImageSize imageSize = ImageSize.None, int offset = 0, int limit = 0, TumblrApiVersion apiVersion = TumblrApiVersion.V2Json)
         {
             if (blog != null)
             {
@@ -61,15 +60,14 @@ namespace Tumblr_Tool.Image_Ripper
             ParsePng = parsePng;
             ParseGif = parseGif;
             ImageSize = imageSize;
-            ApiVersion = apiMode;
+            ApiVersion = apiVersion;
 
             Blog?.Posts?.Clear();
             TotalNumberOfPosts = 0;
             ImageList = new HashSet<PhotoPostImage>();
             TotalNumberOfImages = 0;
             DocumentManager = new DocumentManager();
-            ApiVersion = apiMode;
-            DocumentManager.ApiVersion = apiMode;
+            DocumentManager.ApiVersion = apiVersion;
             ImageCommentsList = new Dictionary<string, string>();
         }
 
