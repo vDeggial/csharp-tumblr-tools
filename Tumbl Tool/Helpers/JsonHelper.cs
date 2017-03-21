@@ -73,7 +73,7 @@ namespace Tumblr_Tool.Helpers
         {
             tumblrDomain = WebHelper.GetDomainName(tumblrDomain);
 
-            var query = string.Format(ApiUrl, tumblrDomain, AvatarQuery + "/" + avatarSize, ApiKey, string.Empty, string.Empty);
+            var query = string.Format(ApiUrl, tumblrDomain, string.Concat(AvatarQuery, "/", avatarSize), ApiKey, string.Empty, string.Empty);
             return query;
         }
 
@@ -103,11 +103,8 @@ namespace Tumblr_Tool.Helpers
         {
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
-            string postQuery = PostQuery;
-            if (postType != TumblrPostType.All.ToString().ToLower())
-            {
-                postQuery += "/" + postType;
-            }
+            string postQuery = (postType == TumblrPostType.All.ToString().ToLower()) ?
+                PostQuery : string.Concat(PostQuery, "/", postType);
 
             var query = string.Format(ApiUrl, tumblrDomain, postQuery, ApiKey, string.Format(Offset, offset.ToString()), string.Format(Limit, limit.ToString()));
 
@@ -241,7 +238,6 @@ namespace Tumblr_Tool.Helpers
                     {
                         return false;
                     }
-            
             }
             return false;
         }
