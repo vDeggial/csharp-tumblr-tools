@@ -103,7 +103,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return set.Reverse().ToHashSet();
+                return set?.Reverse().ToHashSet();
             }
             catch
             {
@@ -155,7 +155,5 @@ namespace Tumblr_Tool.Helpers
                 return null;
             }
         }
-
-        
     }
 }

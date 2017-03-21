@@ -99,21 +99,19 @@ namespace Tumblr_Tool.Helpers
         /// <param name="offset">Tumblr posts offset</param>
         /// <param name="limit">Tumblr post limit per document</param>
         /// <returns>Tumblr API query string for blog posts</returns>
-        public static string GeneratePostQueryString(string tumblrDomain, string postType, int offset = 0, int limit = (int)NumberOfPostsPerApiDocument.ApiV2)
+        public static string GeneratePostQueryString(string tumblrDomain, TumblrPostType postType, int offset = 0, int limit = (int)NumberOfPostsPerApiDocument.ApiV2)
         {
             tumblrDomain = WebHelper.RemoveTrailingBackslash(tumblrDomain);
 
-            string postQuery = (postType == TumblrPostType.All.ToString().ToLower()) ?
-                PostQuery : string.Concat(PostQuery, "/", postType);
+            string postQuery = (postType == TumblrPostType.All) ?
+                PostQuery : string.Concat(PostQuery, "/", postType.ToString().ToLower());
 
-            var query = string.Format(ApiUrl, tumblrDomain, postQuery, ApiKey, string.Format(Offset, offset.ToString()), string.Format(Limit, limit.ToString()));
-
-            return query;
+            return string.Format(ApiUrl, tumblrDomain, postQuery, ApiKey, string.Format(Offset, offset.ToString()), string.Format(Limit, limit.ToString()));
         }
 
-        public static JObject GetObjectFromString(string jsonString)
+        public static JObject GetDynamicObjectFromString(string jsonString)
         {
-            if (jsonString != null)
+            if (!string.IsNullOrEmpty(jsonString))
             {
                 return JObject.Parse(jsonString);
             }

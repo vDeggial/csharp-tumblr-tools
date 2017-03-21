@@ -66,8 +66,10 @@ namespace Tumblr_Tool.Managers
             TotalNumberOfPosts = 0;
             ImageList = new HashSet<PhotoPostImage>();
             TotalNumberOfImages = 0;
-            DocumentManager = new DocumentManager();
-            DocumentManager.ApiVersion = apiVersion;
+            DocumentManager = new DocumentManager()
+            {
+                ApiVersion = apiVersion
+            };
             ImageCommentsList = new Dictionary<string, string>();
         }
 
@@ -107,7 +109,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), 0, 1), Blog);
+                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo, 0, 1), Blog);
             }
             catch
             {
@@ -215,7 +217,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
+                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1);
 
                 return url.TumblrExists();
             }
@@ -293,14 +295,14 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo.ToString().ToLower(), offset);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo, offset);
 
                 DocumentManager.GetRemoteDocument(query);
 
                 if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {
                     DocumentManager.ImageSize = ImageSize;
-                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.Photo.ToString().ToLower());
+                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.Photo);
                     return posts;
                 }
                 ProcessingStatusCode = ProcessingCode.UnableDownload;
@@ -322,7 +324,7 @@ namespace Tumblr_Tool.Managers
             {
                 if (TumblrPostLog == null || TumblrPostLog.Blog.Name != logFileName)
                 {
-                    TumblrPostLog = new SaveFile(logFileName + ".log", Blog);
+                    TumblrPostLog = new SaveFile(string.Concat(logFileName, ".log"), Blog);
                 }
 
                 foreach (TumblrPost post in Blog.Posts)

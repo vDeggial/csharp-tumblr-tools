@@ -347,7 +347,6 @@ namespace Tumblr_Tool
 
         public static void Button_MouseEnter(object sender, EventArgs e)
         {
-
             if (sender is Button button)
             {
                 button.UseVisualStyleBackColor = false;

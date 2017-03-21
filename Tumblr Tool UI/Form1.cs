@@ -59,7 +59,7 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.4.2";
+        private const string Version = "1.4.3";
         private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2017 Shino Amakusa\r\ntumblrtools.codeplex.com";
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
@@ -1587,6 +1587,7 @@ namespace Tumblr_Tool
                 // MsgBox.Show(exception.Message);
             }
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -2163,6 +2164,7 @@ namespace Tumblr_Tool
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Done;
         }
+
         private void TagListWorker_Work(object sender, DoWorkEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
@@ -2189,6 +2191,7 @@ namespace Tumblr_Tool
                 // MsgBox.Show(exception.Message);
             }
         }
+
         private void TagListWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try

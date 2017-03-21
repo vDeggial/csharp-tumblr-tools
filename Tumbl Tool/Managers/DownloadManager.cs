@@ -55,8 +55,7 @@ namespace Tumblr_Tool.Managers
             {
                 remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
 
-                var localFileFullPath = FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath);
-                localFileFullPath = FileHelper.AddJpgExt(localFileFullPath);
+                var localFileFullPath = FileHelper.AddJpgExt(FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath));
                 switch (method)
                 {
                     case DownloadMethod.WebClientAsync:

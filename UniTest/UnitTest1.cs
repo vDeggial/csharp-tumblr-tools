@@ -11,7 +11,6 @@
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Tumblr_Tool.Helpers;
@@ -41,15 +40,13 @@ namespace UniTest
                 {
                     if (tag.StartsWith(tag.Substring(0, 1).ToUpper()))
                     {
-                        invalidtags.Add("<a href = '" +post.ShortUrl + "' target='_blank'>" + post.ShortUrl + "   :   " + tag
+                        invalidtags.Add("<a href = '" + post.ShortUrl + "' target='_blank'>" + post.ShortUrl + "   :   " + tag
                             + "</a><br>");
                     }
                 }
-
             }
 
             SortedSet<string> tagsSorted = new SortedSet<string>(tags);
-            
 
             //foreach(string tag in tagsSorted)
             //{
@@ -61,8 +58,6 @@ namespace UniTest
 
             File.WriteAllText(@"D:\Tumblr\Blogs\jai-envie-de-toi\tags.txt", string.Join(",", tagsSorted));
             File.WriteAllLines(@"D:\Tumblr\Blogs\jai-envie-de-toi\invalidtags.html", invalidtags);
-
-
         }
     }
 }

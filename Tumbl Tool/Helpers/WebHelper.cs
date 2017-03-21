@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using Tumblr_Tool.Enums;
 
 namespace Tumblr_Tool.Helpers
@@ -134,12 +135,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                if (url.EndsWith("/"))
-                {
-                    url = url.Remove(url.Length - 1);
-                }
-
-                return url;
+                return url.EndsWith("/") ? url.Remove(url.Length - 1) : url;
             }
             catch
             {
@@ -156,9 +152,8 @@ namespace Tumblr_Tool.Helpers
         {
             if (html == null) throw new ArgumentNullException(nameof(html));
             // Removes tags from passed HTML
-            System.Text.RegularExpressions.Regex objRegEx = new System.Text.RegularExpressions.Regex("<[^>]*>");
 
-            return objRegEx.Replace(html, "");
+            return new Regex("<[^>]*>").Replace(html, "");
         }
 
         /// <summary>
@@ -171,7 +166,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                dynamic jsonObject = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
+                dynamic jsonObject = JsonHelper.GetDynamicObjectFromString(GetRemoteDocumentAsString(url));
                 return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponse.Ok).ToString());
             }
             catch

@@ -35,12 +35,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                if (!Path.HasExtension(filename))
-                {
-                    filename += ".jpg";
-                }
-
-                return filename;
+                return (!string.IsNullOrEmpty(filename) && !Path.HasExtension(filename)) ? string.Concat(filename, ".jpg") : filename;
             }
             catch
             {
@@ -66,6 +61,7 @@ namespace Tumblr_Tool.Helpers
                         return Convert.ToBoolean((from p in sourceSet
                                                   where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
                                                   select p).Count());
+
                     case true:
                         return Convert.ToBoolean((from p in sourceSet
                                                   where p.ToLower().Contains(fileName.ToLower())
@@ -89,7 +85,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return File.Exists(file);
+                return !string.IsNullOrEmpty(file) ? File.Exists(file) : false;
             }
             catch
             {
@@ -129,9 +125,7 @@ namespace Tumblr_Tool.Helpers
                 HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
                 FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
-                var imagesList = (from f in files select f.Name).ToHashSet();
-
-                return imagesList;
+                return (from f in files select f.Name).ToHashSet();
             }
             catch
             {
@@ -150,13 +144,14 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return location + @"\" + prefix + Path.GetFileName(url);
+                return string.Concat(location, @"\", prefix, Path.GetFileName(url));
             }
             catch
             {
                 return null;
             }
         }
+
         /// <summary>
         /// Determine if file is in use
         /// </summary>

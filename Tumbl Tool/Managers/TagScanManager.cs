@@ -50,7 +50,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1), Blog);
+                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
             }
             catch
             {
@@ -116,7 +116,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), 0, 1);
+                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1);
 
                 return url.TumblrExists();
             }
@@ -135,14 +135,13 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All.ToString().ToLower(), offset);
+                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, offset);
 
                 DocumentManager.GetRemoteDocument(query);
 
                 if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {
-                    DocumentManager.ImageSize = ImageSize.Original;
-                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.All.ToString().ToLower());
+                    HashSet<TumblrPost> posts = DocumentManager.GetPostListFromDoc(TumblrPostType.All);
                     return posts;
                 }
                 ProcessingStatusCode = ProcessingCode.UnableDownload;

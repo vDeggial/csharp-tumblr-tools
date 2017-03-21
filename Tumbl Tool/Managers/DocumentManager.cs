@@ -46,7 +46,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="tumblrPostType"></param>
         /// <returns></returns>
-        public HashSet<TumblrPost> GetPostListFromDoc(string tumblrPostType)
+        public HashSet<TumblrPost> GetPostListFromDoc(TumblrPostType tumblrPostType)
         {
             try
             {
@@ -61,18 +61,16 @@ namespace Tumblr_Tool.Managers
                     {
                         TumblrPost post = new TumblrPost();
 
-                        if (tumblrPostType == TumblrPostType.Photo.ToString().ToLower())
+                        switch (tumblrPostType)
                         {
-                            PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
-                        }
+                            case TumblrPostType.Photo:
+                                PostHelper.GeneratePhotoPost(ref post, jPost, ImageSize);
+                                break;
 
-                        else if (tumblrPostType == TumblrPostType.All.ToString().ToLower())
-                        {
-                            
-                            PostHelper.IncludeCommonPostFields(ref post, jPost);
+                            default:
+                                PostHelper.IncludeCommonPostFields(ref post, jPost);
+                                break;
                         }
-
-                        // PostHelper.IncludeCommonPostFields(ref post, jPost);
 
                         postList.Add(post);
                     }
@@ -99,7 +97,7 @@ namespace Tumblr_Tool.Managers
                 try
                 {
                     if (blog == null) blog = new TumblrBlog(url);
-                    dynamic jsonDocument = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
+                    dynamic jsonDocument = JsonHelper.GetDynamicObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
 
                     if (jsonDocument != null && jsonDocument.response != null && jsonDocument.response.blog != null)
                     {
@@ -140,10 +138,11 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                JsonDocument = JsonHelper.GetObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
+                JsonDocument = JsonHelper.GetDynamicObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
 
                 if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
                 {
+                    // do nada
                 }
                 else
                 {

@@ -34,9 +34,8 @@ namespace Tumblr_Tool.Helpers
                 using (Stream stream = File.Open(location, FileMode.Open))
                 {
                     stream.Position = 0;
-                    BinaryFormatter bformatter = new BinaryFormatter();
 
-                    T saveFile = (T)bformatter.Deserialize(stream);
+                    T saveFile = (T)new BinaryFormatter().Deserialize(stream);
                     return saveFile;
                 }
             }
@@ -59,9 +58,7 @@ namespace Tumblr_Tool.Helpers
             {
                 using (Stream stream = File.Open(location, FileMode.Create))
                 {
-                    var bformatter = new BinaryFormatter();
-
-                    bformatter.Serialize(stream, obj);
+                    new BinaryFormatter().Serialize(stream, obj);
                 }
                 return true;
             }

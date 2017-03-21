@@ -37,6 +37,7 @@ namespace UniTest
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -48,7 +49,7 @@ namespace UniTest
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -56,7 +57,8 @@ namespace UniTest
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void TestMethod1()
@@ -66,7 +68,6 @@ namespace UniTest
             scanner.GetTumblrBlogInfo();
             scanner.ScanTags();
             HashSet<string> s = scanner.TagList;
-
         }
     }
 }
