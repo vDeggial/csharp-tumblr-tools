@@ -1960,10 +1960,18 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    EnableUI_Stats(false);
+                    if (JsonHelper.GenerateInfoQueryString(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
+                    {
+                        EnableUI_Stats(false);
 
-                    blogGetStatsWorker.RunWorkerAsync();
-                    blogGetStatsWorkerUI.RunWorkerAsync();
+                        blogGetStatsWorker.RunWorkerAsync();
+                        blogGetStatsWorkerUI.RunWorkerAsync();
+                    }
+                    else
+                    {
+                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                        UpdateStatusText(StatusReady);
+                    }
                 }
                 else
                 {
@@ -2065,19 +2073,27 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (!IsDisposed)
+                    if (JsonHelper.GenerateInfoQueryString(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
                     {
-                        Invoke((MethodInvoker)delegate
+                        if (!IsDisposed)
                         {
-                            UpdateStatusText(StatusStarting);
-                        });
+                            Invoke((MethodInvoker)delegate
+                            {
+                                UpdateStatusText(StatusStarting);
+                            });
+                        }
+
+                        if (!IsCancelled)
+                        {
+                            blogTagListWorker.RunWorkerAsync(TagScanner);
+
+                            blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                        }
                     }
-
-                    if (!IsCancelled)
+                    else
                     {
-                        blogTagListWorker.RunWorkerAsync(TagScanner);
-
-                        blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                        UpdateStatusText(StatusReady);
                     }
                 }
                 else
