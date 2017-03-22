@@ -109,7 +109,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                return DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo, 0, 1), Blog);
+                return DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.Photo, 0, 1), Blog);
             }
             catch
             {
@@ -217,7 +217,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1);
+                var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
 
                 return url.TumblrExists();
             }
@@ -295,7 +295,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var query = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.Photo, offset);
+                var query = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.Photo, offset);
 
                 DocumentManager.GetRemoteDocument(query);
 

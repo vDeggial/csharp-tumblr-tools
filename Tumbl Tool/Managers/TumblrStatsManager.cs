@@ -49,7 +49,7 @@ namespace Tumblr_Tool.Managers
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
             // Get Blog Info
-            DocumentManager.GetRemoteBlogInfo(JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
+            DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
         }
 
         public TumblrBlog Blog { get; set; }
@@ -81,7 +81,7 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         public bool GetTumblrStats()
         {
-            var url = JsonHelper.GeneratePostQueryString(TumblrDomain, TumblrPostType.All, 0, 1);
+            var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
 
             if (url.TumblrExists())
 
@@ -95,7 +95,7 @@ namespace Tumblr_Tool.Managers
                 foreach (TumblrPostType type in postTypes)
                 {
                     int TotalPostsForType = 0;
-                    url = JsonHelper.GeneratePostQueryString(TumblrDomain, type, 0, 1);
+                    url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, type, 0, 1);
 
                     if (url.TumblrExists())
                     {

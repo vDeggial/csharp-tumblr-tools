@@ -59,6 +59,7 @@
     <Compile Include="Helpers\MyWebClient.cs" />
     <Compile Include="Helpers\ObjectCopier.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
+    <Compile Include="Helpers\TumblrApiHelper.cs" />
     <Compile Include="Objects\SaveFile.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />

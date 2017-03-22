@@ -1478,7 +1478,7 @@ namespace Tumblr_Tool
                                 this.lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
 
                                 this.lbl_PostCount.Text = string.Empty;
-                                this.img_Stats_Avatar.LoadAsync(JsonHelper.GenerateAvatarQueryString(TumblrStats.Blog.Url));
+                                this.img_Stats_Avatar.LoadAsync(TumblrApiHelper.GenerateAvatarQueryUrl(TumblrStats.Blog.Url));
                             });
                         }
 
@@ -1960,7 +1960,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (JsonHelper.GenerateInfoQueryString(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
                     {
                         EnableUI_Stats(false);
 
@@ -2073,7 +2073,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (JsonHelper.GenerateInfoQueryString(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
                     {
                         if (!IsDisposed)
                         {
