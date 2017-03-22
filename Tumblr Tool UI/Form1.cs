@@ -52,9 +52,12 @@ namespace Tumblr_Tool
         private const string StatusError = "Error";
         private const string StatusGettingStats = "Getting stats ...";
         private const string StatusGettingTags = "Getting tags ...";
+        private const string StatusGettingInfo = "Getting blog info ...";
         private const string StatusIndexing = "Indexing ...";
-        private const string StatusInit = "Initializing ...";
+        private const string StatusCheckConnx = "Checking connection ...";
+        private const string StatusStarting = "Starting ...";
         private const string StatusOpenSaveFile = "Opening save file ...";
+        private const string StatusProcessStarted = "Process started ...";
         private const string StatusReady = "Ready";
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
@@ -562,7 +565,7 @@ namespace Tumblr_Tool
                                 Invoke((MethodInvoker)delegate
                                 {
                                     UpdateWorkStatusTextNewLine(WorktextCheckingConnx);
-                                    UpdateStatusText(StatusInit);
+                                    UpdateStatusText(StatusCheckConnx);
                                 });
                             }
                         }
@@ -575,6 +578,8 @@ namespace Tumblr_Tool
                                 {
                                     UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultSuccess);
                                     UpdateWorkStatusTextNewLine(WorktextStarting);
+                                    UpdateWorkStatusTextNewLine(WorktextGettingBlogInfo);
+                                    UpdateStatusText(StatusGettingInfo);
                                 });
                             }
                         }
@@ -591,17 +596,6 @@ namespace Tumblr_Tool
                                     this.img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
                                     this.tab_TumblrStats.Enabled = true;
                                     this.IsCrawlingDone = true;
-                                });
-                            }
-                        }
-
-                        if (ImageRipper.ProcessingStatusCode == ProcessingCode.GettingBlogInfo)
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    UpdateWorkStatusTextNewLine(WorktextGettingBlogInfo);
                                 });
                             }
                         }
@@ -1960,13 +1954,22 @@ namespace Tumblr_Tool
             lbl_PercentBar.Text = string.Empty;
             TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_Stats_TumblrURL.Text);
 
-            UpdateStatusText(StatusInit);
+            UpdateStatusText(StatusStarting);
+
             if (IsValidUrl(TumblrUrl))
             {
-                EnableUI_Stats(false);
+                if (WebHelper.CheckForInternetConnection())
+                {
+                    EnableUI_Stats(false);
 
-                blogGetStatsWorker.RunWorkerAsync();
-                blogGetStatsWorkerUI.RunWorkerAsync();
+                    blogGetStatsWorker.RunWorkerAsync();
+                    blogGetStatsWorkerUI.RunWorkerAsync();
+                }
+                else
+                {
+                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    UpdateStatusText(StatusReady);
+                }
             }
             else
             {
@@ -2012,8 +2015,8 @@ namespace Tumblr_Tool
                 {
                     Invoke((MethodInvoker)delegate
                     {
-                        UpdateStatusText(StatusInit);
-                        UpdateWorkStatusTextNewLine(StatusInit);
+                        UpdateStatusText(StatusProcessStarted);
+                        UpdateWorkStatusTextNewLine(StatusProcessStarted);
                     });
                 }
 
@@ -2060,19 +2063,27 @@ namespace Tumblr_Tool
 
             if (IsValidUrl(TumblrUrl))
             {
-                if (!IsDisposed)
+                if (WebHelper.CheckForInternetConnection())
                 {
-                    Invoke((MethodInvoker)delegate
+                    if (!IsDisposed)
                     {
-                        UpdateStatusText(StatusInit);
-                    });
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateStatusText(StatusStarting);
+                        });
+                    }
+
+                    if (!IsCancelled)
+                    {
+                        blogTagListWorker.RunWorkerAsync(TagScanner);
+
+                        blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                    }
                 }
-
-                if (!IsCancelled)
+                else
                 {
-                    blogTagListWorker.RunWorkerAsync(TagScanner);
-
-                    blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    UpdateStatusText(StatusReady);
                 }
             }
             else
