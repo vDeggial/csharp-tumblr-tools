@@ -419,7 +419,7 @@ namespace Tumblr_Tool
                                             ImageRipper.ProcessingStatusCode = ProcessingCode.Crawling;
                                         }
 
-                                        ImageRipper.ParseBlogPosts(mode);
+                                        ImageRipper.ParseAllBlogPhotoPosts(mode);
 
                                         lock (ImageRipper)
                                         {

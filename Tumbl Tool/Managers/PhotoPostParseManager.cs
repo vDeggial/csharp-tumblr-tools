@@ -90,6 +90,7 @@ namespace Tumblr_Tool.Managers
         private int ApiQueryPostLimit { get; set; }
         private DocumentManager DocumentManager { get; set; }
         private HashSet<string> ErrorList { get; set; }
+        private HashSet<TumblrPost> ExistingHash { get; set; }
         private HashSet<string> ExistingImageList { get; set; }
         private bool GenerateLog { get; set; }
         private Dictionary<string, string> ImageCommentsList { get; set; }
@@ -97,6 +98,7 @@ namespace Tumblr_Tool.Managers
         private bool ParseJpeg { get; set; }
         private bool ParsePhotoSets { get; set; }
         private bool ParsePng { get; set; }
+        private HashSet<TumblrPost> Posts { get; set; }
         private string SaveLocation { get; set; }
         private int TotalNumberOfImages { get; set; }
         private string TumblrUrl { get; set; }
@@ -122,7 +124,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="parseMode"></param>
         /// <returns></returns>
-        public TumblrBlog ParseBlogPosts(BlogPostsScanMode parseMode)
+        public TumblrBlog ParseAllBlogPhotoPosts(BlogPostsScanMode parseMode)
         {
             try
             {
@@ -142,46 +144,19 @@ namespace Tumblr_Tool.Managers
 
                 while (ApiQueryOffset < TotalNumberOfPosts && !IsCancelled && !finished)
                 {
-                    HashSet<TumblrPost> posts = GetTumblrPostList(ApiQueryOffset);
+                    ParseBlogPhotoPosts(parseMode, ApiQueryOffset);
 
-                    HashSet<TumblrPost> existingHash = new HashSet<TumblrPost>((from p in posts
-                                                                                where FileHelper.FileDownloadedBefore(ExistingImageList, p.Photos.Last().Filename)
-                                                                                select p));
+                    if (parseMode == BlogPostsScanMode.NewestPostsOnly && ExistingHash.Count > 0) finished = true;
 
-                    posts.RemoveWhere(x => existingHash.Contains(x));
-
-                    if (parseMode == BlogPostsScanMode.NewestPostsOnly && existingHash.Count > 0)
+                    switch (parseMode == BlogPostsScanMode.FullBlogRescan || Posts.Count == 0)
                     {
-                        finished = true;
-                    }
+                        case true:
+                            NumberOfParsedPosts += numPostsPerDocument;
+                            break;
 
-                    if (posts.Count != 0)
-                    {
-                        Blog.Posts.UnionWith(posts);
-
-                        GenerateImageListForDownload(posts);
-                    }
-
-                    if (parseMode == BlogPostsScanMode.FullBlogRescan)
-                    {
-                        foreach (TumblrPost post in existingHash)
-                        {
-                            foreach (PhotoPostImage image in post.Photos)
-                            {
-                                image.Downloaded = true;
-                            }
-                        }
-
-                        Blog.Posts.UnionWith(existingHash);
-                    }
-
-                    if (parseMode == BlogPostsScanMode.FullBlogRescan || posts.Count == 0)
-                    {
-                        NumberOfParsedPosts += numPostsPerDocument;
-                    }
-                    else
-                    {
-                        NumberOfParsedPosts += posts.Count;
+                        case false:
+                            NumberOfParsedPosts += Posts.Count;
+                            break;
                     }
 
                     if (NumberOfParsedPosts > TotalNumberOfPosts) NumberOfParsedPosts = TotalNumberOfPosts;
@@ -207,6 +182,19 @@ namespace Tumblr_Tool.Managers
             {
                 return Blog;
             }
+        }
+
+        private void ParseBlogPhotoPosts(BlogPostsScanMode parseMode, int offset)
+        {
+            Posts = GetTumblrPhotoPostList(ApiQueryOffset);
+            ExistingHash = new HashSet<TumblrPost>((from p in Posts
+                                                    where FileHelper.FileDownloadedBefore(ExistingImageList, p.Photos.Last().Filename)
+                                                    select p));
+            Posts.RemoveWhere(x => ExistingHash.Contains(x));
+
+            if (Posts.Count != 0) { Blog.Posts.UnionWith(Posts); GenerateImageListForDownload(Posts); }
+
+            if (parseMode == BlogPostsScanMode.FullBlogRescan) Blog.Posts.UnionWith(ExistingHash);
         }
 
         /// <summary>
@@ -291,7 +279,7 @@ namespace Tumblr_Tool.Managers
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        private HashSet<TumblrPost> GetTumblrPostList(int offset = 0)
+        private HashSet<TumblrPost> GetTumblrPhotoPostList(int offset = 0)
         {
             try
             {
