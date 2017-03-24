@@ -175,7 +175,7 @@ namespace Tumblr_Tool.Managers
         {
             Posts = GetTumblrPhotoPostList(ApiQueryOffset);
             ExistingHash = new HashSet<TumblrPost>((from p in Posts
-                                                    where FileHelper.FileDownloadedBefore(ExistingImageList, p.Photos.Last().Filename)
+                                                    where FileHelper.FileDownloadedBefore(SaveLocation, p.Photos.Last().Filename)
                                                     select p));
             Posts.RemoveWhere(x => ExistingHash.Contains(x));
 

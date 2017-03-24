@@ -51,21 +51,17 @@ namespace Tumblr_Tool.Helpers
         /// <param name="useFullString"></param>
         /// <param name="cutOffChar"></param>
         /// <returns></returns>
-        public static bool FileDownloadedBefore(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
+        public static bool FileDownloadedBefore(string path, string fileName, bool useFullString = false, char cutOffChar = '_')
         {
             try
             {
                 switch (useFullString)
                 {
                     case false:
-                        return Convert.ToBoolean((from p in sourceSet
-                                                  where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
-                                                  select p).Count());
+                        return Directory.EnumerateFiles(path, fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower() + "*").Any();
 
                     case true:
-                        return Convert.ToBoolean((from p in sourceSet
-                                                  where p.ToLower().Contains(fileName.ToLower())
-                                                  select p).Count());
+                        return Directory.EnumerateFiles(path, fileName).Any();
                 }
 
                 return false;
