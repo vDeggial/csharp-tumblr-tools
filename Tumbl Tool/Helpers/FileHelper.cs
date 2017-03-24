@@ -51,7 +51,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="useFullString"></param>
         /// <param name="cutOffChar"></param>
         /// <returns></returns>
-        public static bool FileDownloadedBefore(string path, string fileName, bool useFullString = false, char cutOffChar = '_')
+        public static bool FileExists(string path, string fileName, bool useFullString = false, char cutOffChar = '_')
         {
             try
             {
@@ -77,11 +77,11 @@ namespace Tumblr_Tool.Helpers
         /// </summary>
         /// <param name="file">Filename</param>
         /// <returns>True if file exists, false otherwise</returns>
-        public static bool FileExistsOnHdd(string file)
+        public static bool FileExists(string file)
         {
             try
             {
-                return !string.IsNullOrEmpty(file) ? File.Exists(file) : false;
+                return !string.IsNullOrEmpty(file) ? FileExists(Path.GetDirectoryName(file),Path.GetFileName(file),true) : false;
             }
             catch
             {

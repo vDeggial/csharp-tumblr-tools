@@ -873,7 +873,7 @@ namespace Tumblr_Tool
                                     }
                                     photoImage.Downloaded = false;
 
-                                    if (FileHelper.FileExistsOnHdd(fullPath))
+                                    if (FileHelper.FileExists(fullPath))
                                     {
                                         file = new FileInfo(fullPath);
 
@@ -888,7 +888,7 @@ namespace Tumblr_Tool
                                     NotDownloadedList.Add(photoImage.Url);
                                 }
                                 photoImage.Downloaded = false;
-                                if (FileHelper.FileExistsOnHdd(fullPath))
+                                if (FileHelper.FileExists(fullPath))
                                 {
                                     file = new FileInfo(fullPath);
 
@@ -903,7 +903,7 @@ namespace Tumblr_Tool
 
                         if (IsCancelled)
                         {
-                            if (FileHelper.FileExistsOnHdd(fullPath))
+                            if (FileHelper.FileExists(fullPath))
                             {
                                 file = new FileInfo(fullPath);
 

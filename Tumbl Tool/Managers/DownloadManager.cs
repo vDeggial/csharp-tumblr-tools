@@ -158,7 +158,7 @@ namespace Tumblr_Tool.Managers
             catch
             {
                 DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                if (FileHelper.FileExistsOnHdd(localFilePath))
+                if (FileHelper.FileExists(localFilePath))
                 {
                     FileInfo file = new FileInfo(localFilePath);
 
@@ -199,7 +199,7 @@ namespace Tumblr_Tool.Managers
                         catch (Exception)
                         {
                             DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                            if (FileHelper.FileExistsOnHdd(localFilePath))
+                            if (FileHelper.FileExists(localFilePath))
                             {
                                 var file = new FileInfo(localFilePath);
 
@@ -230,7 +230,7 @@ namespace Tumblr_Tool.Managers
                 if (e.Cancelled)
                 {
                     DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                    if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                    if (FileHelper.FileExists((string)e.UserState))
                     {
                         FileInfo file = new FileInfo((string)e.UserState);
 
@@ -243,7 +243,7 @@ namespace Tumblr_Tool.Managers
                 if (e.Error != null)
                 {
                     DownloadStatusCode = DownloadStatusCode.UnableDownload;
-                    if (FileHelper.FileExistsOnHdd((string)e.UserState))
+                    if (FileHelper.FileExists((string)e.UserState))
                     {
                         FileInfo file = new FileInfo((string)e.UserState);
 

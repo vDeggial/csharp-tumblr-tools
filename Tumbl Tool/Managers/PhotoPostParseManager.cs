@@ -133,9 +133,9 @@ namespace Tumblr_Tool.Managers
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
 
-                var numPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
+                int numPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
-                if (TotalNumberOfPosts == 0) TotalNumberOfPosts = Blog.TotalPosts;
+                TotalNumberOfPosts = (TotalNumberOfPosts == 0) ? Blog.TotalPosts : TotalNumberOfPosts;
 
                 bool finished = false;
 
@@ -175,7 +175,7 @@ namespace Tumblr_Tool.Managers
         {
             Posts = GetTumblrPhotoPostList(ApiQueryOffset);
             ExistingHash = new HashSet<TumblrPost>((from p in Posts
-                                                    where FileHelper.FileDownloadedBefore(SaveLocation, p.Photos.Last().Filename)
+                                                    where FileHelper.FileExists(SaveLocation, p.Photos.Last().Filename)
                                                     select p));
             Posts.RemoveWhere(x => ExistingHash.Contains(x));
 
