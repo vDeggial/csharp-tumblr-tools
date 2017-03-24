@@ -189,8 +189,7 @@ namespace Tumblr_Tool.Helpers
                 using (TextReader reader = new StreamReader(fs))
                 {
                     fs.Position = 0;
-                    string fileContents = reader.ReadToEnd();
-                    return fileContents;
+                    return reader.ReadToEnd();
                 }
             }
         }

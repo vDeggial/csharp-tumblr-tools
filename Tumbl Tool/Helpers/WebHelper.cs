@@ -85,8 +85,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GetDomainName(string url)
         {
-            bool result = Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-            return result ? uriResult.Host : null;
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttp ? uriResult.Host : null;
         }
 
         /// <summary>
@@ -99,14 +98,9 @@ namespace Tumblr_Tool.Helpers
             try
             {
                 Uri uri = new Uri(url);
-                string domain = uri.Host;
-                string protocol = uri.Scheme + Uri.SchemeDelimiter;
-                string path = uri.PathAndQuery;
 
-                var client = new RestClient(string.Concat(protocol, domain));
-                var request = new RestRequest(path, Method.GET);
-                IRestResponse response = client.Execute(request);
-                var docStr = response.Content;
+                var docStr = new RestClient(string.Concat(uri.Scheme + Uri.SchemeDelimiter, uri.Host))
+                    .Execute(new RestRequest(uri.PathAndQuery, Method.GET)).Content;
 
                 return !string.IsNullOrEmpty(docStr) ? docStr : null;
             }
@@ -185,23 +179,9 @@ namespace Tumblr_Tool.Helpers
             try
             {
                 Uri uri = new Uri(url);
-                string domain = uri.Host;
-                string protocol = uri.Scheme + Uri.SchemeDelimiter;
-                string path = uri.PathAndQuery;
 
-                var client = new RestClient(string.Concat(protocol, domain));
-                var request = new RestRequest(path, Method.HEAD);
-                IRestResponse response = client.Execute(request);
-                HttpStatusCode statusCode = response.StatusCode;
-
-                if (statusCode == HttpStatusCode.OK)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (new RestClient(string.Concat(uri.Scheme + Uri.SchemeDelimiter, uri.Host))
+                    .Execute(new RestRequest(uri.PathAndQuery, Method.HEAD)).StatusCode == HttpStatusCode.OK);
             }
             catch
             {

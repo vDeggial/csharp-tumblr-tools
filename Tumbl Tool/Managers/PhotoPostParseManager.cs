@@ -135,8 +135,7 @@ namespace Tumblr_Tool.Managers
 
                 var numPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
-                if (TotalNumberOfPosts == 0)
-                    TotalNumberOfPosts = Blog.TotalPosts;
+                if (TotalNumberOfPosts == 0) TotalNumberOfPosts = Blog.TotalPosts;
 
                 bool finished = false;
 
@@ -148,33 +147,21 @@ namespace Tumblr_Tool.Managers
 
                     if (parseMode == BlogPostsScanMode.NewestPostsOnly && ExistingHash.Count > 0) finished = true;
 
-                    switch (parseMode == BlogPostsScanMode.FullBlogRescan || Posts.Count == 0)
-                    {
-                        case true:
-                            NumberOfParsedPosts += numPostsPerDocument;
-                            break;
+                    NumberOfParsedPosts += (parseMode == BlogPostsScanMode.FullBlogRescan || Posts.Count == 0) ? numPostsPerDocument : Posts.Count;
 
-                        case false:
-                            NumberOfParsedPosts += Posts.Count;
-                            break;
-                    }
-
-                    if (NumberOfParsedPosts > TotalNumberOfPosts) NumberOfParsedPosts = TotalNumberOfPosts;
+                    NumberOfParsedPosts = (NumberOfParsedPosts > TotalNumberOfPosts) ? NumberOfParsedPosts : NumberOfParsedPosts;
 
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
                     ApiQueryOffset += numPostsPerDocument;
 
-                    if (GenerateLog)
-                    {
-                        UpdateLogFile(Blog.Name);
-                    }
+                    if (GenerateLog) UpdateLogFile(Blog.Name);
+
                     Blog.Posts = new HashSet<TumblrPost>();
                 }
 
                 TotalNumberOfImages = ImageList.Count;
 
-                if (ImageList.Count == 0)
-                    Blog.Posts = new HashSet<TumblrPost>();
+                if (ImageList.Count == 0) Blog.Posts = new HashSet<TumblrPost>();
 
                 return Blog;
             }
@@ -205,9 +192,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
-
-                return url.TumblrExists();
+                return TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1).TumblrExists();
             }
             catch
             {
