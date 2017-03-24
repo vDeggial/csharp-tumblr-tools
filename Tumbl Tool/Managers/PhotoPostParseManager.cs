@@ -91,7 +91,7 @@ namespace Tumblr_Tool.Managers
         private DocumentManager DocumentManager { get; set; }
         private HashSet<string> ErrorList { get; set; }
         private HashSet<TumblrPost> ExistingHash { get; set; }
-        private HashSet<string> ExistingImageList { get; set; }
+        //private HashSet<string> ExistingImageList { get; set; }
         private bool GenerateLog { get; set; }
         private Dictionary<string, string> ImageCommentsList { get; set; }
         private bool ParseGif { get; set; }
@@ -129,7 +129,7 @@ namespace Tumblr_Tool.Managers
             try
             {
                 ProcessingStatusCode = ProcessingCode.Crawling;
-                ExistingImageList = FileHelper.GenerateFolderImageList(SaveLocation);
+                //ExistingImageList = FileHelper.GenerateFolderImageList(SaveLocation);
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
 
