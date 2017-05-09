@@ -9,4 +9,4 @@ Tumblr Tools is a simple application for parsing and downloading photo posts fro
 
 ![](Documents/Home_tt-04.png)
 
-([License](Documents/license.md))
+([License](LICENSE.md))
