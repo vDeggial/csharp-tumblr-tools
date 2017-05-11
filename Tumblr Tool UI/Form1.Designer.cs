@@ -117,10 +117,10 @@ namespace Tumblr_Tool
             this.check_Options_ParsePhotoSets = new System.Windows.Forms.CheckBox();
             this.btn_Options_Save = new System.Windows.Forms.Button();
             this.tab_About = new KRBTabControl.TabPageEx();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbl_About = new System.Windows.Forms.Label();
+            this.lbl_About_Copyright = new System.Windows.Forms.Label();
+            this.lbl_About_Info = new System.Windows.Forms.Label();
             this.lbl_About_Version = new System.Windows.Forms.Label();
-            this.lbl_Title = new System.Windows.Forms.Label();
+            this.lbl_About_Title = new System.Windows.Forms.Label();
             this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
             this.blogTagListWorker = new System.ComponentModel.BackgroundWorker();
             this.blogTagLIstWorkerUI = new System.ComponentModel.BackgroundWorker();
@@ -352,7 +352,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 25);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedIndex = 4;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 283);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -1313,10 +1313,10 @@ namespace Tumblr_Tool
             // tab_About
             // 
             this.tab_About.BackColor = System.Drawing.Color.White;
-            this.tab_About.Controls.Add(this.label1);
-            this.tab_About.Controls.Add(this.lbl_About);
+            this.tab_About.Controls.Add(this.lbl_About_Copyright);
+            this.tab_About.Controls.Add(this.lbl_About_Info);
             this.tab_About.Controls.Add(this.lbl_About_Version);
-            this.tab_About.Controls.Add(this.lbl_Title);
+            this.tab_About.Controls.Add(this.lbl_About_Title);
             this.tab_About.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab_About.ImageIndex = 5;
             this.tab_About.Location = new System.Drawing.Point(1, 32);
@@ -1325,26 +1325,26 @@ namespace Tumblr_Tool
             this.tab_About.TabIndex = 3;
             this.tab_About.Text = "About";
             // 
-            // label1
+            // lbl_About_Copyright
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbl_About_Copyright.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(167, 171);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(279, 47);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "© 2013 - 2017 Shino Amakusa tumblrtools.codeplex.com";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_Copyright.Location = new System.Drawing.Point(167, 171);
+            this.lbl_About_Copyright.Name = "lbl_About_Copyright";
+            this.lbl_About_Copyright.Size = new System.Drawing.Size(279, 47);
+            this.lbl_About_Copyright.TabIndex = 7;
+            this.lbl_About_Copyright.Text = "© 2013 - 2017 Shino Amakusa tumblrtools.codeplex.com";
+            this.lbl_About_Copyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lbl_About
+            // lbl_About_Info
             // 
-            this.lbl_About.Location = new System.Drawing.Point(167, 100);
-            this.lbl_About.Name = "lbl_About";
-            this.lbl_About.Size = new System.Drawing.Size(279, 60);
-            this.lbl_About.TabIndex = 6;
-            this.lbl_About.Text = "Tumblr Tools is a simple application for parsing and downloading photo posts from" +
+            this.lbl_About_Info.Location = new System.Drawing.Point(167, 100);
+            this.lbl_About_Info.Name = "lbl_About_Info";
+            this.lbl_About_Info.Size = new System.Drawing.Size(279, 60);
+            this.lbl_About_Info.TabIndex = 6;
+            this.lbl_About_Info.Text = "Tumblr Tools is a simple application for parsing and downloading photo posts from" +
     " any Tumblr blog as well as getting basic stats for those.";
-            this.lbl_About.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_Info.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About_Version
             // 
@@ -1356,19 +1356,19 @@ namespace Tumblr_Tool
             this.lbl_About_Version.TabIndex = 5;
             this.lbl_About_Version.Text = "Version: 0.0.0";
             // 
-            // lbl_Title
+            // lbl_About_Title
             // 
-            this.lbl_Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lbl_About_Title.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Title.AutoSize = true;
-            this.lbl_Title.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Title.Location = new System.Drawing.Point(235, 68);
-            this.lbl_Title.Name = "lbl_Title";
-            this.lbl_Title.Size = new System.Drawing.Size(134, 32);
-            this.lbl_Title.TabIndex = 4;
-            this.lbl_Title.Text = "Tumblr Tools";
-            this.lbl_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbl_Title.UseCompatibleTextRendering = true;
+            this.lbl_About_Title.AutoSize = true;
+            this.lbl_About_Title.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_About_Title.Location = new System.Drawing.Point(235, 68);
+            this.lbl_About_Title.Name = "lbl_About_Title";
+            this.lbl_About_Title.Size = new System.Drawing.Size(134, 32);
+            this.lbl_About_Title.TabIndex = 4;
+            this.lbl_About_Title.Text = "Tumblr Tools";
+            this.lbl_About_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_Title.UseCompatibleTextRendering = true;
             // 
             // bar_Progress
             // 
@@ -1533,10 +1533,10 @@ namespace Tumblr_Tool
         private System.Windows.Forms.CheckBox check_Options_ParseJPEG;
         private System.Windows.Forms.CheckBox check_Options_ParsePhotoSets;
         private System.Windows.Forms.Button btn_Options_Save;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lbl_About;
+        private System.Windows.Forms.Label lbl_About_Copyright;
+        private System.Windows.Forms.Label lbl_About_Info;
         private System.Windows.Forms.Label lbl_About_Version;
-        private System.Windows.Forms.Label lbl_Title;
+        private System.Windows.Forms.Label lbl_About_Title;
         private System.Windows.Forms.Label lbl_Crawler_ImageSize;
         private System.Windows.Forms.ImageList iconsList;
         private System.Windows.Forms.Button btn_Crawler_Stop;

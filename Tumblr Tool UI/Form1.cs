@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: March, 2017
+ *  Last Updated: May, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -31,6 +31,9 @@ namespace Tumblr_Tool
 {
     public partial class MainForm : Form
     {
+        private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
+        private const string AppLinkUrl = "git.io/v9S3h";
+        private const string AppVersion = "1.5.0";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -47,23 +50,22 @@ namespace Tumblr_Tool
         private const string ResultFail = " fail";
         private const string ResultOk = " ok";
         private const string ResultSuccess = " success";
+        private const string StatusCheckConnx = "Checking connection ...";
         private const string StatusDone = "Done";
         private const string StatusDownloadingFormat = "Downloading: {0}";
         private const string StatusError = "Error";
+        private const string StatusGettingInfo = "Getting blog info ...";
         private const string StatusGettingStats = "Getting stats ...";
         private const string StatusGettingTags = "Getting tags ...";
-        private const string StatusGettingInfo = "Getting blog info ...";
         private const string StatusIndexing = "Indexing ...";
-        private const string StatusCheckConnx = "Checking connection ...";
-        private const string StatusStarting = "Starting ...";
         private const string StatusOpenSaveFile = "Opening save file ...";
         private const string StatusProcessStarted = "Process started ...";
         private const string StatusReady = "Ready";
+        private const string StatusStarting = "Starting ...";
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string Version = "1.5.0";
-        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + Version + "\r\n© 2013 - 2017 Shino Amakusa\r\ntumblrtools.codeplex.com";
+        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
         private const string WorktextGettingBlogInfo = "Getting info ...";
@@ -1664,8 +1666,8 @@ namespace Tumblr_Tool
             bar_Progress.Value = 0;
 
             DownloadManager = new DownloadManager();
-            Text += @" " + Version + " - © 2013 - 2017 - Shino Amakusa";
-            lbl_About_Version.Text = @"Version: " + Version;
+            Text += @" " + AppVersion + " - © 2013 - 2017 - Shino Amakusa";
+            lbl_About_Version.Text = @"Version: " + AppVersion;
 
             string file = OptionsFileName;
 
@@ -1696,6 +1698,8 @@ namespace Tumblr_Tool
             SetDoubleBuffering(img_Crawler_DisplayImage, true);
 
             tabControl_Main.SelectedIndex = 0;
+
+            lbl_About_Copyright.Text = AppCopyright;
         }
 
         /// <summary>
