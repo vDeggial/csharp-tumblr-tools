@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="14.0" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="14.0.1" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="MsiOrgComponent;AppXAppDetailsComponent;AppXCapabilitiesComponent;AppXDependenciesComponent;AppXProductDetailsComponent;AppXVisualAssetsComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent"/>
   </COMPONENT>
@@ -22,7 +22,7 @@
     <ROW Property="ARPNOREPAIR" Value="1"/>
     <ROW Property="ARPPRODUCTICON" Value="tumblricon.exe" Type="8"/>
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
-    <ROW Property="ARPURLINFOABOUT" Value="https://tumblrtools.codeplex.com/"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://git.io/v9S3h"/>
     <ROW Property="AppLogoIcon" Value="applogoicon" MultiBuildValue="DefaultBuild:tumblricon.ico" Type="1" MsiKey="AppLogoIcon"/>
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>

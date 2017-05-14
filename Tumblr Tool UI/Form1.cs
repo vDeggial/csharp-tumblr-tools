@@ -852,7 +852,6 @@ namespace Tumblr_Tool
                                 if (downloaded)
                                 {
                                     IsFileDownloadDone = true;
-                                    photoImage.Downloaded = true;
                                     fullPath = FileHelper.AddJpgExt(fullPath);
 
                                     file = new FileInfo(fullPath);
@@ -873,7 +872,6 @@ namespace Tumblr_Tool
                                     {
                                         NotDownloadedList.Add(photoImage.Url);
                                     }
-                                    photoImage.Downloaded = false;
 
                                     if (FileHelper.FileExists(fullPath))
                                     {
@@ -889,7 +887,6 @@ namespace Tumblr_Tool
                                 {
                                     NotDownloadedList.Add(photoImage.Url);
                                 }
-                                photoImage.Downloaded = false;
                                 if (FileHelper.FileExists(fullPath))
                                 {
                                     file = new FileInfo(fullPath);
@@ -1014,28 +1011,8 @@ namespace Tumblr_Tool
                     });
                 }
 
-                if (Options.GenerateLog && DownloadedList.Count > 0)
+                if (Options.GenerateLog)
                 {
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextNewLine(WorktextUpdatingLog);
-                            lbl_PercentBar.Visible = false;
-                            bar_Progress.Visible = false;
-                        });
-                    }
-
-                    SaveLogFile();
-
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextConcat(WorktextUpdatingLog, ResultDone);
-                        });
-                    }
-
                     ImageRipper.TumblrPostLog = null;
                     TumblrLogFile = null;
                 }

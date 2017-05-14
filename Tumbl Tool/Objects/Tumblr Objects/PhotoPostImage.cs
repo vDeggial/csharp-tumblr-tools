@@ -45,7 +45,6 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         public string Camera { get; set; }
         public string Caption { get; set; }
 
-        public bool Downloaded { get; set; }
         public string Exposure { get; set; }
         public string Filename { get; set; }
 
