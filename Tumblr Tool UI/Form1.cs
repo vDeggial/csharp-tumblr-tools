@@ -33,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.0";
+        private const string AppVersion = "1.5.1";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -75,6 +75,7 @@ namespace Tumblr_Tool
         private const string WorktextStarting = "Starting ...";
         private const string WorktextUpdatingLog = "Updating log...";
         private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
+        private readonly AutoResetEvent _readyToGetStats = new AutoResetEvent(false);
 
         public MainForm()
         {
@@ -1370,6 +1371,7 @@ namespace Tumblr_Tool
                     {
                         ProcessingStatusCode = ProcessingCode.Initializing
                     };
+                    _readyToGetStats.Set();
 
                     TumblrStats.GetTumblrStats();
                 }
@@ -1436,6 +1438,7 @@ namespace Tumblr_Tool
 
                 while (TumblrStats.ProcessingStatusCode != ProcessingCode.Done && TumblrStats.ProcessingStatusCode != ProcessingCode.ConnectionError && TumblrStats.ProcessingStatusCode != ProcessingCode.InvalidUrl)
                 {
+                    _readyToGetStats.WaitOne();
                     if (TumblrStats.Blog == null)
                     {
                         // wait till other worker created and populated blog info
@@ -1479,7 +1482,7 @@ namespace Tumblr_Tool
                                 Invoke((MethodInvoker)delegate
                                 {
                                     txt_Stats_BlogDescription.Visible = true;
-                                    if (txt_Stats_BlogDescription.Text == string.Empty)
+                                    if (txt_Stats_BlogDescription.Text != WebHelper.StripHtmlTags(TumblrStats.Blog.Description))
                                         txt_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
                                 });
                             }
