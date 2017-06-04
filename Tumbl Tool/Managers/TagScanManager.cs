@@ -19,13 +19,14 @@ namespace Tumblr_Tool.Managers
 {
     public class TagScanManager
     {
-        public TagScanManager(TumblrBlog blog = null)
+        public TagScanManager(TumblrBlog blog = null, bool photoPostOnly = false)
         {
             Blog = blog;
             DocumentManager = new DocumentManager();
             TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
             TumblrDomain = WebHelper.GetDomainName(blog.Url);
             TagList = new HashSet<string>();
+            PhotoPostOnly = photoPostOnly;
         }
 
         public TumblrApiVersion ApiVersion { get; set; }
@@ -41,6 +42,7 @@ namespace Tumblr_Tool.Managers
         private int ApiQueryPostLimit { get; set; }
         private DocumentManager DocumentManager { get; set; }
         private string TumblrUrl { get; set; }
+        private bool PhotoPostOnly { get; set; }
 
         /// <summary>
         ///
@@ -50,7 +52,8 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                return DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
+                TumblrPostType postType = PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All;
+                return DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, postType, 0, 1), Blog);
             }
             catch
             {
@@ -128,6 +131,9 @@ namespace Tumblr_Tool.Managers
 
         /// <summary>
         ///
+        /// 
+        /// 
+        /// 
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
@@ -135,7 +141,8 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var query = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, offset);
+                TumblrPostType postType = PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All;
+                var query = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, postType, offset);
 
                 DocumentManager.GetRemoteDocument(query);
 
