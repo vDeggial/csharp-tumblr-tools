@@ -59,9 +59,9 @@ namespace Tumblr_Tool
             this.lbl_Crawler_Mode = new System.Windows.Forms.Label();
             this.select_Crawler_Mode = new Tumblr_Tool.AdvancedComboBox();
             this.txt_Crawler_WorkStatus = new System.Windows.Forms.RichTextBox();
-            this.btn_Crawler_Start = new System.Windows.Forms.Button();
             this.btn_Crawler_Browse = new System.Windows.Forms.Button();
             this.img_Crawler_DisplayImage = new System.Windows.Forms.PictureBox();
+            this.btn_Crawler_Start = new System.Windows.Forms.Button();
             this.txt_Crawler_SaveLocation = new System.Windows.Forms.TextBox();
             this.lbl_Crawler_SaveLocation = new System.Windows.Forms.Label();
             this.tab_TumblrStats = new KRBTabControl.TabPageEx();
@@ -212,7 +212,7 @@ namespace Tumblr_Tool
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
@@ -510,27 +510,6 @@ namespace Tumblr_Tool
             this.txt_Crawler_WorkStatus.Text = "Welcome to Tumblr Tools!";
             this.txt_Crawler_WorkStatus.TextChanged += new System.EventHandler(this.WorkStatusAutoScroll);
             // 
-            // btn_Crawler_Start
-            // 
-            this.btn_Crawler_Start.FlatAppearance.BorderSize = 0;
-            this.btn_Crawler_Start.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btn_Crawler_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Crawler_Start.Font = new System.Drawing.Font("Century Gothic", 8.25F);
-            this.btn_Crawler_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Crawler_Start.ImageIndex = 4;
-            this.btn_Crawler_Start.ImageList = this.iconsList;
-            this.btn_Crawler_Start.Location = new System.Drawing.Point(433, 187);
-            this.btn_Crawler_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btn_Crawler_Start.Name = "btn_Crawler_Start";
-            this.btn_Crawler_Start.Size = new System.Drawing.Size(61, 28);
-            this.btn_Crawler_Start.TabIndex = 7;
-            this.btn_Crawler_Start.Text = "Start";
-            this.btn_Crawler_Start.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_Crawler_Start.UseVisualStyleBackColor = true;
-            this.btn_Crawler_Start.Click += new System.EventHandler(this.StartImageCrawl);
-            this.btn_Crawler_Start.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Crawler_Start.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
-            // 
             // btn_Crawler_Browse
             // 
             this.btn_Crawler_Browse.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
@@ -566,6 +545,27 @@ namespace Tumblr_Tool
             this.img_Crawler_DisplayImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img_Crawler_DisplayImage.TabIndex = 4;
             this.img_Crawler_DisplayImage.TabStop = false;
+            // 
+            // btn_Crawler_Start
+            // 
+            this.btn_Crawler_Start.FlatAppearance.BorderSize = 0;
+            this.btn_Crawler_Start.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_Crawler_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Crawler_Start.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.btn_Crawler_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Crawler_Start.ImageIndex = 4;
+            this.btn_Crawler_Start.ImageList = this.iconsList;
+            this.btn_Crawler_Start.Location = new System.Drawing.Point(433, 187);
+            this.btn_Crawler_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Crawler_Start.Name = "btn_Crawler_Start";
+            this.btn_Crawler_Start.Size = new System.Drawing.Size(61, 28);
+            this.btn_Crawler_Start.TabIndex = 7;
+            this.btn_Crawler_Start.Text = "Start";
+            this.btn_Crawler_Start.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Crawler_Start.UseVisualStyleBackColor = true;
+            this.btn_Crawler_Start.Click += new System.EventHandler(this.StartImageCrawl);
+            this.btn_Crawler_Start.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
+            this.btn_Crawler_Start.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
             // 
             // txt_Crawler_SaveLocation
             // 
@@ -648,9 +648,9 @@ namespace Tumblr_Tool
             this.lbl_Stats_BlogTitle.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold);
             this.lbl_Stats_BlogTitle.Location = new System.Drawing.Point(89, 50);
             this.lbl_Stats_BlogTitle.Name = "lbl_Stats_BlogTitle";
-            this.lbl_Stats_BlogTitle.Size = new System.Drawing.Size(209, 26);
+            this.lbl_Stats_BlogTitle.Size = new System.Drawing.Size(165, 26);
             this.lbl_Stats_BlogTitle.TabIndex = 1;
-            this.lbl_Stats_BlogTitle.Text = "[Blog Title Here]";
+            this.lbl_Stats_BlogTitle.Text = "[Tumblr Stats]";
             this.lbl_Stats_BlogTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // box_PostStats
@@ -1057,7 +1057,7 @@ namespace Tumblr_Tool
             this.tab_Options.ImageIndex = 7;
             this.tab_Options.Location = new System.Drawing.Point(1, 32);
             this.tab_Options.Name = "tab_Options";
-            this.tab_Options.Size = new System.Drawing.Size(623, 214);
+            this.tab_Options.Size = new System.Drawing.Size(623, 219);
             this.tab_Options.TabIndex = 2;
             this.tab_Options.Text = "Options";
             // 
@@ -1258,7 +1258,7 @@ namespace Tumblr_Tool
             this.tab_About.ImageIndex = 5;
             this.tab_About.Location = new System.Drawing.Point(1, 32);
             this.tab_About.Name = "tab_About";
-            this.tab_About.Size = new System.Drawing.Size(623, 214);
+            this.tab_About.Size = new System.Drawing.Size(623, 219);
             this.tab_About.TabIndex = 3;
             this.tab_About.Text = "About";
             // 

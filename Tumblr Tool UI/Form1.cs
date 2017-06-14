@@ -52,6 +52,7 @@ namespace Tumblr_Tool
         private const string ResultSuccess = " success";
         private const string StatusCheckConnx = "Checking connection ...";
         private const string StatusDone = "Done";
+        private const string StatusDownloadConnecting = "Downloading: ...";
         private const string StatusDownloadingFormat = "Downloading: {0}";
         private const string StatusError = "Error";
         private const string StatusGettingInfo = "Getting blog info ...";
@@ -65,7 +66,7 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
-        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
+        private const string WelcomeMsg = "\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
         private const string WorktextGettingBlogInfo = "Getting info ...";
@@ -1167,7 +1168,7 @@ namespace Tumblr_Tool
                                 {
                                     Invoke((MethodInvoker)delegate
                                     {
-                                        UpdateStatusText(string.Format(StatusDownloadingFormat, "Connecting ..."));
+                                        UpdateStatusText(string.Format(StatusDownloadingFormat, StatusDownloadConnecting));
                                     });
                                 }
                                 else if (percent != (int)DownloadManager.PercentDownloaded)
@@ -1637,8 +1638,7 @@ namespace Tumblr_Tool
             menu_TopMenu.Renderer = renderer;
             txt_Crawler_WorkStatus.Visible = true;
             txt_Crawler_WorkStatus.Text = WelcomeMsg;
-            txt_Stats_BlogDescription.Visible = false;
-            lbl_Stats_BlogTitle.Text = string.Empty;
+            txt_Stats_BlogDescription.Visible = true;
             lbl_PercentBar.Text = string.Empty;
 
             bar_Progress.Visible = true;
@@ -1682,6 +1682,9 @@ namespace Tumblr_Tool
             tabControl_Main.SelectedIndex = 0;
 
             lbl_About_Copyright.Text = AppCopyright;
+
+            txt_Stats_BlogDescription.Text = "Click Get Stats to start ...";
+            lbl_Stats_BlogTitle.Text = "Tumblr Stats";
         }
 
         /// <summary>
@@ -2398,7 +2401,6 @@ namespace Tumblr_Tool
             }
         }
 
-
         /// <summary>
         ///
         /// </summary>
@@ -2500,6 +2502,5 @@ namespace Tumblr_Tool
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.TextLength;
             txt_Crawler_WorkStatus.ScrollToCaret();
         }
-
     }
 }
