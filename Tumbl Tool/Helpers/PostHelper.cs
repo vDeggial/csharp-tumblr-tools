@@ -300,7 +300,7 @@ namespace Tumblr_Tool.Helpers
             {
                 foreach (string tag in jPost.tags)
                 {
-                    post.Tags.Add(tag);
+                    post.Tags.Add(tag.ToLower());
                 }
             }
             else

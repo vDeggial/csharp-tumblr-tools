@@ -33,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.2";
+        private const string AppVersion = "1.5.3";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -1204,7 +1204,7 @@ namespace Tumblr_Tool
             select_Crawler_Mode.Enabled = state;
             select_Crawler_ImagesSize.Enabled = state;
             fileToolStripMenuItem.Enabled = state;
-            txt_Crawler_TumblrURL.Enabled = state;
+            txt_TumblrURL.Enabled = state;
             txt_Crawler_SaveLocation.Enabled = state;
             DisableOtherTabs = !state;
 
@@ -1223,7 +1223,7 @@ namespace Tumblr_Tool
         {
             btn_Stats_Start.Enabled = state;
             fileToolStripMenuItem.Enabled = state;
-            txt_Stats_TumblrURL.Enabled = state;
+            txt_TumblrURL.Enabled = state;
             DisableOtherTabs = !state;
         }
 
@@ -1234,7 +1234,7 @@ namespace Tumblr_Tool
         private void EnableUI_TagScanner(bool state)
         {
             btn_TagScanner_Start.Enabled = state;
-            txt_TagScanner_URL.Enabled = state;
+            txt_TumblrURL.Enabled = state;
             DisableOtherTabs = !state;
 
             btn_TagScanner_Start.Visible = state;
@@ -1792,15 +1792,15 @@ namespace Tumblr_Tool
 
                     if (!string.IsNullOrEmpty(TumblrSaveFile?.Blog?.Url))
                     {
-                        txt_Crawler_TumblrURL.Text = TumblrSaveFile.Blog.Url;
+                        txt_TumblrURL.Text = TumblrSaveFile.Blog.Url;
                     }
                     else if (TumblrSaveFile?.Blog != null && string.IsNullOrEmpty(TumblrSaveFile.Blog.Url) && !string.IsNullOrEmpty(TumblrSaveFile.Blog.Cname))
                     {
-                        txt_Crawler_TumblrURL.Text = TumblrSaveFile.Blog.Cname;
+                        txt_TumblrURL.Text = TumblrSaveFile.Blog.Cname;
                     }
                     else
                     {
-                        txt_Crawler_TumblrURL.Text = @"Error parsing save file...";
+                        txt_TumblrURL.Text = @"Error parsing save file...";
                     }
 
                     UpdateStatusText(StatusReady);
@@ -1940,7 +1940,7 @@ namespace Tumblr_Tool
             lbl_PercentBar.ForeColor = Color.Black;
             lbl_PostCount.ForeColor = Color.Black;
             lbl_PercentBar.Text = string.Empty;
-            TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_Stats_TumblrURL.Text);
+            TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TumblrURL.Text);
 
             UpdateStatusText(StatusStarting);
 
@@ -1988,7 +1988,7 @@ namespace Tumblr_Tool
             IsCrawlingDone = false;
             txt_Crawler_WorkStatus.Clear();
             SaveLocation = txt_Crawler_SaveLocation.Text;
-            TumblrUrl = txt_Crawler_TumblrURL.Text;
+            TumblrUrl = txt_TumblrURL.Text;
 
             lbl_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
@@ -2037,7 +2037,7 @@ namespace Tumblr_Tool
             EnableUI_TagScanner(false);
             IsCancelled = false;
             lbl_PercentBar.Text = string.Empty;
-            TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TagScanner_URL.Text);
+            TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TumblrURL.Text);
             list_TagScanner_TagList.DataSource = null;
             list_TagScanner_TagList.Items.Clear();
 
@@ -2398,33 +2398,6 @@ namespace Tumblr_Tool
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateOtherUrlFields_Crawler(object sender, EventArgs e)
-        {
-            txt_Stats_TumblrURL.Text = txt_Crawler_TumblrURL.Text;
-            txt_TagScanner_URL.Text = txt_Crawler_TumblrURL.Text;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateOtherUrlFields_Stats(object sender, EventArgs e)
-        {
-            txt_Crawler_TumblrURL.Text = txt_Stats_TumblrURL.Text;
-            txt_TagScanner_URL.Text = txt_Stats_TumblrURL.Text;
-        }
-
-        private void UpdateOtherUrlFields_Tags(object sender, EventArgs e)
-        {
-            txt_Crawler_TumblrURL.Text = txt_TagScanner_URL.Text;
-            txt_Stats_TumblrURL.Text = txt_TagScanner_URL.Text;
-        }
 
         /// <summary>
         ///
@@ -2508,7 +2481,7 @@ namespace Tumblr_Tool
                 if (!IsValidUrl(TumblrUrl))
                 {
                     MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
-                    txt_Crawler_TumblrURL.Focus();
+                    txt_TumblrURL.Focus();
                     EnableUI_Crawl(true);
                     urlValid = false;
                 }
@@ -2527,5 +2500,6 @@ namespace Tumblr_Tool
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.TextLength;
             txt_Crawler_WorkStatus.ScrollToCaret();
         }
+
     }
 }
