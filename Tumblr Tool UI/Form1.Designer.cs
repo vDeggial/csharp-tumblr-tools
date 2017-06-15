@@ -37,9 +37,7 @@ namespace Tumblr_Tool
             this.menuItem_About = new System.Windows.Forms.ToolStripMenuItem();
             this.imageDownloadWorker = new System.ComponentModel.BackgroundWorker();
             this.menu_TopMenu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItem_LoadFromFile = new System.Windows.Forms.ToolStripMenuItem();
             this.imageCrawlWorker = new System.ComponentModel.BackgroundWorker();
             this.imageCrawlWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.status_Strip = new System.Windows.Forms.StatusStrip();
@@ -183,7 +181,7 @@ namespace Tumblr_Tool
             this.menu_TopMenu.BackColor = System.Drawing.Color.White;
             this.menu_TopMenu.Font = new System.Drawing.Font("Century Gothic", 9F);
             this.menu_TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.menuItem_LoadFromFile});
             this.menu_TopMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menu_TopMenu.Location = new System.Drawing.Point(0, 0);
             this.menu_TopMenu.Name = "menu_TopMenu";
@@ -194,40 +192,16 @@ namespace Tumblr_Tool
             this.menu_TopMenu.TabIndex = 6;
             this.menu_TopMenu.Text = "topMenu";
             // 
-            // fileToolStripMenuItem
+            // menuItem_LoadFromFile
             // 
-            this.fileToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem});
-            this.fileToolStripMenuItem.Image = global::Tumblr_Tool.Properties.Resources.menu;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 21);
-            this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.BackColor = System.Drawing.Color.White;
-            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
-            this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.ToolTipText = "Open Tumblr Tools Save file";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
-            this.openToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.BackColor = System.Drawing.SystemColors.Menu;
-            this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Visible = false;
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
-            this.saveToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.ToolStripMenuItem_Paint);
+            this.menuItem_LoadFromFile.BackColor = System.Drawing.Color.White;
+            this.menuItem_LoadFromFile.Image = global::Tumblr_Tool.Properties.Resources.open;
+            this.menuItem_LoadFromFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.menuItem_LoadFromFile.Name = "menuItem_LoadFromFile";
+            this.menuItem_LoadFromFile.Size = new System.Drawing.Size(121, 21);
+            this.menuItem_LoadFromFile.Text = "Load From File";
+            this.menuItem_LoadFromFile.ToolTipText = "Open Tumblr Tools Save file";
+            this.menuItem_LoadFromFile.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // imageCrawlWorker
             // 
@@ -347,7 +321,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 2;
+            this.tabControl_Main.SelectedIndex = 0;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -384,7 +358,7 @@ namespace Tumblr_Tool
             this.tab_ImageRipper.Name = "tab_ImageRipper";
             this.tab_ImageRipper.Size = new System.Drawing.Size(623, 219);
             this.tab_ImageRipper.TabIndex = 0;
-            this.tab_ImageRipper.Text = "Downloader";
+            this.tab_ImageRipper.Text = "Download";
             this.tab_ImageRipper.Enter += new System.EventHandler(this.TabPage_Enter);
             // 
             // select_Crawler_ImagesSize
@@ -952,7 +926,7 @@ namespace Tumblr_Tool
             // check_Tags_PhotoOnly
             // 
             this.check_Tags_PhotoOnly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.check_Tags_PhotoOnly.Location = new System.Drawing.Point(94, 143);
+            this.check_Tags_PhotoOnly.Location = new System.Drawing.Point(94, 155);
             this.check_Tags_PhotoOnly.Name = "check_Tags_PhotoOnly";
             this.check_Tags_PhotoOnly.Size = new System.Drawing.Size(85, 20);
             this.check_Tags_PhotoOnly.TabIndex = 10;
@@ -966,7 +940,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_SaveAsFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_SaveAsFile.ImageKey = "browse.ico";
             this.btn_TagScanner_SaveAsFile.ImageList = this.iconsList;
-            this.btn_TagScanner_SaveAsFile.Location = new System.Drawing.Point(188, 173);
+            this.btn_TagScanner_SaveAsFile.Location = new System.Drawing.Point(188, 192);
             this.btn_TagScanner_SaveAsFile.Name = "btn_TagScanner_SaveAsFile";
             this.btn_TagScanner_SaveAsFile.Size = new System.Drawing.Size(112, 23);
             this.btn_TagScanner_SaveAsFile.TabIndex = 9;
@@ -986,10 +960,10 @@ namespace Tumblr_Tool
             this.list_TagScanner_TagList.FormattingEnabled = true;
             this.list_TagScanner_TagList.ItemHeight = 16;
             this.list_TagScanner_TagList.Items.AddRange(new object[] {
-            "Tag List is empty ... "});
-            this.list_TagScanner_TagList.Location = new System.Drawing.Point(306, 25);
+            "Click Get Tags to start ..."});
+            this.list_TagScanner_TagList.Location = new System.Drawing.Point(306, 9);
             this.list_TagScanner_TagList.Name = "list_TagScanner_TagList";
-            this.list_TagScanner_TagList.Size = new System.Drawing.Size(296, 192);
+            this.list_TagScanner_TagList.Size = new System.Drawing.Size(296, 208);
             this.list_TagScanner_TagList.Sorted = true;
             this.list_TagScanner_TagList.TabIndex = 8;
             this.list_TagScanner_TagList.TabStop = false;
@@ -998,7 +972,7 @@ namespace Tumblr_Tool
             // lbl_TagScanner_TagCount
             // 
             this.lbl_TagScanner_TagCount.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(47, 22);
+            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(47, 34);
             this.lbl_TagScanner_TagCount.Name = "lbl_TagScanner_TagCount";
             this.lbl_TagScanner_TagCount.Size = new System.Drawing.Size(189, 46);
             this.lbl_TagScanner_TagCount.TabIndex = 7;
@@ -1008,7 +982,7 @@ namespace Tumblr_Tool
             // lbl_TagScanner_NumberOfTags
             // 
             this.lbl_TagScanner_NumberOfTags.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(47, 68);
+            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(47, 80);
             this.lbl_TagScanner_NumberOfTags.Name = "lbl_TagScanner_NumberOfTags";
             this.lbl_TagScanner_NumberOfTags.Size = new System.Drawing.Size(189, 29);
             this.lbl_TagScanner_NumberOfTags.TabIndex = 6;
@@ -1021,7 +995,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Stop.ImageKey = "browse.ico";
             this.btn_TagScanner_Stop.ImageList = this.iconsList;
-            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(147, 111);
+            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(147, 123);
             this.btn_TagScanner_Stop.Name = "btn_TagScanner_Stop";
             this.btn_TagScanner_Stop.Size = new System.Drawing.Size(92, 26);
             this.btn_TagScanner_Stop.TabIndex = 5;
@@ -1038,7 +1012,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Start.ImageKey = "browse.ico";
             this.btn_TagScanner_Start.ImageList = this.iconsList;
-            this.btn_TagScanner_Start.Location = new System.Drawing.Point(39, 111);
+            this.btn_TagScanner_Start.Location = new System.Drawing.Point(39, 123);
             this.btn_TagScanner_Start.Name = "btn_TagScanner_Start";
             this.btn_TagScanner_Start.Size = new System.Drawing.Size(92, 26);
             this.btn_TagScanner_Start.TabIndex = 3;
@@ -1436,9 +1410,6 @@ namespace Tumblr_Tool
         private System.ComponentModel.BackgroundWorker imageDownloadWorker;
         private ColorProgressBar bar_Progress;
         private System.Windows.Forms.MenuStrip menu_TopMenu;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker imageCrawlWorker;
         private System.ComponentModel.BackgroundWorker imageCrawlWorkerUI;
         private System.Windows.Forms.StatusStrip status_Strip;
@@ -1512,6 +1483,7 @@ namespace Tumblr_Tool
         private System.Windows.Forms.Button btn_TagScanner_SaveAsFile;
         private System.ComponentModel.BackgroundWorker tagListSaveWorker;
         private System.Windows.Forms.CheckBox check_Tags_PhotoOnly;
+        private System.Windows.Forms.ToolStripMenuItem menuItem_LoadFromFile;
     }
 }
 

@@ -1204,7 +1204,7 @@ namespace Tumblr_Tool
             btn_Crawler_Stop.Visible = !state;
             select_Crawler_Mode.Enabled = state;
             select_Crawler_ImagesSize.Enabled = state;
-            fileToolStripMenuItem.Enabled = state;
+            menuItem_LoadFromFile.Enabled = state;
             txt_TumblrURL.Enabled = state;
             txt_Crawler_SaveLocation.Enabled = state;
             DisableOtherTabs = !state;
@@ -1223,7 +1223,7 @@ namespace Tumblr_Tool
         private void EnableUI_Stats(bool state)
         {
             btn_Stats_Start.Enabled = state;
-            fileToolStripMenuItem.Enabled = state;
+            menuItem_LoadFromFile.Enabled = state;
             txt_TumblrURL.Enabled = state;
             DisableOtherTabs = !state;
         }
