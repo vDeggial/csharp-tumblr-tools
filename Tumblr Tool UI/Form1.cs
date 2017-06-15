@@ -52,7 +52,7 @@ namespace Tumblr_Tool
         private const string ResultSuccess = " success";
         private const string StatusCheckConnx = "Checking connection ...";
         private const string StatusDone = "Done";
-        private const string StatusDownloadConnecting = "Downloading: ...";
+        private const string StatusDownloadConnecting = "...";
         private const string StatusDownloadingFormat = "Downloading: {0}";
         private const string StatusError = "Error";
         private const string StatusGettingInfo = "Getting blog info ...";

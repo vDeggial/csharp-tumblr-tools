@@ -347,7 +347,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedIndex = 2;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -952,7 +952,7 @@ namespace Tumblr_Tool
             // check_Tags_PhotoOnly
             // 
             this.check_Tags_PhotoOnly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.check_Tags_PhotoOnly.Location = new System.Drawing.Point(94, 129);
+            this.check_Tags_PhotoOnly.Location = new System.Drawing.Point(94, 143);
             this.check_Tags_PhotoOnly.Name = "check_Tags_PhotoOnly";
             this.check_Tags_PhotoOnly.Size = new System.Drawing.Size(85, 20);
             this.check_Tags_PhotoOnly.TabIndex = 10;
@@ -998,7 +998,7 @@ namespace Tumblr_Tool
             // lbl_TagScanner_TagCount
             // 
             this.lbl_TagScanner_TagCount.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(47, 8);
+            this.lbl_TagScanner_TagCount.Location = new System.Drawing.Point(47, 22);
             this.lbl_TagScanner_TagCount.Name = "lbl_TagScanner_TagCount";
             this.lbl_TagScanner_TagCount.Size = new System.Drawing.Size(189, 46);
             this.lbl_TagScanner_TagCount.TabIndex = 7;
@@ -1008,7 +1008,7 @@ namespace Tumblr_Tool
             // lbl_TagScanner_NumberOfTags
             // 
             this.lbl_TagScanner_NumberOfTags.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(47, 54);
+            this.lbl_TagScanner_NumberOfTags.Location = new System.Drawing.Point(47, 68);
             this.lbl_TagScanner_NumberOfTags.Name = "lbl_TagScanner_NumberOfTags";
             this.lbl_TagScanner_NumberOfTags.Size = new System.Drawing.Size(189, 29);
             this.lbl_TagScanner_NumberOfTags.TabIndex = 6;
@@ -1021,7 +1021,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Stop.ImageKey = "browse.ico";
             this.btn_TagScanner_Stop.ImageList = this.iconsList;
-            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(147, 97);
+            this.btn_TagScanner_Stop.Location = new System.Drawing.Point(147, 111);
             this.btn_TagScanner_Stop.Name = "btn_TagScanner_Stop";
             this.btn_TagScanner_Stop.Size = new System.Drawing.Size(92, 26);
             this.btn_TagScanner_Stop.TabIndex = 5;
@@ -1038,7 +1038,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TagScanner_Start.ImageKey = "browse.ico";
             this.btn_TagScanner_Start.ImageList = this.iconsList;
-            this.btn_TagScanner_Start.Location = new System.Drawing.Point(39, 97);
+            this.btn_TagScanner_Start.Location = new System.Drawing.Point(39, 111);
             this.btn_TagScanner_Start.Name = "btn_TagScanner_Start";
             this.btn_TagScanner_Start.Size = new System.Drawing.Size(92, 26);
             this.btn_TagScanner_Start.TabIndex = 3;
