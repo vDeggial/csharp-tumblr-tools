@@ -31,6 +31,14 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
   <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
   <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
   <ItemGroup>
     <Compile Include="setup.aip">
       <SubType>Content</SubType>
