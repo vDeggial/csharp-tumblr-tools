@@ -17,6 +17,7 @@ namespace Tumblr_Tool
         public ToolOptions()
         {
             GenerateLog = true;
+            GenerateUncompressedLog = true;
             ParseGif = true;
             ParseJpeg = true;
             DownloadFiles = true;
@@ -34,6 +35,11 @@ namespace Tumblr_Tool
         /// Option to generate posts log file
         /// </summary>
         public bool GenerateLog { get; set; }
+
+        /// <summary>
+        /// Option to generate posts log text file
+        /// </summary>
+        public bool GenerateUncompressedLog { get; set; }
 
         /// <summary>
         /// Reverse download order - t/f

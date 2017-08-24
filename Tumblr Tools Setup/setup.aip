@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="14.2.1" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="11.6.2" version="14.1.1" Modules="architect" RootPath="." Language="en" Id="{13EC7D71-7C90-4C44-B252-CC700542DE6F}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="MsiOrgComponent;AppXAppDetailsComponent;AppXCapabilitiesComponent;AppXDependenciesComponent;AppXProductDetailsComponent;AppXVisualAssetsComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent"/>
   </COMPONENT>
@@ -27,10 +27,10 @@
     <ROW Property="InstanceId" Value="#0"/>
     <ROW Property="Manufacturer" Value="Shino Amakusa"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:v"/>
-    <ROW Property="ProductCode" Value="1033:{7BAB9F27-4BBE-4BEF-81F1-7FA39D75A006} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{9690F95B-8433-41D8-BB37-246CB4CCD876} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Tumblr Tools"/>
-    <ROW Property="ProductVersion" Value="1.5.4.0" Type="32" TargetFile="TumblrTools.exe"/>
+    <ROW Property="ProductVersion" Value="1.5.5.0" Type="32" TargetFile="TumblrTools.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{C43D57AB-D004-49BF-871E-513E0F63FC6E}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -55,7 +55,7 @@
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{815FF603-0D81-4AE3-AD68-5CECCCCFDA67}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{668DA1AA-4B4A-462B-A12C-89D3646A6720}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_DisableModify" ComponentId="{A3FEBDAA-38BE-464E-88F6-78A7FF1626E4}" Directory_="APPDIR" Attributes="4" KeyPath="NoModify" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{6E27DFF6-A57F-4D9A-84A3-D63CD7540C93}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="AI_InstallLanguage" ComponentId="{0003DE0D-E22C-4081-BE99-22417812D25A}" Directory_="APPDIR" Attributes="4" KeyPath="AI_InstallLanguage" Options="1"/>
@@ -94,7 +94,7 @@
     <ROW BootstrOptKey="GlobalOptions" GeneralOptions="oh" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup 1.5.4" Languages="en" InstallationType="2" CabsLocation="1" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="8" LangsDialog="true" UseLargeSchema="true" Unicode="true" ExeName="Tumblr Tools Setup 1.5.4" UACExecutionLevel="2"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="Tumblr Tools Setup 1.5.5" Languages="en" InstallationType="2" CabsLocation="1" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="4" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Tumblr Tool UI\Images\tumblr icon.ico" CreateMd5="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" Options="8" LangsDialog="true" UseLargeSchema="true" Unicode="true" ExeName="Tumblr Tools Setup 1.5.5" UACExecutionLevel="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -193,10 +193,10 @@
     <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="InstallTypeDlg" Condition="AI_INSTALL" Ordering="201"/>
     <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="NewSeqDialog" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
+    <ROW Dialog_="LanguageDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
     <ROW Dialog_="WelcomePrereqDlg" Control_="Next" Event="NewDialog" Argument="PrerequisitesDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
     <ROW Dialog_="PrerequisitesDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
     <ROW Dialog_="PrerequisitesDlg" Control_="Back" Event="NewDialog" Argument="WelcomePrereqDlg" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
-    <ROW Dialog_="LanguageDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_BOOTSTRAPPER" Ordering="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
@@ -368,10 +368,10 @@
     <ATTRIBUTE name="DynamicInstances" value="DefaultBuild:"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
-    <ROW PrereqKey="BCB8EE3864A2CAD5BED4782268FBC" DisplayName=".NET Framework 4.6.2 (web installer)" SetupFileUrl="Prerequisites\.NET Framework 4.6.2\NDP462-KB3151802-Web.exe" Location="0" ExactSize="0" WinNTVersions="Windows XP SP3 x86, Windows Server 2003 SP2 x86, Windows Vista x86, Windows Server 2008 x86, Windows 7 RTM x86" WinNT64Versions="Windows XP SP2 x64, Windows Server 2003 SP2 x64, Windows Vista x64, Windows Server 2008 x64, Windows 7 RTM x64, Windows Server 2008 R2 RTM x64, Windows Server 2016 x64" Operator="1" NoUiComLine="/q /norestart" Options="xyz" TargetName=".NET Framework 4.6.2\NDP462-KB3151802-Web.exe"/>
-    <ATTRIBUTE name="PrereqsOrder" value="BCB8EE3864A2CAD5BED4782268FBC"/>
+    <ROW PrereqKey="A9B0B950E0447D7BBD52C1DF716128D" DisplayName=".NET Framework 4.7 (web installer)" SetupFileUrl="Prerequisites\.NET Framework 4.7\NDP47-KB3186500-Web.exe" Location="0" ExactSize="0" WinNTVersions="Windows XP SP3 x86, Windows Server 2003 SP2 x86, Windows Vista x86, Windows Server 2008 x86, Windows 7 RTM x86, Windows 10 version 1507 x86, Windows 10 version 1511 x86, Windows 10 version 1703 x86" WinNT64Versions="Windows XP SP2 x64, Windows Server 2003 SP2 x64, Windows Vista x64, Windows Server 2008 x64, Windows 7 RTM x64, Windows Server 2008 R2 RTM x64, Windows 10 version 1507 x64, Windows 10 version 1511 x64, Windows 10 version 1703 x64" Operator="1" NoUiComLine="/q /norestart" Options="xy" TargetName=".NET Framework 4.7\NDP47-KB3186500-Web.exe"/>
+    <ATTRIBUTE name="PrereqsOrder" value="A9B0B950E0447D7BBD52C1DF716128D"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
-    <ROW SearchKey="BCB8EE3864A2CAD5BED4782268FBCRelease" Prereq="BCB8EE3864A2CAD5BED4782268FBC" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release" RefContent="G394801" Order="1" Property="PreReqSearch_BCB8EE3864A2CAD5BED4782268FBC"/>
+    <ROW SearchKey="A9B0B950E0447D7BBD52C1DF716128DRelease" Prereq="A9B0B950E0447D7BBD52C1DF716128D" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Release" RefContent="G460804" Order="1" Property="PreReqSearch_A9B0B950E0447D7BBD52C1DF716128D"/>
   </COMPONENT>
 </DOCUMENT>

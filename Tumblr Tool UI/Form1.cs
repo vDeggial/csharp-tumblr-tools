@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: May, 2017
+ *  Last Updated: August, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -33,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.4";
+        private const string AppVersion = "1.5.5";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -1328,6 +1328,13 @@ namespace Tumblr_Tool
             }
         }
 
+        private void GenerateLogCheckedChange(object sender, EventArgs e)
+        {
+            CheckBox box = sender as CheckBox;
+            check_Options_GenerateUncompressedLog.Enabled = box.Checked;
+            check_Options_GenerateUncompressedLog.Checked = box.Checked;
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -1852,6 +1859,7 @@ namespace Tumblr_Tool
 
             check_Options_GenerateLog.Checked = Options.GenerateLog;
             check_Options_OldToNewDownloadOrder.Checked = Options.OldToNewDownloadOrder;
+            check_Options_GenerateUncompressedLog.Checked = Options.GenerateUncompressedLog;
         }
 
         /// <summary>
@@ -1860,7 +1868,10 @@ namespace Tumblr_Tool
         private void SaveLogFile()
         {
             FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename, TumblrLogFile, SaveFileFormat.JsonCompressed);
-            FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename + ".txt", TumblrLogFile);
+            if (Options.GenerateUncompressedLog)
+            {
+                FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename + ".txt", TumblrLogFile);
+            }
         }
 
         /// <summary>
@@ -1929,6 +1940,7 @@ namespace Tumblr_Tool
             //this.Options.ApiMode = this.apiMode.ToString();
             Options.GenerateLog = check_Options_GenerateLog.Checked;
             Options.OldToNewDownloadOrder = check_Options_OldToNewDownloadOrder.Checked;
+            Options.GenerateUncompressedLog = check_Options_GenerateUncompressedLog.Checked;
         }
 
         /// <summary>

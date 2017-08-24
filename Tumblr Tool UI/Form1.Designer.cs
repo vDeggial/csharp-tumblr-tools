@@ -120,6 +120,7 @@ namespace Tumblr_Tool
             this.blogTagListWorker = new System.ComponentModel.BackgroundWorker();
             this.blogTagLIstWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.tagListSaveWorker = new System.ComponentModel.BackgroundWorker();
+            this.check_Options_GenerateUncompressedLog = new System.Windows.Forms.CheckBox();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -321,7 +322,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 0;
+            this.tabControl_Main.SelectedIndex = 3;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -1055,10 +1056,11 @@ namespace Tumblr_Tool
             // 
             // section_Options_LogOptions
             // 
+            this.section_Options_LogOptions.Controls.Add(this.check_Options_GenerateUncompressedLog);
             this.section_Options_LogOptions.Controls.Add(this.check_Options_GenerateLog);
             this.section_Options_LogOptions.Location = new System.Drawing.Point(311, 23);
             this.section_Options_LogOptions.Name = "section_Options_LogOptions";
-            this.section_Options_LogOptions.Size = new System.Drawing.Size(133, 72);
+            this.section_Options_LogOptions.Size = new System.Drawing.Size(215, 107);
             this.section_Options_LogOptions.TabIndex = 6;
             this.section_Options_LogOptions.TabStop = false;
             this.section_Options_LogOptions.Text = "Log Options";
@@ -1076,6 +1078,7 @@ namespace Tumblr_Tool
             this.check_Options_GenerateLog.Text = "Generate Log File";
             this.check_Options_GenerateLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.check_Options_GenerateLog.UseVisualStyleBackColor = true;
+            this.check_Options_GenerateLog.CheckedChanged += new System.EventHandler(this.GenerateLogCheckedChange);
             // 
             // section_Options_MethodOptions
             // 
@@ -1337,6 +1340,20 @@ namespace Tumblr_Tool
             this.tagListSaveWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListSaveWorker_Work);
             this.tagListSaveWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListSaveWorker_Completed);
             // 
+            // check_Options_GenerateUncompressedLog
+            // 
+            this.check_Options_GenerateUncompressedLog.Checked = true;
+            this.check_Options_GenerateUncompressedLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_GenerateUncompressedLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_GenerateUncompressedLog.Location = new System.Drawing.Point(8, 67);
+            this.check_Options_GenerateUncompressedLog.Name = "check_Options_GenerateUncompressedLog";
+            this.check_Options_GenerateUncompressedLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.check_Options_GenerateUncompressedLog.Size = new System.Drawing.Size(202, 34);
+            this.check_Options_GenerateUncompressedLog.TabIndex = 1;
+            this.check_Options_GenerateUncompressedLog.Text = "Generate Uncompressed Log File";
+            this.check_Options_GenerateUncompressedLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.check_Options_GenerateUncompressedLog.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1484,6 +1501,7 @@ namespace Tumblr_Tool
         private System.ComponentModel.BackgroundWorker tagListSaveWorker;
         private System.Windows.Forms.CheckBox check_Tags_PhotoOnly;
         private System.Windows.Forms.ToolStripMenuItem menuItem_LoadFromFile;
+        private System.Windows.Forms.CheckBox check_Options_GenerateUncompressedLog;
     }
 }
 
