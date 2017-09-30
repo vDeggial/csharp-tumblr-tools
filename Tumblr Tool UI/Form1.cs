@@ -33,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.5";
+        private const string AppVersion = "1.5.6";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";

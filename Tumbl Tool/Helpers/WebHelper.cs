@@ -85,7 +85,7 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GetDomainName(string url)
         {
-            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttp ? uriResult.Host : null;
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps) ? uriResult.Host : null;
         }
 
         /// <summary>
