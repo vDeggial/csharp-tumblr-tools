@@ -202,7 +202,7 @@ namespace Tumblr_Tool
             this.menuItem_LoadFromFile.Size = new System.Drawing.Size(121, 21);
             this.menuItem_LoadFromFile.Text = "Load From File";
             this.menuItem_LoadFromFile.ToolTipText = "Open Tumblr Tools Save file";
-            this.menuItem_LoadFromFile.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            this.menuItem_LoadFromFile.Click += new System.EventHandler(this.ShowDialog_OpenFile);
             // 
             // imageCrawlWorker
             // 
@@ -333,7 +333,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.TabPageCloseIconColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabStyles = KRBTabControl.KRBTabControl.TabStyle.VS2010;
             this.tabControl_Main.UpDownStyle = KRBTabControl.KRBTabControl.UpDown32Style.Default;
-            this.tabControl_Main.SelectedIndexChanging += new System.EventHandler<KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs>(this.TabControl_Main_SelectedIndexChanging);
+            this.tabControl_Main.SelectedIndexChanging += new System.EventHandler<KRBTabControl.KRBTabControl.SelectedIndexChangingEventArgs>(this.TabPage_Change);
             // 
             // tab_ImageRipper
             // 
@@ -401,9 +401,9 @@ namespace Tumblr_Tool
             this.btn_Crawler_Stop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Crawler_Stop.UseVisualStyleBackColor = true;
             this.btn_Crawler_Stop.Visible = false;
-            this.btn_Crawler_Stop.Click += new System.EventHandler(this.CancelOperations);
-            this.btn_Crawler_Stop.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Crawler_Stop.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Crawler_Stop.Click += new System.EventHandler(this.Cancel_PhotoPostParse);
+            this.btn_Crawler_Stop.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Crawler_Stop.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // iconsList
             // 
@@ -503,8 +503,8 @@ namespace Tumblr_Tool
             this.btn_Crawler_Browse.Text = "Browse";
             this.btn_Crawler_Browse.UseVisualStyleBackColor = true;
             this.btn_Crawler_Browse.Click += new System.EventHandler(this.BrowseLocalPath);
-            this.btn_Crawler_Browse.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Crawler_Browse.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Crawler_Browse.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Crawler_Browse.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // img_Crawler_DisplayImage
             // 
@@ -538,9 +538,9 @@ namespace Tumblr_Tool
             this.btn_Crawler_Start.Text = "Start";
             this.btn_Crawler_Start.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Crawler_Start.UseVisualStyleBackColor = true;
-            this.btn_Crawler_Start.Click += new System.EventHandler(this.StartImageCrawl);
-            this.btn_Crawler_Start.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Crawler_Start.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Crawler_Start.Click += new System.EventHandler(this.Start_PhotoPostParse);
+            this.btn_Crawler_Start.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Crawler_Start.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // txt_Crawler_SaveLocation
             // 
@@ -900,9 +900,9 @@ namespace Tumblr_Tool
             this.btn_Stats_Start.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Stats_Start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_Stats_Start.UseVisualStyleBackColor = true;
-            this.btn_Stats_Start.Click += new System.EventHandler(this.StartGetStats);
-            this.btn_Stats_Start.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Stats_Start.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Stats_Start.Click += new System.EventHandler(this.Start_GetStats);
+            this.btn_Stats_Start.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Stats_Start.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // tab_TagScanner
             // 
@@ -948,9 +948,9 @@ namespace Tumblr_Tool
             this.btn_TagScanner_SaveAsFile.Text = "Save To File";
             this.btn_TagScanner_SaveAsFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_TagScanner_SaveAsFile.UseVisualStyleBackColor = true;
-            this.btn_TagScanner_SaveAsFile.Click += new System.EventHandler(this.SaveTagListAsFile);
-            this.btn_TagScanner_SaveAsFile.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_TagScanner_SaveAsFile.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_TagScanner_SaveAsFile.Click += new System.EventHandler(this.TagList_SaveAasFile);
+            this.btn_TagScanner_SaveAsFile.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_TagScanner_SaveAsFile.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // list_TagScanner_TagList
             // 
@@ -1003,9 +1003,9 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Stop.Text = "Stop";
             this.btn_TagScanner_Stop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_TagScanner_Stop.UseVisualStyleBackColor = true;
-            this.btn_TagScanner_Stop.Click += new System.EventHandler(this.TagScanner_Stop);
-            this.btn_TagScanner_Stop.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_TagScanner_Stop.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_TagScanner_Stop.Click += new System.EventHandler(this.Cancel_TagScanner);
+            this.btn_TagScanner_Stop.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_TagScanner_Stop.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // btn_TagScanner_Start
             // 
@@ -1020,9 +1020,9 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Start.Text = "Get Tags";
             this.btn_TagScanner_Start.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_TagScanner_Start.UseVisualStyleBackColor = true;
-            this.btn_TagScanner_Start.Click += new System.EventHandler(this.StartTagScan);
-            this.btn_TagScanner_Start.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_TagScanner_Start.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_TagScanner_Start.Click += new System.EventHandler(this.Start_TagScan);
+            this.btn_TagScanner_Start.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_TagScanner_Start.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // tab_Options
             // 
@@ -1078,7 +1078,7 @@ namespace Tumblr_Tool
             this.check_Options_GenerateLog.Text = "Generate Log File";
             this.check_Options_GenerateLog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.check_Options_GenerateLog.UseVisualStyleBackColor = true;
-            this.check_Options_GenerateLog.CheckedChanged += new System.EventHandler(this.GenerateLogCheckedChange);
+            this.check_Options_GenerateLog.CheckedChanged += new System.EventHandler(this.GenerateLog_CheckedChange);
             // 
             // section_Options_MethodOptions
             // 
@@ -1129,9 +1129,9 @@ namespace Tumblr_Tool
             this.btn_Options_Reset.TabIndex = 9;
             this.btn_Options_Reset.Text = "Reset";
             this.btn_Options_Reset.UseVisualStyleBackColor = true;
-            this.btn_Options_Reset.Click += new System.EventHandler(this.OptionsUiRestore);
-            this.btn_Options_Reset.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Options_Reset.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Options_Reset.Click += new System.EventHandler(this.Options_Reset);
+            this.btn_Options_Reset.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Options_Reset.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // section_Options_ImageTypes
             // 
@@ -1220,9 +1220,9 @@ namespace Tumblr_Tool
             this.btn_Options_Save.TabIndex = 8;
             this.btn_Options_Save.Text = "Save";
             this.btn_Options_Save.UseVisualStyleBackColor = true;
-            this.btn_Options_Save.Click += new System.EventHandler(this.OptionsSave);
-            this.btn_Options_Save.MouseEnter += new System.EventHandler(this.ButtonOnMouseEnter);
-            this.btn_Options_Save.MouseLeave += new System.EventHandler(this.ButtonOnMouseLeave);
+            this.btn_Options_Save.Click += new System.EventHandler(this.Options_Save);
+            this.btn_Options_Save.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
+            this.btn_Options_Save.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 
             // tab_About
             // 

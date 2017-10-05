@@ -66,7 +66,7 @@ namespace Tumblr_Tool.Managers
             TotalNumberOfPosts = 0;
             ImageList = new HashSet<PhotoPostImage>();
             TotalNumberOfImages = 0;
-            DocumentManager = new DocumentManager()
+            DocumentManager = new RemoteDocumentManager()
             {
                 ApiVersion = apiVersion
             };
@@ -88,7 +88,7 @@ namespace Tumblr_Tool.Managers
 
         private int ApiQueryOffset { get; set; }
         private int ApiQueryPostLimit { get; set; }
-        private DocumentManager DocumentManager { get; set; }
+        private RemoteDocumentManager DocumentManager { get; set; }
         private HashSet<string> ErrorList { get; set; }
         private HashSet<TumblrPost> ExistingHash { get; set; }
         //private HashSet<string> ExistingImageList { get; set; }

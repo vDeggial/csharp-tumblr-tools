@@ -31,7 +31,7 @@ namespace Tumblr_Tool.Managers
         /// <param name="limit"></param>
         public TumblrStatsManager(TumblrBlog blog = null, string url = null, TumblrApiVersion apiMode = TumblrApiVersion.V2Json, int offset = 0, int limit = 0)
         {
-            DocumentManager = new DocumentManager();
+            DocumentManager = new RemoteDocumentManager();
             ApiVersion = apiMode;
             DocumentManager.ApiVersion = apiMode;
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
@@ -71,7 +71,7 @@ namespace Tumblr_Tool.Managers
         private int ApiQueryLimit { get; set; }
         private int ApiQueryOffset { get; set; }
         private TumblrApiVersion ApiVersion { get; set; }
-        private DocumentManager DocumentManager { get; set; }
+        private RemoteDocumentManager DocumentManager { get; set; }
         private string TumblrDomain { get; set; }
         private string TumblrUrl { get; set; }
 
@@ -81,74 +81,87 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         public bool GetTumblrStats()
         {
-            var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
-
-            if (url.TumblrExists())
-
+            try
             {
-                DocumentManager.GetRemoteDocument(url);
-                TotalPostsOverall = DocumentManager.GetTotalPostCount();
+                var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
 
-                var postTypes = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>().ToHashSet();
-                postTypes.RemoveWhere(type => type == TumblrPostType.All || type == TumblrPostType.Regular || type == TumblrPostType.Conversation);
+                if (url.TumblrExists())
 
-                foreach (TumblrPostType type in postTypes)
                 {
-                    int TotalPostsForType = 0;
-                    url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, type, 0, 1);
+                    DocumentManager.GetRemoteDocument(url);
+                    if (DocumentManager.JsonDocument != null)
+                        TotalPostsOverall = DocumentManager.GetTotalPostCount();
 
-                    if (url.TumblrExists())
+                    var postTypes = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>().ToHashSet();
+                    postTypes.RemoveWhere(type => type == TumblrPostType.All || type == TumblrPostType.Regular || type == TumblrPostType.Conversation);
+
+                    foreach (TumblrPostType type in postTypes)
                     {
-                        DocumentManager.GetRemoteDocument(url);
-                        TotalPostsForType = DocumentManager.GetTotalPostCount();
+                        int TotalPostsForType = 0;
+                        url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, type, 0, 1);
 
-                        switch (type)
+                        if (url.TumblrExists())
                         {
-                            case TumblrPostType.Photo:
-                                TotalPhotoPosts = TotalPostsForType;
-                                break;
+                            DocumentManager.GetRemoteDocument(url);
+                            if (DocumentManager.JsonDocument != null)
+                            {
+                                TotalPostsForType = DocumentManager.GetTotalPostCount();
 
-                            case TumblrPostType.Text:
-                                TotalTextPosts = TotalPostsForType;
-                                break;
+                                switch (type)
+                                {
+                                    case TumblrPostType.Photo:
+                                        TotalPhotoPosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Video:
-                                TotalVideoPosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Text:
+                                        TotalTextPosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Audio:
-                                TotalAudioPosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Video:
+                                        TotalVideoPosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Link:
-                                TotalLinkPosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Audio:
+                                        TotalAudioPosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Quote:
-                                TotalQuotePosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Link:
+                                        TotalLinkPosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Chat:
-                                TotalChatPosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Quote:
+                                        TotalQuotePosts = TotalPostsForType;
+                                        break;
 
-                            case TumblrPostType.Answer:
-                                TotalAnswerPosts = TotalPostsForType;
-                                break;
+                                    case TumblrPostType.Chat:
+                                        TotalChatPosts = TotalPostsForType;
+                                        break;
+
+                                    case TumblrPostType.Answer:
+                                        TotalAnswerPosts = TotalPostsForType;
+                                        break;
+                                }
+
+                                PostTypesProcessedCount++;
+
+                                ProcessingStatusCode = ProcessingCode.Ok;
+                            }
                         }
-
-                        PostTypesProcessedCount++;
-
-                        ProcessingStatusCode = ProcessingCode.Ok;
-                    }
-                    else
-                    {
-                        ProcessingStatusCode = ProcessingCode.InvalidUrl;
+                        else
+                        {
+                            ProcessingStatusCode = ProcessingCode.InvalidUrl;
+                        }
                     }
                 }
+
+                return true;
             }
 
-            return true;
+            catch (Exception exception)
+            {
+                throw exception;
+                return false;
+            }
         }
     }
 }

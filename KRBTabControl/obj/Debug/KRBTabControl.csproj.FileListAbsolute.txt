@@ -5,3 +5,4 @@ E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.Resource
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csproj.GenerateResource.Cache
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.dll
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.pdb
+E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csproj.CoreCompileInputs.cache

@@ -22,7 +22,7 @@ namespace Tumblr_Tool.Managers
         public TagScanManager(TumblrBlog blog = null, bool photoPostOnly = false)
         {
             Blog = blog;
-            DocumentManager = new DocumentManager();
+            DocumentManager = new RemoteDocumentManager();
             TumblrUrl = WebHelper.RemoveTrailingBackslash(blog.Url);
             TumblrDomain = WebHelper.GetDomainName(blog.Url);
             TagList = new HashSet<string>();
@@ -40,7 +40,7 @@ namespace Tumblr_Tool.Managers
         public string TumblrDomain { get; set; }
         private int ApiQueryOffset { get; set; }
         private int ApiQueryPostLimit { get; set; }
-        private DocumentManager DocumentManager { get; set; }
+        private RemoteDocumentManager DocumentManager { get; set; }
         private string TumblrUrl { get; set; }
         private bool PhotoPostOnly { get; set; }
 

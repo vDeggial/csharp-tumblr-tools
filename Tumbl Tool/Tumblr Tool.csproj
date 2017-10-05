@@ -75,8 +75,8 @@
     <Compile Include="Enums\TumblrApiResponse.cs" />
     <Compile Include="Enums\TumblrPostType.cs" />
     <Compile Include="Managers\PhotoPostParseManager.cs" />
-    <Compile Include="Managers\DocumentManager.cs" />
-    <Compile Include="Managers\DownloadManager.cs" />
+    <Compile Include="Managers\RemoteDocumentManager.cs" />
+    <Compile Include="Managers\FileDownloadManager.cs" />
     <Compile Include="Objects\Tumblr Objects\AnswerPost.cs" />
     <Compile Include="Objects\Tumblr Objects\AudioPost.cs" />
     <Compile Include="Objects\Tumblr Objects\ChatPost.cs" />
