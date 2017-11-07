@@ -914,11 +914,11 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    Bitmap img = GetBitmapFromFile(DownloadedList[DownloadedList.Count - 1]);
+                                    Image img = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
 
                                     if (img != null)
                                     {
-                                        img_Crawler_DisplayImage.Image = GetBitmapFromFile(DownloadedList[DownloadedList.Count - 1]);
+                                        img_Crawler_DisplayImage.Image = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
                                     }
 
                                     lbl_PostCount.Text = string.Format(PostCountFormat, DownloadedList.Count, PhotoPostParser.ImageList.Count);
@@ -1069,7 +1069,7 @@ namespace Tumblr_Tool
                                             // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
                                             img_Crawler_DisplayImage.Image.Dispose();
 
-                                            Bitmap img = GetBitmapFromFile((DownloadedList[c - 1]));
+                                            Image img = FileHelper.GetImageFromFile((DownloadedList[c - 1]));
 
                                             if (img != null)
                                             {
@@ -1301,25 +1301,6 @@ namespace Tumblr_Tool
             check_Options_GenerateUncompressedLog.Checked = box.Checked;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private Bitmap GetBitmapFromFile(string file)
-        {
-            try
-            {
-                using (Bitmap bm = new Bitmap(file))
-                {
-                    return new Bitmap(bm);
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
 
         /// <summary>
         ///

@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -82,7 +83,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return !string.IsNullOrEmpty(file) ? FileExists(Path.GetDirectoryName(file),Path.GetFileName(file),true) : false;
+                return !string.IsNullOrEmpty(file) ? FileExists(Path.GetDirectoryName(file), Path.GetFileName(file), true) : false;
             }
             catch
             {
@@ -142,6 +143,26 @@ namespace Tumblr_Tool.Helpers
             try
             {
                 return new StringBuilder(location).Append(@"\").Append(prefix).Append(Path.GetFileName(url)).ToString();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static Image GetImageFromFile(string filename)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(filename)))
+                {
+                    return Image.FromStream(ms);
+                }
             }
             catch
             {
