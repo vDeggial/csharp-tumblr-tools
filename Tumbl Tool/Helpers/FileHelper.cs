@@ -155,13 +155,13 @@ namespace Tumblr_Tool.Helpers
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public static Image GetImageFromFile(string filename)
+        public static Bitmap GetImageFromFile(string filename)
         {
             try
             {
-                using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(filename)))
+                using (Bitmap bm = new Bitmap(filename))
                 {
-                    return Image.FromStream(ms);
+                    return new Bitmap(bm);
                 }
             }
             catch

@@ -914,11 +914,11 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    Image img = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
+                                    Bitmap img = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
 
                                     if (img != null)
                                     {
-                                        img_Crawler_DisplayImage.Image = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
+                                        img_Crawler_DisplayImage.Image = img;
                                     }
 
                                     lbl_PostCount.Text = string.Format(PostCountFormat, DownloadedList.Count, PhotoPostParser.ImageList.Count);
@@ -1069,7 +1069,7 @@ namespace Tumblr_Tool
                                             // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
                                             img_Crawler_DisplayImage.Image.Dispose();
 
-                                            Image img = FileHelper.GetImageFromFile((DownloadedList[c - 1]));
+                                            Bitmap img = FileHelper.GetImageFromFile((DownloadedList[c - 1]));
 
                                             if (img != null)
                                             {
