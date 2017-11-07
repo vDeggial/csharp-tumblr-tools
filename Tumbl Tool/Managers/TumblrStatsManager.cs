@@ -160,7 +160,6 @@ namespace Tumblr_Tool.Managers
             catch (Exception exception)
             {
                 throw exception;
-                return false;
             }
         }
     }

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Objects;
 
@@ -35,7 +36,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return (!string.IsNullOrEmpty(filename) && !Path.HasExtension(filename)) ? string.Concat(filename, ".jpg") : filename;
+                return (!string.IsNullOrEmpty(filename) && !Path.HasExtension(filename)) ? new StringBuilder(filename).Append(".jpg").ToString() : filename;
             }
             catch
             {
@@ -140,7 +141,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return string.Concat(location, @"\", prefix, Path.GetFileName(url));
+                return new StringBuilder(location).Append(@"\").Append(prefix).Append(Path.GetFileName(url)).ToString();
             }
             catch
             {

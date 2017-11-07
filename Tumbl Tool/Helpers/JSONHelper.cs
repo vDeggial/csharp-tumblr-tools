@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -98,11 +98,8 @@ namespace Tumblr_Tool.Helpers
         /// <param name="objectToWrite">Object to writeto file</param>
         /// <param name="append">Append to file?</param>
         /// <returns>True if save succeeds, false otherwise</returns>
-        public static bool SaveObjectToFile<T>(string filePath, T objectToWrite, int method = 1)
+        public static bool SaveObjectToFile<T>(string filePath, T objectToWrite)
         {
-            switch (method)
-            {
-                case 1:
                     try
                     {
                         using (FileStream fs = new FileStream(@filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
@@ -126,33 +123,7 @@ namespace Tumblr_Tool.Helpers
                     {
                         return false;
                     }
-                case 2:
-                    try
-                    {
-                        using (FileStream fs = new FileStream(@filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
-                        {
-                            using (TextWriter writer = new StreamWriter(fs))
-                            {
-                                string contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite, Formatting.Indented, new JsonSerializerSettings
-                                {
-                                    NullValueHandling = NullValueHandling.Ignore,
-                                    TypeNameHandling = TypeNameHandling.None,
-                                    DefaultValueHandling = DefaultValueHandling.Include
-                                });
-                                writer.Write(contentsToWriteToFile);
-
-                                writer.Close();
-
-                                return true;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-            }
-            return false;
+            
         }
 
         public static bool SaveObjectToFileCompressed(string filePath, object objectToWrite)

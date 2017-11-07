@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: October, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -18,6 +18,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Tumblr_Tool.Enums;
@@ -33,7 +34,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.7";
+        private const string AppVersion = "1.5.8";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -60,7 +61,7 @@ namespace Tumblr_Tool
         private const string StatusGettingTags = "Getting tags ...";
         private const string StatusIndexing = "Indexing ...";
         private const string StatusOpenSaveFile = "Opening save file ...";
-        private const string StatusProcessStarted = "Process started ...";
+        private const string StatusProcessStarted = "Here we go ...";
         private const string StatusReady = "Ready";
         private const string StatusStarting = "Starting ...";
         private const string SuffixGb = "GB";
@@ -136,7 +137,7 @@ namespace Tumblr_Tool
         {
             if (!txt_Crawler_WorkStatus.Text.EndsWith(str))
             {
-                txt_Crawler_WorkStatus.Text += str;
+                txt_Crawler_WorkStatus.Text = new StringBuilder(txt_Crawler_WorkStatus.Text).Append(str).ToString();
 
                 txt_Crawler_WorkStatus.Update();
                 txt_Crawler_WorkStatus.Refresh();
@@ -285,7 +286,8 @@ namespace Tumblr_Tool
                 {
                     if (TumblrSaveFile != null && Options.GenerateLog)
                     {
-                        string file = SaveLocation + @"\" + Path.GetFileNameWithoutExtension(TumblrSaveFile.Filename) + ".log";
+                        string file = new StringBuilder(SaveLocation).Append(@"\")
+                            .Append(Path.GetFileNameWithoutExtension(TumblrSaveFile.Filename)).Append(".log").ToString();
 
                         if (File.Exists(file))
                         {
@@ -581,7 +583,8 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    UpdateWorkStatusTextNewLine("Indexing " + "\"" + PhotoPostParser.Blog.Title + "\" ... ");
+                                    UpdateWorkStatusTextNewLine(new StringBuilder(
+                                        "Indexing ").Append("\"").Append(PhotoPostParser.Blog.Title).Append("\" ... ").ToString());
                                 });
                             }
                         }
@@ -592,7 +595,11 @@ namespace Tumblr_Tool
                             {
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    UpdateWorkStatusTextNewLine("Unable to get post info from API (Offset " + PhotoPostParser.NumberOfParsedPosts + " - " + (PhotoPostParser.NumberOfParsedPosts + (int)NumberOfPostsPerApiDocument.ApiV2) + ") ... ");
+                                    UpdateWorkStatusTextNewLine(
+                                        new StringBuilder("Unable to get post info from API (Offset ")
+                                        .Append(PhotoPostParser.NumberOfParsedPosts.ToString()).Append(" - ")
+                                        .Append((PhotoPostParser.NumberOfParsedPosts + (int)NumberOfPostsPerApiDocument.ApiV2).ToString())
+                                        .Append(") ... ").ToString());
                                 });
                             }
                             PhotoPostParser.ProcessingStatusCode = ProcessingCode.Crawling;
@@ -606,7 +613,8 @@ namespace Tumblr_Tool
                                 {
                                     Invoke((MethodInvoker)delegate
                                     {
-                                        UpdateWorkStatusTextNewLine(PhotoPostParser.TotalNumberOfPosts + " photo posts found.");
+                                        UpdateWorkStatusTextNewLine(new StringBuilder(PhotoPostParser.TotalNumberOfPosts.ToString())
+                                            .Append(" photo posts found.").ToString());
                                     });
                                 }
                             }
@@ -682,7 +690,9 @@ namespace Tumblr_Tool
                             {
                                 UpdateWorkStatusTextConcat(WorktextIndexingPosts, ResultDone);
 
-                                UpdateWorkStatusTextNewLine("Found " + (PhotoPostParser.ImageList.Count == 0 ? "no" : PhotoPostParser.ImageList.Count.ToString()) + " new image(s) to download");
+                                UpdateWorkStatusTextNewLine(new StringBuilder("Found ")
+                                    .Append(PhotoPostParser.ImageList.Count == 0 ? "no" : PhotoPostParser.ImageList.Count.ToString())
+                                    .Append(" new image(s) to download").ToString());
 
                                 bar_Progress.Value = 0;
                                 lbl_PercentBar.Text = string.Empty;
@@ -933,7 +943,7 @@ namespace Tumblr_Tool
                         Invoke((MethodInvoker)delegate
                         {
                             UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
-                            UpdateWorkStatusTextNewLine("Downloaded " + DownloadedList.Count + " image(s).");
+                            UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadedList.Count.ToString()).Append(" image(s).").ToString());
                             bar_Progress.Value = 0;
                             lbl_PercentBar.Text = string.Empty;
                         });
@@ -956,7 +966,7 @@ namespace Tumblr_Tool
                         Invoke((MethodInvoker)delegate
                         {
                             UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
-                            UpdateWorkStatusTextNewLine("Failed: " + NotDownloadedList.Count + " image(s).");
+                            UpdateWorkStatusTextNewLine(new StringBuilder("Failed: ").Append(NotDownloadedList.Count.ToString()).Append(" image(s).").ToString());
                             bar_Progress.Value = 0;
                             lbl_PercentBar.Text = string.Empty;
                         });
@@ -1037,8 +1047,8 @@ namespace Tumblr_Tool
                                     bar_Progress.Refresh();
                                     lbl_PercentBar.ForeColor = Color.Maroon;
 
-                                    ErrorMessage = "Error: Unable to download " + NotDownloadedList[NotDownloadedList.Count - 1];
-                                    //updateWorkStatusTextNewLine(this.errorMessage);
+                                    ErrorMessage = new StringBuilder("Error: Unable to download ").Append(NotDownloadedList[NotDownloadedList.Count - 1]).ToString();
+                                    UpdateWorkStatusTextNewLine(ErrorMessage);
                                 });
                             }
                         }
@@ -1615,8 +1625,8 @@ namespace Tumblr_Tool
             bar_Progress.Value = 0;
 
             DownloadManager = new FileDownloadManager();
-            Text += @" " + AppVersion + " - © 2013 - 2017 - Shino Amakusa";
-            lbl_About_Version.Text = @"Version: " + AppVersion;
+            Text = new StringBuilder(Text).Append( @" ").Append( AppVersion).Append(" - © 2013 - 2017 - Shino Amakusa").ToString();
+            lbl_About_Version.Text = new StringBuilder(@"Version: ").Append(AppVersion).ToString();
 
             string file = OptionsFileName;
 
@@ -1694,10 +1704,12 @@ namespace Tumblr_Tool
         /// </summary>
         private void LogFile_Save()
         {
-            FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename, TumblrLogFile, SaveFileFormat.JsonCompressed);
+            FileHelper.SaveTumblrFile(
+                new StringBuilder(SaveLocation).Append(@"\").Append(TumblrLogFile.Filename).ToString(), TumblrLogFile, SaveFileFormat.JsonCompressed);
             if (Options.GenerateUncompressedLog)
             {
-                FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrLogFile.Filename + ".txt", TumblrLogFile);
+                FileHelper.SaveTumblrFile(
+                    new StringBuilder(SaveLocation).Append(@"\").Append(TumblrLogFile.Filename).Append(".txt").ToString(), TumblrLogFile);
             }
         }
 
@@ -1842,9 +1854,10 @@ namespace Tumblr_Tool
         /// <returns></returns>
         private bool SaveFile_Save(string name)
         {
-            TumblrSaveFile = new SaveFile(name + ".tumblr", PhotoPostParser.Blog);
+            TumblrSaveFile = new SaveFile(
+                new StringBuilder(name).Append(".tumblr").ToString(), PhotoPostParser.Blog);
 
-            return FileHelper.SaveTumblrFile(SaveLocation + @"\" + TumblrSaveFile.Filename, TumblrSaveFile);
+            return FileHelper.SaveTumblrFile(new StringBuilder(SaveLocation).Append(@"\").Append(TumblrSaveFile.Filename).ToString(), TumblrSaveFile);
         }
 
         private void SetDoubleBuffering(Control control, bool value)
@@ -2343,9 +2356,10 @@ namespace Tumblr_Tool
         /// <param name="strToAdd"></param>
         private void UpdateWorkStatusTextConcat(string strToReplace, string strToAdd = "")
         {
-            if (txt_Crawler_WorkStatus.Text.Contains(strToReplace) && !txt_Crawler_WorkStatus.Text.Contains(string.Concat(strToReplace, strToAdd)))
+            if (txt_Crawler_WorkStatus.Text.Contains(strToReplace) &&
+                !txt_Crawler_WorkStatus.Text.Contains(new StringBuilder(strToReplace).Append(strToAdd).ToString()))
             {
-                txt_Crawler_WorkStatus.Text = txt_Crawler_WorkStatus.Text.Replace(strToReplace, string.Concat(strToReplace, strToAdd));
+                txt_Crawler_WorkStatus.Text = txt_Crawler_WorkStatus.Text.Replace(strToReplace, new StringBuilder(strToReplace).Append(strToAdd).ToString());
 
                 txt_Crawler_WorkStatus.Update();
                 txt_Crawler_WorkStatus.Refresh();
@@ -2360,8 +2374,8 @@ namespace Tumblr_Tool
         {
             if (!txt_Crawler_WorkStatus.Text.Contains(text))
             {
-                txt_Crawler_WorkStatus.Text += txt_Crawler_WorkStatus.Text != "" ? "\r\n" : "";
-                txt_Crawler_WorkStatus.Text += @":: " + text;
+                txt_Crawler_WorkStatus.Text = new StringBuilder(txt_Crawler_WorkStatus.Text).Append(txt_Crawler_WorkStatus.Text != "" ? "\r\n" : "").ToString();
+                txt_Crawler_WorkStatus.Text = new StringBuilder(txt_Crawler_WorkStatus.Text).Append(@":: ").Append(text).ToString();
                 txt_Crawler_WorkStatus.Update();
                 txt_Crawler_WorkStatus.Refresh();
             }

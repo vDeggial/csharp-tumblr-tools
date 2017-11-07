@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -308,9 +308,7 @@ namespace Tumblr_Tool.Helpers
                 post.Tags = null;
             }
 
-            string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
-
-            post.LastProcessedDate = DateTime.Now.ToString(datePatt);
+            post.LastProcessedDate = DateTime.Now.ToString(@"yyyy-MM-dd HH:mm:ss zzz");
         }
     }
 }

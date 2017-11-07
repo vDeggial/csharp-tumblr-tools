@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001
+ *
+ *  Project: Tumblr Tools - Image parser and downloader from Tumblr blog system
+ *
+ *  Author: Shino Amakusa
+ *
+ *  Created: 2017
+ *
+ *  Last Updated: November, 2017
+ *
+ * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -84,7 +96,7 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
-        public static bool StringExistsInHash(HashSet<string> sourceSet, string fileName, bool useFullString = false, char cutOffChar = '_')
+        public static bool StringExistsInHash(HashSet<string> sourceSet, string searchString, bool useFullString = false, char cutOffChar = '_')
         {
             try
             {
@@ -92,12 +104,12 @@ namespace Tumblr_Tool.Helpers
                 {
                     case false:
                         return Convert.ToBoolean((from p in sourceSet
-                                                  where p.ToLower().Contains(fileName.Substring(0, fileName.LastIndexOf(cutOffChar)).ToLower())
+                                                  where p.ToLower().Contains(searchString.Substring(0, searchString.LastIndexOf(cutOffChar)).ToLower())
                                                   select p).Count());
 
                     case true:
                         return Convert.ToBoolean((from p in sourceSet
-                                                  where p.ToLower().Contains(fileName.ToLower())
+                                                  where p.ToLower().Contains(searchString.ToLower())
                                                   select p).Count());
                 }
 

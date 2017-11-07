@@ -56,9 +56,7 @@ namespace Tumblr_Tool.Objects
         /// </summary>
         public void AddDate()
         {
-            string datePatt = @"yyyy-MM-dd HH:mm:ss zzz";
-
-            Date = DateTime.Now.ToString(datePatt);
+            Date = DateTime.Now.ToString(@"yyyy-MM-dd HH:mm:ss zzz");
         }
     }
 }

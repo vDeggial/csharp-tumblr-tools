@@ -185,8 +185,7 @@ namespace Tumblr_Tool.Objects.Tumblr_Objects
         /// <param name="tag"></param>
         public void AddTag(string tag)
         {
-            if (Tags == null)
-                Tags = new HashSet<string>();
+            if (Tags == null) Tags = new HashSet<string>();
 
             Tags.Add(tag);
         }

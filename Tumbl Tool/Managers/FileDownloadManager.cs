@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
@@ -89,7 +90,7 @@ namespace Tumblr_Tool.Managers
                 string protocol = uri.Scheme + Uri.SchemeDelimiter;
                 string path = uri.PathAndQuery;
 
-                var client = new RestClient(string.Concat(protocol, domain));
+                var client = new RestClient(new StringBuilder(protocol).Append(domain).ToString());
                 var request = new RestRequest(path, Method.GET);
 
                 client.DownloadData(request).SaveAs(localFilePath);

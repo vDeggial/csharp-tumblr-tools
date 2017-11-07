@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -28,10 +28,8 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                XmlSerializer reader =
-            new XmlSerializer(typeof(T));
-                StreamReader file = new StreamReader(
-                    @filename);
+                XmlSerializer reader = new XmlSerializer(typeof(T));
+                StreamReader file = new StreamReader(@filename);
                 var obj = (T)reader.Deserialize(file.BaseStream);
                 return obj;
             }

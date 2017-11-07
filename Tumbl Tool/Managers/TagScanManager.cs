@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -52,8 +52,8 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                TumblrPostType postType = PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All;
-                return DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, postType, 0, 1), Blog);
+                return DocumentManager.GetRemoteBlogInfo(
+                    TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All, 0, 1), Blog);
             }
             catch
             {
@@ -113,27 +113,9 @@ namespace Tumblr_Tool.Managers
 
         /// <summary>
         ///
-        /// </summary>
-        /// <returns></returns>
-        public bool TumblrExists()
-        {
-            try
-            {
-                var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
-
-                return url.TumblrExists();
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         ///
-        /// 
-        /// 
-        /// 
+        ///
+        ///
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
@@ -141,10 +123,8 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                TumblrPostType postType = PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All;
-                var query = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, postType, offset);
-
-                DocumentManager.GetRemoteDocument(query);
+                DocumentManager.GetRemoteDocument(
+                    TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, PhotoPostOnly == true ? TumblrPostType.Photo : TumblrPostType.All, offset));
 
                 if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {

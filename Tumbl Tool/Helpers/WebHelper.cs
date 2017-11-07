@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: November, 2017
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Text.RegularExpressions;
 using Tumblr_Tool.Enums;
 
@@ -85,7 +86,8 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static string GetDomainName(string url)
         {
-            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps) ? uriResult.Host : null;
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp ||
+                uriResult.Scheme == Uri.UriSchemeHttps) ? uriResult.Host : null;
         }
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace Tumblr_Tool.Helpers
             {
                 Uri uri = new Uri(url);
 
-                var docStr = new RestClient(string.Concat(uri.Scheme + Uri.SchemeDelimiter, uri.Host))
+                var docStr = new RestClient(new StringBuilder(uri.Scheme).Append(Uri.SchemeDelimiter).Append(uri.Host).ToString())
                     .Execute(new RestRequest(uri.PathAndQuery, Method.GET)).Content;
 
                 return !string.IsNullOrEmpty(docStr) ? docStr : null;
@@ -117,7 +119,8 @@ namespace Tumblr_Tool.Helpers
         /// <returns></returns>
         public static bool IsValidUrl(this string source)
         {
-            return Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && Uri.CheckSchemeName(uriResult.Scheme) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            return Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && Uri.CheckSchemeName(uriResult.Scheme) 
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
 
         /// <summary>
@@ -180,7 +183,7 @@ namespace Tumblr_Tool.Helpers
             {
                 Uri uri = new Uri(url);
 
-                return (new RestClient(string.Concat(uri.Scheme + Uri.SchemeDelimiter, uri.Host))
+                return (new RestClient(new StringBuilder(uri.Scheme).Append(Uri.SchemeDelimiter).Append(uri.Host).ToString())
                     .Execute(new RestRequest(uri.PathAndQuery, Method.HEAD)).StatusCode == HttpStatusCode.OK);
             }
             catch
