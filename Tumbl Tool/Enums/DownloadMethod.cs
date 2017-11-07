@@ -23,9 +23,9 @@ namespace Tumblr_Tool.Enums
         WebClientAsync,
 
         /// <summary>
-        /// Use PostShard file download method
+        /// Use RestSharp file download method
         /// </summary>
-        PostSharp,
+        RestSharp,
 
         /// <summary>
         /// Use .Net WebClient sync file download method

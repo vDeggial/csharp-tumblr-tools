@@ -62,7 +62,7 @@ namespace Tumblr_Tool.Managers
                     case DownloadMethod.WebClientAsync:
                         return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
 
-                    case DownloadMethod.PostSharp:
+                    case DownloadMethod.RestSharp:
                         return DownloadFileRestSharp(remoteFileLocation, localFileFullPath);
 
                     case DownloadMethod.WebClient:

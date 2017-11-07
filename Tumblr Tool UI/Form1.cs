@@ -1047,8 +1047,8 @@ namespace Tumblr_Tool
                                     bar_Progress.Refresh();
                                     lbl_PercentBar.ForeColor = Color.Maroon;
 
-                                    ErrorMessage = new StringBuilder("Error: Unable to download ").Append(NotDownloadedList[NotDownloadedList.Count - 1]).ToString();
-                                    UpdateWorkStatusTextNewLine(ErrorMessage);
+                                    //ErrorMessage = new StringBuilder("Error: Unable to download ").Append(NotDownloadedList[NotDownloadedList.Count - 1]).ToString();
+                                    //UpdateWorkStatusTextNewLine(ErrorMessage);
                                 });
                             }
                         }
