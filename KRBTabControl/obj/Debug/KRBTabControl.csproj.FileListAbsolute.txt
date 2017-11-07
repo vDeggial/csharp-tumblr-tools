@@ -3,6 +3,6 @@ E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\bin\Debug\KRBTabControl.pdb
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csprojResolveAssemblyReference.cache
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.Resources.resources
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csproj.GenerateResource.Cache
+E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csproj.CoreCompileInputs.cache
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.dll
 E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.pdb
-E:\Projects\c#\Tumblr\TumblrTools\KRBTabControl\obj\Debug\KRBTabControl.csproj.CoreCompileInputs.cache
