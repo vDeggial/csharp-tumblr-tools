@@ -92,8 +92,9 @@ namespace Tumblr_Tool.Managers
         private RemoteDocumentManager DocumentManager { get; set; }
         private HashSet<string> ErrorList { get; set; }
         private HashSet<TumblrPost> ExistingHash { get; set; }
-        //private HashSet<string> ExistingImageList { get; set; }
+
         private bool GenerateLog { get; set; }
+
         private Dictionary<string, string> ImageCommentsList { get; set; }
         private bool ParseGif { get; set; }
         private bool ParseJpeg { get; set; }
@@ -130,7 +131,6 @@ namespace Tumblr_Tool.Managers
             try
             {
                 ProcessingStatusCode = ProcessingCode.Crawling;
-                //ExistingImageList = FileHelper.GenerateFolderImageList(SaveLocation);
 
                 Blog.Posts = Blog.Posts ?? new HashSet<TumblrPost>();
 
@@ -269,9 +269,7 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var query = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.Photo, offset);
-
-                DocumentManager.GetRemoteDocument(query);
+                DocumentManager.GetRemoteDocument(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.Photo, offset));
 
                 if ((ApiVersion == TumblrApiVersion.V2Json && DocumentManager.JsonDocument != null))
                 {
