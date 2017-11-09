@@ -96,6 +96,14 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceSet"></param>
+        /// <param name="searchString"></param>
+        /// <param name="useFullString"></param>
+        /// <param name="cutOffChar"></param>
+        /// <returns></returns>
         public static bool StringExistsInHash(HashSet<string> sourceSet, string searchString, bool useFullString = false, char cutOffChar = '_')
         {
             try

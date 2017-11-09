@@ -34,6 +34,11 @@ namespace Tumblr_Tool.Helpers
             return NetworkInterface.GetIsNetworkAvailable();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string DecodeUrl(string value)
         {
             if (value == null)
@@ -60,6 +65,11 @@ namespace Tumblr_Tool.Helpers
             return System.Text.Encoding.UTF8.GetString(buffer.ToArray(), 0, buffer.Count);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string EncodeUrl(string value)
         {
             if (value == null)
@@ -159,7 +169,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static bool TumblrExists(this string url)
+        public static bool IsValidTumblrBlog(this string url)
         {
             try
             {

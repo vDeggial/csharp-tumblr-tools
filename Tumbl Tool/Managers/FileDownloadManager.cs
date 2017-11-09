@@ -33,6 +33,9 @@ namespace Tumblr_Tool.Managers
     {
         private readonly AutoResetEvent _readyToStop = new AutoResetEvent(false);
 
+        /// <summary>
+        /// 
+        /// </summary>
         public FileDownloadManager()
         {
             DownloadedList = new HashSet<string>();
@@ -50,6 +53,13 @@ namespace Tumblr_Tool.Managers
         private string SaveFileFormat { get; set; }
         private double TotalFileSize { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="remoteFileLocation"></param>
+        /// <param name="localPath"></param>
+        /// <returns></returns>
         public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
         {
             try
@@ -78,6 +88,12 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="remoteFileLocation"></param>
+        /// <param name="localFilePath"></param>
+        /// <returns></returns>
         private bool DownloadFileRestSharp(string remoteFileLocation, string localFilePath)
         {
             try
@@ -103,6 +119,12 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="remoteFileLocation"></param>
+        /// <param name="localFilePath"></param>
+        /// <returns></returns>
         private bool DownloadFileWebClient(string remoteFileLocation, string localFilePath)
         {
             try

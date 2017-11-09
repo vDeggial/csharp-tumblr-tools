@@ -172,6 +172,11 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="parseMode"></param>
+        /// <param name="offset"></param>
         private void ParseBlogPhotoPosts(BlogPostsScanMode parseMode, int offset)
         {
             Posts = GetTumblrPhotoPostList(ApiQueryOffset);
@@ -189,11 +194,11 @@ namespace Tumblr_Tool.Managers
         ///
         /// </summary>
         /// <returns></returns>
-        public bool TumblrExists()
+        public bool IsValidTumblrBlog()
         {
             try
             {
-                return TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1).TumblrExists();
+                return TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1).IsValidTumblrBlog();
             }
             catch
             {

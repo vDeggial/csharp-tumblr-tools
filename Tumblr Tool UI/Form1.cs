@@ -34,7 +34,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.5.8";
+        private const string AppVersion = "1.5.9";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -79,12 +79,19 @@ namespace Tumblr_Tool
         private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
         private readonly AutoResetEvent _readyToGetStats = new AutoResetEvent(false);
 
+        /// <summary>
+        /// 
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
             GlobalInitialize();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
         public MainForm(string file)
         {
             InitializeComponent();
@@ -144,6 +151,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BrowseLocalPath(object sender, EventArgs e)
         {
             using (FolderBrowserDialog ofd = new FolderBrowserDialog())
@@ -155,6 +167,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_OnMouseEnter(object sender, EventArgs e)
         {
             Button button = new Button();
@@ -210,6 +227,11 @@ namespace Tumblr_Tool
             UpdateStatusText(StatusReady);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel_TagScanner(object sender, EventArgs e)
         {
             IsCrawlingCancelled = true;
@@ -240,8 +262,6 @@ namespace Tumblr_Tool
                     if (PhotoPostParser.ProcessingStatusCode == ProcessingCode.Done)
                     {
                         TumblrSaveFile.Blog = PhotoPostParser.Blog;
-                        //tumblrLogFile = null;
-                        //ripper.tumblrPostLog = null;
 
                         TumblrLogFile = PhotoPostParser.TumblrPostLog;
 
@@ -306,9 +326,6 @@ namespace Tumblr_Tool
                         }
                     }
 
-                    //this.tumblrBlog = new TumblrBlog();
-                    //this.tumblrBlog.url = this.tumblrURL;
-
                     PhotoPostParser = new PhotoPostParseManager(new TumblrBlog(TumblrUrl), SaveLocation,
                         check_Options_GenerateLog.Checked, check_Options_ParsePhotoSets.Checked,
                         check_Options_ParseJPEG.Checked, check_Options_ParsePNG.Checked, check_Options_ParseGIF.Checked)
@@ -341,7 +358,7 @@ namespace Tumblr_Tool
                             PhotoPostParser.ApiVersion = TumblrApiVersion.V2Json;
                             PhotoPostParser.TumblrPostLog = TumblrLogFile;
 
-                            switch (PhotoPostParser.TumblrExists())
+                            switch (PhotoPostParser.IsValidTumblrBlog())
                             {
                                 case true:
 
@@ -1648,6 +1665,7 @@ namespace Tumblr_Tool
             SetDoubleBuffering(img_Crawler_DisplayImage, true);
 
             tabControl_Main.SelectedIndex = 0;
+            tabControl_Main.ShowToolTips = true;
 
             lbl_About_Copyright.Text = AppCopyright;
 
@@ -1655,6 +1673,11 @@ namespace Tumblr_Tool
             lbl_Stats_BlogTitle.Text = "Tumblr Stats";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             SolidBrush ForegroundBrushSelected = new SolidBrush(Color.Maroon);
@@ -1899,7 +1922,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).IsValidTumblrBlog())
                     {
                         EnableUI_Stats(false);
 
@@ -1983,6 +2006,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Start_TagScan(object sender, EventArgs e)
         {
             EnableUI_TagScanner(false);
@@ -2012,7 +2040,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrExists())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).IsValidTumblrBlog())
                     {
                         if (!IsDisposed)
                         {
@@ -2091,11 +2119,21 @@ namespace Tumblr_Tool
             CurrentSelectedTab = tabControl_Main.SelectedIndex;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagList_SaveAasFile(object sender, EventArgs e)
         {
             tagListSaveWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListSaveWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             Invoke((MethodInvoker)delegate
@@ -2104,6 +2142,11 @@ namespace Tumblr_Tool
                     });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListSaveWorker_Work(object sender, DoWorkEventArgs e)
         {
             ListBox listBox = list_TagScanner_TagList;
@@ -2127,11 +2170,21 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Done;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListWorker_Work(object sender, DoWorkEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
@@ -2159,6 +2212,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             try
@@ -2192,6 +2250,11 @@ namespace Tumblr_Tool
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TagListWorkerUI_Work(object sender, DoWorkEventArgs e)
         {
             try
@@ -2417,7 +2480,7 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void WorkStatusAutoScroll(object sender, EventArgs e)
         {
-            txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.TextLength;
+            txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
             txt_Crawler_WorkStatus.ScrollToCaret();
         }
     }

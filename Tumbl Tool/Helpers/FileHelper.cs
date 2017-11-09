@@ -46,9 +46,9 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Check if the file name exosts in the directory listing Hashset already
+        /// 
         /// </summary>
-        /// <param name="sourceSet"></param>
+        /// <param name="path"></param>
         /// <param name="fileName"></param>
         /// <param name="useFullString"></param>
         /// <param name="cutOffChar"></param>
@@ -200,6 +200,11 @@ namespace Tumblr_Tool.Helpers
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static string ReadFileAsString(string filePath)
         {
             using (FileStream fs = new FileStream(@filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

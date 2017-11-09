@@ -23,7 +23,11 @@ namespace Tumblr_Tool.Helpers
     public static class JsonHelper
     {
         
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         public static JObject GetDynamicObjectFromString(string jsonString)
         {
             if (!string.IsNullOrEmpty(jsonString))
@@ -83,6 +87,12 @@ namespace Tumblr_Tool.Helpers
             return default(T);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static T ReadObjectFromFileCompressed<T>(string filePath)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -126,6 +136,12 @@ namespace Tumblr_Tool.Helpers
             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="objectToWrite"></param>
+        /// <returns></returns>
         public static bool SaveObjectToFileCompressed(string filePath, object objectToWrite)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
@@ -138,6 +154,13 @@ namespace Tumblr_Tool.Helpers
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="stream"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         private static T DeserializeCompressedFile<T>(Stream stream, JsonSerializerSettings settings = null)
         {
             using (var compressor = new GZipStream(stream, CompressionMode.Decompress))
@@ -149,6 +172,12 @@ namespace Tumblr_Tool.Helpers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="stream"></param>
+        /// <param name="settings"></param>
         private static void SerializeCompressedFile(object value, Stream stream, JsonSerializerSettings settings = null)
         {
             using (var compressor = new GZipStream(stream, CompressionMode.Compress))
