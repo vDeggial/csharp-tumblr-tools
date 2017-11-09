@@ -121,6 +121,10 @@ namespace Tumblr_Tool
             this.blogTagListWorker = new System.ComponentModel.BackgroundWorker();
             this.blogTagLIstWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.tagListSaveWorker = new System.ComponentModel.BackgroundWorker();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.trayIcon_MenuItem_Restore = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayIcon_MenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -137,6 +141,7 @@ namespace Tumblr_Tool
             this.section_Options_BackupOptions.SuspendLayout();
             this.section_Options_ImageTypes.SuspendLayout();
             this.tab_About.SuspendLayout();
+            this.trayIconContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_PercentBar
@@ -1359,6 +1364,39 @@ namespace Tumblr_Tool
             this.tagListSaveWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListSaveWorker_Work);
             this.tagListSaveWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListSaveWorker_Completed);
             // 
+            // trayIcon
+            // 
+            this.trayIcon.Text = "trayIcon";
+            this.trayIcon.Visible = true;
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            // 
+            // trayIconContextMenu
+            // 
+            this.trayIconContextMenu.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trayIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayIcon_MenuItem_Restore,
+            this.trayIcon_MenuItem_Close});
+            this.trayIconContextMenu.Name = "trayIconContextMenu";
+            this.trayIconContextMenu.Size = new System.Drawing.Size(153, 70);
+            // 
+            // trayIcon_MenuItem_Restore
+            // 
+            this.trayIcon_MenuItem_Restore.Image = global::Tumblr_Tool.Properties.Resources.home;
+            this.trayIcon_MenuItem_Restore.Name = "trayIcon_MenuItem_Restore";
+            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Restore.Text = "Restore";
+            this.trayIcon_MenuItem_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.trayIcon_MenuItem_Restore_Click);
+            // 
+            // trayIcon_MenuItem_Close
+            // 
+            this.trayIcon_MenuItem_Close.Image = global::Tumblr_Tool.Properties.Resources.menu;
+            this.trayIcon_MenuItem_Close.Name = "trayIcon_MenuItem_Close";
+            this.trayIcon_MenuItem_Close.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Close.Text = "Close";
+            this.trayIcon_MenuItem_Close.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.trayIcon_MenuItem_Close.Click += new System.EventHandler(this.trayIcon_MenuItem_Close_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1386,6 +1424,7 @@ namespace Tumblr_Tool
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tumblr Tools";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExitApplication);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menu_TopMenu.ResumeLayout(false);
             this.menu_TopMenu.PerformLayout();
             this.status_Strip.ResumeLayout(false);
@@ -1410,6 +1449,7 @@ namespace Tumblr_Tool
             this.section_Options_ImageTypes.PerformLayout();
             this.tab_About.ResumeLayout(false);
             this.tab_About.PerformLayout();
+            this.trayIconContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1507,6 +1547,10 @@ namespace Tumblr_Tool
         private System.Windows.Forms.CheckBox check_Tags_PhotoOnly;
         private System.Windows.Forms.ToolStripMenuItem menuItem_LoadFromFile;
         private System.Windows.Forms.CheckBox check_Options_GenerateUncompressedLog;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.ContextMenuStrip trayIconContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Restore;
+        private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Close;
     }
 }
 

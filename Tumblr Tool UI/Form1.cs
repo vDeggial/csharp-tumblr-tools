@@ -1264,19 +1264,14 @@ namespace Tumblr_Tool
                         IsDownloadDone = true;
                         IsCrawlingDone = true;
 
-                        if (TumblrLogFile == null) TumblrLogFile = PhotoPostParser.TumblrPostLog;
-
                         if (!IsDisposed)
                         {
                             UpdateStatusText("Exiting...");
                             UpdateWorkStatusTextNewLine("Exiting ...");
                         }
+                        trayIcon.Visible = false;
+                        Environment.Exit(0);
 
-                        if (Options.GenerateLog && TumblrLogFile != null && PhotoPostParser.IsLogUpdated)
-                        {
-                            Thread thread = new Thread(LogFile_Save);
-                            thread.Start();
-                        }
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -1671,6 +1666,14 @@ namespace Tumblr_Tool
 
             txt_Stats_BlogDescription.Text = "Click Get Stats to start ...";
             lbl_Stats_BlogTitle.Text = "Tumblr Stats";
+
+            trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info; //Shows the info icon so the user doesn't thing there is an error.
+            trayIcon.BalloonTipText = "Still here, but minimized";
+            trayIcon.BalloonTipTitle = "Tumblr Tools";
+            trayIcon.Icon = Icon; //The tray icon to use
+            trayIcon.Text = "Tumblr Tools";
+            trayIcon.ContextMenuStrip = trayIconContextMenu;
+            trayIcon_MenuItem_Restore.Visible = false;
         }
 
         /// <summary>
@@ -2482,6 +2485,51 @@ namespace Tumblr_Tool
         {
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
             txt_Crawler_WorkStatus.ScrollToCaret();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                trayIcon.Visible = true;
+                trayIcon.ShowBalloonTip(500);
+                trayIcon_MenuItem_Restore.Visible = true;
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                //trayIcon.Visible = false;
+                trayIcon_MenuItem_Restore.Visible = false;
+            }
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                this.Show();
+                this.Visible = true;
+                this.WindowState = FormWindowState.Normal;
+
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.Hide();
+                this.Visible = false;
+                
+            }
+        }
+
+        private void trayIcon_MenuItem_Close_Click(object sender, EventArgs e)
+        {
+            //this.Show();
+            ExitApplication(null, new FormClosingEventArgs(CloseReason.UserClosing,false));
+        }
+
+        private void trayIcon_MenuItem_Restore_Click(object sender, EventArgs e)
+        {
+            trayIcon_MouseDoubleClick(sender, null);
         }
     }
 }
