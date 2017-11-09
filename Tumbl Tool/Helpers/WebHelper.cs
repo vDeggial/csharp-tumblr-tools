@@ -169,10 +169,11 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static bool IsValidTumblrBlog(this string url)
+        public static bool TumblrBlogExists(this string addr)
         {
             try
             {
+                string url = TumblrApiHelper.GenerateInfoQueryUrl(GetDomainName(addr));
                 dynamic jsonObject = JsonHelper.GetDynamicObjectFromString(GetRemoteDocumentAsString(url));
                 return (jsonObject != null && jsonObject.meta != null && jsonObject.meta.status == ((int)TumblrApiResponse.Ok).ToString());
             }

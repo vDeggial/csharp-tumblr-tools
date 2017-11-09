@@ -83,9 +83,9 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                var url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
+                string url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
 
-                if (url.IsValidTumblrBlog())
+                if (TumblrUrl.TumblrBlogExists())
 
                 {
                     DocumentManager.GetRemoteDocument(url);
@@ -100,7 +100,7 @@ namespace Tumblr_Tool.Managers
                         int TotalPostsForType = 0;
                         url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, type, 0, 1);
 
-                        if (url.IsValidTumblrBlog())
+                        if (TumblrUrl.TumblrBlogExists())
                         {
                             DocumentManager.GetRemoteDocument(url);
                             if (DocumentManager.JsonDocument != null)

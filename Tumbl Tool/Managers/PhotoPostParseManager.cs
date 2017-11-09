@@ -86,6 +86,7 @@ namespace Tumblr_Tool.Managers
         public int TotalNumberOfPosts { get; set; }
         public string TumblrDomain { get; set; }
         public SaveFile TumblrPostLog { get; set; }
+        public string TumblrUrl { get; set; }
 
         private int ApiQueryOffset { get; set; }
         private int ApiQueryPostLimit { get; set; }
@@ -103,7 +104,7 @@ namespace Tumblr_Tool.Managers
         private HashSet<TumblrPost> Posts { get; set; }
         private string SaveLocation { get; set; }
         private int TotalNumberOfImages { get; set; }
-        private string TumblrUrl { get; set; }
+        
 
         /// <summary>
         ///
@@ -188,22 +189,6 @@ namespace Tumblr_Tool.Managers
             if (Posts.Count != 0) { Blog.Posts.UnionWith(Posts); GenerateImageListForDownload(Posts); }
 
             if (parseMode == BlogPostsScanMode.FullBlogRescan) Blog.Posts.UnionWith(ExistingHash);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public bool IsValidTumblrBlog()
-        {
-            try
-            {
-                return TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1).IsValidTumblrBlog();
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         /// <summary>

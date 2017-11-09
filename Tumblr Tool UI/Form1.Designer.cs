@@ -956,7 +956,7 @@ namespace Tumblr_Tool
             this.btn_TagScanner_SaveAsFile.Text = "Save To File";
             this.btn_TagScanner_SaveAsFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_TagScanner_SaveAsFile.UseVisualStyleBackColor = true;
-            this.btn_TagScanner_SaveAsFile.Click += new System.EventHandler(this.TagList_SaveAasFile);
+            this.btn_TagScanner_SaveAsFile.Click += new System.EventHandler(this.TagList_SaveAsFile);
             this.btn_TagScanner_SaveAsFile.MouseEnter += new System.EventHandler(this.Button_OnMouseEnter);
             this.btn_TagScanner_SaveAsFile.MouseLeave += new System.EventHandler(this.Button_OnMouseLeave);
             // 

@@ -67,6 +67,13 @@ namespace Tumblr_Tool
         private const string SuffixGb = "GB";
         private const string SuffixKb = "KB";
         private const string SuffixMb = "MB";
+        private const string TrayIconMessageDownloadComplete = "Image download complete. Downloaded {0} images";
+        private const string TrayIconMessageGetStatsComplete = "Finished getting blog stats";
+        private const string TrayIconMessageGetTagsComplete = "Finished getting post tag list";
+        private const string TrayIconMessageIndexingCancel = "Post indexing canceled";
+        private const string TrayIconMessageIndexingComplete = "Post indexing complete";
+        private const string TrayIconMessageIndexingCompleteNoDownload = "Post indexing complete. Found no images to download";
+        private const string TrayIconMessageMinimized = "Still here, but minimized";
         private const string WelcomeMsg = "\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
@@ -80,7 +87,7 @@ namespace Tumblr_Tool
         private readonly AutoResetEvent _readyToGetStats = new AutoResetEvent(false);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public MainForm()
         {
@@ -89,7 +96,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="file"></param>
         public MainForm(string file)
@@ -105,6 +112,7 @@ namespace Tumblr_Tool
             SaveFile_Open(file);
         }
 
+        public string TumblrUrl { get; set; }
         private Dictionary<string, BlogPostsScanMode> BlogPostsScanModesDict { get; set; }
         private string CurrentImage { get; set; }
         private int CurrentPercent { get; set; }
@@ -133,9 +141,6 @@ namespace Tumblr_Tool
         private SaveFile TumblrSaveFile { get; set; }
 
         private TumblrStatsManager TumblrStats { get; set; }
-
-        private string TumblrUrl { get; set; }
-
         /// <summary>
         ///
         /// </summary>
@@ -152,7 +157,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -168,7 +173,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -228,7 +233,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -358,7 +363,7 @@ namespace Tumblr_Tool
                             PhotoPostParser.ApiVersion = TumblrApiVersion.V2Json;
                             PhotoPostParser.TumblrPostLog = TumblrLogFile;
 
-                            switch (PhotoPostParser.IsValidTumblrBlog())
+                            switch (PhotoPostParser.TumblrUrl.TumblrBlogExists())
                             {
                                 case true:
 
@@ -499,6 +504,8 @@ namespace Tumblr_Tool
                         if (check_Options_ParseOnly.Checked)
                         {
                             EnableUI_Crawl(true);
+                            trayIcon.BalloonTipText = TrayIconMessageIndexingComplete;
+                            trayIcon.ShowBalloonTip(500);
                         }
                         else if (PhotoPostParser.ProcessingStatusCode != ProcessingCode.Done)
                         {
@@ -506,7 +513,7 @@ namespace Tumblr_Tool
                         }
                         else
                         {
-                            if (IsCrawlingDone && !check_Options_ParseOnly.Checked && !IsCrawlingCancelled && PhotoPostParser.ImageList.Count != 0)
+                            if (IsCrawlingDone && !IsCrawlingCancelled && PhotoPostParser.ImageList.Count != 0)
                             {
                                 UpdateStatusText(string.Format(StatusDownloadingFormat, "Prepairing to download ..."));
                                 bar_Progress.Value = 0;
@@ -515,11 +522,21 @@ namespace Tumblr_Tool
 
                                 lbl_PostCount.Text = string.Format(PostCountFormat, "0", PhotoPostParser.ImageList.Count);
                             }
+                            else if (PhotoPostParser.ImageList.Count == 0)
+                            {
+                                UpdateStatusText(StatusReady);
+                                img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                EnableUI_Crawl(true);
+                                trayIcon.BalloonTipText = TrayIconMessageIndexingCompleteNoDownload;
+                                trayIcon.ShowBalloonTip(500);
+                            }
                             else
                             {
                                 UpdateStatusText(StatusReady);
                                 img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
                                 EnableUI_Crawl(true);
+                                trayIcon.BalloonTipText = TrayIconMessageIndexingCancel;
+                                trayIcon.ShowBalloonTip(500);
                             }
                         }
                     });
@@ -982,6 +999,8 @@ namespace Tumblr_Tool
                             {
                                 UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
                                 UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadedList.Count.ToString()).Append(" image(s).").ToString());
+                                trayIcon.BalloonTipText = string.Format(TrayIconMessageDownloadComplete, DownloadedList.Count.ToString());
+                                trayIcon.ShowBalloonTip(500);
                                 bar_Progress.Value = 0;
                                 lbl_PercentBar.Text = string.Empty;
                             });
@@ -1270,8 +1289,7 @@ namespace Tumblr_Tool
                             UpdateWorkStatusTextNewLine("Exiting ...");
                         }
                         trayIcon.Visible = false;
-                        Environment.Exit(0);
-
+                        //Environment.Exit(0);
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -1280,7 +1298,7 @@ namespace Tumblr_Tool
                     }
                 }
             }
-            catch
+            catch (Exception)
             {
                 Environment.Exit(0);
             }
@@ -1371,7 +1389,8 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void GetStatsWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            //
+            trayIcon.BalloonTipText = TrayIconMessageGetStatsComplete;
+            trayIcon.ShowBalloonTip(500);
         }
 
         /// <summary>
@@ -1545,6 +1564,10 @@ namespace Tumblr_Tool
                             MsgBox.Show(exception.Message);
                         }
                         break;
+
+                    default:
+                        EnableUI_Stats(true);
+                        break;
                 }
             }
             catch (Exception exception)
@@ -1668,7 +1691,7 @@ namespace Tumblr_Tool
             lbl_Stats_BlogTitle.Text = "Tumblr Stats";
 
             trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info; //Shows the info icon so the user doesn't thing there is an error.
-            trayIcon.BalloonTipText = "Still here, but minimized";
+
             trayIcon.BalloonTipTitle = "Tumblr Tools";
             trayIcon.Icon = Icon; //The tray icon to use
             trayIcon.Text = "Tumblr Tools";
@@ -1677,7 +1700,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1727,6 +1750,23 @@ namespace Tumblr_Tool
             {
                 FileHelper.SaveTumblrFile(
                     new StringBuilder(SaveLocation).Append(@"\").Append(TumblrLogFile.Filename).Append(".txt").ToString(), TumblrLogFile);
+            }
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                trayIcon.Visible = true;
+                trayIcon.BalloonTipText = TrayIconMessageMinimized;
+                trayIcon.ShowBalloonTip(500);
+                trayIcon_MenuItem_Restore.Visible = true;
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                //trayIcon.Visible = false;
+                trayIcon_MenuItem_Restore.Visible = false;
             }
         }
 
@@ -1925,7 +1965,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).IsValidTumblrBlog())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrBlogExists())
                     {
                         EnableUI_Stats(false);
 
@@ -2010,7 +2050,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2043,7 +2083,7 @@ namespace Tumblr_Tool
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).IsValidTumblrBlog())
+                    if (TumblrApiHelper.GenerateInfoQueryUrl(WebHelper.GetDomainName(TumblrUrl)).TumblrBlogExists())
                     {
                         if (!IsDisposed)
                         {
@@ -2123,17 +2163,17 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TagList_SaveAasFile(object sender, EventArgs e)
+        private void TagList_SaveAsFile(object sender, EventArgs e)
         {
             tagListSaveWorker.RunWorkerAsync();
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2146,7 +2186,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2174,7 +2214,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2184,7 +2224,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2216,7 +2256,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2224,12 +2264,12 @@ namespace Tumblr_Tool
         {
             try
             {
+                trayIcon.BalloonTipText = TrayIconMessageGetTagsComplete;
+                trayIcon.ShowBalloonTip(500);
                 if (!IsDisposed)
                 {
                     Invoke((MethodInvoker)delegate
                     {
-                        //txt_TagScanner_TagList.Text = "Populating the list ... ";
-                        //txt_TagScanner_TagList.Text = string.Join(",", TagScanner.TagList);
                         list_TagScanner_TagList.DataSource = TagScanner.TagList.ToList();
                         if (TagScanner.TagList.Count != 0)
                         {
@@ -2254,7 +2294,7 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2384,6 +2424,33 @@ namespace Tumblr_Tool
             }
         }
 
+        private void trayIcon_MenuItem_Close_Click(object sender, EventArgs e)
+        {
+            //this.Show();
+            ExitApplication(null, new FormClosingEventArgs(CloseReason.UserClosing, false));
+        }
+
+        private void trayIcon_MenuItem_Restore_Click(object sender, EventArgs e)
+        {
+            trayIcon_MouseDoubleClick(sender, null);
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                this.Show();
+                this.Visible = true;
+                this.WindowState = FormWindowState.Normal;
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.Hide();
+                this.Visible = false;
+            }
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -2458,7 +2525,7 @@ namespace Tumblr_Tool
 
             if (saveLocationEmpty)
             {
-                MsgBox.Show("Save Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                MsgBox.Show("Backup Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
                 EnableUI_Crawl(true);
                 btn_Crawler_Browse.Focus();
             }
@@ -2485,51 +2552,6 @@ namespace Tumblr_Tool
         {
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
             txt_Crawler_WorkStatus.ScrollToCaret();
-        }
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            if (FormWindowState.Minimized == this.WindowState)
-            {
-                trayIcon.Visible = true;
-                trayIcon.ShowBalloonTip(500);
-                trayIcon_MenuItem_Restore.Visible = true;
-                this.Hide();
-            }
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                //trayIcon.Visible = false;
-                trayIcon_MenuItem_Restore.Visible = false;
-            }
-        }
-
-        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (FormWindowState.Minimized == this.WindowState)
-            {
-                this.Show();
-                this.Visible = true;
-                this.WindowState = FormWindowState.Normal;
-
-            }
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                this.WindowState = FormWindowState.Minimized;
-                this.Hide();
-                this.Visible = false;
-                
-            }
-        }
-
-        private void trayIcon_MenuItem_Close_Click(object sender, EventArgs e)
-        {
-            //this.Show();
-            ExitApplication(null, new FormClosingEventArgs(CloseReason.UserClosing,false));
-        }
-
-        private void trayIcon_MenuItem_Restore_Click(object sender, EventArgs e)
-        {
-            trayIcon_MouseDoubleClick(sender, null);
         }
     }
 }
