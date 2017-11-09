@@ -350,85 +350,93 @@ namespace Tumblr_Tool
                                         PhotoPostParser.ProcessingStatusCode = ProcessingCode.GettingBlogInfo;
                                     }
 
-                                    if (PhotoPostParser.GetTumblrBlogInfo())
+                                    switch (PhotoPostParser.GetTumblrBlogInfo())
                                     {
-                                        lock (PhotoPostParser)
-                                        {
-                                            PhotoPostParser.ProcessingStatusCode = ProcessingCode.BlogInfoOk;
-                                        }
+                                        case true:
 
-                                        if (!SaveFile_Save(PhotoPostParser.Blog.Name))
-                                        {
                                             lock (PhotoPostParser)
                                             {
-                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.SaveFileError;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            lock (PhotoPostParser)
-                                            {
-                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.SaveFileOk;
+                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.BlogInfoOk;
                                             }
 
-                                            if (PhotoPostParser != null)
+                                            switch (SaveFile_Save(PhotoPostParser.Blog.Name))
                                             {
-                                                BlogPostsScanMode mode = BlogPostsScanMode.NewestPostsOnly;
-                                                Invoke((MethodInvoker)delegate
-                                                {
-                                                    mode = BlogPostsScanModesDict[select_Crawler_Mode.SelectedItem.ToString()];
-                                                });
+                                                case true:
 
-                                                lock (PhotoPostParser)
-                                                {
-                                                    PhotoPostParser.ProcessingStatusCode = ProcessingCode.Crawling;
-                                                }
-
-                                                PhotoPostParser.ParseAllBlogPhotoPosts(mode);
-
-                                                lock (PhotoPostParser)
-                                                {
-                                                    if (PhotoPostParser.IsLogUpdated)
+                                                    lock (PhotoPostParser)
                                                     {
-                                                        PhotoPostParser.ProcessingStatusCode = ProcessingCode.SavingLogFile;
+                                                        PhotoPostParser.ProcessingStatusCode = ProcessingCode.SaveFileOk;
+                                                    }
 
-                                                        if (!IsDisposed)
+                                                    if (PhotoPostParser != null)
+                                                    {
+                                                        BlogPostsScanMode mode = BlogPostsScanMode.NewestPostsOnly;
+                                                        Invoke((MethodInvoker)delegate
                                                         {
-                                                            Invoke((MethodInvoker)delegate
-                                                            {
-                                                                UpdateStatusText(WorktextSavingLog);
-                                                                UpdateWorkStatusTextNewLine(WorktextSavingLog);
-                                                            });
+                                                            mode = BlogPostsScanModesDict[select_Crawler_Mode.SelectedItem.ToString()];
+                                                        });
+
+                                                        lock (PhotoPostParser)
+                                                        {
+                                                            PhotoPostParser.ProcessingStatusCode = ProcessingCode.Crawling;
                                                         }
-                                                        TumblrLogFile = PhotoPostParser.TumblrPostLog;
-                                                        LogFile_Save();
 
-                                                        if (!IsDisposed)
+                                                        PhotoPostParser.ParseAllBlogPhotoPosts(mode);
+
+                                                        lock (PhotoPostParser)
                                                         {
-                                                            Invoke((MethodInvoker)delegate
+                                                            if (PhotoPostParser.IsLogUpdated)
                                                             {
-                                                                UpdateStatusText("Log Saved");
-                                                                UpdateWorkStatusTextConcat(WorktextSavingLog, ResultDone);
-                                                            });
+                                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.SavingLogFile;
 
-                                                            PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
+                                                                if (!IsDisposed)
+                                                                {
+                                                                    Invoke((MethodInvoker)delegate
+                                                                    {
+                                                                        UpdateStatusText(WorktextSavingLog);
+                                                                        UpdateWorkStatusTextNewLine(WorktextSavingLog);
+                                                                    });
+                                                                }
+                                                                TumblrLogFile = PhotoPostParser.TumblrPostLog;
+                                                                LogFile_Save();
+
+                                                                if (!IsDisposed)
+                                                                {
+                                                                    Invoke((MethodInvoker)delegate
+                                                                    {
+                                                                        UpdateStatusText("Log Saved");
+                                                                        UpdateWorkStatusTextConcat(WorktextSavingLog, ResultDone);
+                                                                    });
+
+                                                                    PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
+                                                                }
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            }
-                                        }
+                                                    break;
 
-                                        lock (PhotoPostParser)
-                                        {
-                                            PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        lock (PhotoPostParser)
-                                        {
-                                            PhotoPostParser.ProcessingStatusCode = ProcessingCode.BlogInfoError;
-                                        }
+                                                case false:
+
+                                                    lock (PhotoPostParser)
+                                                    {
+                                                        PhotoPostParser.ProcessingStatusCode = ProcessingCode.SaveFileError;
+                                                    }
+                                                    break;
+                                            }
+
+                                            lock (PhotoPostParser)
+                                            {
+                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
+                                            }
+                                            break;
+
+                                        case false:
+
+                                            lock (PhotoPostParser)
+                                            {
+                                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.BlogInfoError;
+                                            }
+                                            break;
                                     }
                                     break;
 
