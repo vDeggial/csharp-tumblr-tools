@@ -152,6 +152,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Tumblr Tool UI_TemporaryKey.pfx" />
+    <None Include="Tumblr Tools.options" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tumbl Tool\Tumblr Tool.csproj">

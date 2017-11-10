@@ -2426,7 +2426,7 @@ namespace Tumblr_Tool
             }
         }
 
-        private void trayIcon_MenuItem_Close_Click(object sender, EventArgs e)
+        private void trayIcon_MenuItem_Exit_Click(object sender, EventArgs e)
         {
             //this.Show();
             ExitApplication(null, new FormClosingEventArgs(CloseReason.UserClosing, false));

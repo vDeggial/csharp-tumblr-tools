@@ -1,0 +1,11 @@
+{
+  "DownloadFiles": true,
+  "GenerateLog": true,
+  "GenerateUncompressedLog": true,
+  "OldToNewDownloadOrder": true,
+  "ParseGif": true,
+  "ParseJpeg": true,
+  "ParsePhotoSets": true,
+  "ParsePng": true,
+  "ShowNotifications": true
+}

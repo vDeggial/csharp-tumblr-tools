@@ -126,7 +126,7 @@ namespace Tumblr_Tool
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.trayIcon_MenuItem_Restore = new System.Windows.Forms.ToolStripMenuItem();
-            this.trayIcon_MenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayIcon_MenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -1404,27 +1404,27 @@ namespace Tumblr_Tool
             this.trayIconContextMenu.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.trayIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.trayIcon_MenuItem_Restore,
-            this.trayIcon_MenuItem_Close});
+            this.trayIcon_MenuItem_Exit});
             this.trayIconContextMenu.Name = "trayIconContextMenu";
-            this.trayIconContextMenu.Size = new System.Drawing.Size(116, 48);
+            this.trayIconContextMenu.Size = new System.Drawing.Size(153, 70);
             // 
             // trayIcon_MenuItem_Restore
             // 
             this.trayIcon_MenuItem_Restore.Image = global::Tumblr_Tool.Properties.Resources.home;
             this.trayIcon_MenuItem_Restore.Name = "trayIcon_MenuItem_Restore";
-            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(115, 22);
+            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(152, 22);
             this.trayIcon_MenuItem_Restore.Text = "Restore";
             this.trayIcon_MenuItem_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.trayIcon_MenuItem_Restore_Click);
             // 
-            // trayIcon_MenuItem_Close
+            // trayIcon_MenuItem_Exit
             // 
-            this.trayIcon_MenuItem_Close.Image = global::Tumblr_Tool.Properties.Resources.menu;
-            this.trayIcon_MenuItem_Close.Name = "trayIcon_MenuItem_Close";
-            this.trayIcon_MenuItem_Close.Size = new System.Drawing.Size(115, 22);
-            this.trayIcon_MenuItem_Close.Text = "Close";
-            this.trayIcon_MenuItem_Close.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.trayIcon_MenuItem_Close.Click += new System.EventHandler(this.trayIcon_MenuItem_Close_Click);
+            this.trayIcon_MenuItem_Exit.Image = global::Tumblr_Tool.Properties.Resources.menu;
+            this.trayIcon_MenuItem_Exit.Name = "trayIcon_MenuItem_Exit";
+            this.trayIcon_MenuItem_Exit.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Exit.Text = "Exit";
+            this.trayIcon_MenuItem_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.trayIcon_MenuItem_Exit_Click);
             // 
             // MainForm
             // 
@@ -1581,7 +1581,7 @@ namespace Tumblr_Tool
         private System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.ContextMenuStrip trayIconContextMenu;
         private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Restore;
-        private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Close;
+        private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Exit;
         private System.Windows.Forms.GroupBox section_Options_Notifications;
         private System.Windows.Forms.CheckBox check_Options_ShowNotifications;
     }
