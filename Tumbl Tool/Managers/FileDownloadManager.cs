@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using Tumblr_Tool.Enums;
@@ -29,30 +30,121 @@ using Tumblr_Tool.Helpers;
 
 namespace Tumblr_Tool.Managers
 {
-    public class FileDownloadManager
+    public class FileDownloadManager : INotifyPropertyChanged
     {
         private readonly AutoResetEvent _readyToStop = new AutoResetEvent(false);
+
+        private double downloadedFilesSize;
+
+        private HashSet<string> downloadedList;
+
+        private DownloadStatusCode downloadStatusCode;
+
+        private double fileSizeRecieved;
+
+        private int numberOfFilesDownloaded;
+
+        private double percentDownloaded;
 
         /// <summary>
         /// 
         /// </summary>
         public FileDownloadManager()
         {
-            DownloadedList = new HashSet<string>();
-            TotalFileSize = 0;
-            FileSizeRecieved = 0;
-            SaveFileFormat = Enums.SaveFileFormat.Json.ToString();
+            downloadedList = new HashSet<string>();
+            downloadedFilesSize = 0;
+            fileSizeRecieved = 0;
+            numberOfFilesDownloaded = 0;
+
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public double DownloadedFilesSize
+        {
+            get
+            {
+                return downloadedFilesSize;
+            }
+            set
+            {
+                if (value != downloadedFilesSize)
+                {
+                    downloadedFilesSize = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
-        public HashSet<string> DownloadedList { get; set; }
-        public DownloadStatusCode DownloadStatusCode { get; set; }
-        public double PercentDownloaded { get; set; }
-        public int TotalFilesToDownload { get; set; }
+        public HashSet<string> DownloadedList
+        { get
+            {
+                return downloadedList;
+            }
+            set
+            {
+                downloadedList = value;
+            }
+        }
+        public DownloadStatusCode DownloadStatusCode
+        { get
+            {
+                return downloadStatusCode;
+            }
+            set
+            {
+                if (value != downloadStatusCode)
+                {
+                    downloadStatusCode = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int NumberOfFilesDownloaded
+        {
+            get
+            {
+                return numberOfFilesDownloaded;
+            }
+            set
+            {
+                if (value != numberOfFilesDownloaded)
+                {
+                    numberOfFilesDownloaded = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        private double FileSizeRecieved { get; set; }
-        private string SaveFileFormat { get; set; }
-        private double TotalFileSize { get; set; }
+        public int NumberOfFilesToDownload { get; set; }
 
+        public double PercentDownloaded
+        { get
+            {
+                return percentDownloaded;
+            }
+            set
+            {
+                if (value != percentDownloaded)
+                {
+                    percentDownloaded = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        private double FileSizeRecieved
+        { get
+            {
+                return fileSizeRecieved;
+            }
+            set
+            {
+                if (value != fileSizeRecieved)
+                {
+                    fileSizeRecieved = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -170,7 +262,7 @@ namespace Tumblr_Tool.Managers
                         }
 
                         sw.Stop();
-                        TotalFileSize += FileSizeRecieved;
+                        DownloadedFilesSize += FileSizeRecieved;
                         DownloadStatusCode = DownloadStatusCode.Done;
                         return true;
                     }
@@ -241,6 +333,14 @@ namespace Tumblr_Tool.Managers
             }
         }
 
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         /// <summary>
         ///
         /// </summary>
@@ -279,8 +379,9 @@ namespace Tumblr_Tool.Managers
                 if (e.Cancelled == false && e.Error == null)
                 {
                     DownloadStatusCode = DownloadStatusCode.Done;
-                    //this.DownloadedList.Add((string)e.UserState);
-                    TotalFileSize += FileSizeRecieved;
+                    this.DownloadedList.Add((string)e.UserState);
+                    NumberOfFilesDownloaded++;
+                    DownloadedFilesSize += FileSizeRecieved;
                     _readyToStop.Set();
                 }
             }

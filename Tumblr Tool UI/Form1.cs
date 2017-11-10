@@ -141,6 +141,7 @@ namespace Tumblr_Tool
         private SaveFile TumblrSaveFile { get; set; }
 
         private TumblrStatsManager TumblrStats { get; set; }
+
         /// <summary>
         ///
         /// </summary>
@@ -274,14 +275,14 @@ namespace Tumblr_Tool
 
                         if (IsCrawlingDone && !check_Options_ParseOnly.Checked && !IsCrawlingCancelled && PhotoPostParser.ImageList.Count != 0)
                         {
-                            DownloadManager.TotalFilesToDownload = PhotoPostParser.ImageList.Count;
+                            //DownloadManager.NumberOfFilesToDownload = PhotoPostParser.ImageList.Count;
 
                             IsDownloadDone = false;
                             DownloadedList = new List<string>();
                             NotDownloadedList = new List<string>();
                             DownloadedSizesList = new List<int>();
 
-                            imageDownloadWorkerUI.RunWorkerAsync();
+                            //imageDownloadWorkerUI.RunWorkerAsync();
 
                             imageDownloadWorker.RunWorkerAsync(PhotoPostParser.ImageList);
                         }
@@ -306,6 +307,13 @@ namespace Tumblr_Tool
                 Thread.Sleep(200);
 
                 IsCrawlingCancelled = false;
+                if (!IsDisposed)
+                {
+                    Invoke((MethodInvoker)delegate
+                            {
+                                img_Crawler_DisplayImage.Image = Resources.crawling;
+                            });
+                }
 
                 lock (PhotoPostParser)
                 {
@@ -341,6 +349,8 @@ namespace Tumblr_Tool
                     {
                         PhotoPostParser.ImageSize = ImageSizesIndexDict[select_Crawler_ImagesSize.Items[select_Crawler_ImagesSize.SelectedIndex].ToString()];
                     });
+                    PhotoPostParser.PropertyChanged += new PropertyChangedEventHandler(UpdateUI_PostParse);
+
                     PhotoPostParser.ProcessingStatusCode = ProcessingCode.Initializing;
                 }
 
@@ -402,7 +412,10 @@ namespace Tumblr_Tool
                                                         {
                                                             PhotoPostParser.ProcessingStatusCode = ProcessingCode.Crawling;
                                                         }
-
+                                                        Invoke((MethodInvoker)delegate
+                                                        {
+                                                            lbl_PercentBar.Text = string.Format(PercentFormat, 0);
+                                                        });
                                                         PhotoPostParser.ParseAllBlogPhotoPosts(mode);
 
                                                         lock (PhotoPostParser)
@@ -429,7 +442,7 @@ namespace Tumblr_Tool
                                                                         UpdateStatusText("Log Saved");
                                                                         UpdateWorkStatusTextConcat(WorktextSavingLog, ResultDone);
                                                                     });
-
+                                                                    IsCrawlingDone = true;
                                                                     PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
                                                                 }
                                                             }
@@ -448,6 +461,7 @@ namespace Tumblr_Tool
 
                                             lock (PhotoPostParser)
                                             {
+                                                IsCrawlingDone = true;
                                                 PhotoPostParser.ProcessingStatusCode = ProcessingCode.Done;
                                             }
                                             break;
@@ -493,286 +507,6 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrawlWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
-            {
-                if (!IsDisposed)
-                {
-                    Invoke((MethodInvoker)delegate
-                    {
-                        if (check_Options_ParseOnly.Checked)
-                        {
-                            EnableUI_Crawl(true);
-                            trayIcon.BalloonTipText = TrayIconMessageIndexingComplete;
-                            if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
-                        }
-                        else if (PhotoPostParser.ProcessingStatusCode != ProcessingCode.Done)
-                        {
-                            EnableUI_Crawl(true);
-                        }
-                        else
-                        {
-                            if (IsCrawlingDone && !IsCrawlingCancelled && PhotoPostParser.ImageList.Count != 0)
-                            {
-                                UpdateStatusText(string.Format(StatusDownloadingFormat, "Prepairing to download ..."));
-                                bar_Progress.Value = 0;
-
-                                lbl_PercentBar.Text = string.Format(PercentFormat, "0");
-
-                                lbl_PostCount.Text = string.Format(PostCountFormat, "0", PhotoPostParser.ImageList.Count);
-                            }
-                            else if (PhotoPostParser.ImageList.Count == 0)
-                            {
-                                UpdateStatusText(StatusReady);
-                                img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
-                                EnableUI_Crawl(true);
-                                trayIcon.BalloonTipText = TrayIconMessageIndexingCompleteNoDownload;
-                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
-                            }
-                            else
-                            {
-                                UpdateStatusText(StatusReady);
-                                img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
-                                EnableUI_Crawl(true);
-                                trayIcon.BalloonTipText = TrayIconMessageIndexingCancel;
-                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
-                            }
-                        }
-                    });
-                }
-            }
-            catch (Exception exception)
-            {
-                MsgBox.Show(exception.Message);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CrawlWorkerUI_Work(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                if (PhotoPostParser != null)
-                {
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                                {
-                                    img_Crawler_DisplayImage.Image = Resources.crawling;
-                                });
-                    }
-
-                    while (!IsCrawlingDone)
-                    {
-                        switch (PhotoPostParser.ProcessingStatusCode)
-                        {
-                            case ProcessingCode.CheckingConnection:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextNewLine(WorktextCheckingConnx);
-                                        UpdateStatusText(StatusCheckConnx);
-                                    });
-                                }
-                                break;
-
-                            case ProcessingCode.ConnectionOk:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultSuccess);
-                                        UpdateWorkStatusTextNewLine(WorktextStarting);
-                                        UpdateWorkStatusTextNewLine(WorktextGettingBlogInfo);
-                                        UpdateStatusText(StatusGettingInfo);
-                                    });
-                                }
-                                break;
-
-                            case ProcessingCode.ConnectionError:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateStatusText(StatusError);
-                                        UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultFail);
-                                        btn_Crawler_Start.Enabled = true;
-                                        img_Crawler_DisplayImage.Visible = true;
-                                        img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
-                                        tab_TumblrStats.Enabled = true;
-                                        IsCrawlingDone = true;
-                                    });
-                                }
-                                break;
-
-                            case ProcessingCode.BlogInfoOk:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextConcat(WorktextGettingBlogInfo, ResultSuccess);
-
-                                        txt_Crawler_WorkStatus.Visible = true;
-
-                                        txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
-                                    });
-                                }
-                                break;
-
-                            case ProcessingCode.Starting:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextNewLine(new StringBuilder(
-                                            "Indexing ").Append("\"").Append(PhotoPostParser.Blog.Title).Append("\" ... ").ToString());
-                                    });
-                                }
-                                break;
-
-                            case ProcessingCode.UnableDownload:
-
-                                if (!IsDisposed)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextNewLine(
-                                            new StringBuilder("Unable to get post info from API (Offset ")
-                                            .Append(PhotoPostParser.NumberOfParsedPosts.ToString()).Append(" - ")
-                                            .Append((PhotoPostParser.NumberOfParsedPosts + (int)NumberOfPostsPerApiDocument.ApiV2).ToString())
-                                            .Append(") ... ").ToString());
-                                    });
-                                }
-                                PhotoPostParser.ProcessingStatusCode = ProcessingCode.Crawling;
-                                break;
-
-                            case ProcessingCode.Crawling:
-
-                                if (PhotoPostParser.TotalNumberOfPosts != 0 && PhotoPostParser.NumberOfParsedPosts == 0)
-                                {
-                                    if (!IsDisposed)
-                                    {
-                                        Invoke((MethodInvoker)delegate
-                                        {
-                                            UpdateWorkStatusTextNewLine(new StringBuilder(PhotoPostParser.TotalNumberOfPosts.ToString())
-                                                .Append(" photo posts found.").ToString());
-                                        });
-                                    }
-                                }
-
-                                if (!IsDisposed && PhotoPostParser.NumberOfParsedPosts == 0)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateWorkStatusTextNewLine(WorktextIndexingPosts);
-                                        UpdateStatusText(StatusIndexing);
-                                    });
-                                }
-
-                                var percent = PhotoPostParser.PercentComplete;
-
-                                if (percent > 100)
-                                    percent = 100;
-
-                                if (CurrentPercent != percent)
-                                {
-                                    CurrentPercent = percent;
-                                    if (!IsDisposed)
-                                    {
-                                        var percent1 = percent;
-                                        Invoke((MethodInvoker)delegate
-                                           {
-                                               lbl_PercentBar.Text = string.Format(PercentFormat, percent1);
-                                               bar_Progress.Value = percent1;
-                                           });
-                                    }
-                                }
-
-                                if (CurrentPostCount != PhotoPostParser.NumberOfParsedPosts)
-                                {
-                                    CurrentPostCount = PhotoPostParser.NumberOfParsedPosts;
-                                    if (!IsDisposed)
-                                    {
-                                        Invoke((MethodInvoker)delegate
-                                        {
-                                            if (lbl_PostCount.DisplayStyle != ToolStripItemDisplayStyle.ImageAndText)
-                                            {
-                                                lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-                                            }
-                                            lbl_PostCount.Text = string.Format(PostCountFormat, PhotoPostParser.NumberOfParsedPosts, PhotoPostParser.TotalNumberOfPosts);
-                                        });
-                                    }
-                                }
-                                break;
-                        }
-                    }
-
-                    if (PhotoPostParser != null)
-                    {
-                        if (!IsDisposed && PhotoPostParser.ProcessingStatusCode == ProcessingCode.Done && !IsCrawlingCancelled)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateWorkStatusTextConcat(WorktextIndexingPosts, ResultDone);
-
-                                UpdateWorkStatusTextNewLine(new StringBuilder("Found ")
-                                    .Append(PhotoPostParser.ImageList.Count == 0 ? "no" : PhotoPostParser.ImageList.Count.ToString())
-                                    .Append(" new image(s) to download").ToString());
-
-                                bar_Progress.Value = 0;
-                                lbl_PercentBar.Text = string.Empty;
-                            });
-                        }
-
-                        if (PhotoPostParser.ProcessingStatusCode == ProcessingCode.UnableDownload)
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    UpdateWorkStatusTextNewLine("Error downloading the blog post XML");
-                                    UpdateStatusText(StatusError);
-                                    EnableUI_Crawl(true);
-                                });
-                            }
-                        }
-                        if (PhotoPostParser.ProcessingStatusCode == ProcessingCode.InvalidUrl)
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    UpdateWorkStatusTextNewLine("Invalid Tumblr URL");
-                                    UpdateStatusText(StatusError);
-                                    EnableUI_Crawl(true);
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MsgBox.Show(exception.Message);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DownloadWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             lock (DownloadManager)
@@ -782,6 +516,81 @@ namespace Tumblr_Tool
 
             try
             {
+                if (!IsDisposed)
+                {
+                    try
+                    {
+                        switch (DownloadManager.NumberOfFilesDownloaded)
+                        {
+                            case 0:
+
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultError);
+                                    UpdateWorkStatusTextNewLine("We were unable to download images ...");
+                                    bar_Progress.Value = 0;
+                                    lbl_PercentBar.Text = string.Empty;
+                                    lbl_PostCount.Visible = false;
+                                    lbl_Size.Visible = false;
+                                });
+                                break;
+
+                            default:
+
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    Bitmap img = FileHelper.GetImageFromFile(DownloadManager.DownloadedList.Last());
+
+                                    if (img != null)
+                                    {
+                                        img_Crawler_DisplayImage.Image = img;
+                                        img_Crawler_DisplayImage.Update();
+                                        img_Crawler_DisplayImage.Refresh();
+                                    }
+
+                                    lbl_PostCount.Text = string.Format(PostCountFormat, DownloadManager.NumberOfFilesDownloaded, PhotoPostParser.ImageList.Count);
+                                    bar_Progress.Visible = false;
+                                    UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
+                                    UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadManager.NumberOfFilesDownloaded.ToString()).Append(" image(s).").ToString());
+                                    trayIcon.BalloonTipText = string.Format(TrayIconMessageDownloadComplete, DownloadManager.NumberOfFilesDownloaded.ToString());
+                                    if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
+                                    bar_Progress.Value = 0;
+                                    lbl_PercentBar.Text = string.Empty;
+                                });
+
+                                break;
+                        }
+                    }
+                    catch
+                    {
+                        //
+                    }
+
+                    if (DownloadManager.NumberOfFilesDownloaded != DownloadManager.NumberOfFilesToDownload && !IsCrawlingCancelled)
+                    {
+                        int dif = Math.Abs(DownloadManager.NumberOfFilesToDownload - DownloadManager.NumberOfFilesDownloaded);
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
+                            UpdateWorkStatusTextNewLine(new StringBuilder("Failed: ").Append(dif.ToString()).Append(" image(s).").ToString());
+                            bar_Progress.Value = 0;
+                            lbl_PercentBar.Text = string.Empty;
+                        });
+                    }
+
+                    Invoke((MethodInvoker)delegate
+                    {
+                        UpdateStatusText(StatusDone);
+                        EnableUI_Crawl(true);
+                    });
+                }
+
+                if (Options.GenerateLog)
+                {
+                    PhotoPostParser.TumblrPostLog = null;
+                    TumblrLogFile = null;
+                }
                 TumblrSaveFile.Blog.Posts = null;
                 SaveFile_Save(PhotoPostParser.Blog.Name);
 
@@ -809,14 +618,15 @@ namespace Tumblr_Tool
                 IsFileDownloadDone = false;
                 IsCrawlingCancelled = false;
                 HashSet<PhotoPostImage> imagesList = (HashSet<PhotoPostImage>)e.Argument;
-                DownloadManager.TotalFilesToDownload = imagesList.Count;
+                DownloadManager.PropertyChanged += new PropertyChangedEventHandler(UpdateUI_Download);
+                DownloadManager.NumberOfFilesToDownload = imagesList.Count;
 
                 lock (DownloadManager)
                 {
                     DownloadManager.DownloadStatusCode = DownloadStatusCode.Preparing;
                 }
 
-                _readyToDownload.WaitOne();
+                // _readyToDownload.WaitOne();
 
                 if (imagesList.Count != 0)
                 {
@@ -859,6 +669,19 @@ namespace Tumblr_Tool
                                     fullPath = FileHelper.AddJpgExt(fullPath);
 
                                     file = new FileInfo(fullPath);
+
+                                    Invoke((MethodInvoker)delegate
+                                        {
+                                            img_Crawler_DisplayImage.Image.Dispose();
+
+                                            Bitmap img = FileHelper.GetImageFromFile(fullPath);
+
+                                            if (img != null)
+                                            {
+                                                img_Crawler_DisplayImage.Image = img;
+                                                img_Crawler_DisplayImage.Refresh();
+                                            }
+                                        });
 
                                     lock (DownloadedList)
                                     {
@@ -916,287 +739,6 @@ namespace Tumblr_Tool
                     }
 
                     IsDownloadDone = true;
-                }
-            }
-            catch (Exception exception)
-            {
-                MsgBox.Show(exception.Message);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
-            {
-                if (!IsDisposed)
-                {
-                    try
-                    {
-                        switch (DownloadedList.Count)
-                        {
-                            case 0:
-
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
-                                });
-                                break;
-
-                            default:
-
-                                if (!IsCrawlingCancelled)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        Bitmap img = FileHelper.GetImageFromFile(DownloadedList[DownloadedList.Count - 1]);
-
-                                        if (img != null)
-                                        {
-                                            img_Crawler_DisplayImage.Image = img;
-                                        }
-
-                                        lbl_PostCount.Text = string.Format(PostCountFormat, DownloadedList.Count, PhotoPostParser.ImageList.Count);
-                                        bar_Progress.Visible = false;
-                                        lbl_PercentBar.Text = string.Empty;
-                                    });
-                                }
-                                break;
-                        }
-                    }
-                    catch
-                    {
-                        //
-                    }
-                    Invoke((MethodInvoker)delegate
-                    {
-                        img_Crawler_DisplayImage.Update();
-                        img_Crawler_DisplayImage.Refresh();
-                    });
-
-                    switch (DownloadedList.Count)
-                    {
-                        case 0:
-
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultError);
-                                UpdateWorkStatusTextNewLine("We were unable to download images ...");
-                                bar_Progress.Value = 0;
-                                lbl_PercentBar.Text = string.Empty;
-                                lbl_PostCount.Visible = false;
-                                lbl_Size.Visible = false;
-                            });
-                            break;
-
-                        default:
-
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
-                                UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadedList.Count.ToString()).Append(" image(s).").ToString());
-                                trayIcon.BalloonTipText = string.Format(TrayIconMessageDownloadComplete, DownloadedList.Count.ToString());
-                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
-                                bar_Progress.Value = 0;
-                                lbl_PercentBar.Text = string.Empty;
-                            });
-                            break;
-                    }
-
-                    if (NotDownloadedList.Count > 0)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
-                            UpdateWorkStatusTextNewLine(new StringBuilder("Failed: ").Append(NotDownloadedList.Count.ToString()).Append(" image(s).").ToString());
-                            bar_Progress.Value = 0;
-                            lbl_PercentBar.Text = string.Empty;
-                        });
-                    }
-
-                    Invoke((MethodInvoker)delegate
-                    {
-                        UpdateStatusText(StatusDone);
-                        EnableUI_Crawl(true);
-                    });
-                }
-
-                if (Options.GenerateLog)
-                {
-                    PhotoPostParser.TumblrPostLog = null;
-                    TumblrLogFile = null;
-                }
-            }
-            catch (Exception exception)
-            {
-                MsgBox.Show(exception.Message);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DownloadWorkerUI_Work(object sender, DoWorkEventArgs e)
-        {
-            CurrentPercent = 0;
-            CurrentPostCount = 0;
-            CurrentSize = 0;
-            try
-            {
-                if (DownloadManager == null) DownloadManager = new FileDownloadManager();
-
-                if (PhotoPostParser.ImageList.Count == 0)
-                {
-                    if (!IsDisposed)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateStatusText(StatusDone);
-                        });
-                    }
-                }
-                else
-                {
-                    decimal totalLength = 0;
-
-                    if (!IsDisposed && DownloadedList.Count < 10)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            UpdateWorkStatusTextNewLine(WorktextDownloadingImages);
-                            lbl_Size.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-                        });
-
-                        _readyToDownload.Set();
-                    }
-
-                    while (!IsDownloadDone && !IsCrawlingCancelled)
-                    {
-                        int c = 0;
-                        int f = 0;
-
-                        if (NotDownloadedList.Count != 0 && f != NotDownloadedList.Count)
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    lbl_PostCount.ForeColor = Color.Maroon;
-                                    bar_Progress.BarColor = Color.Maroon;
-                                    bar_Progress.Update();
-                                    bar_Progress.Refresh();
-                                    lbl_PercentBar.ForeColor = Color.Maroon;
-
-                                    //ErrorMessage = new StringBuilder("Error: Unable to download ").Append(NotDownloadedList[NotDownloadedList.Count - 1]).ToString();
-                                    //UpdateWorkStatusTextNewLine(ErrorMessage);
-                                });
-                            }
-                        }
-
-                        if (DownloadedList.Count != 0 && c != DownloadedList.Count)
-                        {
-                            c = DownloadedList.Count;
-
-                            if (!IsDisposed)
-                            {
-                                if (CurrentImage != DownloadedList[c - 1])
-                                {
-                                    CurrentImage = DownloadedList[c - 1];
-                                    try
-                                    {
-                                        Invoke((MethodInvoker)delegate
-                                        {
-                                            // this.img_DisplayImage.ImageLocation = this.downloadedList[c - 1];
-                                            img_Crawler_DisplayImage.Image.Dispose();
-
-                                            Bitmap img = FileHelper.GetImageFromFile((DownloadedList[c - 1]));
-
-                                            if (img != null)
-                                            {
-                                                img_Crawler_DisplayImage.Image = img;
-                                                img_Crawler_DisplayImage.Refresh();
-                                            }
-                                        });
-                                    }
-                                    catch (Exception)
-                                    {
-                                        img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
-                                        img_Crawler_DisplayImage.Update();
-                                        img_Crawler_DisplayImage.Refresh();
-                                    }
-                                }
-
-                                int downloaded = DownloadedList.Count;
-                                int total = DownloadManager.TotalFilesToDownload;
-
-                                if (downloaded > total)
-                                    downloaded = total;
-
-                                int percent = total > 0 ? (int)((downloaded / (double)total) * 100.00) : 0;
-
-                                if (CurrentPercent != percent)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        bar_Progress.Value = percent;
-                                        lbl_PercentBar.Text = string.Format(PercentFormat, percent);
-                                    });
-                                }
-
-                                if (CurrentPostCount != downloaded)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        lbl_PostCount.Text = string.Format(PostCountFormat, downloaded, total);
-                                    });
-                                }
-
-                                try
-                                {
-                                    totalLength = (DownloadedSizesList.Sum(x => Convert.ToInt64(x)) / (decimal)1024 / 1024);
-                                    decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
-                                    string suffix = totalLength > 1024 ? SuffixGb : SuffixMb;
-
-                                    if (CurrentSize != totalLength)
-                                    {
-                                        Invoke((MethodInvoker)delegate
-                                        {
-                                            lbl_Size.Text = string.Format(FileSizeFormat, (totalLengthNum).ToString("0.00"), suffix);
-                                        });
-                                    }
-                                }
-                                catch (Exception)
-                                {
-                                    //
-                                }
-
-                                if ((int)DownloadManager.PercentDownloaded <= 0)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateStatusText(string.Format(StatusDownloadingFormat, StatusDownloadConnecting));
-                                    });
-                                }
-                                else if (percent != (int)DownloadManager.PercentDownloaded)
-                                {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        UpdateStatusText(string.Format(StatusDownloadingFormat, DownloadManager.PercentDownloaded + "%"));
-                                    });
-                                }
-
-                                CurrentPercent = percent;
-                                CurrentPostCount = downloaded;
-                                CurrentSize = totalLength;
-                            }
-                        }
-                    }
                 }
             }
             catch (Exception exception)
@@ -1349,6 +891,19 @@ namespace Tumblr_Tool
         private void GetStatsWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             TumblrStats.ProcessingStatusCode = ProcessingCode.Done;
+            trayIcon.BalloonTipText = TrayIconMessageGetStatsComplete;
+            if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
+            if (!IsDisposed)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    EnableUI_Stats(true);
+                    UpdateStatusText(StatusDone);
+                    lbl_PostCount.Visible = false;
+                    bar_Progress.Visible = false;
+                    lbl_PercentBar.Visible = false;
+                });
+            }
         }
 
         /// <summary>
@@ -1359,21 +914,118 @@ namespace Tumblr_Tool
         private void GetStatsWorker_Work(object sender, DoWorkEventArgs e)
         {
             TumblrStats.ProcessingStatusCode = ProcessingCode.Initializing;
+            Invoke((MethodInvoker)delegate
+            {
+                bar_Progress.Value = 0;
+                bar_Progress.Visible = true;
+                lbl_PercentBar.Visible = true;
+            });
             try
             {
                 if (WebHelper.CheckForInternetConnection())
                 {
-                    TumblrStats = new TumblrStatsManager(new TumblrBlog(TumblrUrl), TumblrUrl, TumblrApiVersion.V2Json)
+                    TumblrStats = new TumblrStatsManager(new TumblrBlog(TumblrUrl), TumblrUrl, TumblrApiVersion.V2Json);
+                    TumblrStats.PropertyChanged += new PropertyChangedEventHandler(UpdateUI_GetStats);
+                    TumblrStats.ProcessingStatusCode = ProcessingCode.Initializing;
+                    if (TumblrStats.Blog == null)
                     {
-                        ProcessingStatusCode = ProcessingCode.Initializing
-                    };
-                    _readyToGetStats.Set();
+                        // wait till other worker created and populated blog info
+                        Invoke((MethodInvoker)delegate
+                        {
+                            lbl_PercentBar.Text = @"Getting initial blog info ... ";
+                        });
+                    }
+                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.TotalPostsForType <= 0)
+                    {
+                        // wait till we got the blog title and desc and posts number
+                    }
+                    else
+                    {
+                        if (!IsDisposed)
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                lbl_Stats_TotalCount.Visible = true;
+                                lbl_Stats_BlogTitle.Text = TumblrStats.Blog.Title;
+                                txt_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
+                                lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
 
-                    TumblrStats.GetTumblrStats();
+                                lbl_PostCount.Text = string.Empty;
+                                img_Stats_Avatar.LoadAsync(TumblrApiHelper.GenerateAvatarQueryUrl(TumblrStats.Blog.Url));
+                            });
+                        }
+
+                        if (!IsDisposed)
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                UpdateStatusText(StatusGettingStats);
+                            });
+                        }
+
+                        TumblrStats.GetTumblrStats();
+                    }
                 }
                 else
                 {
                     TumblrStats.ProcessingStatusCode = ProcessingCode.ConnectionError;
+                }
+
+                switch (TumblrStats.ProcessingStatusCode)
+                {
+                    case ProcessingCode.InvalidUrl:
+
+                        if (!IsDisposed)
+                        {
+                            Invoke((MethodInvoker)delegate
+                            {
+                                UpdateStatusText(StatusError);
+                                lbl_PostCount.Visible = false;
+                                bar_Progress.Visible = false;
+                                lbl_Size.Visible = false;
+
+                                MessageBox.Show(@"Invalid Tumblr URL", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            });
+                        }
+                        break;
+
+                    case ProcessingCode.ConnectionError:
+
+                        Invoke((MethodInvoker)delegate
+                        {
+                            MessageBox.Show(@"No Internet connection detected!", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            UpdateStatusText(StatusError);
+                        });
+                        break;
+
+                    case ProcessingCode.Done:
+
+                        try
+                        {
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    EnableUI_Stats(true);
+                                    UpdateStatusText(StatusDone);
+                                    lbl_PostCount.Visible = false;
+                                    bar_Progress.Visible = false;
+                                    lbl_PercentBar.Visible = false;
+                                });
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            MsgBox.Show(exception.Message);
+                        }
+                        break;
+
+                    default:
+                        Invoke((MethodInvoker)delegate
+                        {
+                            EnableUI_Stats(true);
+                        });
+                        break;
                 }
             }
             catch (Exception exception)
@@ -1497,7 +1149,7 @@ namespace Tumblr_Tool
                                         lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
                                         lbl_Stats_PhotoCount.Text = TumblrStats.TotalPhotoPosts.ToString();
                                         lbl_Stats_TextCount.Text = TumblrStats.TotalTextPosts.ToString();
-                                        lbl_Stats_QuoteStats.Text = TumblrStats.TotalQuotePosts.ToString();
+                                        lbl_Stats_QuoteCount.Text = TumblrStats.TotalQuotePosts.ToString();
                                         lbl_Stats_LinkCount.Text = TumblrStats.TotalLinkPosts.ToString();
                                         lbl_Stats_AudioCount.Text = TumblrStats.TotalAudioPosts.ToString();
                                         lbl_Stats_VideoCount.Text = TumblrStats.TotalVideoPosts.ToString();
@@ -1972,7 +1624,7 @@ namespace Tumblr_Tool
                         EnableUI_Stats(false);
 
                         blogGetStatsWorker.RunWorkerAsync();
-                        blogGetStatsWorkerUI.RunWorkerAsync();
+                        //blogGetStatsWorkerUI.RunWorkerAsync();
                     }
                     else
                     {
@@ -2041,8 +1693,6 @@ namespace Tumblr_Tool
                 if (!IsCrawlingCancelled)
                 {
                     imageCrawlWorker.RunWorkerAsync(PhotoPostParser);
-
-                    imageCrawlWorkerUI.RunWorkerAsync(PhotoPostParser);
                 }
             }
             else
@@ -2099,7 +1749,7 @@ namespace Tumblr_Tool
                         {
                             blogTagListWorker.RunWorkerAsync(TagScanner);
 
-                            blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
+                            //blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
                         }
                     }
                     else
@@ -2223,47 +1873,6 @@ namespace Tumblr_Tool
         private void TagListWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             TagScanner.ProcessingStatusCode = ProcessingCode.Done;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TagListWorker_Work(object sender, DoWorkEventArgs e)
-        {
-            TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
-            try
-            {
-                if (WebHelper.CheckForInternetConnection())
-                {
-                    TagScanner = new TagScanManager(new TumblrBlog(TumblrUrl), check_Tags_PhotoOnly.Checked)
-                    {
-                        ProcessingStatusCode = ProcessingCode.Initializing
-                    };
-
-                    TagScanner.GetTumblrBlogInfo();
-                    TagScanner.ProcessingStatusCode = ProcessingCode.Parsing;
-                    TagScanner.ScanTags();
-                }
-                else
-                {
-                    TagScanner.ProcessingStatusCode = ProcessingCode.ConnectionError;
-                }
-            }
-            catch (Exception)
-            {
-                // MsgBox.Show(exception.Message);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TagListWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
-        {
             try
             {
                 trayIcon.BalloonTipText = TrayIconMessageGetTagsComplete;
@@ -2300,129 +1909,41 @@ namespace Tumblr_Tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TagListWorkerUI_Work(object sender, DoWorkEventArgs e)
+        private void TagListWorker_Work(object sender, DoWorkEventArgs e)
         {
+            TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
+            if (!IsDisposed)
+            {
+                Invoke((MethodInvoker)delegate
+                    {
+                        bar_Progress.Value = 0;
+                        bar_Progress.Visible = true;
+                        lbl_Size.Visible = false;
+                        lbl_PercentBar.Visible = true;
+                        list_TagScanner_TagList.Items.Add("The list of tags will appear after indexing is done ...");
+                        lbl_PercentBar.Text = string.Format(PercentFormat, 0);
+                    });
+            }
             try
             {
-                int TagCount = 0;
-                if (!IsDisposed)
+                if (WebHelper.CheckForInternetConnection())
                 {
-                    Invoke((MethodInvoker)delegate
-                        {
-                            bar_Progress.Value = 0;
-                            bar_Progress.Visible = true;
-                            lbl_Size.Visible = false;
-                            lbl_PercentBar.Visible = true;
-                            list_TagScanner_TagList.Items.Add("The list of tags will appear after indexing is done ...");
-                        });
+                    TagScanner = new TagScanManager(new TumblrBlog(TumblrUrl), check_Tags_PhotoOnly.Checked);
+                    TagScanner.PropertyChanged += new PropertyChangedEventHandler(UpdateUI_TagScan);
+                    TagScanner.ProcessingStatusCode = ProcessingCode.Initializing;
+
+                    TagScanner.GetTumblrBlogInfo();
+                    TagScanner.ProcessingStatusCode = ProcessingCode.Parsing;
+                    TagScanner.ScanTags();
                 }
-
-                while (TagScanner.ProcessingStatusCode != ProcessingCode.Done && TagScanner.ProcessingStatusCode != ProcessingCode.ConnectionError && TagScanner.ProcessingStatusCode != ProcessingCode.InvalidUrl)
+                else
                 {
-                    if (TagScanner.Blog == null)
-                    {
-                        // wait till other worker created and populated blog info
-                        Invoke((MethodInvoker)delegate
-                        {
-                            lbl_PercentBar.Text = @"Getting initial blog info ... ";
-                        });
-                    }
-                    else
-                    {
-                        if (!IsDisposed)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateStatusText(StatusGettingTags);
-                            });
-                        }
-
-                        int percent = 0;
-                        while (percent < 100 && !IsCrawlingCancelled)
-                        {
-                            percent = TagScanner.PercentComplete;
-                            if (percent < 0)
-                                percent = 0;
-
-                            if (percent >= 100)
-                                percent = 100;
-
-                            if (CurrentPercent != percent)
-                            {
-                                if (!IsDisposed)
-                                {
-                                    var percent1 = percent;
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        bar_Progress.Value = percent1;
-                                    });
-                                }
-                            }
-
-                            lock (TagScanner.TagList)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                    {
-                                        if (TagScanner.TagList.Count != Convert.ToInt64(lbl_TagScanner_TagCount.Text))
-                                        {
-                                            lbl_TagScanner_TagCount.Text = TagScanner.TagList.Count.ToString();
-                                        }
-                                    });
-                            }
-
-                            if (CurrentPostCount != TagScanner.NumberOfParsedPosts)
-                            {
-                                if (!IsDisposed)
-                                {
-                                    var percent1 = percent;
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        lbl_PercentBar.Visible = true;
-                                        lbl_PercentBar.Text = string.Format(PercentFormat, percent1);
-                                        lbl_PostCount.Visible = true;
-                                        lbl_PostCount.Text = string.Format(PostCountFormat, TagScanner.NumberOfParsedPosts, TagScanner.TotalNumberOfPosts);
-                                    });
-                                }
-                            }
-
-                            CurrentPostCount = TagScanner.PercentComplete;
-                            CurrentPercent = percent;
-                            TagCount = TagScanner.TagList.Count;
-                        }
-                    }
-                }
-
-                switch (TagScanner.ProcessingStatusCode)
-                {
-                    case ProcessingCode.InvalidUrl:
-
-                        if (!IsDisposed)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateStatusText(StatusError);
-                                lbl_PostCount.Visible = false;
-                                bar_Progress.Visible = false;
-                                lbl_Size.Visible = false;
-
-                                MessageBox.Show(@"Invalid Tumblr URL", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            });
-                        }
-                        break;
-
-                    case ProcessingCode.ConnectionError:
-
-                        Invoke((MethodInvoker)delegate
-                        {
-                            MessageBox.Show(@"No Internet connection detected!", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            UpdateStatusText(StatusError);
-                        });
-                        break;
+                    TagScanner.ProcessingStatusCode = ProcessingCode.ConnectionError;
                 }
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                MsgBox.Show(exception.Message);
+                // MsgBox.Show(exception.Message);
             }
         }
 
@@ -2465,6 +1986,405 @@ namespace Tumblr_Tool
                 lbl_Status.Invalidate();
                 status_Strip.Update();
                 status_Strip.Refresh();
+            }
+        }
+
+        private void UpdateUI_TagScan(object sender, PropertyChangedEventArgs e)
+        {
+            var caller = sender as TagScanManager;
+            switch (e.PropertyName)
+            {
+                case "PercentComplete":
+                    int percent = caller.PercentComplete;
+                    if (percent < 0)
+                        percent = 0;
+
+                    if (percent >= 100)
+                        percent = 100;
+
+                    if (!IsDisposed)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            bar_Progress.Value = percent;
+                            lbl_PercentBar.Visible = true;
+                            lbl_PercentBar.Text = string.Format(PercentFormat, percent);
+                        });
+                    }
+
+                    break;
+
+                case "ProcessingStatusCode":
+                    break;
+
+                case "NumberOfParsedPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_PostCount.Visible = true;
+                        lbl_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts, caller.TotalNumberOfPosts);
+                    });
+                    break;
+
+                case "TagCount":
+                    Invoke((MethodInvoker)delegate
+                        {
+                            lbl_TagScanner_TagCount.Text = caller.TagCount.ToString();
+                        });
+                    break;
+            }
+        }
+
+        private void UpdateUI_GetStats(object sender, PropertyChangedEventArgs e)
+        {
+            var caller = sender as TumblrStatsManager;
+            switch (e.PropertyName)
+            {
+                case "PostTypesProcessedCount":
+                    int percent = (int)((caller.PostTypesProcessedCount / (double)caller.TypesCount) * 100.00);
+                    if (percent < 0)
+                        percent = 0;
+
+                    if (percent >= 100)
+                        percent = 100;
+
+                    if (!IsDisposed)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            lbl_PostCount.Visible = true;
+                            bar_Progress.Value = percent;
+                            lbl_PercentBar.Text = string.Format(PercentFormat, percent);
+                            lbl_PostCount.Visible = true;
+                            lbl_PostCount.Text = string.Format(PostCountFormat, caller.PostTypesProcessedCount, (caller.TypesCount));
+                        });
+                    }
+
+                    break;
+
+                case "TotalAnswerPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_AnswerCount.Text = TumblrStats.TotalAnswerPosts.ToString();
+                    });
+                    break;
+
+                case "TotalAudioPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_AudioCount.Text = TumblrStats.TotalAudioPosts.ToString();
+                    });
+                    break;
+
+                case "TotalChatPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_ChatCount.Text = TumblrStats.TotalChatPosts.ToString();
+                    });
+                    break;
+
+                case "TotalLinkPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_LinkCount.Text = TumblrStats.TotalLinkPosts.ToString();
+                    });
+                    break;
+
+                case "TotalPhotoPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_PhotoCount.Text = TumblrStats.TotalPhotoPosts.ToString();
+                    });
+                    break;
+
+                case "TotalQuotePosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_QuoteCount.Text = TumblrStats.TotalQuotePosts.ToString();
+                    });
+                    break;
+
+                case "TotalVideoPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_VideoCount.Text = TumblrStats.TotalVideoPosts.ToString();
+                    });
+                    break;
+
+                case "TotalPostsOverall":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
+                    });
+                    break;
+            }
+        }
+
+        private void UpdateUI_Download(object sender, PropertyChangedEventArgs e)
+        {
+            var caller = sender as FileDownloadManager;
+            switch (e.PropertyName)
+            {
+                case "NumberOfFilesDownloaded":
+                    int downloaded = caller.NumberOfFilesDownloaded;
+                    int total = caller.NumberOfFilesToDownload;
+
+                    if (downloaded > total)
+                        downloaded = total;
+
+                    int percent = total > 0 ? (int)((downloaded / (double)total) * 100.00) : 0;
+
+                    Invoke((MethodInvoker)delegate
+                    {
+                        bar_Progress.Value = percent;
+                        lbl_PercentBar.Text = string.Format(PercentFormat, percent);
+                        lbl_PostCount.Text = string.Format(PostCountFormat, downloaded, total);
+                    });
+                    break;
+
+                case "PercentDownloaded":
+                    if ((int)caller.PercentDownloaded <= 0)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateStatusText(string.Format(StatusDownloadingFormat, StatusDownloadConnecting));
+                        });
+                    }
+                    else
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            UpdateStatusText(string.Format(StatusDownloadingFormat, caller.PercentDownloaded + "%"));
+                        });
+                    }
+                    break;
+
+                case "DownloadedFilesSize":
+                    decimal totalLength = (Convert.ToDecimal(caller.DownloadedFilesSize) / (decimal)1024 / 1024);
+                    decimal totalLengthNum = totalLength > 1024 ? totalLength / 1024 : totalLength;
+                    string suffix = totalLength > 1024 ? SuffixGb : SuffixMb;
+
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Size.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                        lbl_Size.Text = string.Format(FileSizeFormat, (totalLengthNum).ToString("0.00"), suffix);
+                    });
+                    break;
+            }
+        }
+
+        private void UpdateUI_PostParse(object sender, PropertyChangedEventArgs e)
+        {
+            var caller = sender as PhotoPostParseManager;
+            switch (e.PropertyName)
+            {
+                case "PercentComplete":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_PercentBar.Text = string.Format(PercentFormat, caller.PercentComplete.ToString());
+                        bar_Progress.Value = caller.PercentComplete;
+                    });
+                    break;
+
+                case "NumberOfParsedPosts":
+                    Invoke((MethodInvoker)delegate
+                                {
+                                    if (lbl_PostCount.DisplayStyle != ToolStripItemDisplayStyle.ImageAndText)
+                                    {
+                                        lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                                    }
+                                    lbl_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts,
+                                        caller.TotalNumberOfPosts);
+                                });
+                    break;
+
+                case "ProcessingStatusCode":
+                    switch (caller.ProcessingStatusCode)
+                    {
+                        case ProcessingCode.CheckingConnection:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextNewLine(WorktextCheckingConnx);
+                                    UpdateStatusText(StatusCheckConnx);
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.ConnectionOk:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultSuccess);
+                                    UpdateWorkStatusTextNewLine(WorktextStarting);
+                                    UpdateWorkStatusTextNewLine(WorktextGettingBlogInfo);
+                                    UpdateStatusText(StatusGettingInfo);
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.ConnectionError:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateStatusText(StatusError);
+                                    UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultFail);
+                                    btn_Crawler_Start.Enabled = true;
+                                    img_Crawler_DisplayImage.Visible = true;
+                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    tab_TumblrStats.Enabled = true;
+                                    IsCrawlingDone = true;
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.BlogInfoOk:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextConcat(WorktextGettingBlogInfo, ResultSuccess);
+
+                                    txt_Crawler_WorkStatus.Visible = true;
+
+                                    txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.Starting:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextNewLine(new StringBuilder(
+                                        "Indexing ").Append("\"").Append(caller.Blog.Title).Append("\" ... ").ToString());
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.UnableDownload:
+
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextNewLine(
+                                        new StringBuilder("Unable to get post info from API (Offset ")
+                                        .Append(caller.NumberOfParsedPosts.ToString()).Append(" - ")
+                                        .Append((caller.NumberOfParsedPosts + (int)NumberOfPostsPerApiDocument.ApiV2).ToString())
+                                        .Append(") ... ").ToString());
+                                });
+                            }
+                            caller.ProcessingStatusCode = ProcessingCode.Crawling;
+                            break;
+
+                        case ProcessingCode.InvalidUrl:
+                            if (!IsDisposed)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextNewLine("Invalid Tumblr URL");
+                                    UpdateStatusText(StatusError);
+                                    EnableUI_Crawl(true);
+                                });
+                            }
+                            break;
+
+                        case ProcessingCode.Done:
+                            Invoke((MethodInvoker)delegate
+                            {
+                                UpdateWorkStatusTextConcat(WorktextIndexingPosts, ResultDone);
+
+                                UpdateWorkStatusTextNewLine(new StringBuilder("Found ")
+                                    .Append(caller.ImageList.Count == 0 ? "no" : caller.ImageList.Count.ToString())
+                                    .Append(" new image(s) to download").ToString());
+
+                                bar_Progress.Value = 0;
+                                lbl_PercentBar.Text = string.Empty;
+                            });
+                            if (check_Options_ParseOnly.Checked)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    EnableUI_Crawl(true);
+                                });
+                                trayIcon.BalloonTipText = TrayIconMessageIndexingComplete;
+                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
+                            }
+                            else
+                            {
+                                if (IsCrawlingDone && !IsCrawlingCancelled && caller.ImageList.Count != 0)
+                                {
+                                    Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateStatusText(string.Format(StatusDownloadingFormat, "Prepairing to download ..."));
+                                    bar_Progress.Value = 0;
+
+                                    lbl_PercentBar.Text = string.Format(PercentFormat, "0");
+
+                                    lbl_PostCount.Text = string.Format(PostCountFormat, "0", caller.ImageList.Count);
+                                });
+                                }
+                                else if (caller.ImageList.Count == 0)
+                                {
+                                    Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateStatusText(StatusReady);
+                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    EnableUI_Crawl(true);
+                                });
+                                    trayIcon.BalloonTipText = TrayIconMessageIndexingCompleteNoDownload;
+                                    if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
+                                }
+                                else
+                                {
+                                    Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateStatusText(StatusReady);
+                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    EnableUI_Crawl(true);
+                                });
+                                    trayIcon.BalloonTipText = TrayIconMessageIndexingCancel;
+                                    if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
+                                }
+                            }
+                            break;
+
+                        case ProcessingCode.Crawling:
+
+                            if (PhotoPostParser.TotalNumberOfPosts != 0 && PhotoPostParser.NumberOfParsedPosts == 0)
+                            {
+                                if (!IsDisposed)
+                                {
+                                    Invoke((MethodInvoker)delegate
+                                    {
+                                        UpdateWorkStatusTextNewLine(new StringBuilder(PhotoPostParser.TotalNumberOfPosts.ToString())
+                                            .Append(" photo posts found.").ToString());
+                                    });
+                                }
+                            }
+
+                            if (!IsDisposed && PhotoPostParser.NumberOfParsedPosts == 0)
+                            {
+                                Invoke((MethodInvoker)delegate
+                                {
+                                    UpdateWorkStatusTextNewLine(WorktextIndexingPosts);
+                                    UpdateStatusText(StatusIndexing);
+                                });
+                            }
+
+                            break;
+                    }
+
+                    break;
             }
         }
 

@@ -12,14 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
 using Tumblr_Tool.Objects.Tumblr_Objects;
 
 namespace Tumblr_Tool.Managers
 {
-    public class TumblrStatsManager
+    public class TumblrStatsManager : INotifyPropertyChanged
     {
         /// <summary>
         ///
@@ -48,25 +50,206 @@ namespace Tumblr_Tool.Managers
 
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
+            var values = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>();
+            TypesCount = values.Count() - 3;
+
             // Get Blog Info
             DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
         }
 
+        private int postTypesProcessedCount;
+        private ProcessingCode processingStatusCode;
+        private int totalAnswerPosts;
+        private int totalAudioPosts;
+        private int totalChatPosts;
+        private int totalLinkPosts;
+        private int totalPhotoPosts;
+        private int totalQuotePosts;
+        private int totalTextPosts;
+        private int totalVideoPosts;
+        private int totalPostsOverall;
+        private int typesCount;
+
         public TumblrBlog Blog { get; set; }
-        public int PostTypesProcessedCount { get; set; }
-        public ProcessingCode ProcessingStatusCode { get; set; }
-        public int TotalAnswerPosts { get; set; }
-        public int TotalAudioPosts { get; set; }
-        public int TotalChatPosts { get; set; }
-        public int TotalLinkPosts { get; set; }
-        public int TotalPhotoPosts { get; set; }
+
+        public int TypesCount
+        {
+            get
+            {
+                return typesCount;
+            }
+            set
+            {
+                typesCount = value;
+
+            }
+        }
+        public int PostTypesProcessedCount
+        { get
+            {
+                return postTypesProcessedCount;
+            }
+            set
+            {
+                if (value != postTypesProcessedCount)
+                {
+                    postTypesProcessedCount = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public ProcessingCode ProcessingStatusCode
+        { get
+            {
+                return processingStatusCode;
+            }
+            set
+            {
+                if (value != processingStatusCode)
+                {
+                    processingStatusCode = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+        public int TotalAnswerPosts
+        { get
+            {
+                return totalAnswerPosts;
+            }
+            set
+            {
+                if (value != totalAnswerPosts)
+                {
+                    totalAnswerPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalAudioPosts
+        {
+            get
+            {
+                return totalAudioPosts;
+            }
+            set
+            {
+                if (value != totalAudioPosts)
+                {
+                    totalAudioPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalChatPosts
+        {
+            get
+            {
+                return totalChatPosts;
+            }
+            set
+            {
+                if (value != totalChatPosts)
+                {
+                    totalChatPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalLinkPosts
+        {
+            get
+            {
+                return totalLinkPosts;
+            }
+            set
+            {
+                if (value != totalLinkPosts)
+                {
+                    totalLinkPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalPhotoPosts
+        {
+            get
+            {
+                return totalPhotoPosts;
+            }
+            set
+            {
+                if (value != totalPhotoPosts)
+                {
+                    totalPhotoPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public int TotalPostsForType { get; set; }
         public int TotalPostsFound { get; set; }
-        public int TotalPostsOverall { get; set; }
+        public int TotalPostsOverall
+        {
+            get
+            {
+                return totalPostsOverall;
+            }
+            set
+            {
+                if (value != totalPostsOverall)
+                {
+                    totalPostsOverall = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public int TotalPostsPerDocument { get; set; }
-        public int TotalQuotePosts { get; set; }
-        public int TotalTextPosts { get; set; }
-        public int TotalVideoPosts { get; set; }
+        public int TotalQuotePosts
+        {
+            get
+            {
+                return totalQuotePosts;
+            }
+            set
+            {
+                if (value != totalQuotePosts)
+                {
+                    totalQuotePosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalTextPosts
+        {
+            get
+            {
+                return totalTextPosts;
+            }
+            set
+            {
+                if (value != totalTextPosts)
+                {
+                    totalTextPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int TotalVideoPosts
+        {
+            get
+            {
+                return totalVideoPosts;
+            }
+            set
+            {
+                if (value != totalVideoPosts)
+                {
+                    totalVideoPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         private int ApiQueryLimit { get; set; }
         private int ApiQueryOffset { get; set; }
@@ -74,6 +257,16 @@ namespace Tumblr_Tool.Managers
         private RemoteDocumentManager DocumentManager { get; set; }
         private string TumblrDomain { get; set; }
         private string TumblrUrl { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         ///

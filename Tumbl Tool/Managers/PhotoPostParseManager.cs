@@ -10,8 +10,11 @@
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Tumblr_Tool.Enums;
 using Tumblr_Tool.Helpers;
@@ -20,7 +23,7 @@ using Tumblr_Tool.Objects.Tumblr_Objects;
 
 namespace Tumblr_Tool.Managers
 {
-    public class PhotoPostParseManager
+    public class PhotoPostParseManager : INotifyPropertyChanged
     {
         /// <summary>
         /// Constructor
@@ -74,15 +77,60 @@ namespace Tumblr_Tool.Managers
             ImageCommentsList = new Dictionary<string, string>();
         }
 
+        // Fields
+        private int percentComplete;
+        private int numberOfParsedPosts;
+        private ProcessingCode processingStatusCode;
+
+
+        // Properties
         public TumblrApiVersion ApiVersion { get; set; }
         public TumblrBlog Blog { get; set; }
         public HashSet<PhotoPostImage> ImageList { get; set; }
         public ImageSize ImageSize { get; set; }
         public bool IsCancelled { get; set; }
         public bool IsLogUpdated { get; set; }
-        public int NumberOfParsedPosts { get; set; }
-        public int PercentComplete { get; set; }
-        public ProcessingCode ProcessingStatusCode { get; set; }
+        public int NumberOfParsedPosts {
+            get
+            {
+                return numberOfParsedPosts;
+            } set
+            {
+                if (value != numberOfParsedPosts)
+                {
+                    numberOfParsedPosts = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public int PercentComplete {
+            get
+            {
+                return percentComplete;
+            } set
+            {
+                if (value != this.percentComplete)
+                {
+                    percentComplete = value;
+                    NotifyPropertyChanged();
+                }
+            }
+
+        }
+        public ProcessingCode ProcessingStatusCode {
+            get
+            {
+                return processingStatusCode;
+            }
+            set
+            {
+                if (value != this.processingStatusCode)
+                {
+                    processingStatusCode = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public int TotalNumberOfPosts { get; set; }
         public string TumblrDomain { get; set; }
         public SaveFile TumblrPostLog { get; set; }
@@ -104,7 +152,18 @@ namespace Tumblr_Tool.Managers
         private HashSet<TumblrPost> Posts { get; set; }
         private string SaveLocation { get; set; }
         private int TotalNumberOfImages { get; set; }
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         ///

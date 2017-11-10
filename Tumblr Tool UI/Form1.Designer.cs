@@ -39,12 +39,10 @@ namespace Tumblr_Tool
             this.menu_TopMenu = new System.Windows.Forms.MenuStrip();
             this.menuItem_LoadFromFile = new System.Windows.Forms.ToolStripMenuItem();
             this.imageCrawlWorker = new System.ComponentModel.BackgroundWorker();
-            this.imageCrawlWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.status_Strip = new System.Windows.Forms.StatusStrip();
             this.lbl_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_PostCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_Size = new System.Windows.Forms.ToolStripStatusLabel();
-            this.imageDownloadWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.blogGetStatsWorker = new System.ComponentModel.BackgroundWorker();
             this.blogGetStatsWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.fileOpenWorker = new System.ComponentModel.BackgroundWorker();
@@ -69,7 +67,7 @@ namespace Tumblr_Tool
             this.box_PostStats = new System.Windows.Forms.GroupBox();
             this.lbl_Stats_TotalCount = new System.Windows.Forms.Label();
             this.table_Stats_PostStats = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_Stats_QuoteStats = new System.Windows.Forms.Label();
+            this.lbl_Stats_QuoteCount = new System.Windows.Forms.Label();
             this.lbl_Stats_Photo = new System.Windows.Forms.Label();
             this.lbl_Stats_Quote = new System.Windows.Forms.Label();
             this.lbl_Stats_LinkCount = new System.Windows.Forms.Label();
@@ -121,7 +119,6 @@ namespace Tumblr_Tool
             this.lbl_Crawler_TumblrURL = new System.Windows.Forms.Label();
             this.bar_Progress = new Tumblr_Tool.ColorProgressBar();
             this.blogTagListWorker = new System.ComponentModel.BackgroundWorker();
-            this.blogTagLIstWorkerUI = new System.ComponentModel.BackgroundWorker();
             this.tagListSaveWorker = new System.ComponentModel.BackgroundWorker();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -219,13 +216,6 @@ namespace Tumblr_Tool
             this.imageCrawlWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorker_Work);
             this.imageCrawlWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorker_Completed);
             // 
-            // imageCrawlWorkerUI
-            // 
-            this.imageCrawlWorkerUI.WorkerReportsProgress = true;
-            this.imageCrawlWorkerUI.WorkerSupportsCancellation = true;
-            this.imageCrawlWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CrawlWorkerUI_Work);
-            this.imageCrawlWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CrawlWorkerUI_Completed);
-            // 
             // status_Strip
             // 
             this.status_Strip.AutoSize = false;
@@ -282,13 +272,6 @@ namespace Tumblr_Tool
             this.lbl_Size.Text = "[Size]";
             this.lbl_Size.Visible = false;
             // 
-            // imageDownloadWorkerUI
-            // 
-            this.imageDownloadWorkerUI.WorkerReportsProgress = true;
-            this.imageDownloadWorkerUI.WorkerSupportsCancellation = true;
-            this.imageDownloadWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DownloadWorkerUI_Work);
-            this.imageDownloadWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.DownloadWorkerUI_Completed);
-            // 
             // blogGetStatsWorker
             // 
             this.blogGetStatsWorker.WorkerReportsProgress = true;
@@ -330,7 +313,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 3;
+            this.tabControl_Main.SelectedIndex = 1;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -681,7 +664,7 @@ namespace Tumblr_Tool
             this.table_Stats_PostStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.table_Stats_PostStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.table_Stats_PostStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_QuoteStats, 7, 1);
+            this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_QuoteCount, 7, 1);
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_Photo, 0, 0);
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_Quote, 6, 1);
             this.table_Stats_PostStats.Controls.Add(this.lbl_Stats_LinkCount, 1, 1);
@@ -706,16 +689,16 @@ namespace Tumblr_Tool
             this.table_Stats_PostStats.Size = new System.Drawing.Size(584, 36);
             this.table_Stats_PostStats.TabIndex = 15;
             // 
-            // lbl_Stats_QuoteStats
+            // lbl_Stats_QuoteCount
             // 
-            this.lbl_Stats_QuoteStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Stats_QuoteStats.AutoSize = true;
-            this.lbl_Stats_QuoteStats.Location = new System.Drawing.Point(344, 18);
-            this.lbl_Stats_QuoteStats.Name = "lbl_Stats_QuoteStats";
-            this.lbl_Stats_QuoteStats.Size = new System.Drawing.Size(44, 16);
-            this.lbl_Stats_QuoteStats.TabIndex = 9;
-            this.lbl_Stats_QuoteStats.Text = "0";
-            this.lbl_Stats_QuoteStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Stats_QuoteCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Stats_QuoteCount.AutoSize = true;
+            this.lbl_Stats_QuoteCount.Location = new System.Drawing.Point(344, 18);
+            this.lbl_Stats_QuoteCount.Name = "lbl_Stats_QuoteCount";
+            this.lbl_Stats_QuoteCount.Size = new System.Drawing.Size(44, 16);
+            this.lbl_Stats_QuoteCount.TabIndex = 9;
+            this.lbl_Stats_QuoteCount.Text = "0";
+            this.lbl_Stats_QuoteCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_Stats_Photo
             // 
@@ -1383,11 +1366,6 @@ namespace Tumblr_Tool
             this.blogTagListWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorker_Work);
             this.blogTagListWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorker_Completed);
             // 
-            // blogTagLIstWorkerUI
-            // 
-            this.blogTagLIstWorkerUI.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListWorkerUI_Work);
-            this.blogTagLIstWorkerUI.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.TagListWorkerUI_Completed);
-            // 
             // tagListSaveWorker
             // 
             this.tagListSaveWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.TagListSaveWorker_Work);
@@ -1406,13 +1384,13 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Restore,
             this.trayIcon_MenuItem_Exit});
             this.trayIconContextMenu.Name = "trayIconContextMenu";
-            this.trayIconContextMenu.Size = new System.Drawing.Size(153, 70);
+            this.trayIconContextMenu.Size = new System.Drawing.Size(116, 48);
             // 
             // trayIcon_MenuItem_Restore
             // 
             this.trayIcon_MenuItem_Restore.Image = global::Tumblr_Tool.Properties.Resources.home;
             this.trayIcon_MenuItem_Restore.Name = "trayIcon_MenuItem_Restore";
-            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Restore.Text = "Restore";
             this.trayIcon_MenuItem_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.trayIcon_MenuItem_Restore_Click);
@@ -1421,7 +1399,7 @@ namespace Tumblr_Tool
             // 
             this.trayIcon_MenuItem_Exit.Image = global::Tumblr_Tool.Properties.Resources.menu;
             this.trayIcon_MenuItem_Exit.Name = "trayIcon_MenuItem_Exit";
-            this.trayIcon_MenuItem_Exit.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Exit.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Exit.Text = "Exit";
             this.trayIcon_MenuItem_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.trayIcon_MenuItem_Exit_Click);
@@ -1504,12 +1482,10 @@ namespace Tumblr_Tool
         private ColorProgressBar bar_Progress;
         private System.Windows.Forms.MenuStrip menu_TopMenu;
         private System.ComponentModel.BackgroundWorker imageCrawlWorker;
-        private System.ComponentModel.BackgroundWorker imageCrawlWorkerUI;
         private System.Windows.Forms.StatusStrip status_Strip;
         private System.Windows.Forms.ToolStripStatusLabel lbl_Status;
         private System.Windows.Forms.ToolStripStatusLabel lbl_PostCount;
         private System.Windows.Forms.ToolStripStatusLabel lbl_Size;
-        private System.ComponentModel.BackgroundWorker imageDownloadWorkerUI;
         private System.Windows.Forms.Label lbl_Stats_Photo;
         private System.Windows.Forms.Label lbl_Stats_PhotoCount;
         private System.Windows.Forms.Label lbl_Stats_TotalCount;
@@ -1517,7 +1493,7 @@ namespace Tumblr_Tool
         private System.ComponentModel.BackgroundWorker blogGetStatsWorker;
         private System.ComponentModel.BackgroundWorker blogGetStatsWorkerUI;
         private System.Windows.Forms.Button btn_Stats_Start;
-        private System.Windows.Forms.Label lbl_Stats_QuoteStats;
+        private System.Windows.Forms.Label lbl_Stats_QuoteCount;
         private System.Windows.Forms.Label lbl_Stats_LinkCount;
         private System.Windows.Forms.Label lbl_Stats_TextCount;
         private System.Windows.Forms.Label lbl_Stats_Quote;
@@ -1568,7 +1544,6 @@ namespace Tumblr_Tool
         private KRBTabControl.TabPageEx tab_TagScanner;
         private System.Windows.Forms.Button btn_TagScanner_Start;
         private System.ComponentModel.BackgroundWorker blogTagListWorker;
-        private System.ComponentModel.BackgroundWorker blogTagLIstWorkerUI;
         private System.Windows.Forms.Button btn_TagScanner_Stop;
         private System.Windows.Forms.Label lbl_TagScanner_TagCount;
         private System.Windows.Forms.Label lbl_TagScanner_NumberOfTags;
