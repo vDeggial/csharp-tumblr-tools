@@ -20,6 +20,12 @@ namespace Tumblr_Tool.Helpers
     /// </summary>
     public static class CommonHelper
     {
+        /// <summary>
+        /// Reverses order of hashset
+        /// </summary>
+        /// <typeparam name="T">Hashset type</typeparam>
+        /// <param name="set">Hashset to reverse</param>
+        /// <returns> Hashset in reverse item order</returns>
         public static HashSet<T> ReverseHashSet<T>(this HashSet<T> set)
         {
             try

@@ -32,6 +32,9 @@ namespace Tumblr_Tool.Enums
         /// </summary>
         Bin,
 
+        /// <summary>
+        /// Json Compressed savefile
+        /// </summary>
         JsonCompressed
     }
 }

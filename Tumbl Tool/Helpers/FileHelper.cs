@@ -21,6 +21,9 @@ using Tumblr_Tool.Objects;
 
 namespace Tumblr_Tool.Helpers
 {
+    /// <summary>
+    /// Local File Operations Helper 
+    /// </summary>
     public static class FileHelper
     {
         /// <summary>
@@ -46,13 +49,13 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        ///  Check if file exists
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="fileName"></param>
-        /// <param name="useFullString"></param>
-        /// <param name="cutOffChar"></param>
-        /// <returns></returns>
+        /// <param name="path">Local path</param>
+        /// <param name="fileName">File name</param>
+        /// <param name="useFullString">True if checking full file name, false if partial</param>
+        /// <param name="cutOffChar">Cutoff char if partial match</param>
+        /// <returns>True if file was found, false otherwise</returns>
         public static bool FileExists(string path, string fileName, bool useFullString = false, char cutOffChar = '_')
         {
             try
@@ -92,24 +95,6 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// Find file
-        /// </summary>
-        /// <param name="dir">Directory</param>
-        /// <param name="fileName">Filename</param>
-        /// <returns></returns>
-        public static string FindFile(string dir, string fileName)
-        {
-            try
-            {
-                return Directory.GetFiles(dir, fileName + ".*").FirstOrDefault();
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Generates list of image files in folder
         /// </summary>
         /// <param name="location">Folder path</param>
@@ -137,7 +122,7 @@ namespace Tumblr_Tool.Helpers
         /// <param name="url">Remote url</param>
         /// <param name="location">Local path</param>
         /// <param name="prefix">File prefix</param>
-        /// <returns></returns>
+        /// <returns>Local path to file as a string</returns>
         public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
         {
             try
@@ -151,10 +136,10 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        ///
+        /// Gets image from file
         /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="filename">Filename</param>
+        /// <returns>Bitmap image from the file</returns>
         public static Bitmap GetImageFromFile(string filename)
         {
             try
@@ -201,10 +186,10 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        ///  Reads file contents into a string
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+        /// <param name="filePath">Path to file</param>
+        /// <returns>Contents of the file as string</returns>
         public static string ReadFileAsString(string filePath)
         {
             using (FileStream fs = new FileStream(@filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -222,7 +207,7 @@ namespace Tumblr_Tool.Helpers
         /// </summary>
         /// <param name="fileLocation">File path</param>
         /// <param name="format">Save file format</param>
-        /// <returns></returns>
+        /// <returns>Tumblr Savefile object</returns>
         public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormat format)
         {
             try

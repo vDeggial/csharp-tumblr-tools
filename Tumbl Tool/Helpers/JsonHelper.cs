@@ -24,10 +24,10 @@ namespace Tumblr_Tool.Helpers
     {
         
         /// <summary>
-        /// 
+        /// Parses json string into dynamic object
         /// </summary>
-        /// <param name="jsonString"></param>
-        /// <returns></returns>
+        /// <param name="jsonString">Json string representation</param>
+        /// <returns> Json object</returns>
         public static JObject GetDynamicObjectFromString(string jsonString)
         {
             if (!string.IsNullOrEmpty(jsonString))
@@ -88,11 +88,11 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Read object from Json compressed file
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="filePath">File path</param>
+        /// <returns> Object of type T</returns>
         public static T ReadObjectFromFileCompressed<T>(string filePath)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -137,11 +137,11 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Saves Object to json compressed file
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="objectToWrite"></param>
-        /// <returns></returns>
+        /// <param name="filePath"> File path</param>
+        /// <param name="objectToWrite"> Object to save</param>
+        /// <returns>True on success, false otherwise</returns>
         public static bool SaveObjectToFileCompressed(string filePath, object objectToWrite)
         {
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
@@ -155,12 +155,12 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Deserialized compressed json file
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="stream"></param>
-        /// <param name="settings"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="stream">File stream</param>
+        /// <param name="settings">Deserializer settings</param>
+        /// <returns>Object of type T</returns>
         private static T DeserializeCompressedFile<T>(Stream stream, JsonSerializerSettings settings = null)
         {
             using (var compressor = new GZipStream(stream, CompressionMode.Decompress))
@@ -173,11 +173,11 @@ namespace Tumblr_Tool.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Serializes object to compressed file
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="stream"></param>
-        /// <param name="settings"></param>
+        /// <param name="value">Object to save</param>
+        /// <param name="stream">File stream</param>
+        /// <param name="settings">Compression settings</param>
         private static void SerializeCompressedFile(object value, Stream stream, JsonSerializerSettings settings = null)
         {
             using (var compressor = new GZipStream(stream, CompressionMode.Compress))

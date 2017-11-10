@@ -97,6 +97,8 @@ namespace Tumblr_Tool
             this.btn_TagScanner_Start = new System.Windows.Forms.Button();
             this.tab_Options = new KRBTabControl.TabPageEx();
             this.section_Options = new System.Windows.Forms.GroupBox();
+            this.section_Options_Notifications = new System.Windows.Forms.GroupBox();
+            this.check_Options_ShowNotifications = new System.Windows.Forms.CheckBox();
             this.section_Options_LogOptions = new System.Windows.Forms.GroupBox();
             this.check_Options_GenerateUncompressedLog = new System.Windows.Forms.CheckBox();
             this.check_Options_GenerateLog = new System.Windows.Forms.CheckBox();
@@ -137,6 +139,7 @@ namespace Tumblr_Tool
             this.tab_TagScanner.SuspendLayout();
             this.tab_Options.SuspendLayout();
             this.section_Options.SuspendLayout();
+            this.section_Options_Notifications.SuspendLayout();
             this.section_Options_LogOptions.SuspendLayout();
             this.section_Options_BackupOptions.SuspendLayout();
             this.section_Options_ImageTypes.SuspendLayout();
@@ -1047,6 +1050,7 @@ namespace Tumblr_Tool
             // 
             // section_Options
             // 
+            this.section_Options.Controls.Add(this.section_Options_Notifications);
             this.section_Options.Controls.Add(this.section_Options_LogOptions);
             this.section_Options.Controls.Add(this.section_Options_BackupOptions);
             this.section_Options.Controls.Add(this.btn_Options_Reset);
@@ -1062,6 +1066,30 @@ namespace Tumblr_Tool
             this.section_Options.TabIndex = 7;
             this.section_Options.TabStop = false;
             this.section_Options.Text = "Options";
+            // 
+            // section_Options_Notifications
+            // 
+            this.section_Options_Notifications.Controls.Add(this.check_Options_ShowNotifications);
+            this.section_Options_Notifications.Location = new System.Drawing.Point(153, 107);
+            this.section_Options_Notifications.Name = "section_Options_Notifications";
+            this.section_Options_Notifications.Size = new System.Drawing.Size(200, 74);
+            this.section_Options_Notifications.TabIndex = 10;
+            this.section_Options_Notifications.TabStop = false;
+            this.section_Options_Notifications.Text = "Notifications";
+            // 
+            // check_Options_ShowNotifications
+            // 
+            this.check_Options_ShowNotifications.AutoSize = true;
+            this.check_Options_ShowNotifications.Checked = true;
+            this.check_Options_ShowNotifications.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.check_Options_ShowNotifications.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.check_Options_ShowNotifications.Location = new System.Drawing.Point(8, 30);
+            this.check_Options_ShowNotifications.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.check_Options_ShowNotifications.Name = "check_Options_ShowNotifications";
+            this.check_Options_ShowNotifications.Size = new System.Drawing.Size(120, 20);
+            this.check_Options_ShowNotifications.TabIndex = 1;
+            this.check_Options_ShowNotifications.Text = "Show Notfications";
+            this.check_Options_ShowNotifications.UseVisualStyleBackColor = true;
             // 
             // section_Options_LogOptions
             // 
@@ -1106,11 +1134,12 @@ namespace Tumblr_Tool
             // 
             this.section_Options_BackupOptions.Controls.Add(this.check_Options_OldToNewDownloadOrder);
             this.section_Options_BackupOptions.Controls.Add(this.check_Options_ParseOnly);
+            this.section_Options_BackupOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.section_Options_BackupOptions.Location = new System.Drawing.Point(153, 23);
             this.section_Options_BackupOptions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.section_Options_BackupOptions.Name = "section_Options_BackupOptions";
             this.section_Options_BackupOptions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.section_Options_BackupOptions.Size = new System.Drawing.Size(198, 143);
+            this.section_Options_BackupOptions.Size = new System.Drawing.Size(198, 85);
             this.section_Options_BackupOptions.TabIndex = 1;
             this.section_Options_BackupOptions.TabStop = false;
             this.section_Options_BackupOptions.Text = "Backup Download Options";
@@ -1377,13 +1406,13 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Restore,
             this.trayIcon_MenuItem_Close});
             this.trayIconContextMenu.Name = "trayIconContextMenu";
-            this.trayIconContextMenu.Size = new System.Drawing.Size(153, 70);
+            this.trayIconContextMenu.Size = new System.Drawing.Size(116, 48);
             // 
             // trayIcon_MenuItem_Restore
             // 
             this.trayIcon_MenuItem_Restore.Image = global::Tumblr_Tool.Properties.Resources.home;
             this.trayIcon_MenuItem_Restore.Name = "trayIcon_MenuItem_Restore";
-            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Restore.Text = "Restore";
             this.trayIcon_MenuItem_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.trayIcon_MenuItem_Restore_Click);
@@ -1392,7 +1421,7 @@ namespace Tumblr_Tool
             // 
             this.trayIcon_MenuItem_Close.Image = global::Tumblr_Tool.Properties.Resources.menu;
             this.trayIcon_MenuItem_Close.Name = "trayIcon_MenuItem_Close";
-            this.trayIcon_MenuItem_Close.Size = new System.Drawing.Size(152, 22);
+            this.trayIcon_MenuItem_Close.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Close.Text = "Close";
             this.trayIcon_MenuItem_Close.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Close.Click += new System.EventHandler(this.trayIcon_MenuItem_Close_Click);
@@ -1442,6 +1471,8 @@ namespace Tumblr_Tool
             this.tab_TagScanner.ResumeLayout(false);
             this.tab_Options.ResumeLayout(false);
             this.section_Options.ResumeLayout(false);
+            this.section_Options_Notifications.ResumeLayout(false);
+            this.section_Options_Notifications.PerformLayout();
             this.section_Options_LogOptions.ResumeLayout(false);
             this.section_Options_BackupOptions.ResumeLayout(false);
             this.section_Options_BackupOptions.PerformLayout();
@@ -1551,6 +1582,8 @@ namespace Tumblr_Tool
         private System.Windows.Forms.ContextMenuStrip trayIconContextMenu;
         private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Restore;
         private System.Windows.Forms.ToolStripMenuItem trayIcon_MenuItem_Close;
+        private System.Windows.Forms.GroupBox section_Options_Notifications;
+        private System.Windows.Forms.CheckBox check_Options_ShowNotifications;
     }
 }
 

@@ -505,7 +505,7 @@ namespace Tumblr_Tool
                         {
                             EnableUI_Crawl(true);
                             trayIcon.BalloonTipText = TrayIconMessageIndexingComplete;
-                            trayIcon.ShowBalloonTip(500);
+                            if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                         }
                         else if (PhotoPostParser.ProcessingStatusCode != ProcessingCode.Done)
                         {
@@ -528,7 +528,7 @@ namespace Tumblr_Tool
                                 img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
                                 EnableUI_Crawl(true);
                                 trayIcon.BalloonTipText = TrayIconMessageIndexingCompleteNoDownload;
-                                trayIcon.ShowBalloonTip(500);
+                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                             }
                             else
                             {
@@ -536,7 +536,7 @@ namespace Tumblr_Tool
                                 img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
                                 EnableUI_Crawl(true);
                                 trayIcon.BalloonTipText = TrayIconMessageIndexingCancel;
-                                trayIcon.ShowBalloonTip(500);
+                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                             }
                         }
                     });
@@ -1000,7 +1000,7 @@ namespace Tumblr_Tool
                                 UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
                                 UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadedList.Count.ToString()).Append(" image(s).").ToString());
                                 trayIcon.BalloonTipText = string.Format(TrayIconMessageDownloadComplete, DownloadedList.Count.ToString());
-                                trayIcon.ShowBalloonTip(500);
+                                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                                 bar_Progress.Value = 0;
                                 lbl_PercentBar.Text = string.Empty;
                             });
@@ -1390,7 +1390,7 @@ namespace Tumblr_Tool
         private void GetStatsWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
             trayIcon.BalloonTipText = TrayIconMessageGetStatsComplete;
-            trayIcon.ShowBalloonTip(500);
+            if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
         }
 
         /// <summary>
@@ -1759,7 +1759,7 @@ namespace Tumblr_Tool
             {
                 trayIcon.Visible = true;
                 trayIcon.BalloonTipText = TrayIconMessageMinimized;
-                trayIcon.ShowBalloonTip(500);
+                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                 trayIcon_MenuItem_Restore.Visible = true;
                 this.Hide();
             }
@@ -1821,6 +1821,7 @@ namespace Tumblr_Tool
             check_Options_GenerateLog.Checked = Options.GenerateLog;
             check_Options_OldToNewDownloadOrder.Checked = Options.OldToNewDownloadOrder;
             check_Options_GenerateUncompressedLog.Checked = Options.GenerateUncompressedLog;
+            check_Options_ShowNotifications.Checked = Options.ShowNotifications;
         }
 
         /// <summary>
@@ -1857,6 +1858,7 @@ namespace Tumblr_Tool
             Options.GenerateLog = check_Options_GenerateLog.Checked;
             Options.OldToNewDownloadOrder = check_Options_OldToNewDownloadOrder.Checked;
             Options.GenerateUncompressedLog = check_Options_GenerateUncompressedLog.Checked;
+            Options.ShowNotifications = check_Options_ShowNotifications.Checked;
         }
 
         /// <summary>
@@ -2265,7 +2267,7 @@ namespace Tumblr_Tool
             try
             {
                 trayIcon.BalloonTipText = TrayIconMessageGetTagsComplete;
-                trayIcon.ShowBalloonTip(500);
+                if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
                 if (!IsDisposed)
                 {
                     Invoke((MethodInvoker)delegate

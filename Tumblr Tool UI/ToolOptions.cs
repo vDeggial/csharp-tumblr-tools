@@ -65,5 +65,10 @@ namespace Tumblr_Tool
         /// Option to parse .png files
         /// </summary>
         public bool ParsePng { get; set; }
+
+        /// <summary>
+        /// Option to show notifications
+        /// </summary>
+        public bool ShowNotifications { get; set; }
     }
 }
