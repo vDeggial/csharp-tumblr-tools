@@ -1451,7 +1451,7 @@ namespace Tumblr_Tool
             // 
             this.trayIcon.Text = "trayIcon";
             this.trayIcon.Visible = true;
-            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseDoubleClick);
             // 
             // trayIconContextMenu
             // 
@@ -1469,7 +1469,7 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Restore.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Restore.Text = "Restore";
             this.trayIcon_MenuItem_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.trayIcon_MenuItem_Restore_Click);
+            this.trayIcon_MenuItem_Restore.Click += new System.EventHandler(this.TrayIcon_MenuItem_Restore_Click);
             // 
             // trayIcon_MenuItem_Exit
             // 
@@ -1478,7 +1478,7 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Exit.Size = new System.Drawing.Size(115, 22);
             this.trayIcon_MenuItem_Exit.Text = "Exit";
             this.trayIcon_MenuItem_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.trayIcon_MenuItem_Exit_Click);
+            this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.TrayIcon_MenuItem_Exit_Click);
             // 
             // MainForm
             // 

@@ -1775,18 +1775,18 @@ namespace Tumblr_Tool
             }
         }
 
-        private void trayIcon_MenuItem_Exit_Click(object sender, EventArgs e)
+        private void TrayIcon_MenuItem_Exit_Click(object sender, EventArgs e)
         {
             //this.Show();
             ExitApplication(null, new FormClosingEventArgs(CloseReason.UserClosing, false));
         }
 
-        private void trayIcon_MenuItem_Restore_Click(object sender, EventArgs e)
+        private void TrayIcon_MenuItem_Restore_Click(object sender, EventArgs e)
         {
-            trayIcon_MouseDoubleClick(sender, null);
+            TrayIcon_MouseDoubleClick(sender, null);
         }
 
-        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (FormWindowState.Minimized == this.WindowState)
             {
