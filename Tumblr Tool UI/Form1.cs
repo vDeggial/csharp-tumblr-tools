@@ -34,7 +34,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.6.0";
+        private const string AppVersion = "1.6.1";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -74,7 +74,7 @@ namespace Tumblr_Tool
         private const string TrayIconMessageIndexingComplete = "Post indexing complete";
         private const string TrayIconMessageIndexingCompleteNoDownload = "Post indexing complete. Found no images to download";
         private const string TrayIconMessageMinimized = "Still here, but minimized";
-        private const string WelcomeMsg = "\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
+        private const string WelcomeMsg = "\r\n\r\n\r\n\r\nWelcome to Tumblr Tools!\r\nVersion: " + AppVersion + "\r\n© 2013 - 2017\r\nShino Amakusa\r\n" + AppLinkUrl;
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
         private const string WorktextGettingBlogInfo = "Getting info ...";
@@ -203,7 +203,7 @@ namespace Tumblr_Tool
         {
             Button button = new Button();
             if (sender is Button) button = sender as Button;
-            if (button != null)
+            if (button != null && button is Button)
             {
                 button.UseVisualStyleBackColor = true;
                 button.ForeColor = Color.Black;
@@ -229,7 +229,7 @@ namespace Tumblr_Tool
             EnableUI_Crawl(true);
 
             UpdateWorkStatusTextNewLine("Operation cancelled ...");
-            img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+            img_Crawler_ImagePreview.Image = Resources.tumblrlogo;
             //MsgBox.Show("Current operation has been cancelled successfully!", "Cancel", MsgBox.Buttons.OK, MsgBox.Icon.Info, MsgBox.AnimateStyle.FadeIn, false);
             UpdateStatusText(StatusReady);
         }
@@ -312,7 +312,7 @@ namespace Tumblr_Tool
                 {
                     Invoke((MethodInvoker)delegate
                             {
-                                img_Crawler_DisplayImage.Image = Resources.crawling;
+                                img_Crawler_ImagePreview.Image = Resources.crawling;
                             });
                 }
 
@@ -527,7 +527,7 @@ namespace Tumblr_Tool
 
                                 Invoke((MethodInvoker)delegate
                                 {
-                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    img_Crawler_ImagePreview.Image = Resources.tumblrlogo;
                                     UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultError);
                                     UpdateWorkStatusTextNewLine("We were unable to download images ...");
                                     bar_Progress.Value = 0;
@@ -545,9 +545,9 @@ namespace Tumblr_Tool
 
                                     if (img != null)
                                     {
-                                        img_Crawler_DisplayImage.Image = img;
-                                        img_Crawler_DisplayImage.Update();
-                                        img_Crawler_DisplayImage.Refresh();
+                                        img_Crawler_ImagePreview.Image = img;
+                                        img_Crawler_ImagePreview.Update();
+                                        img_Crawler_ImagePreview.Refresh();
                                     }
 
                                     lbl_PostCount.Text = string.Format(PostCountFormat, DownloadManager.NumberOfFilesDownloaded, PhotoPostParser.ImageList.Count);
@@ -673,14 +673,14 @@ namespace Tumblr_Tool
 
                                     Invoke((MethodInvoker)delegate
                                         {
-                                            img_Crawler_DisplayImage.Image.Dispose();
+                                            img_Crawler_ImagePreview.Image.Dispose();
 
                                             Bitmap img = FileHelper.GetImageFromFile(fullPath);
 
                                             if (img != null)
                                             {
-                                                img_Crawler_DisplayImage.Image = img;
-                                                img_Crawler_DisplayImage.Refresh();
+                                                img_Crawler_ImagePreview.Image = img;
+                                                img_Crawler_ImagePreview.Refresh();
                                             }
                                         });
 
@@ -1152,7 +1152,7 @@ namespace Tumblr_Tool
             btn_TagScanner_SaveAsFile.Visible = false;
 
             SetDoubleBuffering(bar_Progress, true);
-            SetDoubleBuffering(img_Crawler_DisplayImage, true);
+            SetDoubleBuffering(img_Crawler_ImagePreview, true);
 
             tabControl_Main.SelectedIndex = 0;
             tabControl_Main.ShowToolTips = true;
@@ -1651,10 +1651,7 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void TagListSaveWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            Invoke((MethodInvoker)delegate
-                    {
-                        UpdateStatusText("File Saved");
-                    });
+            
         }
 
         /// <summary>
@@ -1682,6 +1679,17 @@ namespace Tumblr_Tool
                     string tags = string.Join(",", listBox.Items.Cast<string>().ToList());
                     myOutputStream.Write(tags);
                 }
+                Invoke((MethodInvoker)delegate
+                    {
+                        UpdateStatusText("Tag List File Saved");
+                    });
+            }
+            else
+            {
+                Invoke((MethodInvoker)delegate
+                    {
+                        UpdateStatusText(StatusDone);
+                    });
             }
         }
 
@@ -2055,8 +2063,8 @@ namespace Tumblr_Tool
                                     UpdateStatusText(StatusError);
                                     UpdateWorkStatusTextConcat(WorktextCheckingConnx, ResultFail);
                                     btn_Crawler_Start.Enabled = true;
-                                    img_Crawler_DisplayImage.Visible = true;
-                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    img_Crawler_ImagePreview.Visible = true;
+                                    img_Crawler_ImagePreview.Image = Resources.tumblrlogo;
                                     tab_TumblrStats.Enabled = true;
                                     IsCrawlingDone = true;
                                 });
@@ -2158,7 +2166,7 @@ namespace Tumblr_Tool
                                     Invoke((MethodInvoker)delegate
                                 {
                                     UpdateStatusText(StatusReady);
-                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    img_Crawler_ImagePreview.Image = Resources.tumblrlogo;
                                     EnableUI_Crawl(true);
                                 });
                                     trayIcon.BalloonTipText = TrayIconMessageIndexingCompleteNoDownload;
@@ -2169,7 +2177,7 @@ namespace Tumblr_Tool
                                     Invoke((MethodInvoker)delegate
                                 {
                                     UpdateStatusText(StatusReady);
-                                    img_Crawler_DisplayImage.Image = Resources.tumblrlogo;
+                                    img_Crawler_ImagePreview.Image = Resources.tumblrlogo;
                                     EnableUI_Crawl(true);
                                 });
                                     trayIcon.BalloonTipText = TrayIconMessageIndexingCancel;

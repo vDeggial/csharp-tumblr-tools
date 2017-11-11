@@ -353,7 +353,7 @@ namespace Tumblr_Tool
                 button.ForeColor = Color.Maroon;
                 button.FlatAppearance.BorderColor = Color.Maroon;
                 button.FlatAppearance.MouseOverBackColor = Color.White;
-                button.FlatAppearance.BorderSize = 1;
+                button.FlatAppearance.BorderSize = 0;
             }
         }
 

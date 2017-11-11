@@ -38,23 +38,26 @@ namespace Tumblr_Tool.Managers
             DocumentManager.ApiVersion = apiMode;
             TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2;
 
-            Blog = blog ?? new TumblrBlog(url);
+            Blog = blog ?? ((url != null) ? new TumblrBlog(url) : null);
 
-            Blog.Posts = new HashSet<TumblrPost>();
+            if (Blog != null)
+            {
+                Blog.Posts = new HashSet<TumblrPost>();
 
-            TumblrUrl = WebHelper.RemoveTrailingBackslash(Blog.Url);
-            TumblrDomain = WebHelper.GetDomainName(TumblrUrl);
+                TumblrUrl = WebHelper.RemoveTrailingBackslash(Blog.Url);
+                TumblrDomain = WebHelper.GetDomainName(TumblrUrl);
 
-            ApiQueryLimit = limit;
-            ApiQueryOffset = offset;
+                ApiQueryLimit = limit;
+                ApiQueryOffset = offset;
 
-            TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
+                TotalPostsPerDocument = (int)NumberOfPostsPerApiDocument.ApiV2; //20 for JSON, 50 for XML
 
-            var values = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>();
-            TypesCount = values.Count() - 3;
+                var values = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>();
+                TypesCount = values.Count() - 3;
 
-            // Get Blog Info
-            DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
+                // Get Blog Info
+                DocumentManager.GetRemoteBlogInfo(TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1), Blog);
+            }
         }
 
         private int postTypesProcessedCount;
