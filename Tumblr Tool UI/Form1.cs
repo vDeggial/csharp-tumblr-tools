@@ -186,10 +186,11 @@ namespace Tumblr_Tool
             if (button != null && button is Button)
             {
                 button.UseVisualStyleBackColor = false;
+                button.FlatStyle = FlatStyle.Flat;
                 button.ForeColor = Color.Maroon;
                 button.FlatAppearance.BorderColor = Color.Maroon;
                 button.FlatAppearance.MouseOverBackColor = Color.White;
-                button.FlatAppearance.BorderSize = 1;
+                button.FlatAppearance.BorderSize = 0;
             }
         }
 
@@ -206,7 +207,7 @@ namespace Tumblr_Tool
             {
                 button.UseVisualStyleBackColor = true;
                 button.ForeColor = Color.Black;
-                button.FlatAppearance.BorderSize = 1;
+                button.FlatAppearance.BorderSize = 0;
                 button.FlatAppearance.BorderColor = Color.White;
             }
         }
@@ -919,6 +920,18 @@ namespace Tumblr_Tool
                 bar_Progress.Value = 0;
                 bar_Progress.Visible = true;
                 lbl_PercentBar.Visible = true;
+
+                lbl_Stats_AnswerCount.Text = "0";
+                lbl_Stats_AudioCount.Text = "0";
+                lbl_Stats_ChatCount.Text = "0";
+                lbl_Stats_LinkCount.Text = "0";
+                lbl_Stats_PhotoCount.Text = "0";
+                lbl_Stats_QuoteCount.Text = "0";
+                lbl_Stats_VideoCount.Text = "0";
+                lbl_Stats_TotalCount.Text = "0";
+                lbl_Stats_BlogTitle.Text = "";
+                lbl_Stats_BlogDescription.Text = "";
+                img_Stats_Avatar.Image = Resources.avatar;
             });
             try
             {
@@ -947,7 +960,7 @@ namespace Tumblr_Tool
                             {
                                 lbl_Stats_TotalCount.Visible = true;
                                 lbl_Stats_BlogTitle.Text = TumblrStats.Blog.Title;
-                                txt_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
+                                lbl_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
                                 lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
 
                                 lbl_PostCount.Text = string.Empty;
@@ -1034,199 +1047,6 @@ namespace Tumblr_Tool
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetStatsWorkerUI_Completed(object sender, RunWorkerCompletedEventArgs e)
-        {
-            trayIcon.BalloonTipText = TrayIconMessageGetStatsComplete;
-            if (Options.ShowNotifications) trayIcon.ShowBalloonTip(500);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetStatsWorkerUI_Work(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                var values = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>();
-                int typesCount = values.Count() - 3;
-
-                if (!IsDisposed)
-                {
-                    Invoke((MethodInvoker)delegate
-                        {
-                            bar_Progress.Value = 0;
-                            bar_Progress.Visible = true;
-                            lbl_Size.Visible = false;
-                            lbl_PercentBar.Visible = true;
-                        });
-                }
-
-                while (TumblrStats.ProcessingStatusCode != ProcessingCode.Done && TumblrStats.ProcessingStatusCode != ProcessingCode.ConnectionError && TumblrStats.ProcessingStatusCode != ProcessingCode.InvalidUrl)
-                {
-                    _readyToGetStats.WaitOne();
-                    if (TumblrStats.Blog == null)
-                    {
-                        // wait till other worker created and populated blog info
-                        Invoke((MethodInvoker)delegate
-                        {
-                            lbl_PercentBar.Text = @"Getting initial blog info ... ";
-                        });
-                    }
-                    else if (string.IsNullOrEmpty(TumblrStats.Blog.Title) && string.IsNullOrEmpty(TumblrStats.Blog.Description) && TumblrStats.TotalPostsForType <= 0)
-                    {
-                        // wait till we got the blog title and desc and posts number
-                    }
-                    else
-                    {
-                        if (!IsDisposed)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                lbl_Stats_TotalCount.Visible = true;
-                                lbl_Stats_BlogTitle.Text = TumblrStats.Blog.Title;
-                                lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
-
-                                lbl_PostCount.Text = string.Empty;
-                                img_Stats_Avatar.LoadAsync(TumblrApiHelper.GenerateAvatarQueryUrl(TumblrStats.Blog.Url));
-                            });
-                        }
-
-                        if (!IsDisposed)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateStatusText(StatusGettingStats);
-                            });
-                        }
-
-                        int percent = 0;
-                        while (percent < 100)
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    txt_Stats_BlogDescription.Visible = true;
-                                    if (txt_Stats_BlogDescription.Text != WebHelper.StripHtmlTags(TumblrStats.Blog.Description))
-                                        txt_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
-                                });
-                            }
-
-                            percent = (int)((TumblrStats.PostTypesProcessedCount / (double)typesCount) * 100.00);
-                            if (percent < 0)
-                                percent = 0;
-
-                            if (percent >= 100)
-                                percent = 100;
-
-                            if (CurrentPercent != percent)
-                            {
-                                if (!IsDisposed)
-                                {
-                                    var progressBarPercent = percent;
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        bar_Progress.Value = progressBarPercent;
-                                    });
-                                }
-                            }
-
-                            if (CurrentPostCount != TumblrStats.PostTypesProcessedCount)
-                            {
-                                if (!IsDisposed)
-                                {
-                                    var percentBarValue = percent;
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        lbl_PercentBar.Visible = true;
-                                        lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
-                                        lbl_Stats_PhotoCount.Text = TumblrStats.TotalPhotoPosts.ToString();
-                                        lbl_Stats_TextCount.Text = TumblrStats.TotalTextPosts.ToString();
-                                        lbl_Stats_QuoteCount.Text = TumblrStats.TotalQuotePosts.ToString();
-                                        lbl_Stats_LinkCount.Text = TumblrStats.TotalLinkPosts.ToString();
-                                        lbl_Stats_AudioCount.Text = TumblrStats.TotalAudioPosts.ToString();
-                                        lbl_Stats_VideoCount.Text = TumblrStats.TotalVideoPosts.ToString();
-                                        lbl_Stats_ChatCount.Text = TumblrStats.TotalChatPosts.ToString();
-                                        lbl_Stats_AnswerCount.Text = TumblrStats.TotalAnswerPosts.ToString();
-                                        lbl_PercentBar.Text = string.Format(PercentFormat, percentBarValue);
-                                        lbl_PostCount.Visible = true;
-                                        lbl_PostCount.Text = string.Format(PostCountFormat, TumblrStats.PostTypesProcessedCount, (typesCount));
-                                    });
-                                }
-                            }
-
-                            CurrentPostCount = TumblrStats.PostTypesProcessedCount;
-                            CurrentPercent = percent;
-                        }
-                    }
-                }
-
-                switch (TumblrStats.ProcessingStatusCode)
-                {
-                    case ProcessingCode.InvalidUrl:
-
-                        if (!IsDisposed)
-                        {
-                            Invoke((MethodInvoker)delegate
-                            {
-                                UpdateStatusText(StatusError);
-                                lbl_PostCount.Visible = false;
-                                bar_Progress.Visible = false;
-                                lbl_Size.Visible = false;
-
-                                MessageBox.Show(@"Invalid Tumblr URL", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            });
-                        }
-                        break;
-
-                    case ProcessingCode.ConnectionError:
-
-                        Invoke((MethodInvoker)delegate
-                        {
-                            MessageBox.Show(@"No Internet connection detected!", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            UpdateStatusText(StatusError);
-                        });
-                        break;
-
-                    case ProcessingCode.Done:
-
-                        try
-                        {
-                            if (!IsDisposed)
-                            {
-                                Invoke((MethodInvoker)delegate
-                                {
-                                    EnableUI_Stats(true);
-                                    UpdateStatusText(StatusDone);
-                                    lbl_PostCount.Visible = false;
-                                    bar_Progress.Visible = false;
-                                    lbl_PercentBar.Visible = false;
-                                });
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            MsgBox.Show(exception.Message);
-                        }
-                        break;
-
-                    default:
-                        EnableUI_Stats(true);
-                        break;
-                }
-            }
-            catch (Exception exception)
-            {
-                MsgBox.Show(exception.Message);
-            }
-        }
 
         /// <summary>
         ///
@@ -1294,7 +1114,7 @@ namespace Tumblr_Tool
             menu_TopMenu.Renderer = renderer;
             txt_Crawler_WorkStatus.Visible = true;
             txt_Crawler_WorkStatus.Text = WelcomeMsg;
-            txt_Stats_BlogDescription.Visible = true;
+            lbl_Stats_BlogDescription.Visible = true;
             lbl_PercentBar.Text = string.Empty;
 
             bar_Progress.Visible = true;
@@ -1339,10 +1159,10 @@ namespace Tumblr_Tool
 
             lbl_About_Copyright.Text = AppCopyright;
 
-            txt_Stats_BlogDescription.Text = "Click Get Stats to start ...";
+            lbl_Stats_BlogDescription.Text = "Click Get Stats to start ...";
             lbl_Stats_BlogTitle.Text = "Tumblr Stats";
 
-            trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info; //Shows the info icon so the user doesn't thing there is an error.
+            trayIcon.BalloonTipIcon = ToolTipIcon.Info; //Shows the info icon so the user doesn't thing there is an error.
 
             trayIcon.BalloonTipTitle = "Tumblr Tools";
             trayIcon.Icon = Icon; //The tray icon to use
