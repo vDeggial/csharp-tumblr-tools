@@ -320,7 +320,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedIndex = 0;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -359,9 +359,9 @@ namespace Tumblr_Tool
             // section_Crawler_ImagePreview
             // 
             this.section_Crawler_ImagePreview.Controls.Add(this.img_Crawler_ImagePreview);
-            this.section_Crawler_ImagePreview.Location = new System.Drawing.Point(172, 4);
+            this.section_Crawler_ImagePreview.Location = new System.Drawing.Point(198, 3);
             this.section_Crawler_ImagePreview.Name = "section_Crawler_ImagePreview";
-            this.section_Crawler_ImagePreview.Size = new System.Drawing.Size(234, 210);
+            this.section_Crawler_ImagePreview.Size = new System.Drawing.Size(208, 210);
             this.section_Crawler_ImagePreview.TabIndex = 24;
             this.section_Crawler_ImagePreview.TabStop = false;
             this.section_Crawler_ImagePreview.Text = "Preview:";
@@ -373,7 +373,7 @@ namespace Tumblr_Tool
             this.img_Crawler_ImagePreview.ErrorImage = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
             this.img_Crawler_ImagePreview.Image = global::Tumblr_Tool.Properties.Resources.tumblrlogo;
             this.img_Crawler_ImagePreview.InitialImage = null;
-            this.img_Crawler_ImagePreview.Location = new System.Drawing.Point(42, 21);
+            this.img_Crawler_ImagePreview.Location = new System.Drawing.Point(29, 21);
             this.img_Crawler_ImagePreview.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.img_Crawler_ImagePreview.Name = "img_Crawler_ImagePreview";
             this.img_Crawler_ImagePreview.Size = new System.Drawing.Size(149, 175);
@@ -389,7 +389,7 @@ namespace Tumblr_Tool
             this.section_Crawler_Options.Controls.Add(this.lbl_Crawler_ImageSize);
             this.section_Crawler_Options.Location = new System.Drawing.Point(413, 90);
             this.section_Crawler_Options.Name = "section_Crawler_Options";
-            this.section_Crawler_Options.Size = new System.Drawing.Size(200, 80);
+            this.section_Crawler_Options.Size = new System.Drawing.Size(208, 80);
             this.section_Crawler_Options.TabIndex = 23;
             this.section_Crawler_Options.TabStop = false;
             this.section_Crawler_Options.Text = "Options:";
@@ -472,7 +472,7 @@ namespace Tumblr_Tool
             this.btn_Crawler_Stop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_Crawler_Stop.ImageIndex = 0;
             this.btn_Crawler_Stop.ImageList = this.iconsList;
-            this.btn_Crawler_Stop.Location = new System.Drawing.Point(551, 186);
+            this.btn_Crawler_Stop.Location = new System.Drawing.Point(559, 177);
             this.btn_Crawler_Stop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Crawler_Stop.Name = "btn_Crawler_Stop";
             this.btn_Crawler_Stop.Size = new System.Drawing.Size(61, 28);
@@ -511,7 +511,7 @@ namespace Tumblr_Tool
             this.txt_Crawler_WorkStatus.Name = "txt_Crawler_WorkStatus";
             this.txt_Crawler_WorkStatus.ReadOnly = true;
             this.txt_Crawler_WorkStatus.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txt_Crawler_WorkStatus.Size = new System.Drawing.Size(142, 211);
+            this.txt_Crawler_WorkStatus.Size = new System.Drawing.Size(168, 211);
             this.txt_Crawler_WorkStatus.TabIndex = 8;
             this.txt_Crawler_WorkStatus.TabStop = false;
             this.txt_Crawler_WorkStatus.Text = "Welcome to Tumblr Tools!";
@@ -527,7 +527,7 @@ namespace Tumblr_Tool
             this.btn_Crawler_Start.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_Crawler_Start.ImageIndex = 4;
             this.btn_Crawler_Start.ImageList = this.iconsList;
-            this.btn_Crawler_Start.Location = new System.Drawing.Point(412, 187);
+            this.btn_Crawler_Start.Location = new System.Drawing.Point(413, 177);
             this.btn_Crawler_Start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Crawler_Start.Name = "btn_Crawler_Start";
             this.btn_Crawler_Start.Size = new System.Drawing.Size(61, 28);
@@ -545,7 +545,7 @@ namespace Tumblr_Tool
             this.section_Crawler_BackupLocation.Controls.Add(this.txt_Crawler_SaveLocation);
             this.section_Crawler_BackupLocation.Location = new System.Drawing.Point(412, 4);
             this.section_Crawler_BackupLocation.Name = "section_Crawler_BackupLocation";
-            this.section_Crawler_BackupLocation.Size = new System.Drawing.Size(200, 80);
+            this.section_Crawler_BackupLocation.Size = new System.Drawing.Size(208, 80);
             this.section_Crawler_BackupLocation.TabIndex = 22;
             this.section_Crawler_BackupLocation.TabStop = false;
             this.section_Crawler_BackupLocation.Text = "Backup Location:";
