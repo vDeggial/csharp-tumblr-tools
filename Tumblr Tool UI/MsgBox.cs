@@ -131,7 +131,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
 
             InitButtons(Buttons.Ok);
@@ -142,7 +145,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message, bool beep)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
 
             InitButtons(Buttons.Ok);
@@ -156,7 +162,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message, string title, bool beep)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
             _msgBox._lblTitle.Text = title;
             _msgBox.Size = MessageSize(message);
@@ -171,7 +180,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message, string title, Buttons buttons, bool beep)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
             _msgBox._lblTitle.Text = title;
             _msgBox._plIcon.Hide();
@@ -187,7 +199,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message, string title, Buttons buttons, Icon icon, bool beep)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
             _msgBox._lblTitle.Text = title;
 
@@ -204,7 +219,10 @@ namespace Tumblr_Tool
 
         public static DialogResult Show(string message, string title, Buttons buttons, Icon icon, AnimateStyle style, bool beep)
         {
-            _msgBox = new MsgBox();
+            _msgBox = new MsgBox
+            {
+                DoubleBuffered = true
+            };
             _msgBox._lblMessage.Text = message;
             _msgBox._lblTitle.Text = title;
             _msgBox.Height = 0;

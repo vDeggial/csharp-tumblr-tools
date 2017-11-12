@@ -261,8 +261,8 @@ namespace Tumblr_Tool
             bar_Progress.Visible = !state;
             lbl_PercentBar.Visible = !state;
 
-            lbl_PostCount.Visible = !state;
-            lbl_Size.Visible = !state;
+            lbl_Status_PostCount.Visible = !state;
+            lbl_Status_Size.Visible = !state;
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Tumblr_Tool
             bar_Progress.Visible = !state;
             lbl_PercentBar.Visible = !state;
 
-            lbl_PostCount.Visible = !state;
+            lbl_Status_PostCount.Visible = !state;
 
             check_Tags_PhotoOnly.Enabled = state;
         }
@@ -310,7 +310,7 @@ namespace Tumblr_Tool
                 if (!IsExitTime)
                 {
                     IsExitTime = true;
-                    DialogResult dialogResult = MsgBox.Show("Are you sure you want to exit Tumblr Tools?", "Exit", MsgBox.Buttons.YesNo, MsgBox.Icon.Question, MsgBox.AnimateStyle.FadeIn, false);
+                    DialogResult dialogResult = MsgBox.Show("Are you sure you want to exit Tumblr Tools?", "Exit", MsgBox.Buttons.YesNo, MsgBox.Icon.Question, false);
                     if (dialogResult == DialogResult.Yes)
                     {
                         //do something
@@ -392,7 +392,7 @@ namespace Tumblr_Tool
                 {
                     EnableUI_Stats(true);
                     UpdateStatusText(StatusDone);
-                    lbl_PostCount.Visible = false;
+                    lbl_Status_PostCount.Visible = false;
                     bar_Progress.Visible = false;
                     lbl_PercentBar.Visible = false;
                 });
@@ -455,7 +455,7 @@ namespace Tumblr_Tool
                                 lbl_Stats_BlogDescription.Text = WebHelper.StripHtmlTags(TumblrStats.Blog.Description);
                                 lbl_Stats_TotalCount.Text = TumblrStats.TotalPostsOverall.ToString();
 
-                                lbl_PostCount.Text = string.Empty;
+                                lbl_Status_PostCount.Text = string.Empty;
                                 img_Stats_Avatar.LoadAsync(TumblrApiHelper.GenerateAvatarQueryUrl(TumblrStats.Blog.Url));
                             });
                         }
@@ -485,9 +485,9 @@ namespace Tumblr_Tool
                             Invoke((MethodInvoker)delegate
                             {
                                 UpdateStatusText(StatusError);
-                                lbl_PostCount.Visible = false;
+                                lbl_Status_PostCount.Visible = false;
                                 bar_Progress.Visible = false;
-                                lbl_Size.Visible = false;
+                                lbl_Status_Size.Visible = false;
 
                                 MessageBox.Show(@"Invalid Tumblr URL", StatusError, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             });
@@ -513,7 +513,7 @@ namespace Tumblr_Tool
                                 {
                                     EnableUI_Stats(true);
                                     UpdateStatusText(StatusDone);
-                                    lbl_PostCount.Visible = false;
+                                    lbl_Status_PostCount.Visible = false;
                                     bar_Progress.Visible = false;
                                     lbl_PercentBar.Visible = false;
                                 });
@@ -627,20 +627,19 @@ namespace Tumblr_Tool
                 Options_Save(file);
             }
 
-            lbl_Size.Text = string.Empty;
-            lbl_Size.Visible = false;
-            lbl_PostCount.Text = string.Empty;
-            lbl_PostCount.Visible = false;
-            lbl_Status.Text = StatusReady;
-            lbl_Status.Visible = true;
+            lbl_Status_Size.Text = string.Empty;
+            lbl_Status_Size.Visible = false;
+            lbl_Status_PostCount.Text = string.Empty;
+            lbl_Status_PostCount.Visible = false;
+            lbl_Status_Status.Text = StatusReady;
+            lbl_Status_Status.Visible = true;
             lbl_PercentBar.Text = string.Empty;
             lbl_PercentBar.Visible = true;
 
             btn_TagScanner_Stop.Visible = false;
             btn_TagScanner_SaveAsFile.Visible = false;
 
-            SetDoubleBuffering(bar_Progress, true);
-            SetDoubleBuffering(img_Crawler_ImagePreview, true);
+            SetDoubleBufferingAll();
 
             tabControl_Main.SelectedIndex = 0;
             tabControl_Main.ShowToolTips = true;
@@ -688,8 +687,8 @@ namespace Tumblr_Tool
                                     UpdateWorkStatusTextNewLine("We were unable to download images ...");
                                     bar_Progress.Value = 0;
                                     lbl_PercentBar.Text = string.Empty;
-                                    lbl_PostCount.Visible = false;
-                                    lbl_Size.Visible = false;
+                                    lbl_Status_PostCount.Visible = false;
+                                    lbl_Status_Size.Visible = false;
                                 });
                                 break;
 
@@ -706,7 +705,7 @@ namespace Tumblr_Tool
                                         img_Crawler_ImagePreview.Refresh();
                                     }
 
-                                    lbl_PostCount.Text = string.Format(PostCountFormat, DownloadManager.NumberOfFilesDownloaded, PhotoPostParser.ImageList.Count);
+                                    lbl_Status_PostCount.Text = string.Format(PostCountFormat, DownloadManager.NumberOfFilesDownloaded, PhotoPostParser.ImageList.Count);
                                     bar_Progress.Visible = false;
                                     UpdateWorkStatusTextConcat(WorktextDownloadingImages, ResultDone);
                                     UpdateWorkStatusTextNewLine(new StringBuilder("Downloaded ").Append(DownloadManager.NumberOfFilesDownloaded.ToString()).Append(" image(s).").ToString());
@@ -771,7 +770,7 @@ namespace Tumblr_Tool
                 {
                     bar_Progress.ForeColor = Color.Black;
                     lbl_PercentBar.ForeColor = Color.Black;
-                    lbl_PostCount.ForeColor = Color.Black;
+                    lbl_Status_PostCount.ForeColor = Color.Black;
                 });
 
                 IsFileDownloadDone = false;
@@ -1346,6 +1345,108 @@ namespace Tumblr_Tool
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        private void SetDoubleBufferingAll()
+        {
+            //Progress bar
+            SetDoubleBuffering(bar_Progress, true);
+
+            //Images
+            SetDoubleBuffering(img_Crawler_ImagePreview, true);
+            SetDoubleBuffering(img_Stats_Avatar, true);
+
+            //Tabs
+            SetDoubleBuffering(tabControl_Main, true);
+            SetDoubleBuffering(tab_PhotoPostsParser, true);
+            SetDoubleBuffering(tab_About, true);
+            SetDoubleBuffering(tab_Options, true);
+            SetDoubleBuffering(tab_TumblrStats, true);
+            SetDoubleBuffering(tab_TagScanner, true);
+
+            //Labels
+            SetDoubleBuffering(lbl_Crawler_ImageSize, true);
+            SetDoubleBuffering(lbl_Crawler_Mode, true);
+            SetDoubleBuffering(lbl_Crawler_SaveLocation, true);
+            SetDoubleBuffering(lbl_Crawler_TumblrURL, true);
+            SetDoubleBuffering(lbl_About_Copyright, true);
+            SetDoubleBuffering(lbl_About_Info, true);
+            SetDoubleBuffering(lbl_About_Title, true);
+            SetDoubleBuffering(lbl_About_Version, true);
+            SetDoubleBuffering(lbl_PercentBar, true);
+            SetDoubleBuffering(lbl_Stats_Answer, true);
+            SetDoubleBuffering(lbl_Stats_AnswerCount, true);
+            SetDoubleBuffering(lbl_Stats_Audio, true);
+            SetDoubleBuffering(lbl_Stats_AudioCount, true);
+            SetDoubleBuffering(lbl_Stats_BlogDescription, true);
+            SetDoubleBuffering(lbl_Stats_BlogTitle, true);
+            SetDoubleBuffering(lbl_Stats_Chat, true);
+            SetDoubleBuffering(lbl_Stats_ChatCount, true);
+            SetDoubleBuffering(lbl_Stats_Link, true);
+            SetDoubleBuffering(lbl_Stats_LinkCount, true);
+            SetDoubleBuffering(lbl_Stats_Photo, true);
+            SetDoubleBuffering(lbl_Stats_PhotoCount, true);
+            SetDoubleBuffering(lbl_Stats_Quote, true);
+            SetDoubleBuffering(lbl_Stats_QuoteCount, true);
+            SetDoubleBuffering(lbl_Stats_Text, true);
+            SetDoubleBuffering(lbl_Stats_TextCount, true);
+            SetDoubleBuffering(lbl_Stats_Total, true);
+            SetDoubleBuffering(lbl_Stats_TotalCount, true);
+            SetDoubleBuffering(lbl_Stats_Video, true);
+            SetDoubleBuffering(lbl_Stats_VideoCount, true);
+            SetDoubleBuffering(lbl_TagScanner_TagCount, true);
+
+            SetDoubleBuffering(list_TagScanner_TagList, true);
+
+            //Text Fields
+            SetDoubleBuffering(txt_Crawler_SaveLocation, true);
+            SetDoubleBuffering(txt_Crawler_WorkStatus, true);
+            SetDoubleBuffering(txt_TumblrURL, true);
+
+            //Sections (GroupBoxes)
+            SetDoubleBuffering(section_Crawler_BackupLocation, true);
+            SetDoubleBuffering(section_Crawler_ImagePreview, true);
+            SetDoubleBuffering(section_Crawler_Options, true);
+            SetDoubleBuffering(section_Options_Options, true);
+            SetDoubleBuffering(section_Options_BackupOptions, true);
+            SetDoubleBuffering(section_Options_ImageTypes, true);
+            SetDoubleBuffering(section_Options_LogOptions, true);
+            SetDoubleBuffering(section_Options_Notifications, true);
+            SetDoubleBuffering(section_PostStats, true);
+            SetDoubleBuffering(section_Stats_Avatar, true);
+            SetDoubleBuffering(section_Stats_BlogDescription, true);
+            SetDoubleBuffering(section_Stats_BlogTitle, true);
+            SetDoubleBuffering(section_Tags_ListOfTags, true);
+            SetDoubleBuffering(section_Tags_NumberOfTags, true);
+
+            //Buttons
+            SetDoubleBuffering(btn_Crawler_Browse, true);
+            SetDoubleBuffering(btn_Crawler_Start, true);
+            SetDoubleBuffering(btn_Crawler_Stop, true);
+            SetDoubleBuffering(btn_Options_Reset, true);
+            SetDoubleBuffering(btn_Options_Save, true);
+            SetDoubleBuffering(btn_Stats_Start, true);
+            SetDoubleBuffering(btn_TagScanner_SaveAsFile, true);
+            SetDoubleBuffering(btn_TagScanner_Start, true);
+            SetDoubleBuffering(btn_TagScanner_Stop, true);
+
+            //Checkboxes
+            SetDoubleBuffering(check_Options_GenerateLog, true);
+            SetDoubleBuffering(check_Options_GenerateUncompressedLog, true);
+            SetDoubleBuffering(check_Options_OldToNewDownloadOrder, true);
+            SetDoubleBuffering(check_Options_ParseGIF, true);
+            SetDoubleBuffering(check_Options_ParseJPEG, true);
+            SetDoubleBuffering(check_Options_ParseOnly, true);
+            SetDoubleBuffering(check_Options_ParsePhotoSets, true);
+            SetDoubleBuffering(check_Options_ParsePNG, true);
+            SetDoubleBuffering(check_Options_ShowNotifications, true);
+            SetDoubleBuffering(check_Tags_PhotoOnly, true);
+
+            //Tables
+            SetDoubleBuffering(table_Stats_PostStats, true);
+
+        }
+        /// <summary>
         ///
         /// </summary>
         /// <param name="sender"></param>
@@ -1379,10 +1480,10 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void Start_GetStats(object sender, EventArgs e)
         {
-            lbl_PostCount.Visible = false;
+            lbl_Status_PostCount.Visible = false;
             bar_Progress.BarColor = Color.Black;
             lbl_PercentBar.ForeColor = Color.Black;
-            lbl_PostCount.ForeColor = Color.Black;
+            lbl_Status_PostCount.ForeColor = Color.Black;
             lbl_PercentBar.Text = string.Empty;
             TumblrUrl = WebHelper.RemoveTrailingBackslash(txt_TumblrURL.Text);
 
@@ -1401,19 +1502,19 @@ namespace Tumblr_Tool
                     }
                     else
                     {
-                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                         UpdateStatusText(StatusReady);
                     }
                 }
                 else
                 {
-                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                     UpdateStatusText(StatusReady);
                 }
             }
             else
             {
-                MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                 UpdateStatusText(StatusReady);
             }
         }
@@ -1433,7 +1534,7 @@ namespace Tumblr_Tool
             SaveLocation = txt_Crawler_SaveLocation.Text;
             TumblrUrl = txt_TumblrURL.Text;
 
-            lbl_PostCount.ForeColor = Color.Black;
+            lbl_Status_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
             lbl_PercentBar.ForeColor = Color.Black;
             lbl_PercentBar.Text = string.Empty;
@@ -1441,10 +1542,10 @@ namespace Tumblr_Tool
 
             bar_Progress.Value = 0;
 
-            lbl_Size.Text = string.Empty;
-            lbl_Size.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            lbl_PostCount.Text = string.Empty;
-            lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            lbl_Status_Size.Text = string.Empty;
+            lbl_Status_Size.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            lbl_Status_PostCount.Text = string.Empty;
+            lbl_Status_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
             DownloadManager = new FileDownloadManager();
             PhotoPostParser = new PhotoPostParseManager();
 
@@ -1486,7 +1587,7 @@ namespace Tumblr_Tool
             list_TagScanner_TagList.DataSource = null;
             list_TagScanner_TagList.Items.Clear();
 
-            lbl_PostCount.ForeColor = Color.Black;
+            lbl_Status_PostCount.ForeColor = Color.Black;
             bar_Progress.BarColor = Color.Black;
             lbl_PercentBar.ForeColor = Color.Black;
             lbl_PercentBar.Text = string.Empty;
@@ -1497,8 +1598,8 @@ namespace Tumblr_Tool
 
             btn_TagScanner_SaveAsFile.Visible = false;
 
-            lbl_PostCount.Text = string.Empty;
-            lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            lbl_Status_PostCount.Text = string.Empty;
+            lbl_Status_PostCount.DisplayStyle = ToolStripItemDisplayStyle.Text;
             DownloadManager = new FileDownloadManager();
             TagScanner = new TagScanManager(new TumblrBlog(TumblrUrl));
 
@@ -1525,19 +1626,19 @@ namespace Tumblr_Tool
                     }
                     else
                     {
-                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                        MsgBox.Show("Tumblr blog doesn't exist", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                         UpdateStatusText(StatusReady);
                     }
                 }
                 else
                 {
-                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    MsgBox.Show("No internet connection detected!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                     UpdateStatusText(StatusReady);
                 }
             }
             else
             {
-                MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                 UpdateStatusText(StatusReady);
                 EnableUI_TagScanner(true);
             }
@@ -1670,7 +1771,7 @@ namespace Tumblr_Tool
                     {
                         EnableUI_TagScanner(true);
                         UpdateStatusText(StatusDone);
-                        lbl_PostCount.Visible = false;
+                        lbl_Status_PostCount.Visible = false;
                         bar_Progress.Visible = false;
                         lbl_PercentBar.Visible = false;
                     });
@@ -1695,11 +1796,11 @@ namespace Tumblr_Tool
                 Invoke((MethodInvoker)delegate
                     {
                         bar_Progress.ForeColor = Color.Black;
-                        lbl_PostCount.ForeColor = Color.Black;
+                        lbl_Status_PostCount.ForeColor = Color.Black;
                         lbl_PercentBar.ForeColor = Color.Black;
                         bar_Progress.Value = 0;
                         bar_Progress.Visible = true;
-                        lbl_Size.Visible = false;
+                        lbl_Status_Size.Visible = false;
                         lbl_PercentBar.Visible = true;
                         list_TagScanner_TagList.Items.Add("The list of tags will appear after indexing is done ...");
                         lbl_PercentBar.Text = string.Format(PercentFormat, 0);
@@ -1761,10 +1862,10 @@ namespace Tumblr_Tool
         /// <param name="text"></param>
         private void UpdateStatusText(string text)
         {
-            if (!lbl_Status.Text.Contains(text))
+            if (!lbl_Status_Status.Text.Contains(text))
             {
-                lbl_Status.Text = text;
-                lbl_Status.Invalidate();
+                lbl_Status_Status.Text = text;
+                lbl_Status_Status.Invalidate();
                 status_Strip.Update();
                 status_Strip.Refresh();
             }
@@ -1788,7 +1889,7 @@ namespace Tumblr_Tool
                     {
                         bar_Progress.Value = percent;
                         lbl_PercentBar.Text = string.Format(PercentFormat, percent);
-                        lbl_PostCount.Text = string.Format(PostCountFormat, downloaded, total);
+                        lbl_Status_PostCount.Text = string.Format(PostCountFormat, downloaded, total);
                     });
                     break;
 
@@ -1816,8 +1917,8 @@ namespace Tumblr_Tool
 
                     Invoke((MethodInvoker)delegate
                     {
-                        lbl_Size.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-                        lbl_Size.Text = string.Format(FileSizeFormat, (totalLengthNum).ToString("0.00"), suffix);
+                        lbl_Status_Size.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                        lbl_Status_Size.Text = string.Format(FileSizeFormat, (totalLengthNum).ToString("0.00"), suffix);
                     });
                     break;
 
@@ -1828,7 +1929,7 @@ namespace Tumblr_Tool
                         {
                             bar_Progress.ForeColor = Color.Maroon;
                             lbl_PercentBar.ForeColor = Color.Maroon;
-                            lbl_PostCount.ForeColor = Color.Maroon;
+                            lbl_Status_PostCount.ForeColor = Color.Maroon;
                         });
                     }
                         break;
@@ -1852,11 +1953,11 @@ namespace Tumblr_Tool
                     {
                         Invoke((MethodInvoker)delegate
                         {
-                            lbl_PostCount.Visible = true;
+                            lbl_Status_PostCount.Visible = true;
                             bar_Progress.Value = percent;
                             lbl_PercentBar.Text = string.Format(PercentFormat, percent);
-                            lbl_PostCount.Visible = true;
-                            lbl_PostCount.Text = string.Format(PostCountFormat, caller.PostTypesProcessedCount, (caller.TypesCount));
+                            lbl_Status_PostCount.Visible = true;
+                            lbl_Status_PostCount.Text = string.Format(PostCountFormat, caller.PostTypesProcessedCount, (caller.TypesCount));
                         });
                     }
 
@@ -1936,11 +2037,11 @@ namespace Tumblr_Tool
                 case "NumberOfParsedPosts":
                     Invoke((MethodInvoker)delegate
                                 {
-                                    if (lbl_PostCount.DisplayStyle != ToolStripItemDisplayStyle.ImageAndText)
+                                    if (lbl_Status_PostCount.DisplayStyle != ToolStripItemDisplayStyle.ImageAndText)
                                     {
-                                        lbl_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                                        lbl_Status_PostCount.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
                                     }
-                                    lbl_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts,
+                                    lbl_Status_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts,
                                         caller.TotalNumberOfPosts);
                                 });
                     break;
@@ -2025,7 +2126,7 @@ namespace Tumblr_Tool
                                 {
                                     bar_Progress.ForeColor = Color.Maroon;
                                     lbl_PercentBar.ForeColor = Color.Maroon;
-                                    lbl_PostCount.ForeColor = Color.Maroon;
+                                    lbl_Status_PostCount.ForeColor = Color.Maroon;
 
                                     /*UpdateWorkStatusTextNewLine(
                                         new StringBuilder("Unable to get post info from API (Offset ")
@@ -2083,7 +2184,7 @@ namespace Tumblr_Tool
 
                                     lbl_PercentBar.Text = string.Format(PercentFormat, "0");
 
-                                    lbl_PostCount.Text = string.Format(PostCountFormat, "0", caller.ImageList.Count);
+                                    lbl_Status_PostCount.Text = string.Format(PostCountFormat, "0", caller.ImageList.Count);
                                 });
                                 }
                                 else if (caller.ImageList.Count == 0)
@@ -2172,8 +2273,8 @@ namespace Tumblr_Tool
                 case "NumberOfParsedPosts":
                     Invoke((MethodInvoker)delegate
                     {
-                        lbl_PostCount.Visible = true;
-                        lbl_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts, caller.TotalNumberOfPosts);
+                        lbl_Status_PostCount.Visible = true;
+                        lbl_Status_PostCount.Text = string.Format(PostCountFormat, caller.NumberOfParsedPosts, caller.TotalNumberOfPosts);
                     });
                     break;
 
@@ -2245,7 +2346,7 @@ namespace Tumblr_Tool
 
             if (saveLocationEmpty)
             {
-                MsgBox.Show("Backup Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                MsgBox.Show("Backup Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                 EnableUI_Crawl(true);
                 btn_Crawler_Browse.Focus();
             }
@@ -2253,7 +2354,7 @@ namespace Tumblr_Tool
             {
                 if (!TumblrUrl.IsValidUrl())
                 {
-                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, MsgBox.AnimateStyle.FadeIn, true);
+                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
                     txt_TumblrURL.Focus();
                     EnableUI_Crawl(true);
                     urlValid = false;
