@@ -750,7 +750,6 @@ namespace Tumblr_Tool
                 }
                 TumblrSaveFile.Blog.Posts = null;
                 SaveFile_Save(PhotoPostParser.Blog.Name);
-
             }
             catch (Exception exception)
             {
@@ -845,13 +844,6 @@ namespace Tumblr_Tool
                                 }
                                 else if (DownloadManager.DownloadStatusCode == DownloadStatusCode.UnableDownload)
                                 {
-                                    Invoke((MethodInvoker)delegate
-                                    {
-                                        bar_Progress.ForeColor = Color.Maroon;
-                                        lbl_PercentBar.ForeColor = Color.Maroon;
-                                        lbl_PostCount.ForeColor = Color.Maroon;
-                                    });
-
                                     if (FileHelper.FileExists(fullPath))
                                     {
                                         file = new FileInfo(fullPath);
@@ -885,7 +877,6 @@ namespace Tumblr_Tool
                             }
                         }
                     }
-
                 }
             }
             catch (Exception exception)
@@ -905,13 +896,11 @@ namespace Tumblr_Tool
             {
                 if (PhotoPostParser != null)
                 {
-
                     if (PhotoPostParser.ProcessingStatusCode == ProcessingCode.Done)
                     {
                         TumblrSaveFile.Blog = PhotoPostParser.Blog;
 
                         TumblrLogFile = PhotoPostParser.TumblrPostLog;
-
 
                         if (!check_Options_ParseOnly.Checked && !IsBackupCancelled && PhotoPostParser.ImageList.Count != 0)
                         {
@@ -1831,6 +1820,18 @@ namespace Tumblr_Tool
                         lbl_Size.Text = string.Format(FileSizeFormat, (totalLengthNum).ToString("0.00"), suffix);
                     });
                     break;
+
+                case "DownloadStatusCode":
+                    if (DownloadManager.DownloadStatusCode == DownloadStatusCode.UnableDownload)
+                    {
+                        Invoke((MethodInvoker)delegate
+                        {
+                            bar_Progress.ForeColor = Color.Maroon;
+                            lbl_PercentBar.ForeColor = Color.Maroon;
+                            lbl_PostCount.ForeColor = Color.Maroon;
+                        });
+                    }
+                        break;
             }
         }
 
