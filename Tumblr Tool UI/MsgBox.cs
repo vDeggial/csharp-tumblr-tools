@@ -351,7 +351,7 @@ namespace Tumblr_Tool
                 btn.Height = 30;
                 btn.FlatAppearance.BorderColor = Color.Black;
                 btn.FlatAppearance.BorderSize = 0;
-                btn.FlatAppearance.MouseDownBackColor = Color.WhiteSmoke;
+                btn.FlatAppearance.MouseDownBackColor = Color.White;
                 btn.TabStop = false;
                 btn.FlatStyle = FlatStyle.Flat;
                 btn.Anchor = AnchorStyles.None;

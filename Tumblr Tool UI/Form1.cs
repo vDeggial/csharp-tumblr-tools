@@ -163,6 +163,7 @@ namespace Tumblr_Tool
             }
         }
 
+
         /// <summary>
         ///
         /// </summary>
@@ -180,10 +181,10 @@ namespace Tumblr_Tool
                 button.ForeColor = Color.Maroon;
                 button.FlatAppearance.BorderColor = Color.Maroon;
                 button.FlatAppearance.MouseOverBackColor = Color.White;
+                button.FlatAppearance.MouseDownBackColor = Color.White;
                 button.FlatAppearance.BorderSize = 0;
             }
         }
-
         /// <summary>
         ///
         /// </summary>
@@ -639,7 +640,7 @@ namespace Tumblr_Tool
             btn_TagScanner_Stop.Visible = false;
             btn_TagScanner_SaveAsFile.Visible = false;
 
-            SetDoubleBufferingAll();
+            SetDoubleBuffering();
 
             tabControl_Main.SelectedIndex = 0;
             tabControl_Main.ShowToolTips = true;
@@ -1337,113 +1338,108 @@ namespace Tumblr_Tool
             return FileHelper.SaveTumblrFile(new StringBuilder(SaveLocation).Append(@"\").Append(TumblrSaveFile.Filename).ToString(), TumblrSaveFile);
         }
 
-        private void SetDoubleBuffering(Control control, bool value)
-        {
-            PropertyInfo controlProperty = typeof(Control)
-                .GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-            controlProperty.SetValue(control, value, null);
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
-        private void SetDoubleBufferingAll()
+        private void SetDoubleBuffering()
         {
             //Progress bar
-            SetDoubleBuffering(bar_Progress, true);
+            bar_Progress.SetDoubleBuffering(true);
 
             //Images
-            SetDoubleBuffering(img_Crawler_ImagePreview, true);
-            SetDoubleBuffering(img_Stats_Avatar, true);
+            img_Crawler_ImagePreview.SetDoubleBuffering(true);
+            img_Stats_Avatar.SetDoubleBuffering(true);
 
             //Tabs
-            SetDoubleBuffering(tabControl_Main, true);
-            SetDoubleBuffering(tab_PhotoPostsParser, true);
-            SetDoubleBuffering(tab_About, true);
-            SetDoubleBuffering(tab_Options, true);
-            SetDoubleBuffering(tab_TumblrStats, true);
-            SetDoubleBuffering(tab_TagScanner, true);
+            //tabControl_Main.SetDoubleBuffering(true);
+            //tab_PhotoPostsParser.SetDoubleBuffering(true);
+            //tab_About.SetDoubleBuffering(true);
+            //tab_Options.SetDoubleBuffering(true);
+            //tab_TumblrStats.SetDoubleBuffering(true);
+            //tab_TagScanner.SetDoubleBuffering(true);
 
             //Labels
-            SetDoubleBuffering(lbl_Crawler_ImageSize, true);
-            SetDoubleBuffering(lbl_Crawler_Mode, true);
-            SetDoubleBuffering(lbl_Crawler_SaveLocation, true);
-            SetDoubleBuffering(lbl_Crawler_TumblrURL, true);
-            SetDoubleBuffering(lbl_About_Copyright, true);
-            SetDoubleBuffering(lbl_About_Info, true);
-            SetDoubleBuffering(lbl_About_Title, true);
-            SetDoubleBuffering(lbl_About_Version, true);
-            SetDoubleBuffering(lbl_PercentBar, true);
-            SetDoubleBuffering(lbl_Stats_Answer, true);
-            SetDoubleBuffering(lbl_Stats_AnswerCount, true);
-            SetDoubleBuffering(lbl_Stats_Audio, true);
-            SetDoubleBuffering(lbl_Stats_AudioCount, true);
-            SetDoubleBuffering(lbl_Stats_BlogDescription, true);
-            SetDoubleBuffering(lbl_Stats_BlogTitle, true);
-            SetDoubleBuffering(lbl_Stats_Chat, true);
-            SetDoubleBuffering(lbl_Stats_ChatCount, true);
-            SetDoubleBuffering(lbl_Stats_Link, true);
-            SetDoubleBuffering(lbl_Stats_LinkCount, true);
-            SetDoubleBuffering(lbl_Stats_Photo, true);
-            SetDoubleBuffering(lbl_Stats_PhotoCount, true);
-            SetDoubleBuffering(lbl_Stats_Quote, true);
-            SetDoubleBuffering(lbl_Stats_QuoteCount, true);
-            SetDoubleBuffering(lbl_Stats_Text, true);
-            SetDoubleBuffering(lbl_Stats_TextCount, true);
-            SetDoubleBuffering(lbl_Stats_Total, true);
-            SetDoubleBuffering(lbl_Stats_TotalCount, true);
-            SetDoubleBuffering(lbl_Stats_Video, true);
-            SetDoubleBuffering(lbl_Stats_VideoCount, true);
-            SetDoubleBuffering(lbl_TagScanner_TagCount, true);
+            //lbl_Crawler_ImageSize.SetDoubleBuffering(true);
+            //lbl_Crawler_Mode.SetDoubleBuffering(true);
+            //lbl_Crawler_SaveLocation.SetDoubleBuffering(true);
+            //lbl_Crawler_TumblrURL.SetDoubleBuffering(true);
+            //lbl_About_Copyright.SetDoubleBuffering(true);
+            //lbl_About_Info.SetDoubleBuffering(true);
+            //lbl_About_Title.SetDoubleBuffering(true);
+            //lbl_About_Version.SetDoubleBuffering(true);
+            //lbl_PercentBar.SetDoubleBuffering(true);
+            //lbl_Stats_Answer.SetDoubleBuffering(true);
+            //lbl_Stats_AnswerCount.SetDoubleBuffering(true);
+            //lbl_Stats_Audio.SetDoubleBuffering(true);
+            //lbl_Stats_AudioCount.SetDoubleBuffering(true);
+            //lbl_Stats_BlogDescription.SetDoubleBuffering(true);
+            //lbl_Stats_BlogTitle.SetDoubleBuffering(true);
+            //lbl_Stats_Chat.SetDoubleBuffering(true);
+            //lbl_Stats_ChatCount.SetDoubleBuffering(true);
+            //lbl_Stats_Link.SetDoubleBuffering(true);
+            //lbl_Stats_LinkCount.SetDoubleBuffering(true);
+            //lbl_Stats_Photo.SetDoubleBuffering(true);
+            //lbl_Stats_PhotoCount.SetDoubleBuffering(true);
+            //lbl_Stats_Quote.SetDoubleBuffering(true);
+            //lbl_Stats_QuoteCount.SetDoubleBuffering(true);
+            //lbl_Stats_Text.SetDoubleBuffering(true);
+            //lbl_Stats_TextCount.SetDoubleBuffering(true);
+            //lbl_Stats_Total.SetDoubleBuffering(true);
+            //lbl_Stats_TotalCount.SetDoubleBuffering(true);
+            //lbl_Stats_Video.SetDoubleBuffering(true);
+            //lbl_Stats_VideoCount.SetDoubleBuffering(true);
+            //lbl_TagScanner_TagCount.SetDoubleBuffering(true);
 
-            SetDoubleBuffering(list_TagScanner_TagList, true);
+            //Lists
+            list_TagScanner_TagList.SetDoubleBuffering(true);
 
             //Text Fields
-            SetDoubleBuffering(txt_Crawler_SaveLocation, true);
-            SetDoubleBuffering(txt_Crawler_WorkStatus, true);
-            SetDoubleBuffering(txt_TumblrURL, true);
+            //txt_Crawler_SaveLocation.SetDoubleBuffering(true);
+            //txt_Crawler_WorkStatus.SetDoubleBuffering(true);
+            //txt_TumblrURL.SetDoubleBuffering(true);
 
             //Sections (GroupBoxes)
-            SetDoubleBuffering(section_Crawler_BackupLocation, true);
-            SetDoubleBuffering(section_Crawler_ImagePreview, true);
-            SetDoubleBuffering(section_Crawler_Options, true);
-            SetDoubleBuffering(section_Options_Options, true);
-            SetDoubleBuffering(section_Options_BackupOptions, true);
-            SetDoubleBuffering(section_Options_ImageTypes, true);
-            SetDoubleBuffering(section_Options_LogOptions, true);
-            SetDoubleBuffering(section_Options_Notifications, true);
-            SetDoubleBuffering(section_PostStats, true);
-            SetDoubleBuffering(section_Stats_Avatar, true);
-            SetDoubleBuffering(section_Stats_BlogDescription, true);
-            SetDoubleBuffering(section_Stats_BlogTitle, true);
-            SetDoubleBuffering(section_Tags_ListOfTags, true);
-            SetDoubleBuffering(section_Tags_NumberOfTags, true);
+            section_Crawler_BackupLocation.SetDoubleBuffering(true);
+            section_Crawler_ImagePreview.SetDoubleBuffering(true);
+            section_Crawler_Options.SetDoubleBuffering(true);
+            section_Options_Options.SetDoubleBuffering(true);
+            section_Options_BackupOptions.SetDoubleBuffering(true);
+            section_Options_ImageTypes.SetDoubleBuffering(true);
+            section_Options_LogOptions.SetDoubleBuffering(true);
+            section_Options_Notifications.SetDoubleBuffering(true);
+            section_PostStats.SetDoubleBuffering(true);
+            section_Stats_Avatar.SetDoubleBuffering(true);
+            section_Stats_BlogDescription.SetDoubleBuffering(true);
+            section_Stats_BlogTitle.SetDoubleBuffering(true);
+            section_Tags_ListOfTags.SetDoubleBuffering(true);
+            section_Tags_NumberOfTags.SetDoubleBuffering(true);
 
             //Buttons
-            SetDoubleBuffering(btn_Crawler_Browse, true);
-            SetDoubleBuffering(btn_Crawler_Start, true);
-            SetDoubleBuffering(btn_Crawler_Stop, true);
-            SetDoubleBuffering(btn_Options_Reset, true);
-            SetDoubleBuffering(btn_Options_Save, true);
-            SetDoubleBuffering(btn_Stats_Start, true);
-            SetDoubleBuffering(btn_TagScanner_SaveAsFile, true);
-            SetDoubleBuffering(btn_TagScanner_Start, true);
-            SetDoubleBuffering(btn_TagScanner_Stop, true);
+            //btn_Crawler_Browse.SetDoubleBuffering(true);
+            //btn_Crawler_Start.SetDoubleBuffering(true);
+            //btn_Crawler_Stop.SetDoubleBuffering(true);
+            //btn_Options_Reset.SetDoubleBuffering(true);
+            //btn_Options_Save.SetDoubleBuffering(true);
+            //btn_Stats_Start.SetDoubleBuffering(true);
+            //btn_TagScanner_SaveAsFile.SetDoubleBuffering(true);
+            //btn_TagScanner_Start.SetDoubleBuffering(true);
+            //btn_TagScanner_Stop.SetDoubleBuffering(true);
 
             //Checkboxes
-            SetDoubleBuffering(check_Options_GenerateLog, true);
-            SetDoubleBuffering(check_Options_GenerateUncompressedLog, true);
-            SetDoubleBuffering(check_Options_OldToNewDownloadOrder, true);
-            SetDoubleBuffering(check_Options_ParseGIF, true);
-            SetDoubleBuffering(check_Options_ParseJPEG, true);
-            SetDoubleBuffering(check_Options_ParseOnly, true);
-            SetDoubleBuffering(check_Options_ParsePhotoSets, true);
-            SetDoubleBuffering(check_Options_ParsePNG, true);
-            SetDoubleBuffering(check_Options_ShowNotifications, true);
-            SetDoubleBuffering(check_Tags_PhotoOnly, true);
+            //check_Options_GenerateLog.SetDoubleBuffering(true);
+            //check_Options_GenerateUncompressedLog.SetDoubleBuffering(true);
+            //check_Options_OldToNewDownloadOrder.SetDoubleBuffering(true);
+            //check_Options_ParseGIF.SetDoubleBuffering(true);
+            //check_Options_ParseJPEG.SetDoubleBuffering(true);
+            //check_Options_ParseOnly.SetDoubleBuffering(true);
+            //check_Options_ParsePhotoSets.SetDoubleBuffering(true);
+            //check_Options_ParsePNG.SetDoubleBuffering(true);
+            //check_Options_ShowNotifications.SetDoubleBuffering(true);
+            //check_Tags_PhotoOnly.SetDoubleBuffering(true);
 
             //Tables
-            SetDoubleBuffering(table_Stats_PostStats, true);
+            //table_Stats_PostStats.SetDoubleBuffering(true);
 
         }
         /// <summary>
@@ -1526,6 +1522,7 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void Start_PhotoPostParse(object sender, EventArgs e)
         {
+
             EnableUI_Crawl(false);
             IsBackupCancelled = false;
             btn_Crawler_Stop.Visible = true;
