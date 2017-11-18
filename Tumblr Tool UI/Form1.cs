@@ -414,6 +414,10 @@ namespace Tumblr_Tool
                 bar_Progress.Visible = true;
                 lbl_PercentBar.Visible = true;
 
+                bar_Progress.ForeColor = Color.Black;
+                lbl_Status_PostCount.ForeColor = Color.Black;
+                lbl_PercentBar.ForeColor = Color.Black;
+
                 lbl_Stats_AnswerCount.Text = "0";
                 lbl_Stats_AudioCount.Text = "0";
                 lbl_Stats_ChatCount.Text = "0";
@@ -936,6 +940,9 @@ namespace Tumblr_Tool
                     Invoke((MethodInvoker)delegate
                             {
                                 img_Crawler_ImagePreview.Image = Resources.crawling;
+                                bar_Progress.ForeColor = Color.Black;
+                                lbl_Status_PostCount.ForeColor = Color.Black;
+                                lbl_PercentBar.ForeColor = Color.Black;
                             });
                 }
 
