@@ -17,7 +17,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -34,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.6.2";
+        private const string AppVersion = "1.6.3";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -74,7 +73,6 @@ namespace Tumblr_Tool
         private const string TrayIconMessageIndexingComplete = "Post indexing complete";
         private const string TrayIconMessageIndexingCompleteNoDownload = "Post indexing complete. Found no images to download";
         private const string TrayIconMessageMinimized = "Still here, but minimized";
-        private const string WelcomeMsg = "\r\n\r\n\r\n\r\n:: Welcome to Tumblr Tools!\r\n:: Version: " + AppVersion + "\r\n:: © 2013 - 2017\r\n:: Shino Amakusa\r\n:: " + AppLinkUrl;
         private const string WorktextCheckingConnx = "Checking connection ...";
         private const string WorktextDownloadingImages = "Downloading ...";
         private const string WorktextGettingBlogInfo = "Getting info ...";
@@ -83,8 +81,8 @@ namespace Tumblr_Tool
         private const string WorktextSavingLog = "Saving log ...";
         private const string WorktextStarting = "Starting ...";
         private const string WorktextUpdatingLog = "Updating log...";
-        private readonly AutoResetEvent _readyToDownload = new AutoResetEvent(false);
-        private readonly AutoResetEvent _readyToGetStats = new AutoResetEvent(false);
+        private const string WorktextWelcomeMsg = "\r\n\r\n\r\n\r\n:: Welcome to Tumblr Tools!\r\n:: Version: "
+            + AppVersion + "\r\n:: © 2013 - 2017\r\n:: Shino Amakusa\r\n:: " + AppLinkUrl;
 
         /// <summary>
         ///
@@ -606,7 +604,7 @@ namespace Tumblr_Tool
 
             menu_TopMenu.Renderer = renderer;
             txt_Crawler_WorkStatus.Visible = true;
-            txt_Crawler_WorkStatus.Text = WelcomeMsg;
+            txt_Crawler_WorkStatus.Text = WorktextWelcomeMsg;
             lbl_Stats_BlogDescription.Visible = true;
             lbl_PercentBar.Text = string.Empty;
 
