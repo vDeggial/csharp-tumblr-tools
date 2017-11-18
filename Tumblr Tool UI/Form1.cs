@@ -2009,6 +2009,13 @@ namespace Tumblr_Tool
                     });
                     break;
 
+                case "TotalTextPosts":
+                    Invoke((MethodInvoker)delegate
+                    {
+                        lbl_Stats_TextCount.Text = TumblrStats.TotalTextPosts.ToString();
+                    });
+                    break;
+
                 case "TotalVideoPosts":
                     Invoke((MethodInvoker)delegate
                     {
