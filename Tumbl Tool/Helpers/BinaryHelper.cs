@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -25,13 +25,13 @@ namespace Tumblr_Tool.Helpers
         /// Read in object from a file
         /// </summary>
         /// <typeparam name="T">Object Type</typeparam>
-        /// <param name="location"> File location</param>
+        /// <param name="filePath"> File location</param>
         /// <returns>Object of class T</returns>
-        public static T ReadObjectFromFile<T>(string location) where T : new()
+        public static T ReadObjectFromFile<T>(string filePath) where T : new()
         {
             try
             {
-                using (Stream stream = File.Open(location, FileMode.Open))
+                using (Stream stream = File.Open(filePath, FileMode.Open))
                 {
                     stream.Position = 0;
 
@@ -49,14 +49,14 @@ namespace Tumblr_Tool.Helpers
         /// Save Object to file
         /// </summary>
         /// <typeparam name="T"> Object type</typeparam>
-        /// <param name="location">Save location</param>
+        /// <param name="filePath">Save location</param>
         /// <param name="obj">Object</param>
         /// <returns>True if save was success, false otherwise</returns>
-        public static bool SaveObjectToFile<T>(string location, T obj) where T : new()
+        public static bool SaveObjectToFile<T>(string filePath, T obj) where T : new()
         {
             try
             {
-                using (Stream stream = File.Open(location, FileMode.Create))
+                using (Stream stream = File.Open(filePath, FileMode.Create))
                 {
                     new BinaryFormatter().Serialize(stream, obj);
                 }

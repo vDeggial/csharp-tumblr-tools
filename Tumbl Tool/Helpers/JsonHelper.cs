@@ -106,7 +106,6 @@ namespace Tumblr_Tool.Helpers
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="filePath">File location path</param>
         /// <param name="objectToWrite">Object to writeto file</param>
-        /// <param name="append">Append to file?</param>
         /// <returns>True if save succeeds, false otherwise</returns>
         public static bool SaveObjectToFile<T>(string filePath, T objectToWrite)
         {

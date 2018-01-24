@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -34,12 +34,12 @@ namespace Tumblr_Tool.Managers
         {
             ApiVersion = apiMode;
             ImageSize = imageSize;
-            JsonDocument = null;
+            RemoteDocument = null;
         }
 
         public TumblrApiVersion ApiVersion { get; set; }
         public ImageSize ImageSize { get; set; }
-        public dynamic JsonDocument { get; set; }
+        public dynamic RemoteDocument { get; set; }
 
         /// <summary>
         ///
@@ -52,9 +52,9 @@ namespace Tumblr_Tool.Managers
             {
                 HashSet<TumblrPost> postList = new HashSet<TumblrPost>();
 
-                if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.posts != null)
+                if (RemoteDocument != null && RemoteDocument.response != null && RemoteDocument.response.posts != null)
                 {
-                    JArray jPostArray = JsonDocument.response.posts;
+                    JArray jPostArray = RemoteDocument.response.posts;
                     HashSet<dynamic> jPostList = jPostArray.ToObject<HashSet<dynamic>>();
 
                     foreach (dynamic jPost in jPostList)
@@ -138,20 +138,20 @@ namespace Tumblr_Tool.Managers
         {
             try
             {
-                JsonDocument = JsonHelper.GetDynamicObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
+                RemoteDocument = JsonHelper.GetDynamicObjectFromString(WebHelper.GetRemoteDocumentAsString(url));
 
-                if ((JsonDocument != null && JsonDocument.meta != null && JsonDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
+                if ((RemoteDocument != null && RemoteDocument.meta != null && RemoteDocument.meta.status == ((int)TumblrApiResponse.Ok).ToString()))
                 {
                     // do nada
                 }
                 else
                 {
-                    JsonDocument = null;
+                    RemoteDocument = null;
                 }
             }
             catch
             {
-                JsonDocument = null;
+                RemoteDocument = null;
             }
         }
 
@@ -161,12 +161,12 @@ namespace Tumblr_Tool.Managers
         /// <returns></returns>
         public int GetTotalPostCount()
         {
-            if (JsonDocument != null && JsonDocument.response != null && JsonDocument.response.blog != null)
+            if (RemoteDocument != null && RemoteDocument.response != null && RemoteDocument.response.blog != null)
             {
-                if (JsonDocument.response.total_posts != null)
-                    return Convert.ToInt32(JsonDocument.response.total_posts);
-                if (JsonDocument.response.blog.posts != null)
-                    return Convert.ToInt32(JsonDocument.response.blog.posts);
+                if (RemoteDocument.response.total_posts != null)
+                    return Convert.ToInt32(RemoteDocument.response.total_posts);
+                if (RemoteDocument.response.blog.posts != null)
+                    return Convert.ToInt32(RemoteDocument.response.blog.posts);
             }
 
             return 0;

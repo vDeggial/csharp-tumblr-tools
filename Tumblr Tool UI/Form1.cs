@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -31,7 +31,7 @@ namespace Tumblr_Tool
 {
     public partial class MainForm : Form
     {
-        private const string AppCopyright = "© 2013 - 2017 Shino Amakusa\r\n" + AppLinkUrl;
+        private const string AppCopyright = "© 2013 - 2018 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
         private const string AppVersion = "1.6.4";
         private const string FileSizeFormat = "{0} {1}";
@@ -82,7 +82,7 @@ namespace Tumblr_Tool
         private const string WorktextStarting = "Starting ...";
         private const string WorktextUpdatingLog = "Updating log...";
         private const string WorktextWelcomeMsg = "\r\n\r\n\r\n\r\n:: Welcome to Tumblr Tools!\r\n:: Version: "
-            + AppVersion + "\r\n:: © 2013 - 2017\r\n:: Shino Amakusa\r\n:: " + AppLinkUrl;
+            + AppVersion + "\r\n:: © 2013 - 2018\r\n:: Shino Amakusa\r\n:: " + AppLinkUrl;
 
         /// <summary>
         ///
@@ -615,7 +615,7 @@ namespace Tumblr_Tool
             bar_Progress.Value = 0;
 
             DownloadManager = new FileDownloadManager();
-            Text = new StringBuilder(Text).Append(@" ").Append(AppVersion).Append(" - © 2013 - 2017 - Shino Amakusa").ToString();
+            Text = new StringBuilder(Text).Append(@" ").Append(AppVersion).Append(" - © 2013 - 2018 - Shino Amakusa").ToString();
             lbl_About_Version.Text = new StringBuilder(@"Version: ").Append(AppVersion).ToString();
 
             string file = OptionsFileName;

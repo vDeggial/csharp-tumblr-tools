@@ -22,11 +22,11 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Override for custom WebClient GetRequest
         /// </summary>
-        /// <param name="uri">URL to get</param>
+        /// <param name="address">URL to get</param>
         /// <returns>Gets web request</returns>
-        protected override WebRequest GetWebRequest(Uri uri)
+        protected override WebRequest GetWebRequest(Uri address)
         {
-            WebRequest w = base.GetWebRequest(uri);
+            WebRequest w = base.GetWebRequest(address);
             if (w != null)
             {
                 w.Timeout = 1 * 60 * 1000;

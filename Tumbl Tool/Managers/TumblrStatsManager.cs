@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: August, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -191,7 +191,6 @@ namespace Tumblr_Tool.Managers
             }
         }
         public int TotalPostsForType { get; set; }
-        public int TotalPostsFound { get; set; }
         public int TotalPostsOverall
         {
             get
@@ -285,7 +284,7 @@ namespace Tumblr_Tool.Managers
 
                 {
                     DocumentManager.GetRemoteDocument(url);
-                    if (DocumentManager.JsonDocument != null)
+                    if (DocumentManager.RemoteDocument != null)
                         TotalPostsOverall = DocumentManager.GetTotalPostCount();
 
                     var postTypes = Enum.GetValues(typeof(TumblrPostType)).Cast<TumblrPostType>().ToHashSet();
@@ -299,7 +298,7 @@ namespace Tumblr_Tool.Managers
                         if (TumblrUrl.TumblrBlogExists())
                         {
                             DocumentManager.GetRemoteDocument(url);
-                            if (DocumentManager.JsonDocument != null)
+                            if (DocumentManager.RemoteDocument != null)
                             {
                                 TotalPostsForType = DocumentManager.GetTotalPostCount();
 

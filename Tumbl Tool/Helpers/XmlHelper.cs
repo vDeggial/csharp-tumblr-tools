@@ -22,14 +22,14 @@ namespace Tumblr_Tool.Helpers
         ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public static T ReadObjectFromFile<T>(string filename) where T : new()
+        public static T ReadObjectFromFile<T>(string filePath) where T : new()
         {
             try
             {
                 XmlSerializer reader = new XmlSerializer(typeof(T));
-                StreamReader file = new StreamReader(@filename);
+                StreamReader file = new StreamReader(filePath);
                 var obj = (T)reader.Deserialize(file.BaseStream);
                 return obj;
             }
@@ -43,14 +43,14 @@ namespace Tumblr_Tool.Helpers
         ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
+        /// <param name="filePath"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool SaveObjectToFile<T>(string filename, T obj) where T : new()
+        public static bool SaveObjectToFile<T>(string filePath, T obj) where T : new()
         {
             try
             {
-                using (StreamWriter myWriter = new StreamWriter(filename, false))
+                using (StreamWriter myWriter = new StreamWriter(filePath, false))
                 {
                     XmlSerializer mySerializer = new XmlSerializer(typeof(T));
                     mySerializer.Serialize(myWriter.BaseStream, obj);

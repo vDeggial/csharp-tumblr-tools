@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -37,19 +37,19 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="url"></param>
         /// <returns></returns>
-        public static string DecodeUrl(string value)
+        public static string DecodeUrl(string url)
         {
-            if (value == null)
+            if (url == null)
                 return String.Empty;
 
-            char[] chars = value.ToCharArray();
+            char[] chars = url.ToCharArray();
 
             List<byte> buffer = new List<byte>(chars.Length);
             for (int i = 0; i < chars.Length; i++)
             {
-                if (value[i] == '%')
+                if (url[i] == '%')
                 {
                     byte decodedChar = (byte)Convert.ToInt32(new string(chars, i + 1, 2), 16);
                     buffer.Add(decodedChar);
@@ -58,7 +58,7 @@ namespace Tumblr_Tool.Helpers
                 }
                 else
                 {
-                    buffer.Add((byte)value[i]);
+                    buffer.Add((byte)url[i]);
                 }
             }
 
@@ -68,14 +68,14 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="url"></param>
         /// <returns></returns>
-        public static string EncodeUrl(string value)
+        public static string EncodeUrl(string url)
         {
-            if (value == null)
+            if (url == null)
                 return String.Empty;
 
-            var bytes = System.Text.Encoding.UTF8.GetBytes(value);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(url);
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             foreach (byte b in bytes)
             {
@@ -125,11 +125,11 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="url"></param>
         /// <returns></returns>
-        public static bool IsValidUrl(this string source)
+        public static bool IsValidUrl(this string url)
         {
-            return Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && Uri.CheckSchemeName(uriResult.Scheme) 
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult) && Uri.CheckSchemeName(uriResult.Scheme) 
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
 
@@ -142,7 +142,7 @@ namespace Tumblr_Tool.Helpers
         {
             try
             {
-                return url.EndsWith("/") ? url.Remove(url.Length - 1) : url;
+                return url.EndsWith("/", StringComparison.Ordinal) ? url.Remove(url.Length - 1) : url;
             }
             catch
             {
@@ -166,8 +166,7 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="mode"></param>
+        /// <param name="addr"></param>
         /// <returns></returns>
         public static bool TumblrBlogExists(this string addr)
         {

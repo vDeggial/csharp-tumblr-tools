@@ -10,7 +10,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -149,26 +149,26 @@ namespace Tumblr_Tool.Managers
         /// 
         /// </summary>
         /// <param name="method"></param>
-        /// <param name="remoteFileLocation"></param>
+        /// <param name="remoteFilePath"></param>
         /// <param name="localPath"></param>
         /// <returns></returns>
-        public bool DownloadFile(DownloadMethod method, string remoteFileLocation, string localPath)
+        public bool DownloadFile(DownloadMethod method, string remoteFilePath, string localPath)
         {
             try
             {
-                remoteFileLocation = WebHelper.RemoveTrailingBackslash(remoteFileLocation);
+                remoteFilePath = WebHelper.RemoveTrailingBackslash(remoteFilePath);
 
-                var localFileFullPath = FileHelper.AddJpgExt(FileHelper.GenerateLocalPathToFile(remoteFileLocation, localPath));
+                var localFileFullPath = FileHelper.AddJpgExt(FileHelper.GenerateLocalPathToFile(remoteFilePath, localPath));
                 switch (method)
                 {
                     case DownloadMethod.WebClientAsync:
-                        return DownloadFileWebClientAsync(remoteFileLocation, localFileFullPath);
+                        return DownloadFileWebClientAsync(remoteFilePath, localFileFullPath);
 
                     case DownloadMethod.RestSharp:
-                        return DownloadFileRestSharp(remoteFileLocation, localFileFullPath);
+                        return DownloadFileRestSharp(remoteFilePath, localFileFullPath);
 
                     case DownloadMethod.WebClient:
-                        return DownloadFileWebClient(remoteFileLocation, localFileFullPath);
+                        return DownloadFileWebClient(remoteFilePath, localFileFullPath);
 
                     default:
                         return false;
@@ -183,17 +183,17 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="remoteFileLocation"></param>
+        /// <param name="remoteFilePath"></param>
         /// <param name="localFilePath"></param>
         /// <returns></returns>
-        private bool DownloadFileRestSharp(string remoteFileLocation, string localFilePath)
+        private bool DownloadFileRestSharp(string remoteFilePath, string localFilePath)
         {
             try
             {
                 PercentDownloaded = 0;
                 DownloadStatusCode = DownloadStatusCode.Ok;
 
-                Uri uri = new Uri(remoteFileLocation);
+                Uri uri = new Uri(remoteFilePath);
                 string domain = uri.Host;
                 string protocol = uri.Scheme + Uri.SchemeDelimiter;
                 string path = uri.PathAndQuery;
@@ -214,17 +214,17 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="remoteFileLocation"></param>
+        /// <param name="remoteFilePath"></param>
         /// <param name="localFilePath"></param>
         /// <returns></returns>
-        private bool DownloadFileWebClient(string remoteFileLocation, string localFilePath)
+        private bool DownloadFileWebClient(string remoteFilePath, string localFilePath)
         {
             try
             {
                 PercentDownloaded = 0;
                 DownloadStatusCode = DownloadStatusCode.Ok;
 
-                if (WebHelper.UrlExists(remoteFileLocation))
+                if (WebHelper.UrlExists(remoteFilePath))
                 {
                     string outputFolder = Path.GetDirectoryName(localFilePath);
                     if (outputFolder != null && !Directory.Exists(outputFolder))
@@ -232,7 +232,7 @@ namespace Tumblr_Tool.Managers
 
                     MyWebClient webClient = new MyWebClient { Proxy = null };
 
-                    using (Stream webStream = webClient.OpenRead(remoteFileLocation))
+                    using (Stream webStream = webClient.OpenRead(remoteFilePath))
                     using (FileStream fileStream = new FileStream(localFilePath, FileMode.Create))
                     {
                         var buffer = new byte[32768];
@@ -286,17 +286,17 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="remoteFileLocation"></param>
+        /// <param name="remoteFilePath"></param>
         /// <param name="localFilePath"></param>
         /// <returns></returns>
-        private bool DownloadFileWebClientAsync(string remoteFileLocation, string localFilePath)
+        private bool DownloadFileWebClientAsync(string remoteFilePath, string localFilePath)
         {
             try
             {
                 PercentDownloaded = 0;
                 DownloadStatusCode = DownloadStatusCode.Ok;
 
-                if (WebHelper.UrlExists(remoteFileLocation))
+                if (WebHelper.UrlExists(remoteFilePath))
                 {
                     using (MyWebClient webClient = new MyWebClient())
                     {
@@ -305,7 +305,7 @@ namespace Tumblr_Tool.Managers
                             webClient.Proxy = null;
                             webClient.DownloadFileCompleted += Wc_DownloadCompleted;
                             webClient.DownloadProgressChanged += Wc_DownloadProgressChanged;
-                            webClient.DownloadFileAsync(new Uri(remoteFileLocation), localFilePath, localFilePath);
+                            webClient.DownloadFileAsync(new Uri(remoteFilePath), localFilePath, localFilePath);
 
                             _readyToStop.WaitOne();
 

@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: November, 2017
+ *  Last Updated: January, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -80,13 +80,13 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Checks if file exists
         /// </summary>
-        /// <param name="file">Filename</param>
+        /// <param name="filePath">Filename</param>
         /// <returns>True if file exists, false otherwise</returns>
-        public static bool FileExists(string file)
+        public static bool FileExists(string filePath)
         {
             try
             {
-                return !string.IsNullOrEmpty(file) ? FileExists(Path.GetDirectoryName(file), Path.GetFileName(file), true) : false;
+                return !string.IsNullOrEmpty(filePath) && FileExists(Path.GetDirectoryName(filePath), Path.GetFileName(filePath), true);
             }
             catch
             {
@@ -97,14 +97,14 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Generates list of image files in folder
         /// </summary>
-        /// <param name="location">Folder path</param>
+        /// <param name="folderPath">Folder path</param>
         /// <returns>Hashset of image files in specified folder</returns>
-        public static HashSet<string> GenerateFolderImageList(string location)
+        public static HashSet<string> GenerateFolderImageList(string folderPath)
         {
             try
             {
                 string[] extensionArray = { ".jpg", ".jpeg", ".gif", ".png" };
-                DirectoryInfo di = new DirectoryInfo(location);
+                DirectoryInfo di = new DirectoryInfo(folderPath);
                 HashSet<string> allowedExtensions = new HashSet<string>(extensionArray, StringComparer.OrdinalIgnoreCase);
                 FileInfo[] files = Array.FindAll(di.GetFiles(), f => allowedExtensions.Contains(f.Extension));
 
@@ -120,14 +120,14 @@ namespace Tumblr_Tool.Helpers
         /// Generate full local file path from url and local directory path with prefix
         /// </summary>
         /// <param name="url">Remote url</param>
-        /// <param name="location">Local path</param>
+        /// <param name="localPath">Local path</param>
         /// <param name="prefix">File prefix</param>
         /// <returns>Local path to file as a string</returns>
-        public static string GenerateLocalPathToFile(string url, string location, string prefix = "")
+        public static string GenerateLocalPathToFile(string url, string localPath, string prefix = "")
         {
             try
             {
-                return new StringBuilder(location).Append(@"\").Append(prefix).Append(Path.GetFileName(url)).ToString();
+                return new StringBuilder(localPath).Append(@"\").Append(prefix).Append(Path.GetFileName(url)).ToString();
             }
             catch
             {
@@ -138,13 +138,13 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Gets image from file
         /// </summary>
-        /// <param name="filename">Filename</param>
+        /// <param name="filePath">Filename</param>
         /// <returns>Bitmap image from the file</returns>
-        public static Bitmap GetImageFromFile(string filename)
+        public static Bitmap GetImageFromFile(string filePath)
         {
             try
             {
-                using (Bitmap bm = new Bitmap(filename))
+                using (Bitmap bm = new Bitmap(filePath))
                 {
                     return new Bitmap(bm);
                 }
@@ -205,26 +205,26 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Read tumblr save file
         /// </summary>
-        /// <param name="fileLocation">File path</param>
+        /// <param name="filePath">File path</param>
         /// <param name="format">Save file format</param>
         /// <returns>Tumblr Savefile object</returns>
-        public static SaveFile ReadTumblrFile(string fileLocation, SaveFileFormat format)
+        public static SaveFile ReadTumblrFile(string filePath, SaveFileFormat format)
         {
             try
             {
                 switch (format)
                 {
                     case SaveFileFormat.Bin:
-                        return BinaryHelper.ReadObjectFromFile<SaveFile>(fileLocation);
+                        return BinaryHelper.ReadObjectFromFile<SaveFile>(filePath);
 
                     case SaveFileFormat.Xml:
-                        return XmlHelper.ReadObjectFromFile<SaveFile>(fileLocation);
+                        return XmlHelper.ReadObjectFromFile<SaveFile>(filePath);
 
                     case SaveFileFormat.Json:
-                        return JsonHelper.ReadObjectFromFile<SaveFile>(fileLocation);
+                        return JsonHelper.ReadObjectFromFile<SaveFile>(filePath);
 
                     case SaveFileFormat.JsonCompressed:
-                        return JsonHelper.ReadObjectFromFileCompressed<SaveFile>(fileLocation);
+                        return JsonHelper.ReadObjectFromFileCompressed<SaveFile>(filePath);
 
                     default:
                         return null;
@@ -239,16 +239,16 @@ namespace Tumblr_Tool.Helpers
         ///  <summary>
         /// Read tumblr save file
         ///  </summary>
-        /// <param name="fileLocation">File path</param>
+        /// <param name="filePath">File path</param>
         /// <returns>Savefile object or null if cannot load</returns>
-        public static SaveFile ReadTumblrFile(string fileLocation)
+        public static SaveFile ReadTumblrFile(string filePath)
         {
             try
             {
-                SaveFile saveFile = ReadTumblrFile(fileLocation, SaveFileFormat.Bin) ??
-                                     ReadTumblrFile(fileLocation, SaveFileFormat.Xml) ??
-                                    ReadTumblrFile(fileLocation, SaveFileFormat.Json) ??
-                                    ReadTumblrFile(fileLocation, SaveFileFormat.JsonCompressed);
+                SaveFile saveFile = ReadTumblrFile(filePath, SaveFileFormat.Bin) ??
+                                     ReadTumblrFile(filePath, SaveFileFormat.Xml) ??
+                                    ReadTumblrFile(filePath, SaveFileFormat.Json) ??
+                                    ReadTumblrFile(filePath, SaveFileFormat.JsonCompressed);
 
                 return saveFile;
             }
@@ -261,14 +261,14 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Saves the save file
         /// </summary>
-        /// <param name="fileLocation">File path</param>
+        /// <param name="filePath">File path</param>
         /// <param name="saveFile">Savefile object</param>
         /// <returns>True if success saving, false otherwise</returns>
-        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile)
+        public static bool SaveTumblrFile(string filePath, SaveFile saveFile)
         {
             try
             {
-                return SaveTumblrFile(fileLocation, saveFile, _saveFileFormat);
+                return SaveTumblrFile(filePath, saveFile, _saveFileFormat);
             }
             catch
             {
@@ -279,11 +279,11 @@ namespace Tumblr_Tool.Helpers
         /// <summary>
         /// Saves the save file
         /// </summary>
-        /// <param name="fileLocation">File Path</param>
+        /// <param name="filePath">File Path</param>
         /// <param name="saveFile">Savefile object</param>
         /// <param name="saveFileFormat">Savefile format</param>
         /// <returns>True if success saving, false otherwise</returns>
-        public static bool SaveTumblrFile(string fileLocation, SaveFile saveFile, SaveFileFormat saveFileFormat)
+        public static bool SaveTumblrFile(string filePath, SaveFile saveFile, SaveFileFormat saveFileFormat)
         {
             try
             {
@@ -291,16 +291,16 @@ namespace Tumblr_Tool.Helpers
                 switch (saveFileFormat)
                 {
                     case SaveFileFormat.Bin:
-                        return BinaryHelper.SaveObjectToFile(fileLocation, saveFile);
+                        return BinaryHelper.SaveObjectToFile(filePath, saveFile);
 
                     case SaveFileFormat.Xml:
-                        return XmlHelper.SaveObjectToFile(fileLocation, saveFile);
+                        return XmlHelper.SaveObjectToFile(filePath, saveFile);
 
                     case SaveFileFormat.JsonCompressed:
-                        return JsonHelper.SaveObjectToFileCompressed(fileLocation, saveFile);
+                        return JsonHelper.SaveObjectToFileCompressed(filePath, saveFile);
 
                     case SaveFileFormat.Json:
-                        return JsonHelper.SaveObjectToFile(fileLocation, saveFile);
+                        return JsonHelper.SaveObjectToFile(filePath, saveFile);
 
                     default:
                         return false;
