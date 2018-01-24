@@ -151,7 +151,6 @@ namespace Tumblr_Tool.Managers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="parseMode"></param>
         /// <returns></returns>
         public TumblrBlog ScanTags()
         {

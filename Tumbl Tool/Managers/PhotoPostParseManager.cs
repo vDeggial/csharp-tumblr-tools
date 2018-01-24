@@ -206,11 +206,11 @@ namespace Tumblr_Tool.Managers
                 {
                     ParseBlogPhotoPosts(parseMode, ApiQueryOffset);
 
-                    if (parseMode == BlogPostsScanMode.NewestPostsOnly && ExistingHash.Count > 0) finished = true;
+                    finished |= (parseMode == BlogPostsScanMode.NewestPostsOnly && ExistingHash.Count > 0);
 
                     NumberOfParsedPosts += (parseMode == BlogPostsScanMode.FullBlogRescan || Posts.Count == 0) ? numPostsPerDocument : Posts.Count;
 
-                    NumberOfParsedPosts = (NumberOfParsedPosts > TotalNumberOfPosts) ? NumberOfParsedPosts : NumberOfParsedPosts;
+                    // NumberOfParsedPosts = (NumberOfParsedPosts > TotalNumberOfPosts) ? NumberOfParsedPosts : NumberOfParsedPosts;
 
                     PercentComplete = TotalNumberOfPosts > 0 ? (int)((NumberOfParsedPosts / (double)TotalNumberOfPosts) * 100.00) : 0;
                     ApiQueryOffset += numPostsPerDocument;
@@ -239,7 +239,7 @@ namespace Tumblr_Tool.Managers
         /// <param name="offset"></param>
         private void ParseBlogPhotoPosts(BlogPostsScanMode parseMode, int offset)
         {
-            Posts = GetTumblrPhotoPostList(ApiQueryOffset);
+            Posts = GetTumblrPhotoPostList(offset);
             ExistingHash = new HashSet<TumblrPost>((from p in Posts
                                                     where FileHelper.FileExists(SaveLocation, p.Photos.Last().Filename)
                                                     select p));
@@ -287,17 +287,17 @@ namespace Tumblr_Tool.Managers
 
                     if (!ParseGif)
                     {
-                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".gif") select p)));
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".gif", StringComparison.Ordinal) select p)));
                     }
 
                     if (!ParseJpeg)
                     {
-                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".jpg") || p.Filename.ToLower().EndsWith(".jpeg") select p)));
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".jpg", StringComparison.Ordinal) || p.Filename.ToLower().EndsWith(".jpeg", StringComparison.Ordinal) select p)));
                     }
 
                     if (!ParsePng)
                     {
-                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".png") select p)));
+                        removeHash.UnionWith(new HashSet<PhotoPostImage>((from p in ImageList where p.Filename.ToLower().EndsWith(".png", StringComparison.Ordinal) select p)));
                     }
 
                     ImageList.RemoveWhere(x => removeHash.Contains(x));

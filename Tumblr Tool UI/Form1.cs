@@ -136,7 +136,7 @@ namespace Tumblr_Tool
         /// <param name="str"></param>
         private void AddWorkStatusText(string str)
         {
-            if (!txt_Crawler_WorkStatus.Text.EndsWith(str))
+            if (!txt_Crawler_WorkStatus.Text.EndsWith(str, StringComparison.Ordinal))
             {
                 txt_Crawler_WorkStatus.Text = new StringBuilder(txt_Crawler_WorkStatus.Text).Append(str).ToString();
 
@@ -1193,11 +1193,7 @@ namespace Tumblr_Tool
                 trayIcon_MenuItem_Restore.Visible = true;
                 this.Hide();
             }
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                //trayIcon.Visible = false;
-                trayIcon_MenuItem_Restore.Visible = false;
-            }
+            else trayIcon_MenuItem_Restore.Visible &= FormWindowState.Normal != this.WindowState;
         }
 
         /// <summary>
@@ -1763,10 +1759,7 @@ namespace Tumblr_Tool
                     Invoke((MethodInvoker)delegate
                     {
                         list_TagScanner_TagList.DataSource = TagScanner.TagList.ToList();
-                        if (TagScanner.TagList.Count != 0)
-                        {
-                            btn_TagScanner_SaveAsFile.Visible = true;
-                        }
+                        btn_TagScanner_SaveAsFile.Visible |= TagScanner.TagList.Count != 0;
                     });
 
                     Invoke((MethodInvoker)delegate
@@ -2188,7 +2181,7 @@ namespace Tumblr_Tool
                                 {
                                     Invoke((MethodInvoker)delegate
                                 {
-                                    UpdateStatusText(string.Format(StatusDownloadingFormat, "Prepairing to download ..."));
+                                    UpdateStatusText(string.Format(StatusDownloadingFormat, "Preparing to download ..."));
                                     bar_Progress.Value = 0;
 
                                     lbl_PercentBar.Text = string.Format(PercentFormat, "0");

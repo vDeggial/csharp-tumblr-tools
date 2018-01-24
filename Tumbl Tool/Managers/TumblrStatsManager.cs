@@ -293,7 +293,7 @@ namespace Tumblr_Tool.Managers
 
                     foreach (TumblrPostType type in postTypes)
                     {
-                        int TotalPostsForType = 0;
+                        TotalPostsForType = 0;
                         url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, type, 0, 1);
 
                         if (TumblrUrl.TumblrBlogExists())
