@@ -4,7 +4,7 @@ Tumblr Tools is a simple application for parsing and downloading photo posts fro
 
 ## Requirements for use
 * Windows 7 SP1 - Windows 10 (Fall Creators Update)
-* .Net Framework 4.7 (Installer included in Application Setup)
+* .Net Framework 4.7.1 (Installer included in Application Setup)
 * Internet Connection
 * 1GB RAM
 
