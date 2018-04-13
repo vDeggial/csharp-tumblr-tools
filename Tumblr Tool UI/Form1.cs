@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: January, 2018
+ *  Last Updated: April, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -81,6 +81,7 @@ namespace Tumblr_Tool
         private const string WorktextSavingLog = "Saving log ...";
         private const string WorktextStarting = "Starting ...";
         private const string WorktextUpdatingLog = "Updating log...";
+
         private const string WorktextWelcomeMsg = "\r\n\r\n\r\n\r\n:: Welcome to Tumblr Tools!\r\n:: Version: "
             + AppVersion + "\r\n:: © 2013 - 2018\r\n:: Shino Amakusa\r\n:: " + AppLinkUrl;
 
@@ -120,7 +121,7 @@ namespace Tumblr_Tool
         private bool IsExitTime { get; set; }
         private bool IsFileDownloadDone { get; set; }
         private ToolOptions Options { get; set; }
-        private string OptionsFileName { get; set; }
+        private string OptionsFilePath { get; set; }
         private PhotoPostParseManager PhotoPostParser { get; set; }
         private string SaveLocation { get; set; }
         private TagScanManager TagScanner { get; set; }
@@ -161,7 +162,6 @@ namespace Tumblr_Tool
             }
         }
 
-
         /// <summary>
         ///
         /// </summary>
@@ -183,6 +183,7 @@ namespace Tumblr_Tool
                 button.FlatAppearance.BorderSize = 0;
             }
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -416,14 +417,8 @@ namespace Tumblr_Tool
                 lbl_Status_PostCount.ForeColor = Color.Black;
                 lbl_PercentBar.ForeColor = Color.Black;
 
-                lbl_Stats_AnswerCount.Text = "0";
-                lbl_Stats_AudioCount.Text = "0";
-                lbl_Stats_ChatCount.Text = "0";
-                lbl_Stats_LinkCount.Text = "0";
-                lbl_Stats_PhotoCount.Text = "0";
-                lbl_Stats_QuoteCount.Text = "0";
-                lbl_Stats_VideoCount.Text = "0";
-                lbl_Stats_TotalCount.Text = "0";
+                lbl_Stats_AnswerCount.Text = lbl_Stats_AudioCount.Text = lbl_Stats_ChatCount.Text = lbl_Stats_LinkCount.Text = lbl_Stats_PhotoCount.Text = lbl_Stats_QuoteCount.Text =
+                lbl_Stats_VideoCount.Text = lbl_Stats_TextCount.Text = lbl_Stats_TotalCount.Text = "0";
                 lbl_Stats_BlogTitle.Text = "";
                 lbl_Stats_BlogDescription.Text = "";
                 img_Stats_Avatar.Image = Resources.avatar;
@@ -556,7 +551,7 @@ namespace Tumblr_Tool
                 Directory.CreateDirectory(fullAppFolderPath);
             }
 
-            OptionsFileName = Path.Combine(fullAppFolderPath, "Tumblr Tools.options");
+            OptionsFilePath = Path.Combine(fullAppFolderPath, "Tumblr Tools.options");
 
             BlogPostsScanModesDict = new Dictionary<string, BlogPostsScanMode>();
             Options = new ToolOptions();
@@ -618,16 +613,14 @@ namespace Tumblr_Tool
             Text = new StringBuilder(Text).Append(@" ").Append(AppVersion).Append(" - © 2013 - 2018 - Shino Amakusa").ToString();
             lbl_About_Version.Text = new StringBuilder(@"Version: ").Append(AppVersion).ToString();
 
-            string file = OptionsFileName;
-
-            if (File.Exists(file))
+            if (File.Exists(OptionsFilePath))
             {
-                Options_Load(file);
+                Options_Load(OptionsFilePath);
             }
             else
             {
                 Options_Restore();
-                Options_Save(file);
+                Options_Save(OptionsFilePath);
             }
 
             lbl_Status_Size.Text = string.Empty;
@@ -787,8 +780,6 @@ namespace Tumblr_Tool
                     DownloadManager.DownloadStatusCode = DownloadStatusCode.Preparing;
                 }
 
-                // _readyToDownload.WaitOne();
-
                 if (imagesList.Count != 0)
                 {
                     lock (DownloadManager)
@@ -890,6 +881,35 @@ namespace Tumblr_Tool
         /// <summary>
         ///
         /// </summary>
+        /// <returns></returns>
+        private bool ImageParse_InputFieldsValid()
+        {
+            bool saveLocationEmpty = string.IsNullOrEmpty(SaveLocation);
+            bool urlValid = true;
+
+            if (saveLocationEmpty)
+            {
+                MsgBox.Show("Backup Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
+                EnableUI_Crawl(true);
+                btn_Crawler_Browse.Focus();
+            }
+            else
+            {
+                if (!TumblrUrl.IsValidUrl())
+                {
+                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
+                    txt_TumblrURL.Focus();
+                    EnableUI_Crawl(true);
+                    urlValid = false;
+                }
+            }
+
+            return (!saveLocationEmpty && urlValid);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ImageParseWorker_Completed(object sender, RunWorkerCompletedEventArgs e)
@@ -906,10 +926,6 @@ namespace Tumblr_Tool
 
                         if (!check_Options_ParseOnly.Checked && !IsBackupCancelled && PhotoPostParser.ImageList.Count != 0)
                         {
-                            //DownloadManager.NumberOfFilesToDownload = PhotoPostParser.ImageList.Count;
-
-                            //imageDownloadWorkerUI.RunWorkerAsync();
-
                             imageDownloadWorker.RunWorkerAsync(PhotoPostParser.ImageList);
                         }
                     }
@@ -1258,7 +1274,7 @@ namespace Tumblr_Tool
         private void Options_Save(object sender, EventArgs e)
         {
             Options_Set();
-            Options_Save(OptionsFileName);
+            Options_Save(OptionsFilePath);
             UpdateStatusText("Options saved");
         }
 
@@ -1339,9 +1355,8 @@ namespace Tumblr_Tool
             return FileHelper.SaveTumblrFile(new StringBuilder(SaveLocation).Append(@"\").Append(TumblrSaveFile.Filename).ToString(), TumblrSaveFile);
         }
 
-        
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private void SetDoubleBuffering()
         {
@@ -1441,8 +1456,8 @@ namespace Tumblr_Tool
 
             //Tables
             //table_Stats_PostStats.SetDoubleBuffering(true);
-
         }
+
         /// <summary>
         ///
         /// </summary>
@@ -1523,7 +1538,6 @@ namespace Tumblr_Tool
         /// <param name="e"></param>
         private void Start_PhotoPostParse(object sender, EventArgs e)
         {
-
             EnableUI_Crawl(false);
             IsBackupCancelled = false;
             btn_Crawler_Stop.Visible = true;
@@ -1547,7 +1561,7 @@ namespace Tumblr_Tool
             DownloadManager = new FileDownloadManager();
             PhotoPostParser = new PhotoPostParseManager();
 
-            if (ValidateInputFields())
+            if (ImageParse_InputFieldsValid())
             {
                 if (!IsDisposed)
                 {
@@ -1618,8 +1632,6 @@ namespace Tumblr_Tool
                         if (!IsBackupCancelled)
                         {
                             blogTagListWorker.RunWorkerAsync(TagScanner);
-
-                            //blogTagLIstWorkerUI.RunWorkerAsync(TagScanner);
                         }
                     }
                     else
@@ -1927,7 +1939,7 @@ namespace Tumblr_Tool
                             lbl_Status_PostCount.ForeColor = Color.Maroon;
                         });
                     }
-                        break;
+                    break;
             }
         }
 
@@ -2336,36 +2348,6 @@ namespace Tumblr_Tool
                 txt_Crawler_WorkStatus.Refresh();
             }
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        private bool ValidateInputFields()
-        {
-            bool saveLocationEmpty = string.IsNullOrEmpty(SaveLocation);
-            bool urlValid = true;
-
-            if (saveLocationEmpty)
-            {
-                MsgBox.Show("Backup Location cannot be left empty! \r\nSelect a valid location on disk", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
-                EnableUI_Crawl(true);
-                btn_Crawler_Browse.Focus();
-            }
-            else
-            {
-                if (!TumblrUrl.IsValidUrl())
-                {
-                    MsgBox.Show("Please enter valid url!", StatusError, MsgBox.Buttons.Ok, MsgBox.Icon.Error, true);
-                    txt_TumblrURL.Focus();
-                    EnableUI_Crawl(true);
-                    urlValid = false;
-                }
-            }
-
-            return (!saveLocationEmpty && urlValid);
-        }
-
         /// <summary>
         ///
         /// </summary>

@@ -36,7 +36,7 @@ namespace Tumblr_Tool.Helpers
             }
 
             // Don't serialize a null object, simply return the default for that object
-            if (ReferenceEquals(source, null))
+            if (source == null)
             {
                 return default(T);
             }
