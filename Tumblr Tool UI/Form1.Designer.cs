@@ -116,6 +116,7 @@ namespace Tumblr_Tool
             this.check_Options_ParsePhotoSets = new System.Windows.Forms.CheckBox();
             this.btn_Options_Save = new System.Windows.Forms.Button();
             this.tab_About = new KRBTabControl.TabPageEx();
+            this.lbl_About_RestSharp_Version = new System.Windows.Forms.Label();
             this.lbl_About_RestSharp = new System.Windows.Forms.LinkLabel();
             this.lbl_About_JSON = new System.Windows.Forms.LinkLabel();
             this.lbl_About_JSON_Version = new System.Windows.Forms.Label();
@@ -134,7 +135,6 @@ namespace Tumblr_Tool
             this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.trayIcon_MenuItem_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.trayIcon_MenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbl_About_RestSharp_Version = new System.Windows.Forms.Label();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -1349,6 +1349,16 @@ namespace Tumblr_Tool
             this.tab_About.Text = "About";
             this.tab_About.ToolTipText = "About this piece of ... software ...";
             // 
+            // lbl_About_RestSharp_Version
+            // 
+            this.lbl_About_RestSharp_Version.AutoSize = true;
+            this.lbl_About_RestSharp_Version.Location = new System.Drawing.Point(445, 136);
+            this.lbl_About_RestSharp_Version.Name = "lbl_About_RestSharp_Version";
+            this.lbl_About_RestSharp_Version.Size = new System.Drawing.Size(52, 16);
+            this.lbl_About_RestSharp_Version.TabIndex = 12;
+            this.lbl_About_RestSharp_Version.Text = "v106.4.1";
+            this.lbl_About_RestSharp_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lbl_About_RestSharp
             // 
             this.lbl_About_RestSharp.ActiveLinkColor = System.Drawing.Color.Maroon;
@@ -1547,16 +1557,6 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Exit.Text = "Exit";
             this.trayIcon_MenuItem_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.TrayIcon_MenuItem_Exit_Click);
-            // 
-            // lbl_About_RestSharp_Version
-            // 
-            this.lbl_About_RestSharp_Version.AutoSize = true;
-            this.lbl_About_RestSharp_Version.Location = new System.Drawing.Point(445, 136);
-            this.lbl_About_RestSharp_Version.Name = "lbl_About_RestSharp_Version";
-            this.lbl_About_RestSharp_Version.Size = new System.Drawing.Size(52, 16);
-            this.lbl_About_RestSharp_Version.TabIndex = 12;
-            this.lbl_About_RestSharp_Version.Text = "v106.4.1";
-            this.lbl_About_RestSharp_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
