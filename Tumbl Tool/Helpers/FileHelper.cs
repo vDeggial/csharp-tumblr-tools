@@ -32,15 +32,16 @@ namespace Tumblr_Tool.Helpers
         private static SaveFileFormat _saveFileFormat = SaveFileFormat.Json;
 
         /// <summary>
-        /// Add .jpg extension to file
+        /// Add file extension to filename
         /// </summary>
         /// <param name="filename">File to add extension to</param>
-        /// <returns>Filename with .jpg extension</returns>
-        public static string AddJpgExt(string filename)
+        /// <param name="extension">File Extension</param>
+        /// <returns>Filename with extension</returns>
+        public static string AddFileExtension(string filename, string extension)
         {
             try
             {
-                return (!string.IsNullOrEmpty(filename) && !Path.HasExtension(filename)) ? new StringBuilder(filename).Append(".jpg").ToString() : filename;
+                return (!string.IsNullOrEmpty(filename) && !Path.HasExtension(filename)) ? new StringBuilder(filename).Append(".").Append(extension).ToString() : filename;
             }
             catch
             {

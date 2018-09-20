@@ -6,7 +6,7 @@
  *
  *  Created: 2013
  *
- *  Last Updated: April, 2018
+ *  Last Updated: September, 2018
  *
  * 01010011 01101000 01101001 01101110 01101111  01000001 01101101 01100001 01101011 01110101 01110011 01100001 */
 
@@ -33,7 +33,7 @@ namespace Tumblr_Tool
     {
         private const string AppCopyright = "© 2013 - 2018 Shino Amakusa\r\n" + AppLinkUrl;
         private const string AppLinkUrl = "git.io/v9S3h";
-        private const string AppVersion = "1.6.4";
+        private const string AppVersion = "1.7.0";
         private const string FileSizeFormat = "{0} {1}";
         private const string ImageSizeLarge = "Large";
         private const string ImageSizeMedium = "Medium";
@@ -818,7 +818,7 @@ namespace Tumblr_Tool
                                 if (downloaded)
                                 {
                                     IsFileDownloadDone = true;
-                                    fullPath = FileHelper.AddJpgExt(fullPath);
+                                    fullPath = FileHelper.AddFileExtension(fullPath, "jpg");
 
                                     file = new FileInfo(fullPath);
 
@@ -2357,6 +2357,16 @@ namespace Tumblr_Tool
         {
             txt_Crawler_WorkStatus.SelectionStart = txt_Crawler_WorkStatus.Text.Length;
             txt_Crawler_WorkStatus.ScrollToCaret();
+        }
+
+        private void lbl_About_JSON_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/JamesNK/Newtonsoft.Json");
+        }
+
+        private void lbl_About_RestSharp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/restsharp/RestSharp");
         }
     }
 }

@@ -116,6 +116,10 @@ namespace Tumblr_Tool
             this.check_Options_ParsePhotoSets = new System.Windows.Forms.CheckBox();
             this.btn_Options_Save = new System.Windows.Forms.Button();
             this.tab_About = new KRBTabControl.TabPageEx();
+            this.lbl_About_RestSharp = new System.Windows.Forms.LinkLabel();
+            this.lbl_About_JSON = new System.Windows.Forms.LinkLabel();
+            this.lbl_About_JSON_Version = new System.Windows.Forms.Label();
+            this.lbl_About_Libraries = new System.Windows.Forms.Label();
             this.lbl_About_Copyright = new System.Windows.Forms.Label();
             this.lbl_About_Info = new System.Windows.Forms.Label();
             this.lbl_About_Version = new System.Windows.Forms.Label();
@@ -130,6 +134,7 @@ namespace Tumblr_Tool
             this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.trayIcon_MenuItem_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.trayIcon_MenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_About_RestSharp_Version = new System.Windows.Forms.Label();
             this.menu_TopMenu.SuspendLayout();
             this.status_Strip.SuspendLayout();
             this.tabControl_Main.SuspendLayout();
@@ -321,7 +326,7 @@ namespace Tumblr_Tool
             this.tabControl_Main.ItemSize = new System.Drawing.Size(0, 26);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 57);
             this.tabControl_Main.Name = "tabControl_Main";
-            this.tabControl_Main.SelectedIndex = 0;
+            this.tabControl_Main.SelectedIndex = 4;
             this.tabControl_Main.Size = new System.Drawing.Size(625, 256);
             this.tabControl_Main.TabBorderColor = System.Drawing.Color.Transparent;
             this.tabControl_Main.TabGradient.ColorEnd = System.Drawing.Color.Transparent;
@@ -1326,6 +1331,11 @@ namespace Tumblr_Tool
             // tab_About
             // 
             this.tab_About.BackColor = System.Drawing.Color.White;
+            this.tab_About.Controls.Add(this.lbl_About_RestSharp_Version);
+            this.tab_About.Controls.Add(this.lbl_About_RestSharp);
+            this.tab_About.Controls.Add(this.lbl_About_JSON);
+            this.tab_About.Controls.Add(this.lbl_About_JSON_Version);
+            this.tab_About.Controls.Add(this.lbl_About_Libraries);
             this.tab_About.Controls.Add(this.lbl_About_Copyright);
             this.tab_About.Controls.Add(this.lbl_About_Info);
             this.tab_About.Controls.Add(this.lbl_About_Version);
@@ -1339,20 +1349,76 @@ namespace Tumblr_Tool
             this.tab_About.Text = "About";
             this.tab_About.ToolTipText = "About this piece of ... software ...";
             // 
+            // lbl_About_RestSharp
+            // 
+            this.lbl_About_RestSharp.ActiveLinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_RestSharp.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_About_RestSharp.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lbl_About_RestSharp.LinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_RestSharp.Location = new System.Drawing.Point(396, 120);
+            this.lbl_About_RestSharp.Name = "lbl_About_RestSharp";
+            this.lbl_About_RestSharp.Size = new System.Drawing.Size(151, 16);
+            this.lbl_About_RestSharp.TabIndex = 11;
+            this.lbl_About_RestSharp.TabStop = true;
+            this.lbl_About_RestSharp.Text = "RestSharp";
+            this.lbl_About_RestSharp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_RestSharp.VisitedLinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_RestSharp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_About_RestSharp_LinkClicked);
+            // 
+            // lbl_About_JSON
+            // 
+            this.lbl_About_JSON.ActiveLinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_JSON.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_About_JSON.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lbl_About_JSON.LinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_JSON.Location = new System.Drawing.Point(396, 71);
+            this.lbl_About_JSON.Name = "lbl_About_JSON";
+            this.lbl_About_JSON.Size = new System.Drawing.Size(154, 16);
+            this.lbl_About_JSON.TabIndex = 10;
+            this.lbl_About_JSON.TabStop = true;
+            this.lbl_About_JSON.Text = "Newtonsoft.Json";
+            this.lbl_About_JSON.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_JSON.VisitedLinkColor = System.Drawing.Color.Maroon;
+            this.lbl_About_JSON.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_About_JSON_LinkClicked);
+            // 
+            // lbl_About_JSON_Version
+            // 
+            this.lbl_About_JSON_Version.AutoSize = true;
+            this.lbl_About_JSON_Version.Location = new System.Drawing.Point(445, 87);
+            this.lbl_About_JSON_Version.Name = "lbl_About_JSON_Version";
+            this.lbl_About_JSON_Version.Size = new System.Drawing.Size(46, 16);
+            this.lbl_About_JSON_Version.TabIndex = 9;
+            this.lbl_About_JSON_Version.Text = "v11.0.2";
+            this.lbl_About_JSON_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_About_Libraries
+            // 
+            this.lbl_About_Libraries.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_About_Libraries.AutoSize = true;
+            this.lbl_About_Libraries.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_About_Libraries.Location = new System.Drawing.Point(422, 30);
+            this.lbl_About_Libraries.Name = "lbl_About_Libraries";
+            this.lbl_About_Libraries.Size = new System.Drawing.Size(93, 32);
+            this.lbl_About_Libraries.TabIndex = 8;
+            this.lbl_About_Libraries.Text = "Libraries";
+            this.lbl_About_Libraries.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_About_Libraries.UseCompatibleTextRendering = true;
+            // 
             // lbl_About_Copyright
             // 
             this.lbl_About_Copyright.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_About_Copyright.Location = new System.Drawing.Point(167, 130);
+            this.lbl_About_Copyright.Location = new System.Drawing.Point(38, 120);
             this.lbl_About_Copyright.Name = "lbl_About_Copyright";
             this.lbl_About_Copyright.Size = new System.Drawing.Size(279, 45);
             this.lbl_About_Copyright.TabIndex = 7;
-            this.lbl_About_Copyright.Text = "© 2013 - 2017 Shino Amakusa\\r\\n git.io/v9S3h";
+            this.lbl_About_Copyright.Text = "© 2013 - 2018 Shino Amakusa\\r\\n git.io/v9S3h";
             this.lbl_About_Copyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About_Info
             // 
-            this.lbl_About_Info.Location = new System.Drawing.Point(167, 59);
+            this.lbl_About_Info.Location = new System.Drawing.Point(38, 62);
             this.lbl_About_Info.Name = "lbl_About_Info";
             this.lbl_About_Info.Size = new System.Drawing.Size(279, 58);
             this.lbl_About_Info.TabIndex = 6;
@@ -1376,7 +1442,7 @@ namespace Tumblr_Tool
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_About_Title.AutoSize = true;
             this.lbl_About_Title.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_About_Title.Location = new System.Drawing.Point(235, 27);
+            this.lbl_About_Title.Location = new System.Drawing.Point(116, 30);
             this.lbl_About_Title.Name = "lbl_About_Title";
             this.lbl_About_Title.Size = new System.Drawing.Size(134, 32);
             this.lbl_About_Title.TabIndex = 4;
@@ -1481,6 +1547,16 @@ namespace Tumblr_Tool
             this.trayIcon_MenuItem_Exit.Text = "Exit";
             this.trayIcon_MenuItem_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.trayIcon_MenuItem_Exit.Click += new System.EventHandler(this.TrayIcon_MenuItem_Exit_Click);
+            // 
+            // lbl_About_RestSharp_Version
+            // 
+            this.lbl_About_RestSharp_Version.AutoSize = true;
+            this.lbl_About_RestSharp_Version.Location = new System.Drawing.Point(445, 136);
+            this.lbl_About_RestSharp_Version.Name = "lbl_About_RestSharp_Version";
+            this.lbl_About_RestSharp_Version.Size = new System.Drawing.Size(52, 16);
+            this.lbl_About_RestSharp_Version.TabIndex = 12;
+            this.lbl_About_RestSharp_Version.Text = "v106.4.1";
+            this.lbl_About_RestSharp_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -1653,6 +1729,11 @@ namespace Tumblr_Tool
         private System.Windows.Forms.GroupBox section_Crawler_Options;
         private System.Windows.Forms.GroupBox section_Crawler_BackupLocation;
         private System.Windows.Forms.GroupBox section_Crawler_ImagePreview;
+        private System.Windows.Forms.Label lbl_About_JSON_Version;
+        private System.Windows.Forms.Label lbl_About_Libraries;
+        private System.Windows.Forms.LinkLabel lbl_About_JSON;
+        private System.Windows.Forms.LinkLabel lbl_About_RestSharp;
+        private System.Windows.Forms.Label lbl_About_RestSharp_Version;
     }
 }
 
