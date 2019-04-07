@@ -2359,12 +2359,12 @@ namespace Tumblr_Tool
             txt_Crawler_WorkStatus.ScrollToCaret();
         }
 
-        private void lbl_About_JSON_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Lbl_About_JSON_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/JamesNK/Newtonsoft.Json");
         }
 
-        private void lbl_About_RestSharp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Lbl_About_RestSharp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/restsharp/RestSharp");
         }

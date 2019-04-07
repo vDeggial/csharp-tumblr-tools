@@ -1356,7 +1356,7 @@ namespace Tumblr_Tool
             this.lbl_About_RestSharp_Version.Name = "lbl_About_RestSharp_Version";
             this.lbl_About_RestSharp_Version.Size = new System.Drawing.Size(52, 16);
             this.lbl_About_RestSharp_Version.TabIndex = 12;
-            this.lbl_About_RestSharp_Version.Text = "v106.4.1";
+            this.lbl_About_RestSharp_Version.Text = "v106.6.9";
             this.lbl_About_RestSharp_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About_RestSharp
@@ -1373,7 +1373,7 @@ namespace Tumblr_Tool
             this.lbl_About_RestSharp.Text = "RestSharp";
             this.lbl_About_RestSharp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_About_RestSharp.VisitedLinkColor = System.Drawing.Color.Maroon;
-            this.lbl_About_RestSharp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_About_RestSharp_LinkClicked);
+            this.lbl_About_RestSharp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lbl_About_RestSharp_LinkClicked);
             // 
             // lbl_About_JSON
             // 
@@ -1389,7 +1389,7 @@ namespace Tumblr_Tool
             this.lbl_About_JSON.Text = "Newtonsoft.Json";
             this.lbl_About_JSON.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_About_JSON.VisitedLinkColor = System.Drawing.Color.Maroon;
-            this.lbl_About_JSON.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_About_JSON_LinkClicked);
+            this.lbl_About_JSON.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lbl_About_JSON_LinkClicked);
             // 
             // lbl_About_JSON_Version
             // 
@@ -1398,7 +1398,7 @@ namespace Tumblr_Tool
             this.lbl_About_JSON_Version.Name = "lbl_About_JSON_Version";
             this.lbl_About_JSON_Version.Size = new System.Drawing.Size(46, 16);
             this.lbl_About_JSON_Version.TabIndex = 9;
-            this.lbl_About_JSON_Version.Text = "v11.0.2";
+            this.lbl_About_JSON_Version.Text = "v12.0.1";
             this.lbl_About_JSON_Version.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_About_Libraries
