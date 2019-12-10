@@ -38,7 +38,6 @@ namespace Tumblr_Tool.Managers
         private int percentComplete;
         private int tagCount;
 
-
         public TumblrApiVersion ApiVersion { get; set; }
         public TumblrBlog Blog { get; set; }
         public bool IsCancelled { get; set; }
@@ -55,7 +54,6 @@ namespace Tumblr_Tool.Managers
                 {
                     tagCount = value;
                     NotifyPropertyChanged();
-
                 }
             }
         }
@@ -86,7 +84,6 @@ namespace Tumblr_Tool.Managers
                     percentComplete = value;
                     NotifyPropertyChanged();
                 }
-
             }
         }
         public ProcessingCode ProcessingStatusCode
@@ -127,7 +124,6 @@ namespace Tumblr_Tool.Managers
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
