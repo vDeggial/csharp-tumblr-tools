@@ -33,6 +33,5 @@ namespace Tumblr_Tool
                 .GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
             controlProperty.SetValue(control, value, null);
         }
-
     }
 }
