@@ -198,7 +198,6 @@ namespace KRBTabControl
             }
 
             #endregion
-
         }
 
         [ToolboxItem(false)]
