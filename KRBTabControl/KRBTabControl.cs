@@ -66,41 +66,41 @@ namespace KRBTabControl
             OfficeSilver,
             Default,
             KRBBlue
-        };
+        }
 
         public enum TabAlignments
         {
             Bottom,
             Top
-        };
+        }
 
         public enum TabStyle
         {
             KRBStyle,
             OfficeXP,
             VS2010
-        };
+        }
 
         public enum TabHeaderStyle
         {
             Solid,
             Hatch,
             Texture
-        };
+        }
 
         public enum ControlBorderStyle
         {
             Solid,
             Dashed,
             Dotted
-        };
+        }
 
         private enum ButtonState
         {
             Normal,
             Hover,
             Pressed
-        };
+        }
 
         /// <summary>
         /// Specifies the four styles of raised or inset rectangles. Lines can have either
@@ -124,7 +124,7 @@ namespace KRBTabControl
             /// Raised, ridge appearance.
             /// </summary>
             Ridge,
-        };
+        }
 
         #endregion
 
@@ -2942,7 +2942,9 @@ namespace KRBTabControl
 
                 if (e.Cancel)
                 {
-                    for (int i = 1; OnNavigateTabPage(i, false) && i < this.TabCount; i++) ;
+                    for (int i = 1; OnNavigateTabPage(i, false) && i < this.TabCount; i++)
+                    {
+                    }
                 }
             }
         }
@@ -3021,7 +3023,7 @@ namespace KRBTabControl
                 if (!IntPtr.Zero.Equals(cPointer))
                     custom = new Cursor(cPointer);
             }
-            catch { ;}
+            catch { }
 
             return custom;
         }
@@ -5510,7 +5512,7 @@ namespace KRBTabControl
                 Normal,
                 Hover,
                 Down
-            };
+            }
 
             #endregion
 
