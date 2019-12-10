@@ -2779,7 +2779,6 @@ namespace KRBTabControl
                         using (SolidBrush captionTextBrush = new SolidBrush(this.Focused || this.ContainsFocus ? _gradientCaption.ActiveCaptionTextColor : _gradientCaption.InactiveCaptionTextColor))
                         using (StringFormat captionTextFormat = new StringFormat(StringFormatFlags.LineLimit))
                         {
-
                             if (isContainsTabPages)
                                 captionTextFormat.Alignment = StringAlignment.Near;
                             else
