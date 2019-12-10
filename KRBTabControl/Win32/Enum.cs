@@ -46,7 +46,7 @@ namespace KRBTabControl.Win32
             /// TCHT_ONITEM is a bitwise-OR operation on TCHT_ONITEMICON and TCHT_ONITEMLABEL.
             /// </summary>
             TCHT_ONITEM = TCHT_ONITEMICON | TCHT_ONITEMLABEL
-        };
+        }
 
         /* Virtual Keys Enum for Tab Control Notifications[TCN_FIRST, TCN_SELCHANGE, TCN_SELCHANGING]
         
@@ -153,7 +153,7 @@ namespace KRBTabControl.Win32
             /// Specified HWND_NOTOPMOST enumeration value.
             /// </summary>
             HWND_NOTOPMOST = -2
-        };
+        }
 
         //[CLSCompliant(false)]
         [Flags]
@@ -174,7 +174,7 @@ namespace KRBTabControl.Win32
             SWP_NOREPOSITION = 0x0200,
             SWP_DEFERERASE = 0x2000,
             SWP_ASYNCWINDOWPOS = 0x4000
-        };
+        }
         
         [Flags]
         internal enum RedrawWindowFlags : uint
@@ -224,7 +224,7 @@ namespace KRBTabControl.Win32
             Frame = 0x400,
 
             NoFrame = 0x800
-        };
+        }
 
         internal enum ShowWindowStyles
         {
@@ -243,7 +243,7 @@ namespace KRBTabControl.Win32
             SW_SHOWDEFAULT = 10,
             SW_FORCEMINIMIZE = 11,
             SW_MAX = 11
-        };
+        }
 
         #region Windows Messages
         
@@ -1256,7 +1256,7 @@ namespace KRBTabControl.Win32
             /// Specified WM_THEMECHANGED enumeration value.
             /// </summary>
             WM_THEMECHANGED = 0x031A,
-        };
+        }
 
         #endregion
         
@@ -1291,7 +1291,7 @@ namespace KRBTabControl.Win32
             WS_OVERLAPPEDWINDOW = 0x00CF0000,
             WS_TILEDWINDOW = 0x00CF0000,
             WS_CHILDWINDOW = 0x40000000
-        };
+        }
 
         internal enum WindowExStyles
         {
@@ -1320,7 +1320,7 @@ namespace KRBTabControl.Win32
             WS_EX_PALETTEWINDOW = 0x00000188,
             WS_EX_LAYERED = 0x00080000,
             WS_EX_NOACTIVATE = 0x08000000
-        };
+        }
 
         #endregion
     }
