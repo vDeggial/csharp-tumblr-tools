@@ -84,7 +84,6 @@ namespace Tumblr_Tool.Managers
             set
             {
                 typesCount = value;
-
             }
         }
         public int PostTypesProcessedCount
@@ -113,7 +112,6 @@ namespace Tumblr_Tool.Managers
                     processingStatusCode = value;
                     NotifyPropertyChanged();
                 }
-
             }
         }
         public int TotalAnswerPosts
@@ -266,7 +264,6 @@ namespace Tumblr_Tool.Managers
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -281,7 +278,6 @@ namespace Tumblr_Tool.Managers
                 string url = TumblrApiHelper.GeneratePostTypeQueryUrl(TumblrDomain, TumblrPostType.All, 0, 1);
 
                 if (TumblrUrl.TumblrBlogExists())
-
                 {
                     DocumentManager.GetRemoteDocument(url);
                     if (DocumentManager.RemoteDocument != null)
@@ -348,10 +344,8 @@ namespace Tumblr_Tool.Managers
                         }
                     }
                 }
-
                 return true;
             }
-
             catch (Exception exception)
             {
                 throw exception;
