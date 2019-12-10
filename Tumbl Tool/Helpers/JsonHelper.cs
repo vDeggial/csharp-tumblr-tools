@@ -22,7 +22,6 @@ namespace Tumblr_Tool.Helpers
     /// </summary>
     public static class JsonHelper
     {
-        
         /// <summary>
         /// Parses json string into dynamic object
         /// </summary>
@@ -132,7 +131,6 @@ namespace Tumblr_Tool.Helpers
                     {
                         return false;
                     }
-            
         }
 
         /// <summary>
