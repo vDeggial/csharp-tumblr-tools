@@ -104,8 +104,8 @@ namespace Tumblr_Tool
                 Rectangle rectGlimph = itemRect;
                 itemRect.Width -= 4;
                 e.Graphics.TranslateTransform(rectGlimph.Left +
-                    rectGlimph.Width / 2.0f,
-                    rectGlimph.Top + rectGlimph.Height / 2.0f);
+                    (rectGlimph.Width / 2.0f),
+                    rectGlimph.Top + (rectGlimph.Height / 2.0f));
                 GraphicsPath path = new GraphicsPath();
                 PointF[] points = new PointF[3];
                 points[0] = new PointF(-6 / 2.0f, -3 / 2.0f);
