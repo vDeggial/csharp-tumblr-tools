@@ -55,7 +55,6 @@ namespace Tumblr_Tool.Managers
             downloadedFilesSize = 0;
             fileSizeRecieved = 0;
             numberOfFilesDownloaded = 0;
-
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -338,7 +337,6 @@ namespace Tumblr_Tool.Managers
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         /// <summary>
