@@ -1089,26 +1089,26 @@ namespace KRBTabControl
                             {
                                 if (_alignments == TabAlignments.Top)
                                 {
-                                    downArrowPoint = new Point(rctOver.Right - dragDropArrowArray[1].Width / 2 + 1, rctOver.Top + 2 - dragDropArrowArray[1].Height);
-                                    upArrowPoint = new Point(rctOver.Right - dragDropArrowArray[0].Width / 2 + 1, rctOver.Bottom - 10);
+                                    downArrowPoint = new Point(rctOver.Right - (dragDropArrowArray[1].Width / 2) + 1, rctOver.Top + 2 - dragDropArrowArray[1].Height);
+                                    upArrowPoint = new Point(rctOver.Right - (dragDropArrowArray[0].Width / 2) + 1, rctOver.Bottom - 10);
                                 }
                                 else
                                 {
-                                    downArrowPoint = new Point(rctOver.Right - dragDropArrowArray[1].Width / 2 + 1, rctOver.Top + 11 - dragDropArrowArray[1].Height);
-                                    upArrowPoint = new Point(rctOver.Right - dragDropArrowArray[0].Width / 2 + 1, rctOver.Bottom - 3);
+                                    downArrowPoint = new Point(rctOver.Right - (dragDropArrowArray[1].Width / 2) + 1, rctOver.Top + 11 - dragDropArrowArray[1].Height);
+                                    upArrowPoint = new Point(rctOver.Right - (dragDropArrowArray[0].Width / 2) + 1, rctOver.Bottom - 3);
                                 }
                             }
                             else
                             {
                                 if (_alignments == TabAlignments.Top)
                                 {
-                                    downArrowPoint = new Point(rctOver.Left - dragDropArrowArray[1].Width / 2 + 1, rctOver.Top + 2 - dragDropArrowArray[1].Height);
-                                    upArrowPoint = new Point(rctOver.Left - dragDropArrowArray[0].Width / 2 + 1, rctOver.Bottom - 10);
+                                    downArrowPoint = new Point(rctOver.Left - (dragDropArrowArray[1].Width / 2) + 1, rctOver.Top + 2 - dragDropArrowArray[1].Height);
+                                    upArrowPoint = new Point(rctOver.Left - (dragDropArrowArray[0].Width / 2) + 1, rctOver.Bottom - 10);
                                 }
                                 else
                                 {
-                                    downArrowPoint = new Point(rctOver.Left - dragDropArrowArray[1].Width / 2 + 1, rctOver.Top + 11 - dragDropArrowArray[1].Height);
-                                    upArrowPoint = new Point(rctOver.Left - dragDropArrowArray[0].Width / 2 + 1, rctOver.Bottom - 3);
+                                    downArrowPoint = new Point(rctOver.Left - (dragDropArrowArray[1].Width / 2) + 1, rctOver.Top + 11 - dragDropArrowArray[1].Height);
+                                    upArrowPoint = new Point(rctOver.Left - (dragDropArrowArray[0].Width / 2) + 1, rctOver.Bottom - 3);
                                 }
                             }
 
@@ -2158,7 +2158,7 @@ namespace KRBTabControl
                         conditionRectangleArray[0] = new Rectangle()  // Object Initializer
                         {
                             X = currentTab.Right - (closeImg.Width + 5),
-                            Y = (currentTab.Height - closeImg.Height) / 2 + 5,
+                            Y = ((currentTab.Height - closeImg.Height) / 2) + 5,
                             Width = closeImg.Width,
                             Height = closeImg.Height,
                         };
@@ -2276,7 +2276,7 @@ namespace KRBTabControl
                         conditionRectangleArray[0] = new Rectangle()  // Object Initializer
                         {
                             X = currentTab.Right - (closeImg.Width + 5),
-                            Y = currentTab.Top + (currentTab.Height - closeImg.Height) / 2 + 2,
+                            Y = currentTab.Top + ((currentTab.Height - closeImg.Height) / 2) + 2,
                             Width = closeImg.Width,
                             Height = closeImg.Height,
                         };
@@ -2431,7 +2431,7 @@ namespace KRBTabControl
                         currentImgRct = new Rectangle() //Object Initializer
                         {
                             X = currentTab.X + 5,
-                            Y = (currentTab.Height - img.Height) / 2 + 4,
+                            Y = ((currentTab.Height - img.Height) / 2) + 4,
                             Width = img.Width,
                             Height = img.Height
                         };
@@ -2718,10 +2718,10 @@ namespace KRBTabControl
 
                     attributes.SetRemapTable(map);
 
-                    int iconPos = rct.Y + rct.Height / 2 - 1;
+                    int iconPos = rct.Y + (rct.Height / 2) - 1;
                     if ((this.SelectedTab != null && !((TabPageEx)this.SelectedTab).IsClosable) || this.TabCount <= 0)
                     {
-                        conditionRectangleArray[1] = new Rectangle(rct.Right - (3 + captionDropDownImg.Width), iconPos - captionDropDownImg.Height / 2, captionDropDownImg.Width, captionDropDownImg.Height);
+                        conditionRectangleArray[1] = new Rectangle(rct.Right - (3 + captionDropDownImg.Width), iconPos - (captionDropDownImg.Height / 2), captionDropDownImg.Width, captionDropDownImg.Height);
                         if (conditionButtonStateArray[1] == ButtonState.Hover)
                         {
                             using (Brush buttonBrush = new SolidBrush(this.Focused || this.ContainsFocus ? Color.DarkBlue : Color.White))
@@ -2736,8 +2736,8 @@ namespace KRBTabControl
                     }
                     else
                     {
-                        conditionRectangleArray[2] = new Rectangle(rct.Right - (3 + captionCloseImg.Width), iconPos - captionCloseImg.Height / 2, captionCloseImg.Width, captionCloseImg.Height);
-                        conditionRectangleArray[1] = new Rectangle(conditionRectangleArray[2].Left - (3 + captionDropDownImg.Width), iconPos - captionDropDownImg.Height / 2, captionDropDownImg.Width, captionDropDownImg.Height);
+                        conditionRectangleArray[2] = new Rectangle(rct.Right - (3 + captionCloseImg.Width), iconPos - (captionCloseImg.Height / 2), captionCloseImg.Width, captionCloseImg.Height);
+                        conditionRectangleArray[1] = new Rectangle(conditionRectangleArray[2].Left - (3 + captionDropDownImg.Width), iconPos - (captionDropDownImg.Height / 2), captionDropDownImg.Width, captionDropDownImg.Height);
 
                         if (conditionButtonStateArray[2] == ButtonState.Hover)
                         {
@@ -5239,12 +5239,12 @@ namespace KRBTabControl
 
                 this.Size = new Size()
                 {
-                    Width = _leftScroller.NormalImage.Width * 2 + 1,
+                    Width = (_leftScroller.NormalImage.Width * 2) + 1,
                     Height = _leftScroller.NormalImage.Height
                 };
 
                 _leftScroller.Location = new Point(0, 0);
-                _rightScroller.Location = new Point(this.Width / 2 + 1, 0);
+                _rightScroller.Location = new Point((this.Width / 2) + 1, 0);
 
                 _leftScroller.MouseDown += new MouseEventHandler(OnLeftScroll);
                 _rightScroller.MouseDown += new MouseEventHandler(OnRightScroll);
